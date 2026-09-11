@@ -1,0 +1,40 @@
+{
+  "dev_server_url": "http://localhost:3000",
+  "dev_server_healthy": true,
+  "http_status": 200,
+  "hydration_verified": true,
+  "runtime_errors": [],
+  "smoke_screenshot_path": "screenshots/verification-live.png",
+  "smoke_screenshot_bytes": 141143,
+  "dom_element_count": 288,
+  "visible_text_length": 987,
+  "semantic_checks": [
+    {
+      "id": "AC-1",
+      "found": true,
+      "element": "header",
+      "hint_used": "Header navigation bar"
+    },
+    {
+      "id": "AC-2",
+      "found": true,
+      "element": "canvas",
+      "hint_used": "ASCII raster canvas viewport"
+    },
+    {
+      "id": "AC-3",
+      "found": true,
+      "element": "aside",
+      "hint_used": "Workbench Control Panel"
+    },
+    {
+      "id": "AC-4",
+      "found": true,
+      "element": "footer",
+      "hint_used": "Real-time Telemetry Drawer"
+    }
+  ],
+  "server_url": "http://localhost:3000",
+  "status_code": 200,
+  "live_screenshot": "screenshots/verification-live.png"
+}

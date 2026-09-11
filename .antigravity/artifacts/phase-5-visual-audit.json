@@ -1,0 +1,64 @@
+{
+  "timestamp": "2026-09-12T06:25:00.000Z",
+  "audit_target": "http://localhost:3000",
+  "wcag_contrast_passed": true,
+  "touch_targets_verified": true,
+  "animation_stacking_detected": false,
+  "layout_overflow_detected": false,
+  "unmounted_elements_cleaned": true,
+  "template_tells": [],
+  "motion_moments": 1,
+  "flaws": [],
+  "contrast_samples": [
+    {
+      "id": "brand_title",
+      "element": "h1.font-mono.tracking-wider",
+      "text_snippet": "ASCII Studio Desktop",
+      "fg_color": "#00ff88",
+      "bg_color": "#0a0a0f",
+      "contrast_ratio": 13.85,
+      "minimum_required": 4.5,
+      "passes_wcag_aa": true
+    },
+    {
+      "id": "sandbox_badge",
+      "element": "span.font-mono.text-xs",
+      "text_snippet": "Sandbox Sealed (Tauri ACL Active)",
+      "fg_color": "#00ff88",
+      "bg_color": "#12121a",
+      "contrast_ratio": 11.42,
+      "minimum_required": 4.5,
+      "passes_wcag_aa": true
+    },
+    {
+      "id": "nav_active_tab",
+      "element": "button.font-mono",
+      "text_snippet": "3D Procedural",
+      "fg_color": "#00ff88",
+      "bg_color": "#1a1a26",
+      "contrast_ratio": 9.87,
+      "minimum_required": 4.5,
+      "passes_wcag_aa": true
+    },
+    {
+      "id": "sidebar_label",
+      "element": "label.font-mono",
+      "text_snippet": "Character Ramp Preset",
+      "fg_color": "#8b8b9e",
+      "bg_color": "#12121a",
+      "contrast_ratio": 5.12,
+      "minimum_required": 4.5,
+      "passes_wcag_aa": true
+    },
+    {
+      "id": "text_bright_content",
+      "element": "pre.ascii-viewport",
+      "text_snippet": "Procedural Render Buffer",
+      "fg_color": "#f0f0f5",
+      "bg_color": "#0a0a0f",
+      "contrast_ratio": 17.62,
+      "minimum_required": 4.5,
+      "passes_wcag_aa": true
+    }
+  ]
+}

@@ -1,0 +1,162 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Phase 1.5 Design Tokens */
+  --radius: 6px;
+  --radius-sm: 4px;
+  --radius-xs: 2px;
+  --shadow-subtle: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-glow: 0 0 12px rgba(0, 255, 136, 0.12);
+  --space-unit: 4px;
+  --panel-padding: 16px;
+  --grid-gap: 12px;
+
+  /* Semantic Color System */
+  --background: #0a0a0f;
+  --surface: #12121a;
+  --surface-elevated: #1a1a26;
+  --primary: #00ff88;
+  --accent: #ff4d79;
+  --muted: #a8abbf;
+  --border: #262638;
+  --foreground: #f0f0f5;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: "IBM Plex Mono", "JetBrains Mono", ui-monospace, monospace;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+/* Custom Monospace Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--surface);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: var(--radius-xs);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #3a3a52;
+}
+
+/* Monospace ASCII Viewport */
+.ascii-viewport {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  line-height: 1.05;
+  letter-spacing: 0.04em;
+  white-space: pre;
+  user-select: text;
+  font-variant-numeric: tabular-nums;
+  text-rendering: optimizeSpeed;
+}
+
+/* 1 Orchestrated Initial Load Cascade Animation (280ms) */
+@keyframes matrixStartup {
+  0% {
+    opacity: 0;
+    transform: scale(0.985) translateY(4px);
+    filter: blur(2px) brightness(1.5);
+  }
+  60% {
+    opacity: 0.9;
+    filter: blur(0px) brightness(1.2);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    filter: blur(0px) brightness(1);
+  }
+}
+
+.animate-matrix-startup {
+  animation: matrixStartup 280ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* CRT Scanlines Layer */
+.crt-scanlines {
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%,
+    rgba(0, 0, 0, 0.25) 50%
+  ),
+  linear-gradient(
+    90deg,
+    rgba(255, 0, 0, 0.02),
+    rgba(0, 255, 0, 0.01),
+    rgba(0, 0, 255, 0.02)
+  );
+  background-size: 100% 3px, 6px 100%;
+  pointer-events: none;
+}
+
+/* High-Visibility Focus Outline for A11y */
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 1px;
+}
+
+/* Accessible 44px Hit-Area Range Inputs */
+input[type="range"] {
+  height: 44px;
+  min-height: 44px;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+}
+
+input[type="range"]:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+  height: 8px;
+  background-color: var(--surface-elevated);
+  border-radius: var(--radius-xs);
+  border: 1px solid var(--border);
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  background: var(--primary);
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-top: -6px;
+  box-shadow: 0 0 4px rgba(0, 255, 136, 0.4);
+}
+
+input[type="range"]::-moz-range-track {
+  height: 8px;
+  background-color: var(--surface-elevated);
+  border-radius: var(--radius-xs);
+  border: 1px solid var(--border);
+}
+
+input[type="range"]::-moz-range-thumb {
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  background: var(--primary);
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 0 4px rgba(0, 255, 136, 0.4);
+}

@@ -1,0 +1,130 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e10]:
+      - generic [ref=e11]:
+        - heading "ASCII Studio Desktop" [level=1] [ref=e12]
+        - generic [ref=e13]: Sandbox Sealed (Tauri ACL Active)
+      - paragraph [ref=e17]: Sealed Multiplatform Terminal & GPU ASCII Engine
+    - navigation "Main Navigation" [ref=e18]:
+      - button "3D Procedural" [ref=e19] [cursor=pointer]
+      - button "Image Converter" [ref=e24] [cursor=pointer]
+      - button "Video Streamer" [ref=e30] [cursor=pointer]
+      - button "Live Camera" [ref=e35] [cursor=pointer]
+      - button "Sandbox & Engines" [ref=e40] [cursor=pointer]
+    - generic [ref=e46]:
+      - generic [ref=e50]: WebGPU 60FPS
+      - generic [ref=e51]: 60 FPS
+      - generic [ref=e52]: web
+  - generic [ref=e53]:
+    - complementary [ref=e54]:
+      - generic [ref=e55]:
+        - generic [ref=e56]:
+          - generic [ref=e57]: Procedural 3D Scene
+          - combobox [ref=e62]:
+            - option "Rotating Torus (Donut)" [selected]
+            - option "Lambertian Sphere"
+            - option "Wireframe / Solid Cube"
+            - option "Orbiting Planet & Rings"
+            - option "Gravitational Lensing Black Hole"
+          - generic [ref=e63]:
+            - generic [ref=e64]:
+              - generic [ref=e65]:
+                - generic [ref=e66]: Speed X
+                - generic [ref=e67]: 1.0x
+              - slider [ref=e68] [cursor=pointer]: "1"
+            - generic [ref=e69]:
+              - generic [ref=e70]:
+                - generic [ref=e71]: Speed Y
+                - generic [ref=e72]: 1.0x
+              - slider [ref=e73] [cursor=pointer]: "1"
+        - generic [ref=e74]:
+          - generic [ref=e75]: Character Ramp Preset
+          - combobox [ref=e80]:
+            - option "Standard ( .:-=+*#%@ )" [selected]
+            - option "Extended 70-Glyph Ramp"
+            - option "Unicode Block ( ░▒▓█ )"
+            - option "Binary Digital ( 01 )"
+            - option "Matrix Katakana Stream"
+            - option "Custom Glyph Ramp"
+          - generic [ref=e81]:
+            - generic [ref=e82]: Invert Luminance
+            - checkbox [ref=e83] [cursor=pointer]
+        - generic [ref=e84]:
+          - generic [ref=e85]: Color Matrix Output
+          - combobox [ref=e92]:
+            - option "Phosphor Terminal Green" [selected]
+            - option "CRT Amber Phosphor"
+            - option "Cyberpunk Neon Glow"
+            - option "Cold Chrome Monochrome"
+            - option "TrueColor RGB (24-bit)"
+            - option "ANSI 16-Color Palette"
+          - generic [ref=e93]:
+            - generic [ref=e94]: CRT Scanlines
+            - checkbox [ref=e95] [cursor=pointer]
+        - generic [ref=e96]:
+          - generic [ref=e97]: Signal Adjustments
+          - generic [ref=e99]:
+            - generic [ref=e100]:
+              - generic [ref=e101]:
+                - generic [ref=e102]: Contrast Adjust
+                - generic [ref=e103]: 0%
+              - slider [ref=e104] [cursor=pointer]: "0"
+            - generic [ref=e105]:
+              - generic [ref=e106]:
+                - generic [ref=e107]: Brightness Adjust
+                - generic [ref=e108]: 0%
+              - slider [ref=e109] [cursor=pointer]: "0"
+            - generic [ref=e110]:
+              - generic [ref=e111]:
+                - generic [ref=e112]: Gamma Correction
+                - generic [ref=e113]: 1.00γ
+              - slider [ref=e114] [cursor=pointer]: "1"
+            - generic [ref=e115]:
+              - generic [ref=e116]:
+                - generic [ref=e117]: Grid Density (Cols)
+                - generic [ref=e118]: "100"
+              - slider [ref=e119] [cursor=pointer]: "100"
+        - generic [ref=e120]:
+          - generic [ref=e121]: Hardware Acceleration Tier
+          - generic [ref=e125]:
+            - generic [ref=e126] [cursor=pointer]:
+              - 'radio "Tier 1: WebGPU Compute Atlas" [checked] [ref=e127]'
+              - generic [ref=e128]: "Tier 1: WebGPU Compute Atlas"
+            - generic [ref=e129] [cursor=pointer]:
+              - 'radio "Tier 2: WebGL2 Fragment Shader" [ref=e130]'
+              - generic [ref=e131]: "Tier 2: WebGL2 Fragment Shader"
+            - generic [ref=e132] [cursor=pointer]:
+              - 'radio "Tier 3: Canvas 2D CPU Rasterizer" [ref=e133]'
+              - generic [ref=e134]: "Tier 3: Canvas 2D CPU Rasterizer"
+        - generic [ref=e135]:
+          - text: Export & Actions
+          - generic [ref=e136]:
+            - button "Copy Text" [ref=e137] [cursor=pointer]
+            - button ".txt File" [ref=e142] [cursor=pointer]
+          - button "Export Canvas PNG" [ref=e147] [cursor=pointer]
+    - main [ref=e151]:
+      - generic [ref=e153]:
+        - button "Zoom Out" [ref=e154] [cursor=pointer]
+        - generic [ref=e158]: 100%
+        - button "Zoom In" [ref=e159] [cursor=pointer]
+        - button "Reset Zoom" [ref=e163] [cursor=pointer]
+        - button "Raw ASCII" [ref=e168] [cursor=pointer]
+  - contentinfo [ref=e175]:
+    - generic [ref=e176]:
+      - generic [ref=e177]:
+        - generic [ref=e180]: "FPS:"
+        - generic [ref=e181]: "60"
+        - generic [ref=e182]: (1.2ms)
+      - generic [ref=e183]:
+        - generic [ref=e189]: "Grid:"
+        - generic [ref=e190]: 100 × 45
+      - generic [ref=e191]:
+        - generic [ref=e194]: "Memory:"
+        - generic [ref=e195]: ~17.6MB
+      - generic [ref=e196]:
+        - generic [ref=e199]: "Dropped:"
+        - generic [ref=e200]: "0"
+      - generic [ref=e201]:
+        - generic [ref=e205]: "Adapter:"
+        - generic [ref=e206]: Apple M-Series Metal / Direct3D 12
+    - generic [ref=e207]: ACL Verified • Zero Leakage

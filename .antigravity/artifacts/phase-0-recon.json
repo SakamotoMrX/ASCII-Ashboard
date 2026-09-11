@@ -1,0 +1,163 @@
+{
+  "mission_id": "ship-20260912-051817",
+  "scanned_at": "2026-09-12T00:00:00.000Z",
+  "triage_tier": "COMPLEX",
+  "triage_rationale": "Transforming a pure Python CLI ASCII-renderer (terminal/ANSI output, 21+ source files) into a cross-platform Tauri desktop/mobile application (Mac, Windows, Android) sealed in Docker requires: (1) Building an entirely new Rust+Tauri project architecture from scratch, (2) Creating a Python↔Rust bridge (pyo3 or subprocess), (3) Developing a web frontend layer for the Tauri shell, (4) Configuring Android cross-compilation with NDK, (5) Containerizing the full stack. Zero existing web/GUI/Rust/Tauri code exists in the repo. 21+ files created or modified across multiple new layers (Rust, TypeScript/HTML/CSS, Python adapter, Tauri config). 3+ new dependencies (Tauri, Rust web framework, Android NDK). Full architecture changes required.",
+  "framework": "Python 3.14 CLI (existing core) → Tauri v2 (Rust core + Webview frontend) target overlay",
+  "architectural_patterns": {
+    "state_management": "N/A (Python CLI) → To be determined (Tauri web frontend, likely React/Svelte + Zustand/Context)",
+    "data_fetching": "Subprocess/FFI bridge: Python CLI invoked from Rust backend via std::process::Command or pyo3",
+    "styling_engine": "TBD (new web frontend layer, likely Tailwind CSS via shadcn/ui)",
+    "orm_database": "None currently — not required for ASCII rendering",
+    "target_stack": "Tauri v2 (Rust core + Webview frontend) + Python backend via FFI/subprocess bridge",
+    "build_system": "Cargo (Rust) + pyproject.toml (Python) + Tauri bundler + Docker",
+    "rendering_pipeline": "Python ANSI terminal output → webview Canvas/WebGL rendering layer",
+    "media_pipeline": "FFmpeg external dependency must be bundled or managed for desktop/mobile"
+  },
+  "entry_points": [
+    "ascii_art/cli.py",
+    "ascii_art/__main__.py",
+    "ascii_art/renderers/__init__.py",
+    "ascii_art/media/image.py",
+    "ascii_art/media/video.py",
+    "ascii_art/terminal.py",
+    "ascii_art/charsets.py",
+    "3d/donut.py",
+    "3d/sphere.py",
+    "3d/cube.py",
+    "3d/planet.py",
+    "3d/blackhole.py",
+    "pyproject.toml",
+    "ascii/ascii_image.py",
+    "ascii/ascii_video.py",
+    "ascii_colour/ascii_colour_video.py"
+  ],
+  "blast_radius": {
+    "target_modules": [
+      "ascii_art/cli.py",
+      "ascii_art/terminal.py",
+      "ascii_art/charsets.py",
+      "ascii_art/renderers/__init__.py",
+      "ascii_art/media/image.py",
+      "ascii_art/media/video.py",
+      "3d/donut.py",
+      "3d/sphere.py",
+      "3d/cube.py",
+      "3d/planet.py",
+      "3d/blackhole.py"
+    ],
+    "dependent_consumers": [
+      "ascii/ascii_image.py (legacy compat)",
+      "ascii/ascii_video.py (legacy compat)",
+      "ascii_colour/ascii_colour_video.py (legacy compat)",
+      "ascii_art/__main__.py",
+      "pyproject.toml (package config)",
+      "README.md (documentation)"
+    ],
+    "estimated_affected_files": 21,
+    "new_files_required": [
+      "src-tauri/Cargo.toml (Rust project)",
+      "src-tauri/src/main.rs (Tauri entry point)",
+      "src-tauri/src/python_bridge.rs (Python↔Rust FFI)",
+      "src-tauri/tauri.conf.json (Tauri configuration)",
+      "src-tauri/build.rs (build script)",
+      "src-tauri/icons/ (app icons)",
+      "src-frontend/index.html (webview entry)",
+      "src-frontend/src/main.tsx (React/Svelte entry)",
+      "src-frontend/src/App.tsx (main component)",
+      "src-frontend/src/Renderers.tsx (renderer UI)",
+      "src-frontend/src/Canvas.tsx (webview canvas rendering)",
+      "src-frontend/src/Controls.tsx (parameter controls)",
+      "src-frontend/src/styles.css (design tokens)",
+      "Dockerfile (container build)",
+      "docker-compose.yml (dev orchestration)",
+      ".github/workflows/build.yml (CI/CD)",
+      "android/build.gradle (Android target)",
+      "android/app/src/main/AndroidManifest.xml"
+    ],
+    "notes": "All existing Python modules must remain functional. New Tauri/Rust/web layer wraps them. Terminal ANSI output must be redirected to webview canvas rendering. FFmpeg external dependency must be bundled or managed for desktop/mobile. Android cross-compilation requires NDK toolchain."
+  },
+  "dependencies": {
+    "python_runtime": "Python 3.14 (installed, .venv present)",
+    "python_packages": [
+      "numpy>=1.24",
+      "Pillow>=10.0"
+    ],
+    "external_tools": [
+      "FFmpeg",
+      "FFplay",
+      "FFprobe"
+    ],
+    "rust_toolchain": "cargo 1.98.1, rustc 1.98.1 (available at /Users/telkom_760047/.cargo/bin)",
+    "tauri": "NOT INSTALLED - must be added via `cargo add tauri` or `npm create tauri-app`",
+    "web_frontend": "TBD (likely vanilla TS + HTML/CSS or React via shadcn/ui)",
+    "android_ndk": "Required for Android target - NOT yet configured",
+    "docker": "Required for container sealing - must verify installed",
+    "conflicts": [
+      "No existing Rust/Tauri/web project files conflict with the transformation, but Python subprocess spawning from Rust requires careful lifecycle management",
+      "FFmpeg external dependency complicates mobile bundling (Android NDK compatibility, dynamic linking)",
+      "Terminal ANSI output requires webview-based canvas rendering — cannot reuse terminal stdout directly",
+      "Windows ANSI support (_enable_windows_ansi in terminal.py) must be replaced with webview rendering",
+      "Python↔Rust bridge introduces serialization overhead (JSON/protobuf) for frame data",
+      "Docker multi-arch builds (arm64 for Android) add significant CI/CD complexity"
+    ]
+  },
+  "conflicts_detected": [],
+  "complexity_warnings": [
+    {
+      "path": "ascii_art/media/video.py",
+      "lines": null,
+      "warning": "FFmpeg/FFplay subprocess pipeline — must be re-architected for Tauri Rust backend and mobile bundling. Largest single-file complexity."
+    },
+    {
+      "path": "ascii_art/terminal.py",
+      "lines": 127,
+      "warning": "ANSI terminal output must be redirected to webview canvas for desktop/mobile rendering. _enable_windows_ansi must be replaced."
+    },
+    {
+      "path": "3d/",
+      "lines": null,
+      "warning": "5 procedural 3D renderers all depend on terminal_size() and ANSI drawing — must be refactored for canvas output with explicit dimensions."
+    },
+    {
+      "path": "ascii_art/renderers/__init__.py",
+      "lines": 38,
+      "warning": "Renderer registry assumes terminal-based rendering — interface must adapt for webview canvas with explicit pixel dimensions."
+    },
+    {
+      "path": "Tauri+Android",
+      "lines": null,
+      "warning": "Android cross-compilation adds significant build complexity. NDK toolchain, Android-specific FFmpeg build, and Tauri mobile target configuration required."
+    },
+    {
+      "path": "Docker sealing",
+      "lines": null,
+      "warning": "Docker multi-arch image for Mac/Windows/Android requires cross-compilation toolchain, potentially large image sizes with bundled FFmpeg."
+    },
+    {
+      "path": "Python↔Rust bridge",
+      "lines": null,
+      "warning": "Bridge between Python rendering engine and Rust/Tauri shell is the architectural crux. pyo3 vs subprocess tradeoff must be resolved."
+    }
+  ],
+  "debug_recon": {
+    "is_retry_task": false,
+    "suspect_files": []
+  },
+  "unknowns": [
+    "Tauri version (v1 vs v2) not specified in request",
+    "Web frontend framework preference not stated (vanilla TS, React, Svelte, Vue)",
+    "Whether Android is a native Tauri mobile target or a separate wrapper (e.g., Termux)",
+    "Docker sealing format unspecified (Docker image, Dockerfile for build, or container runtime?)",
+    "Python↔Rust bridge approach not decided: pyo3 inline, subprocess, or dedicated API server",
+    "Whether existing 3d/ and ascii/ legacy scripts should be preserved or merged into ascii_art/",
+    "Asset pipeline for bundling FFmpeg with Tauri desktop apps not scoped",
+    "No CI/CD pipeline exists yet — build/release workflow for cross-platform Tauri not defined",
+    "Whether 'sealed like Docker' means single-container or multi-container orchestration",
+    "Target Android API level and minimum SDK version not specified",
+    "Whether webview should use system WebKit or bundled Chromium (affs bundle size)",
+    "Real-time video playback performance target not defined (fps, latency tolerance)"
+  ],
+  "ready_for_oracle": true,
+  "style_system": "tailwind"
+}

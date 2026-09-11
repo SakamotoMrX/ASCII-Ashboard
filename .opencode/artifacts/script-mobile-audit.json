@@ -1,0 +1,60 @@
+{
+  "viewport": 375,
+  "contrast": {
+    "wcag_passed": false,
+    "lowest_ratio": 1,
+    "total": 49,
+    "failed": 1,
+    "samples": [
+      {
+        "element": "h1",
+        "snippet": "ASCII Studio Desktop",
+        "color": "rgb(240, 240, 245)",
+        "background": "rgb(18, 18, 26)",
+        "ratio": 16.4,
+        "passed": true
+      },
+      {
+        "element": "span",
+        "snippet": "Sandbox Sealed (Tauri ACL Active)",
+        "color": "rgb(0, 255, 136)",
+        "background": "rgb(26, 26, 38)",
+        "ratio": 12.84,
+        "passed": true
+      },
+      {
+        "element": "p",
+        "snippet": "Sealed Multiplatform Terminal & GPU ASCI",
+        "color": "rgb(139, 139, 158)",
+        "background": "rgb(18, 18, 26)",
+        "ratio": 5.58,
+        "passed": true
+      }
+    ]
+  },
+  "touch": {
+    "verified": false,
+    "total": 26,
+    "violations": 26,
+    "examples": [
+      {
+        "tag": "button",
+        "text": "3D Procedural",
+        "w": 140,
+        "h": 26
+      },
+      {
+        "tag": "button",
+        "text": "Image Converter",
+        "w": 152,
+        "h": 24
+      },
+      {
+        "tag": "button",
+        "text": "Video Streamer",
+        "w": 145,
+        "h": 24
+      }
+    ]
+  }
+}

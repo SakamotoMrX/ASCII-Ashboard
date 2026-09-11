@@ -1,0 +1,41 @@
+{
+  "mission_id": "ship-20260912-051817",
+  "created_at": "2026-09-12T00:00:00.000Z",
+  "acceptance_stubs": [
+    {
+      "id": "STUB-001",
+      "category": "MULTI_PLATFORM_SANDBOX",
+      "user_intent": "Application must run in a sealed environment like Docker with multiplatform compatibility (macOS, Windows, Android).",
+      "observable_outcome": "Tauri v2 configuration defines explicit ACL capabilities in `src-tauri/capabilities/default.json` restricting filesystem and process spawning, and sets Android 16KB page alignment.",
+      "verification_method": "Inspect tauri.conf.json and capabilities manifest; verify zero arbitrary shell execution permissions."
+    },
+    {
+      "id": "STUB-002",
+      "category": "THREE_TIER_RENDERER",
+      "user_intent": "Real-time, performant ASCII rendering for images, videos, and 3D scenes.",
+      "observable_outcome": "Engine initializes Tier 1 (WebGPU) if available, falling back to Tier 2 (WebGL2) or Tier 3 (Canvas 2D) without breaking frame output or crashing the UI thread.",
+      "verification_method": "Execute render loop in browser harness; simulate WebGPU absence; verify Canvas2D rasterizer generates valid ASCII matrix."
+    },
+    {
+      "id": "STUB-003",
+      "category": "PROCEDURAL_3D_PARITY",
+      "user_intent": "Port 3D procedural geometries (torus donut, sphere, cube, planet, blackhole) from Python core to interactive desktop/mobile UI.",
+      "observable_outcome": "User selects any of the 5 procedural scenes and sees real-time animated ASCII rendering with interactive rotation and lighting controls.",
+      "verification_method": "Cycle through all 5 demo presets; verify non-blank ASCII stream with active animation tick."
+    },
+    {
+      "id": "STUB-004",
+      "category": "MEDIA_CONVERSION_EXPORT",
+      "user_intent": "Convert images/videos into ASCII with adjustable contrast, brightness, charset ramps, and export capabilities.",
+      "observable_outcome": "User loads an image or video, tweaks parameters, views instant ASCII conversion, and exports result to .txt file, PNG, or system clipboard.",
+      "verification_method": "Load test bitmap; trigger export to text; assert generated string matches expected character ramp length."
+    },
+    {
+      "id": "STUB-005",
+      "category": "STRESS_DEFENSE_OOM_AND_FLOOD",
+      "user_intent": "Renderer must not crash on high-resolution inputs or rapid parameter scrubbing.",
+      "observable_outcome": "8K image upload is automatically clamped to 2048x2048 in worker without exceeding 100MB heap allocation; 120Hz slider scrubbing renders at capped 60 FPS without dropping UI frames.",
+      "verification_method": "Simulate STRESS-1 and STRESS-3 test vectors; monitor memory consumption and frame rate."
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "schema_version": 2,
+  "mission_id": "ship-20260912-062627",
+  "request": "lets build a app that support in mac, windows, and android for a ASCII-renderer application, that sealed like docker ( in tauri ). Planning first",
+  "created_at": "2026-09-11T23:26:27.209Z",
+  "dev_port": 3000,
+  "triage_tier": "STANDARD",
+  "current_phase": "PHASE_6_CROSS_AUDIT",
+  "design_direction": "phase-1.5-design-direction.json",
+  "template_tells": [],
+  "motion_moments": 1,
+  "total_retries": 0,
+  "max_total_retries": 5,
+  "timeout_minutes": 20,
+  "retry_counts": {
+    "ARCHITECTURE_FLAW": 0,
+    "DESIGN_UI_FLAW": 0,
+    "LOGIC_BACKEND_FLAW": 0,
+    "WIRING_FLAW": 0,
+    "RUNTIME_CRASH": 0
+  },
+  "max_retries_per_domain": 3,
+  "phase_history": [
+    {
+      "barrier": "barrier-1",
+      "passed_at": "2026-09-11T23:26:27.258Z",
+      "summary": "Blueprint & contracts locked at .antigravity/artifacts/phase-1-contracts.ts (4 breaking scenario(s) modeled, real copy locked)"
+    },
+    {
+      "barrier": "barrier-1.5",
+      "passed_at": "2026-09-11T23:26:27.299Z",
+      "summary": "Design Direction locked: 8 colors, 3 typeface(s), 1 orchestrated motion moment, 5 tells checked & revised."
+    },
+    {
+      "barrier": "barrier-2",
+      "passed_at": "2026-09-11T23:26:30.548Z",
+      "summary": "Reconciliation & logic tests passed (Exit Code 0). Security scan: clean. Lane discipline: clean."
+    },
+    {
+      "barrier": "barrier-3",
+      "passed_at": "2026-09-11T23:26:30.596Z",
+      "summary": "Runtime healthy on http://localhost:3000, DOM rendered (288 elements, 128211 bytes). Semantic checks: 4 element(s) verified."
+    },
+    {
+      "barrier": "barrier-4",
+      "passed_at": "2026-09-11T23:26:30.640Z",
+      "summary": "Matrix passed: 32/32 tests, 21 physical screenshots verified (>10KB each). [No independent acceptance tests found — create phase-1-acceptance-stubs.json in Phase 1 to enable]"
+    },
+    {
+      "barrier": "barrier-5",
+      "passed_at": "2026-09-11T23:26:30.687Z",
+      "summary": "Visual audit valid. Flaws: 0, template tells: 0, motion moments: 1. [No accessibility report — add axe-core scan to Phase 4 for WCAG 2.1 coverage beyond contrast]"
+    },
+    {
+      "barrier": "barrier-6",
+      "passed_at": "2026-09-11T23:27:53.365Z",
+      "summary": "Oracle cross-audit verified. Verdict: GO"
+    }
+  ],
+  "status": "IN_PROGRESS",
+  "_checksum": "8cc45eca83d8246e"
+}

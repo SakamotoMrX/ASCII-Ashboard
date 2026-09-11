@@ -1,0 +1,104 @@
+{
+  "timestamp": "2026-09-11T23:22:32.761Z",
+  "audit_target": "http://localhost:3000",
+  "wcag_standard": "WCAG 2.1 Level AA",
+  "formula": "(L1 + 0.05) / (L2 + 0.05)",
+  "summary": {
+    "total_tested": 9,
+    "passed": 9,
+    "failed": 0,
+    "wcag_compliant": true
+  },
+  "samples": [
+    {
+      "id": "brand_title",
+      "element": "h1.text-sm.font-semibold",
+      "text_snippet": "ASCII Studio Desktop",
+      "fg_color": "rgb(240, 240, 245)",
+      "bg_color": "rgb(18, 18, 26)",
+      "contrast_ratio": 16.4,
+      "minimum_required": 3,
+      "passes_wcag_aa": true
+    },
+    {
+      "id": "sandbox_badge",
+      "element": "span.inline-flex.items-center",
+      "text_snippet": "Sandbox Sealed (Tauri ACL Active)",
+      "fg_color": "rgb(0, 255, 136)",
+      "bg_color": "rgb(26, 26, 38)",
+      "contrast_ratio": 12.84,
+      "minimum_required": 4.5,
+      "passes_wcag_aa": true
+    },
+    {
+      "id": "nav_active_tab",
+      "element": "button.min-h-[44px].min-w-[44px]",
+      "text_snippet": "3D Procedural",
+      "fg_color": "rgb(0, 255, 136)",
+      "bg_color": "rgb(26, 26, 38)",
+      "contrast_ratio": 12.84,
+      "minimum_required": 4.5,
+      "passes_wcag_aa": true
+    },
+    {
+      "id": "hardware_pill_text",
+      "element": "span.text-[#f0f0f5].truncate",
+      "text_snippet": "WebGL2 Active",
+      "fg_color": "rgb(240, 240, 245)",
+      "bg_color": "rgb(26, 26, 38)",
+      "contrast_ratio": 15.16,
+      "minimum_required": 4.5,
+      "passes_wcag_aa": true
+    },
+    {
+      "id": "sidebar_section_title",
+      "element": "label.text-xs.font-semibold",
+      "text_snippet": "Procedural 3D Scene",
+      "fg_color": "rgb(240, 240, 245)",
+      "bg_color": "rgb(18, 18, 26)",
+      "contrast_ratio": 16.4,
+      "minimum_required": 4.5,
+      "passes_wcag_aa": true
+    },
+    {
+      "id": "sidebar_select_input",
+      "element": "select.w-full.min-h-[44px]",
+      "text_snippet": "Rotating Torus (Donut)Lambertian SphereW",
+      "fg_color": "rgb(240, 240, 245)",
+      "bg_color": "rgb(10, 10, 15)",
+      "contrast_ratio": 17.39,
+      "minimum_required": 4.5,
+      "passes_wcag_aa": true
+    },
+    {
+      "id": "sidebar_muted_label",
+      "element": "span",
+      "text_snippet": "Speed X",
+      "fg_color": "rgb(168, 171, 191)",
+      "bg_color": "rgb(18, 18, 26)",
+      "contrast_ratio": 8.2,
+      "minimum_required": 4.5,
+      "passes_wcag_aa": true
+    },
+    {
+      "id": "sidebar_export_btn",
+      "element": "button.min-h-[44px].py-2",
+      "text_snippet": "Copy Text",
+      "fg_color": "rgb(240, 240, 245)",
+      "bg_color": "rgb(26, 26, 38)",
+      "contrast_ratio": 15.16,
+      "minimum_required": 4.5,
+      "passes_wcag_aa": true
+    },
+    {
+      "id": "telemetry_drawer_stat",
+      "element": "span",
+      "text_snippet": "Invert Luminance",
+      "fg_color": "rgb(168, 171, 191)",
+      "bg_color": "rgb(18, 18, 26)",
+      "contrast_ratio": 8.2,
+      "minimum_required": 4.5,
+      "passes_wcag_aa": true
+    }
+  ]
+}
