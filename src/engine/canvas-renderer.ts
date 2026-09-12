@@ -50,9 +50,9 @@ export function renderImageDataToAscii(
 
       if (needColor && colorBuffer) {
         const cIdx = (ty * targetW + tx) * 3;
-        colorBuffer[cIdx] = Math.floor(r / quant) * quant;
-        colorBuffer[cIdx + 1] = Math.floor(g / quant) * quant;
-        colorBuffer[cIdx + 2] = Math.floor(b / quant) * quant;
+        colorBuffer[cIdx] = Math.max(0, Math.min(255, Math.floor(r / quant) * quant));
+        colorBuffer[cIdx + 1] = Math.max(0, Math.min(255, Math.floor(g / quant) * quant));
+        colorBuffer[cIdx + 2] = Math.max(0, Math.min(255, Math.floor(b / quant) * quant));
       }
 
       // ITU BT.601 luminance

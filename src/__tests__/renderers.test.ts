@@ -130,4 +130,58 @@ describe("ASCII Renderers & Character Mapping", () => {
     expect(res.colorBuffer?.[1]).toBe(0);
     expect(res.colorBuffer?.[2]).toBe(0);
   });
+
+  it("updates options dynamically when switching from monochrome to truecolor", () => {
+    const width = 2;
+    const height = 2;
+    const buffer = new Uint8ClampedArray(width * height * 4);
+    buffer[0] = 200; buffer[1] = 100; buffer[2] = 50; buffer[3] = 255;
+
+    const mockImageData = {
+      width,
+      height,
+      data: buffer,
+      colorSpace: "srgb" as PredefinedColorSpace,
+    };
+
+    const initialOptions: AsciiRenderOptions = {
+      mode: "video",
+      tier: "tier3_canvas2d",
+      color_mode: "monochrome",
+      charset: {
+        preset: "standard",
+        invert: false,
+        glyph_aspect_ratio: 0.55,
+      },
+      contrast: 0,
+      brightness: 0,
+      gamma: 1.0,
+      dither: "none",
+      cell_width_px: 8,
+      cell_height_px: 14,
+      font_size_px: 12,
+      font_family: "monospace",
+      fps_cap: 60,
+      enable_scanlines: false,
+      enable_bloom: false,
+      max_output_columns: 2,
+      max_output_rows: 2,
+    };
+
+    // First render: monochrome -> colorBuffer undefined
+    const resMono = renderImageDataToAscii(mockImageData, initialOptions);
+    expect(resMono.colorBuffer).toBeUndefined();
+
+    // Dynamically updated options: truecolor -> colorBuffer present and non-empty
+    const updatedOptions: AsciiRenderOptions = {
+      ...initialOptions,
+      color_mode: "truecolor",
+    };
+    const resColor = renderImageDataToAscii(mockImageData, updatedOptions);
+    expect(resColor.colorBuffer).toBeDefined();
+    expect(resColor.colorBuffer?.length).toBe(12);
+    expect(resColor.colorBuffer?.[0]).toBe(200);
+    expect(resColor.colorBuffer?.[1]).toBe(100);
+    expect(resColor.colorBuffer?.[2]).toBe(48); // 50 / 4 * 4 = 48
+  });
 });

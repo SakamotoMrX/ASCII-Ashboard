@@ -67,6 +67,9 @@ export class VideoStreamingEngine {
 
   public updateOptions(newOptions: Partial<AsciiRenderOptions>): void {
     this.options = { ...this.options, ...newOptions };
+    if (this.state !== "playing" && this.videoElement) {
+      this.processSingleFrame();
+    }
   }
 
   public setCallbacks(callbacks: Partial<VideoEngineCallbacks>): void {

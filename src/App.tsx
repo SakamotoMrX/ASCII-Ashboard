@@ -203,6 +203,11 @@ export default function App() {
   const videoEngineRef = useRef<VideoStreamingEngine | null>(null);
   const lastImageDataRef = useRef<ImageData | null>(null);
   const lastRenderResultRef = useRef<CanvasRenderResult | null>(null);
+  const optionsRef = useRef<AsciiRenderOptions>(options);
+
+  useEffect(() => {
+    optionsRef.current = options;
+  }, [options]);
 
   // Clear 1 orchestrated load reveal state after initial trigger
   useEffect(() => {
@@ -248,7 +253,7 @@ export default function App() {
         if (renderResult) {
           lastRenderResultRef.current = renderResult;
         }
-        paintAsciiToCanvas(canvasRef.current, text, options, renderResult?.colorBuffer);
+        paintAsciiToCanvas(canvasRef.current, text, optionsRef.current, renderResult?.colorBuffer);
       },
       onError: (err) => {
         setWarningMessage(err.message);
@@ -323,6 +328,10 @@ export default function App() {
 
   // Repaint canvas whenever asciiOutput or options change
   useEffect(() => {
+    if (activeTab === "video" && videoEngineRef.current && !videoState.isPlaying) {
+      videoEngineRef.current.processSingleFrame();
+      return;
+    }
     if (canvasRef.current && asciiOutput) {
       paintAsciiToCanvas(
         canvasRef.current,
@@ -331,7 +340,7 @@ export default function App() {
         lastRenderResultRef.current?.colorBuffer
       );
     }
-  }, [options.color_mode, options.enable_scanlines]);
+  }, [activeTab, options.color_mode, options.enable_scanlines, videoState.isPlaying]);
 
   // Re-instantiate StreamPipeline for procedural frame processing & STRESS-3 defense
   useEffect(() => {
