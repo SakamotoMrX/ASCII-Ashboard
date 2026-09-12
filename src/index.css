@@ -151,3 +151,19 @@ input[type="range"]::-moz-range-thumb {
 .media-state-reveal {
   animation: mediaStateReveal 180ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
+
+/* Orchestrated Motion Moment: Zen Lock/Unlock State Transition (180ms easeOut) */
+@keyframes zenStateReveal {
+  0% {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.zen-motion-moment {
+  animation: zenStateReveal 180ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}

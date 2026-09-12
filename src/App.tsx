@@ -13,6 +13,11 @@ import { MediaPicker } from "./components/MediaPicker";
 import { BootLoadingScreen } from "./components/BootLoadingScreen";
 import { ConstellationGraph } from "./components/ConstellationGraph";
 import { TechnicalStickers } from "./components/TechnicalStickers";
+import { ZenLockscreenToggle } from "./components/ZenLockscreenToggle";
+import { WorkspaceTabBar, WorkspaceSession } from "./components/WorkspaceTabBar";
+import { RenderEngineManager } from "./lib/renderers/manager";
+import { SceneFrameData } from "./lib/procedural/scenes";
+import { globalWorkspaceManager } from "./engine/workspace-manager";
 import { renderProcedural3D, Procedural3DResult } from "./engine/procedural-3d";
 import { getCharsetRamp } from "./engine/charsets";
 import { preflightImageFile } from "./engine/image-preflight";
@@ -122,16 +127,150 @@ function paintAsciiToCanvas(
   }
 }
 
+function getWorkspaceTitleForMode(
+  mode: RenderMode | "settings" | "media_picker",
+  fallback: string
+): string {
+  switch (mode) {
+    case "procedural_3d":
+      return "⬡ 3D Procedural";
+    case "video":
+      return "🎬 Video: Stream";
+    case "image":
+      return "🖼️ Image: Photo";
+    case "camera_stream":
+      return "📷 Live Camera";
+    case "media_picker":
+      return "⚡ Media Studio";
+    case "settings":
+      return "⚙️ Engine Sandbox";
+    default:
+      return fallback;
+  }
+}
+
 export default function App() {
   const urlParams = new URLSearchParams(window.location.search);
   const initialMode = (urlParams.get("mode") as RenderMode | "settings" | "media_picker") || "procedural_3d";
   const initialScene = (urlParams.get("scene") as any) || "donut";
   const initialPickerState = (urlParams.get("picker_state") as any) || "idle";
+  const isBootFreeze = urlParams.get("boot") === "freeze";
 
   const [activeTab, setActiveTab] = useState<RenderMode | "settings" | "media_picker">(initialMode);
   const [activeTier, setActiveTier] = useState<RenderTier>("tier1_webgpu");
   const [isInitialLoad, setIsInitialLoad] = useState<boolean>(true);
   const [showBoot, setShowBoot] = useState<boolean>(true);
+
+  // Zen Lockscreen and Fullscreen State
+  const [isZenMode, setIsZenMode] = useState<boolean>(false);
+  const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
+
+  // Workspace Sessions State bound to WorkspaceManager
+  const [workspaces, setWorkspaces] = useState<WorkspaceSession[]>(() =>
+    globalWorkspaceManager.getAllWorkspaces().map((ws) => ({
+      id: ws.id,
+      title: ws.name,
+      mode: ws.type,
+      badge: ws.isActive ? "ACTIVE" : "STANDBY",
+      status: ws.isActive ? "active" : "idle",
+    }))
+  );
+  const [activeWorkspaceId, setActiveWorkspaceId] = useState<string>(() =>
+    globalWorkspaceManager.getActiveWorkspace().id
+  );
+
+  useEffect(() => {
+    return globalWorkspaceManager.subscribe((allWs, activeWs) => {
+      setWorkspaces(
+        allWs.map((ws) => ({
+          id: ws.id,
+          title: ws.name,
+          mode: ws.type,
+          badge: ws.isActive ? "ACTIVE" : ws.videoEngine && ws.videoState?.isPlaying ? "PAUSED" : "IDLE",
+          status: ws.isActive ? "active" : "idle",
+        }))
+      );
+      setActiveWorkspaceId(activeWs.id);
+    });
+  }, []);
+
+  const handleToggleFullscreen = useCallback(() => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen?.().catch(() => {});
+      setIsFullscreen(true);
+    } else {
+      document.exitFullscreen?.().catch(() => {});
+      setIsFullscreen(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+    document.addEventListener("fullscreenchange", handleFullscreenChange);
+    return () => {
+      document.removeEventListener("fullscreenchange", handleFullscreenChange);
+    };
+  }, []);
+
+  const handleSelectWorkspace = useCallback(
+    (id: string) => {
+      try {
+        const ws = globalWorkspaceManager.switchWorkspace(id);
+        setActiveWorkspaceId(ws.id);
+        setActiveTab(ws.type);
+        setOptions(ws.options);
+        if (ws.proceduralParams) {
+          setProceduralParams(ws.proceduralParams);
+        }
+        if (ws.asciiOutput) {
+          setAsciiOutput(ws.asciiOutput);
+        }
+        if (ws.videoState) {
+          setVideoState(ws.videoState);
+        }
+        if (ws.videoEngine) {
+          videoEngineRef.current = ws.videoEngine;
+        }
+      } catch (err: any) {
+        console.warn("Error switching workspace:", err);
+      }
+    },
+    []
+  );
+
+  const handleCloseWorkspace = useCallback(
+    (id: string) => {
+      globalWorkspaceManager.removeWorkspace(id);
+      const active = globalWorkspaceManager.getActiveWorkspace();
+      handleSelectWorkspace(active.id);
+    },
+    [handleSelectWorkspace]
+  );
+
+  const handleNewWorkspace = useCallback(() => {
+    const nextIdx = globalWorkspaceManager.getAllWorkspaces().length + 1;
+    const newWs = globalWorkspaceManager.createWorkspace({
+      name: `Workspace ${nextIdx}`,
+      type: "procedural_3d",
+      isActive: true,
+    });
+    handleSelectWorkspace(newWs.id);
+  }, [handleSelectWorkspace]);
+
+  const handleModeChange = useCallback(
+    (mode: RenderMode | "settings" | "media_picker") => {
+      setActiveTab(mode);
+      if (mode !== "settings" && mode !== "media_picker") {
+        globalWorkspaceManager.updateWorkspace(activeWorkspaceId, {
+          type: mode,
+          name: getWorkspaceTitleForMode(mode, `Workspace`),
+        });
+      }
+    },
+    [activeWorkspaceId]
+  );
 
   // Procedural 3D State
   const [proceduralParams, setProceduralParams] = useState<Procedural3DParams>({
@@ -196,6 +335,7 @@ export default function App() {
     rust_engine_version: "1.0.0",
     max_ipc_payload_bytes: 32 * 1024 * 1024,
     native_threads_available: 8,
+    gpu_adapter_name: "Hardware Rasterizer",
   });
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -206,6 +346,7 @@ export default function App() {
   const framesRenderedRef = useRef<number>(0);
   const streamPipelineRef = useRef<StreamPipeline<number, Procedural3DResult> | null>(null);
   const videoEngineRef = useRef<VideoStreamingEngine | null>(null);
+  const renderEngineRef = useRef<RenderEngineManager | null>(null);
   const lastImageDataRef = useRef<ImageData | null>(null);
   const lastRenderResultRef = useRef<CanvasRenderResult | null>(null);
   const optionsRef = useRef<AsciiRenderOptions>(options);
@@ -248,6 +389,31 @@ export default function App() {
     });
 
     getTelemetryFromHost().then(setHostTelemetry);
+  }, []);
+
+  // Initialize RenderEngineManager (WebGPU / WebGL2 / Canvas2D)
+  useEffect(() => {
+    if (!canvasRef.current) return;
+    const engine = new RenderEngineManager(canvasRef.current);
+    renderEngineRef.current = engine;
+
+    engine.onFallback((newTier, reason) => {
+      setActiveTier(newTier);
+      setWarningMessage(`Hardware fallback: ${reason}. Switched to ${newTier}.`);
+    });
+
+    engine.initialize(activeTier).then((effectiveTier) => {
+      if (effectiveTier !== activeTier) {
+        setActiveTier(effectiveTier);
+      }
+    });
+  }, [activeTier, activeWorkspaceId]);
+
+  const handleTierChange = useCallback((tier: RenderTier) => {
+    setActiveTier(tier);
+    if (renderEngineRef.current) {
+      renderEngineRef.current.setTier(tier);
+    }
   }, []);
 
   // Initialize VideoStreamingEngine lifecycle (STRESS-2 Defense: synchronous teardown)
@@ -418,13 +584,23 @@ export default function App() {
                   height: options.max_output_rows,
                 };
 
-                // Render onto canvas with calculated colorBuffer
-                paintAsciiToCanvas(
-                  canvasRef.current,
-                  result.text,
-                  options,
-                  result.colorBuffer
-                );
+                // Render onto canvas via Hardware Acceleration (WebGPU / WebGL2 / Canvas2D)
+                if (renderEngineRef.current && result.luminanceBuffer && result.colorBuffer) {
+                  const frameData: SceneFrameData = {
+                    columns: options.max_output_columns,
+                    rows: options.max_output_rows,
+                    luminanceBuffer: result.luminanceBuffer,
+                    colorBuffer: new Uint8ClampedArray(result.colorBuffer.buffer),
+                  };
+                  renderEngineRef.current.render(frameData, options);
+                } else {
+                  paintAsciiToCanvas(
+                    canvasRef.current,
+                    result.text,
+                    options,
+                    result.colorBuffer
+                  );
+                }
               }
             })
             .catch(() => {
@@ -464,11 +640,23 @@ export default function App() {
         max_output_rows: rows,
       };
 
-      const res = renderImageDataToAscii(imageData, renderOptions);
-      lastRenderResultRef.current = res;
-      setAsciiOutput(res.asciiText);
-      setRenderTimeMs(Math.round(res.durationMs * 10) / 10);
-      paintAsciiToCanvas(canvasRef.current, res.asciiText, renderOptions, res.colorBuffer);
+      if (renderEngineRef.current) {
+        const res = renderEngineRef.current.renderImageData(imageData, renderOptions);
+        lastRenderResultRef.current = {
+          asciiText: res.text,
+          durationMs: res.renderTimeMs,
+          width: cols,
+          height: rows,
+        };
+        setAsciiOutput(res.text);
+        setRenderTimeMs(Math.round(res.renderTimeMs * 10) / 10);
+      } else {
+        const res = renderImageDataToAscii(imageData, renderOptions);
+        lastRenderResultRef.current = res;
+        setAsciiOutput(res.asciiText);
+        setRenderTimeMs(Math.round(res.durationMs * 10) / 10);
+        paintAsciiToCanvas(canvasRef.current, res.asciiText, renderOptions, res.colorBuffer);
+      }
     },
     [options]
   );
@@ -498,11 +686,17 @@ export default function App() {
       const ctx = snapshotCanvas.getContext("2d");
       if (!ctx) return;
       const imageData = ctx.getImageData(0, 0, snapshotCanvas.width, snapshotCanvas.height);
+      const ws = globalWorkspaceManager.createWorkspace({
+        name: `Snapshot ${new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`,
+        type: "image",
+        imageData,
+        isActive: true,
+      });
+      handleSelectWorkspace(ws.id);
       lastImageDataRef.current = imageData;
       rasterizeImageData(imageData);
-      setActiveTab("image");
     },
-    [rasterizeImageData]
+    [handleSelectWorkspace, rasterizeImageData]
   );
 
   // Instant Image File Ingestion (STRESS-3 Defense: preflight clamp to 2048px)
@@ -521,15 +715,23 @@ export default function App() {
         }
 
         if (preflight.imageData) {
+          const ws = globalWorkspaceManager.createWorkspace({
+            name: `Image: ${file.name}`,
+            type: "image",
+            sourceFile: file,
+            imageData: preflight.imageData,
+            isActive: true,
+          });
+
+          handleSelectWorkspace(ws.id);
           lastImageDataRef.current = preflight.imageData;
           rasterizeImageData(preflight.imageData);
-          setActiveTab("image");
         }
       } catch (err: any) {
         setWarningMessage(`Error processing image: ${err.message}`);
       }
     },
-    [rasterizeImageData]
+    [handleSelectWorkspace, rasterizeImageData]
   );
 
   const handleSelectImage = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -547,19 +749,79 @@ export default function App() {
 
       try {
         setWarningMessage(`Loading video stream: ${file.name}...`);
-        setActiveTab("video");
 
-        if (videoEngineRef.current) {
-          await videoEngineRef.current.loadSource(file);
-          setVideoState({
-            isPlaying: true,
-            isLooping: videoEngineRef.current.isLooping(),
-            currentTime: 0,
-            duration: videoEngineRef.current.getDuration(),
-            fileName: file.name,
-          });
-          await videoEngineRef.current.play();
-        }
+        // 1. Dedicated workspace session for isolated video
+        const ws = globalWorkspaceManager.createWorkspace({
+          name: `Video: ${file.name}`,
+          type: "video",
+          sourceFile: file,
+          isActive: true,
+        });
+
+        // 2. Discrete VideoStreamingEngine bound to this workspace
+        const engine = new VideoStreamingEngine(ws.options, {
+          onFrame: (text, meta, renderResult) => {
+            const activeWs = globalWorkspaceManager.getActiveWorkspace();
+            if (activeWs.id !== ws.id) return;
+
+            setAsciiOutput(text);
+            setRenderTimeMs(meta.renderDurationMs);
+            setFps(meta.fpsActual || 60);
+            setDroppedFrames(meta.droppedFrames);
+            ws.asciiOutput = text;
+            ws.colorBuffer = renderResult?.colorBuffer;
+
+            if (renderEngineRef.current && lastImageDataRef.current) {
+              renderEngineRef.current.renderImageData(lastImageDataRef.current, ws.options);
+            } else {
+              paintAsciiToCanvas(canvasRef.current, text, ws.options, renderResult?.colorBuffer);
+            }
+          },
+          onError: (err) => {
+            setWarningMessage(err.message);
+          },
+          onStateChange: (state) => {
+            const activeWs = globalWorkspaceManager.getActiveWorkspace();
+            if (activeWs.id === ws.id) {
+              setVideoState((prev) => ({
+                ...prev,
+                isPlaying: state === "playing",
+              }));
+            }
+            if (ws.videoState) {
+              ws.videoState.isPlaying = state === "playing";
+            }
+          },
+          onTimeUpdate: (currentTime, duration) => {
+            const activeWs = globalWorkspaceManager.getActiveWorkspace();
+            if (activeWs.id === ws.id) {
+              setVideoState((prev) => ({
+                ...prev,
+                currentTime,
+                duration,
+              }));
+            }
+            if (ws.videoState) {
+              ws.videoState.currentTime = currentTime;
+              ws.videoState.duration = duration;
+            }
+          },
+        });
+
+        ws.videoEngine = engine;
+        videoEngineRef.current = engine;
+
+        await engine.loadSource(file);
+        setVideoState({
+          isPlaying: true,
+          isLooping: engine.isLooping(),
+          currentTime: 0,
+          duration: engine.getDuration(),
+          fileName: file.name,
+        });
+        await engine.play();
+
+        handleSelectWorkspace(ws.id);
         setWarningMessage(null);
       } catch (err: any) {
         setWarningMessage(
@@ -567,7 +829,7 @@ export default function App() {
         );
       }
     },
-    []
+    [handleSelectWorkspace]
   );
 
   const handleSelectVideo = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -768,9 +1030,9 @@ export default function App() {
     dropped_frames: droppedFrames,
     ipc_payload_kb: Math.round((asciiOutput.length * 2) / 1024),
     gpu_adapter_name:
-      activeTier === "tier1_webgpu"
-        ? "Apple M-Series Metal / Direct3D 12"
-        : "WebGL2 Standard Core",
+      renderEngineRef.current?.adapterName ||
+      hostTelemetry.gpu_adapter_name ||
+      globalTierManager.getHardwareGpuDescription(),
     sandbox_sealed: hostTelemetry.sandbox_sealed,
   };
 
@@ -779,7 +1041,7 @@ export default function App() {
       {/* Accessibility Skip Link */}
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:px-4 focus:py-2.5 focus:bg-[#1a1a1a] focus:text-[#3b82f6] focus:border focus:border-[#3b82f6] focus:rounded-[4px] focus:outline-none text-xs font-medium"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:px-4 focus:py-3 focus:min-h-[44px] focus:inline-flex focus:items-center focus:bg-[#141416] focus:text-[#ffffff] focus:border focus:border-[#ffffff] focus:rounded-[2px] focus:outline-none focus:ring-1 focus:ring-[#ffffff] text-xs font-mono"
       >
         Skip to content
       </a>
@@ -796,32 +1058,60 @@ export default function App() {
               ? "Rust Native Sidecar"
               : "Canvas 2D Fallback"
           }
-          durationMs={1200}
-          onComplete={() => setShowBoot(false)}
+          durationMs={isBootFreeze ? 9999999 : 1200}
+          onComplete={() => { if (!isBootFreeze) setShowBoot(false); }}
         />
       )}
 
-      {/* Top Header Bar */}
-      <Header
-        activeMode={activeTab}
-        onModeChange={(mode) => setActiveTab(mode)}
-        activeTier={activeTier}
-        fps={fps}
-        platform={hostTelemetry.platform}
+      {/* Floating Zen / Lockscreen Toggle Button (pinned in top-right with hover glow) */}
+      <ZenLockscreenToggle
+        isZenMode={isZenMode}
+        onToggleZenMode={() => setIsZenMode((prev) => !prev)}
+        isFullscreen={isFullscreen}
+        onToggleFullscreen={handleToggleFullscreen}
       />
 
-      {/* Technical Stickers Strip (TIER / FPS / GRID / ACL / HOST) */}
-      <TechnicalStickers
-        activeTier={activeTier}
-        fps={fps}
-        resolution={{ columns: options.max_output_columns, rows: options.max_output_rows }}
-        platform={hostTelemetry.platform}
-        sandboxSealed={hostTelemetry.sandbox_sealed}
-        className="px-6 py-2 bg-[#0a0a0c] border-b border-[#222224]"
-      />
+      {/* Collapsible Top Chrome (Header + WorkspaceTabBar + TechnicalStickers) */}
+      <div
+        className={`transition-all duration-200 ease-out flex flex-col flex-shrink-0 z-20 ${
+          isZenMode
+            ? "max-h-0 opacity-0 pointer-events-none overflow-hidden"
+            : "max-h-[300px] opacity-100"
+        }`}
+      >
+        {/* Top Header Bar */}
+        <Header
+          activeMode={activeTab}
+          onModeChange={handleModeChange}
+          activeTier={activeTier}
+          fps={fps}
+          platform={hostTelemetry.platform}
+          isZenMode={isZenMode}
+          onToggleZenMode={() => setIsZenMode((prev) => !prev)}
+        />
+
+        {/* Workspace Session Tabs / Bar */}
+        <WorkspaceTabBar
+          workspaces={workspaces}
+          activeWorkspaceId={activeWorkspaceId}
+          onSelectWorkspace={handleSelectWorkspace}
+          onCloseWorkspace={handleCloseWorkspace}
+          onNewWorkspace={handleNewWorkspace}
+        />
+
+        {/* Technical Stickers Strip (TIER / FPS / GRID / ACL / HOST) */}
+        <TechnicalStickers
+          activeTier={activeTier}
+          fps={fps}
+          resolution={{ columns: options.max_output_columns, rows: options.max_output_rows }}
+          platform={hostTelemetry.platform}
+          sandboxSealed={hostTelemetry.sandbox_sealed}
+          className="px-6 py-2 bg-[#0a0a0c] border-b border-[#222224]"
+        />
+      </div>
 
       {/* Warning Notification Banner */}
-      {warningMessage && (
+      {!isZenMode && warningMessage && (
         <div className="bg-[#222222] border-b border-[#2a2a2a] text-[#3b82f6] px-6 py-2.5 text-xs flex justify-between items-center z-30 font-sans w-full">
           <span>{warningMessage}</span>
           <button
@@ -835,38 +1125,46 @@ export default function App() {
       )}
 
       {/* Main Split-Pane Workbench Layout */}
-      <div className="flex-1 flex flex-col md:flex-row overflow-y-auto md:overflow-hidden w-full max-w-full">
+      <div className="flex-1 flex flex-col md:flex-row overflow-y-auto md:overflow-hidden w-full max-w-full relative">
         {/* Left Quadrant: Controls Sidebar */}
-        <ControlPanel
-          options={options}
-          onOptionsChange={(newOpts) => setOptions((prev) => ({ ...prev, ...newOpts }))}
-          proceduralParams={proceduralParams}
-          onProceduralParamsChange={(newParams) =>
-            setProceduralParams((prev) => ({ ...prev, ...newParams }))
-          }
-          activeTier={activeTier}
-          onTierChange={(tier) => setActiveTier(tier)}
-          onSelectImage={handleSelectImage}
-          onSelectVideo={handleSelectVideo}
-          onStartCamera={handleStartCamera}
-          onStopCamera={handleStopCamera}
-          isStreamingCamera={isStreamingCamera}
-          onCopyAscii={handleCopyAscii}
-          isCopied={isCopied}
-          onExportTxt={handleExportTxt}
-          onExportPng={handleExportPng}
-          isRecordingVideo={isRecordingVideo}
-          recordingProgressSec={recordingProgressSec}
-          onToggleRecordVideo={handleToggleRecordVideo}
-          activeMode={activeTab}
-          onOpenMediaPicker={() => setActiveTab("media_picker")}
-          videoState={videoState}
-          onPlayVideo={handlePlayVideo}
-          onPauseVideo={handlePauseVideo}
-          onSeekVideo={handleSeekVideo}
-          onToggleLoopVideo={handleToggleLoopVideo}
-          onStopVideo={handleStopVideo}
-        />
+        <div
+          className={`transition-all duration-200 ease-out flex-shrink-0 ${
+            isZenMode
+              ? "w-0 max-w-0 opacity-0 pointer-events-none overflow-hidden m-0 p-0 border-none"
+              : "w-full md:w-96 opacity-100"
+          }`}
+        >
+          <ControlPanel
+            options={options}
+            onOptionsChange={(newOpts) => setOptions((prev) => ({ ...prev, ...newOpts }))}
+            proceduralParams={proceduralParams}
+            onProceduralParamsChange={(newParams) =>
+              setProceduralParams((prev) => ({ ...prev, ...newParams }))
+            }
+            activeTier={activeTier}
+            onTierChange={handleTierChange}
+            onSelectImage={handleSelectImage}
+            onSelectVideo={handleSelectVideo}
+            onStartCamera={handleStartCamera}
+            onStopCamera={handleStopCamera}
+            isStreamingCamera={isStreamingCamera}
+            onCopyAscii={handleCopyAscii}
+            isCopied={isCopied}
+            onExportTxt={handleExportTxt}
+            onExportPng={handleExportPng}
+            isRecordingVideo={isRecordingVideo}
+            recordingProgressSec={recordingProgressSec}
+            onToggleRecordVideo={handleToggleRecordVideo}
+            activeMode={activeTab}
+            onOpenMediaPicker={() => setActiveTab("media_picker")}
+            videoState={videoState}
+            onPlayVideo={handlePlayVideo}
+            onPauseVideo={handlePauseVideo}
+            onSeekVideo={handleSeekVideo}
+            onToggleLoopVideo={handleToggleLoopVideo}
+            onStopVideo={handleStopVideo}
+          />
+        </div>
 
         {/* Central Viewport & ASCII Canvas / MediaPicker */}
         <main
@@ -886,6 +1184,7 @@ export default function App() {
             </div>
           ) : (
             <AsciiCanvas
+              key={`${activeTier}-${activeWorkspaceId}`}
               canvasRef={canvasRef}
               options={options}
               asciiText={asciiOutput}
@@ -895,7 +1194,13 @@ export default function App() {
 
           {/* Constellation Pipeline Graph (embedded viewport visualization, md+ to avoid 375px overflow) */}
           {activeTab !== "media_picker" && (
-            <div className="hidden md:flex flex-shrink-0 border-t border-[#222224] h-[320px] bg-[#0a0a0c]">
+            <div
+              className={`flex flex-shrink-0 border-t border-[#222224] bg-[#0a0a0c] transition-all duration-200 ease-out ${
+                isZenMode
+                  ? "h-0 max-h-0 opacity-0 pointer-events-none overflow-hidden"
+                  : "h-[320px] opacity-100"
+              }`}
+            >
               <ConstellationGraph
                 activeMode={activeTab}
                 activeTier={activeTier}
@@ -911,7 +1216,13 @@ export default function App() {
       </div>
 
       {/* Real-Time Telemetry Drawer */}
-      <TelemetryDrawer telemetry={telemetryData} />
+      <div
+        className={`transition-all duration-200 ease-out ${
+          isZenMode ? "max-h-0 opacity-0 pointer-events-none overflow-hidden" : "opacity-100"
+        }`}
+      >
+        <TelemetryDrawer telemetry={telemetryData} />
+      </div>
     </div>
   );
 }

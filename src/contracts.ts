@@ -138,4 +138,18 @@ export const PAGE_COPY = {
     acl_verified: "Tauri Sandbox capabilities verified. Filesystem isolation active.",
     media_loaded: "Media successfully initialized in ASCII pipeline.",
   },
+  zen_mode: {
+    btn_enter_zen: "Enter Zen Mode",
+    btn_exit_zen: "Exit Zen Mode",
+    tooltip_zen: "Toggle distraction-free Zen canvas lock",
+    status_zen_active: "Zen Mode Active - Press Escape or click unlock pill to restore",
+  },
+  workspaces: {
+    tab_new_workspace: "New Workspace",
+    btn_close_workspace: "Close Workspace",
+    empty_workspace_title: "Workspace Empty",
+    empty_workspace_desc: "Select media source or scene for this isolated workspace.",
+    badge_active: "Active Session",
+    badge_paused: "Paused Background",
+  },
 } as const;

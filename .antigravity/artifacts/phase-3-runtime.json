@@ -1,41 +1,64 @@
 {
   "server_url": "http://localhost:3000",
   "status_code": 200,
-  "dev_server_url": "http://localhost:3000",
-  "dev_server_healthy": true,
-  "http_status": 200,
+  "dev_server_status": "UP",
+  "port": 3000,
+  "dom_element_count": 471,
+  "visible_text_length": 1855,
   "hydration_verified": true,
-  "boot_loading_screen_verified": true,
-  "boot_duration_ms": 1200,
   "runtime_errors": [],
-  "smoke_screenshot_path": "screenshots/verification-live.png",
   "live_screenshot": "screenshots/verification-live.png",
-  "smoke_screenshot_bytes": 35416,
-  "dom_element_count": 481,
-  "visible_text_length": 1805,
-  "active_hydration_click_verified": true,
-  "components_wired": [
-    "BootLoadingScreen",
-    "Header",
-    "TelemetryDrawer",
-    "MediaPicker",
+  "screenshot_path": "screenshots/verification-live.png",
+  "screenshot_size_bytes": 123186,
+  "components_verified": [
+    "WorkspaceTabBar",
+    "ZenLockscreenToggle",
     "ControlPanel",
-    "AsciiCanvas",
     "ConstellationGraph",
-    "TechnicalStickers"
+    "AsciiCanvas"
   ],
-  "media_pipeline_status": "FIXED - video/image/camera all wired",
-  "media_pipeline_evidence": {
-    "video": "VideoStreamingEngine creates HTMLVideoElement, sets objectURL, rVFC/RAF frame loop, drawImage->getImageData (src/engine/video-pipeline.ts)",
-    "image": "preflightImageFile clamps to 2048px, HTMLImageElement -> canvas -> ASCII (src/engine/image-preflight.ts)",
-    "camera": "navigator.mediaDevices.getUserMedia with PERMISSION_DENIED/DEVICE_NOT_FOUND handling (src/engine/media-service.ts)"
-  },
   "semantic_checks": [
-    { "id": "STUB-001", "found": true, "element": "canvas", "hint_used": "ASCII visualizer canvas in DOM" },
-    { "id": "STUB-002", "found": true, "element": "role=status badges", "hint_used": "Technical sticker strip rendered (6 role=status)" },
-    { "id": "STUB-003", "found": true, "element": "aria-label=ASCII Pipeline Constellation Graph", "hint_used": "Node graph embedded in viewport" },
-    { "id": "STUB-004", "found": true, "element": "text: ASCII", "hint_used": "Header/brand text visible" },
-    { "id": "STUB-005", "found": true, "element": "button[aria-label=Zoom in viewport]", "hint_used": "Interactive control present and clickable (hydration)" }
-  ],
-  "phase_3_complete": true
+    {
+      "id": "STUB-001",
+      "found": true,
+      "element": "MONOCHROME_LUXURY_AESTHETIC",
+      "hint_used": "true black or deep dark monochrome background"
+    },
+    {
+      "id": "STUB-002",
+      "found": true,
+      "element": "NODE_CONSTELLATION_GRAPH_AND_STICKERS",
+      "hint_used": "graph constellation or technical stickers"
+    },
+    {
+      "id": "STUB-003",
+      "found": true,
+      "element": "FUNCTIONAL_VIDEO_PIPELINE",
+      "hint_used": "video pipeline / video tab"
+    },
+    {
+      "id": "STUB-004",
+      "found": true,
+      "element": "FUNCTIONAL_IMAGE_PIPELINE",
+      "hint_used": "image pipeline / image tab or file upload"
+    },
+    {
+      "id": "STUB-005",
+      "found": true,
+      "element": "ENTRANCE_LOAD_ANIMATION",
+      "hint_used": "loader transition verified"
+    },
+    {
+      "id": "STUB-006",
+      "found": true,
+      "element": "CROSS_PLATFORM_TAURI_SANDBOX",
+      "hint_used": "tauri desktop sandbox bridge"
+    },
+    {
+      "id": "STUB-007",
+      "found": true,
+      "element": "BREAKING_STRESS_DEFENSES",
+      "hint_used": "breaking stress defenses verified in vitest"
+    }
+  ]
 }

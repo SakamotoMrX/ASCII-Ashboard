@@ -601,43 +601,119 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
         {/* Section 5: Hardware Acceleration Tier */}
         <div className="space-y-3 border-t border-[#222224] pt-4">
           <fieldset>
-            <legend className="text-xs font-mono font-semibold text-[#ffffff] flex items-center gap-2 mb-2">
-              <Cpu className="w-3.5 h-3.5 text-[#ffffff]" aria-hidden="true" />
-              HARDWARE ACCELERATION TIER
+            <legend className="text-xs font-mono font-semibold text-[#ffffff] flex items-center justify-between mb-2 w-full">
+              <div className="flex items-center gap-2">
+                <Cpu className="w-3.5 h-3.5 text-[#ffffff]" aria-hidden="true" />
+                <span>HARDWARE ACCELERATION TIER</span>
+              </div>
+              <span className="text-[10px] font-mono px-1.5 py-0.5 rounded-[2px] bg-[#141416] text-[#a1a1aa] border border-[#222224]">
+                CASCADE: T1→T2→T3
+              </span>
             </legend>
-            <div className="space-y-1 text-xs font-mono">
-              <label className="flex items-center gap-3 min-h-[44px] px-2 rounded-[4px] text-[#ffffff] cursor-pointer hover:bg-[#141416] transition-colors">
-                <input
-                  type="radio"
-                  name="tier"
-                  value="tier1_webgpu"
-                  checked={activeTier === "tier1_webgpu"}
-                  onChange={() => onTierChange("tier1_webgpu")}
-                  className="w-4 h-4 accent-[#ffffff]"
-                />
-                <span>Tier 1: WebGPU Compute Atlas</span>
+            <div className="space-y-2 text-xs font-mono">
+              {/* Tier 1: WebGPU Compute Pipeline */}
+              <label
+                className={`flex items-start justify-between gap-3 min-h-[48px] p-2.5 rounded-[4px] cursor-pointer border transition-all ${
+                  activeTier === "tier1_webgpu"
+                    ? "bg-[#141416] border-[#ffffff]/40 text-[#ffffff] shadow-[0_0_8px_rgba(255,255,255,0.06)]"
+                    : "bg-[#0a0a0c] border-[#222224] text-[#a1a1aa] hover:text-[#ffffff] hover:border-[#333336]"
+                }`}
+              >
+                <div className="flex items-start gap-3">
+                  <input
+                    type="radio"
+                    name="tier"
+                    value="tier1_webgpu"
+                    checked={activeTier === "tier1_webgpu"}
+                    onChange={() => onTierChange("tier1_webgpu")}
+                    className="w-4 h-4 mt-0.5 accent-[#ffffff]"
+                  />
+                  <div>
+                    <div className="font-semibold text-[#ffffff]">Tier 1: WebGPU Compute Pipeline</div>
+                    <div className="text-[10px] text-[#71717a] font-mono mt-0.5">
+                      Active Device / Metal / D3D12
+                    </div>
+                  </div>
+                </div>
+                <span
+                  className={`text-[9px] font-mono px-1.5 py-0.5 rounded-[2px] border self-start ${
+                    activeTier === "tier1_webgpu"
+                      ? "bg-[#ffffff] text-[#000000] border-[#ffffff] font-bold"
+                      : "bg-[#141416] text-[#a1a1aa] border-[#222224]"
+                  }`}
+                >
+                  {activeTier === "tier1_webgpu" ? "ACTIVE" : "READY"}
+                </span>
               </label>
-              <label className="flex items-center gap-3 min-h-[44px] px-2 rounded-[4px] text-[#ffffff] cursor-pointer hover:bg-[#141416] transition-colors">
-                <input
-                  type="radio"
-                  name="tier"
-                  value="tier2_webgl"
-                  checked={activeTier === "tier2_webgl"}
-                  onChange={() => onTierChange("tier2_webgl")}
-                  className="w-4 h-4 accent-[#ffffff]"
-                />
-                <span>Tier 2: WebGL2 Fragment Shader</span>
+
+              {/* Tier 2: WebGL2 Fragment Shader */}
+              <label
+                className={`flex items-start justify-between gap-3 min-h-[48px] p-2.5 rounded-[4px] cursor-pointer border transition-all ${
+                  activeTier === "tier2_webgl"
+                    ? "bg-[#141416] border-[#ffffff]/40 text-[#ffffff] shadow-[0_0_8px_rgba(255,255,255,0.06)]"
+                    : "bg-[#0a0a0c] border-[#222224] text-[#a1a1aa] hover:text-[#ffffff] hover:border-[#333336]"
+                }`}
+              >
+                <div className="flex items-start gap-3">
+                  <input
+                    type="radio"
+                    name="tier"
+                    value="tier2_webgl"
+                    checked={activeTier === "tier2_webgl"}
+                    onChange={() => onTierChange("tier2_webgl")}
+                    className="w-4 h-4 mt-0.5 accent-[#ffffff]"
+                  />
+                  <div>
+                    <div className="font-semibold text-[#ffffff]">Tier 2: WebGL2 Fragment Shader</div>
+                    <div className="text-[10px] text-[#71717a] font-mono mt-0.5">
+                      Active GL Core
+                    </div>
+                  </div>
+                </div>
+                <span
+                  className={`text-[9px] font-mono px-1.5 py-0.5 rounded-[2px] border self-start ${
+                    activeTier === "tier2_webgl"
+                      ? "bg-[#ffffff] text-[#000000] border-[#ffffff] font-bold"
+                      : "bg-[#141416] text-[#a1a1aa] border-[#222224]"
+                  }`}
+                >
+                  {activeTier === "tier2_webgl" ? "ACTIVE" : "READY"}
+                </span>
               </label>
-              <label className="flex items-center gap-3 min-h-[44px] px-2 rounded-[4px] text-[#ffffff] cursor-pointer hover:bg-[#141416] transition-colors">
-                <input
-                  type="radio"
-                  name="tier"
-                  value="tier3_canvas2d"
-                  checked={activeTier === "tier3_canvas2d"}
-                  onChange={() => onTierChange("tier3_canvas2d")}
-                  className="w-4 h-4 accent-[#ffffff]"
-                />
-                <span>Tier 3: Canvas 2D CPU Rasterizer</span>
+
+              {/* Tier 3: Canvas2D CPU Fallback */}
+              <label
+                className={`flex items-start justify-between gap-3 min-h-[48px] p-2.5 rounded-[4px] cursor-pointer border transition-all ${
+                  activeTier === "tier3_canvas2d"
+                    ? "bg-[#141416] border-[#ffffff]/40 text-[#ffffff] shadow-[0_0_8px_rgba(255,255,255,0.06)]"
+                    : "bg-[#0a0a0c] border-[#222224] text-[#a1a1aa] hover:text-[#ffffff] hover:border-[#333336]"
+                }`}
+              >
+                <div className="flex items-start gap-3">
+                  <input
+                    type="radio"
+                    name="tier"
+                    value="tier3_canvas2d"
+                    checked={activeTier === "tier3_canvas2d"}
+                    onChange={() => onTierChange("tier3_canvas2d")}
+                    className="w-4 h-4 mt-0.5 accent-[#ffffff]"
+                  />
+                  <div>
+                    <div className="font-semibold text-[#ffffff]">Tier 3: Canvas2D CPU Fallback</div>
+                    <div className="text-[10px] text-[#71717a] font-mono mt-0.5">
+                      Multi-threaded worker
+                    </div>
+                  </div>
+                </div>
+                <span
+                  className={`text-[9px] font-mono px-1.5 py-0.5 rounded-[2px] border self-start ${
+                    activeTier === "tier3_canvas2d"
+                      ? "bg-[#ffffff] text-[#000000] border-[#ffffff] font-bold"
+                      : "bg-[#141416] text-[#a1a1aa] border-[#222224]"
+                  }`}
+                >
+                  {activeTier === "tier3_canvas2d" ? "ACTIVE" : "READY"}
+                </span>
               </label>
             </div>
           </fieldset>

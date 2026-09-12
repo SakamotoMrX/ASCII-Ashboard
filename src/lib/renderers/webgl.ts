@@ -90,6 +90,7 @@ export class WebGL2Renderer {
   private dataTexture: WebGLTexture | null = null;
   private atlasTexture: WebGLTexture | null = null;
   private vao: WebGLVertexArrayObject | null = null;
+  public adapterName: string = "WebGL2 Shader Core";
 
   // Uniform locations
   private uGridResLoc: WebGLUniformLocation | null = null;
@@ -114,6 +115,19 @@ export class WebGL2Renderer {
 
   private initGL() {
     const gl = this.gl;
+
+    try {
+      const ext = gl.getExtension("WEBGL_debug_renderer_info");
+      if (ext) {
+        const unmaskedRenderer = gl.getParameter(ext.UNMASKED_RENDERER_WEBGL);
+        const unmaskedVendor = gl.getParameter(ext.UNMASKED_VENDOR_WEBGL);
+        if (unmaskedRenderer) {
+          this.adapterName = `${unmaskedVendor || "GPU"} - ${unmaskedRenderer}`;
+        }
+      }
+    } catch {
+      // Ignored
+    }
 
     const vs = gl.createShader(gl.VERTEX_SHADER)!;
     gl.shaderSource(vs, VS_SOURCE);

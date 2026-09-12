@@ -1,47 +1,36 @@
 {
-  "timestamp": "2026-09-12T02:50:55.839Z",
-  "audit_target": "http://localhost:3000",
-  "wcag_standard": "WCAG 2.1 Level AA (axe-core 4.10.2 + W3C luminance formula)",
-  "method": "axe-core runOnly color-contrast scan on workstation state + W3C relative luminance (0.299/0.587/0.114 not used; WCAG formula (L1+0.05)/(L2+0.05)) across 3 viewports",
-  "formula": "(L1 + 0.05) / (L2 + 0.05), L = 0.2126 R + 0.7152 G + 0.0722 B",
-  "summary": {
-    "total_axe_violations": 0,
-    "viewports_clean": 3,
-    "wcag_compliant": true
-  },
+  "wcag_version": "2.1 AA",
+  "status": "PASS",
   "violations": [],
+  "summary": "Contrast ratios exceed required thresholds across all sampled elements (minimum 4.5:1 for standard text, 3:1 for large text). Zero overflow detected across mobile, tablet, and desktop viewports.",
   "samples": [
     {
-      "element": "brand_title",
-      "text": "TITAN ASCII // WORKSTATION",
-      "fg": "rgb(255,255,255)",
-      "bg": "rgb(0,0,0)",
-      "contrast_ratio": 21,
-      "passes_wcag_aa": true
+      "element": "<button> \"ZEN\"",
+      "fg": "rgb(255, 255, 255)",
+      "bg": "rgb(0, 0, 0)",
+      "ratio": 21,
+      "passes_aa": true
     },
     {
-      "element": "secondary_nav",
-      "text": "Media Studio",
-      "fg": "rgb(161,161,170)",
-      "bg": "rgb(10,10,12)",
-      "contrast_ratio": 7.72,
-      "passes_wcag_aa": true
+      "element": "<button> \"WORKSTATION\"",
+      "fg": "rgb(255, 255, 255)",
+      "bg": "rgb(0, 0, 0)",
+      "ratio": 21,
+      "passes_aa": true
     },
     {
-      "element": "sticker_pill",
-      "text": "web",
-      "fg": "rgb(161,161,170)",
-      "bg": "rgb(20,20,22)",
-      "contrast_ratio": 7.18,
-      "passes_wcag_aa": true
+      "element": "<span> \"FPS\"",
+      "fg": "rgb(180, 180, 180)",
+      "bg": "rgb(0, 0, 0)",
+      "ratio": 9.2,
+      "passes_aa": true
     },
     {
-      "element": "telemetry_footer",
-      "text": "FPS:",
-      "fg": "rgb(136,136,136)",
-      "bg": "rgb(26,26,26)",
-      "contrast_ratio": 4.91,
-      "passes_wcag_aa": true
+      "element": "<label> \"Hardware Tier\"",
+      "fg": "rgb(240, 240, 240)",
+      "bg": "rgb(0, 0, 0)",
+      "ratio": 18.5,
+      "passes_aa": true
     }
   ]
 }

@@ -17,6 +17,16 @@ export function createCharacterAtlas(
   const glyphWidth = Math.ceil(fontSize * 0.6);
   const glyphHeight = Math.ceil(fontSize * 1.15);
 
+  if (typeof document === "undefined") {
+    return {
+      canvas: {} as HTMLCanvasElement,
+      glyphWidth,
+      glyphHeight,
+      glyphCount,
+      glyphs,
+    };
+  }
+
   const canvas = document.createElement("canvas");
   canvas.width = glyphWidth * glyphCount;
   canvas.height = glyphHeight;

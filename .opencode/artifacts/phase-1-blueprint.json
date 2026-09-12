@@ -1,118 +1,67 @@
 {
-  "mission_id": "ascii-art-monochrome-desktop-refactor",
-  "created_at": "2026-09-12T08:20:00.000Z",
+  "mission_id": "ascii-art-isolated-workspace-real-hardware-zen-mode",
+  "created_at": "2026-09-12T17:30:00.000Z",
   "risk_level": "MEDIUM",
   "risk_reasons": [
-    "Video stream lifecycle in desktop webview",
-    "Tauri drag-and-drop local file IPC vs web standard File"
+    "Isolated workspace lifecycle requires independent canvas state machines and background loop throttling to prevent memory leaks and audio bleed",
+    "Real hardware acceleration tier switching requires fallback handling for WebGPU device loss and WebGL context restoration without stalling UI thread",
+    "Zen mode collapses multiple DOM drawers and sidebars requiring strict keyboard trap management and clean transition states"
   ],
   "architecture_verdict": "SOUND",
   "proceed": true,
   "agent_lanes": {
-    "designer": "B/W monochrome UI, node graph visuals, technical stickers, entrance load animation",
-    "fixer": "Video element creation, requestVideoFrameCallback extraction, image/camera rendering pipeline, state hooks"
+    "designer": "Aesthetic top-right Zen mode lock/unlock translucent pill, workspace tab strip with active/paused badges, hardware tier real-time telemetry badge indicators, and smooth collapse transitions.",
+    "fixer": "WorkspaceSession state manager in App.tsx (1 workspace per video/image/stream), RenderEngineManager wiring into App rendering loop replacing canvas2d fillText facade with active WebGPU/WebGL2 shaders, real GPU probing via navigator.gpu & WebGL unmasked renderer, and keyboard shortcut handler (Escape, F11)."
   },
   "architecture": {
-    "system_overview": "Tauri v2 native cross-platform application (macOS, Windows, Android) delivering a high-performance, pure monochrome (#000000 / #0a0a0c / #141416 / #ffffff) ASCII rendering studio. Features a node constellation graph representing processing pipelines, technical status stickers, a single orchestrated entrance load animation, and an ultra-reliable video/image/camera extraction pipeline with zero AI-slop.",
-    "target_platforms": {
-      "macos": {
-        "webview": "WKWebView (WebKit) with Metal WebGPU/WebGL2 acceleration",
-        "packaging": "macOS Universal .app / .dmg bundle",
-        "video_codec_support": ["video/mp4; codecs=avc1", "video/quicktime", "video/mp4; codecs=hvc1"],
-        "entitlements": "NSCameraUsageDescription & NSMicrophoneUsageDescription in Info.plist"
-      },
-      "windows": {
-        "webview": "Microsoft Edge WebView2 (Chromium Evergreen) with Direct3D 12",
-        "packaging": "NSIS .exe installer & MSI bundle",
-        "video_codec_support": ["video/mp4", "video/webm; codecs=vp9", "video/webm; codecs=vp8"],
-        "permissions": "CoreWebView2PermissionRequested automated handler"
-      },
-      "android": {
-        "webview": "Android System WebView (Chromium) with Vulkan/OpenGLES",
-        "packaging": "Android APK & AAB package via Tauri CLI",
-        "video_codec_support": ["video/mp4", "video/webm"],
-        "permissions": "android.permission.CAMERA in AndroidManifest.xml"
-      }
-    },
-    "visual_identity": {
-      "design_philosophy": "Luxury deep monochrome dark-mode UI inspired by professional node graph architectures (Cortex, Quant, Aelf, Meeton). Pure #000000 true black background, deep graphite surfaces (#0a0a0c, #141416), crisp 1px borders (#222224), pure white active highlights (#ffffff), zinc secondary typography (#a1a1aa), and monospaced telemetry chips. Zero colorful gradients, zero neon glows, zero AI-slop badges.",
-      "monochrome_tokens": {
-        "bg_root": "#000000",
-        "surface_card": "#0a0a0c",
-        "surface_elevated": "#141416",
-        "surface_hover": "#1c1c1e",
-        "border_subtle": "#222224",
-        "border_focus": "#ffffff",
-        "border_highlight": "rgba(255, 255, 255, 0.15)",
-        "text_primary": "#ffffff",
-        "text_secondary": "#a1a1aa",
-        "text_muted": "#71717a",
-        "graph_node_bg": "#0a0a0c",
-        "graph_node_border": "#27272a",
-        "graph_edge": "rgba(255, 255, 255, 0.12)",
-        "graph_edge_active": "rgba(255, 255, 255, 0.45)",
-        "sticker_bg": "#18181b",
-        "sticker_border": "#27272a",
-        "sticker_text": "#fafafa",
-        "status_recording": "#ef4444"
-      },
-      "typography": {
-        "ui_font": "Inter, -apple-system, BlinkMacSystemFont, sans-serif",
-        "mono_font": "JetBrains Mono, ui-monospace, monospace",
-        "line_length_max": "80ch"
-      }
-    },
-    "node_graph_model": {
-      "purpose": "Visual constellation graph showing real-time data flow from source media down to final ASCII canvas rendering.",
-      "node_definitions": [
-        { "id": "node-source", "label": "MEDIA SOURCE", "type": "source", "role": "Input file / Camera stream / Procedural seed" },
-        { "id": "node-decoder", "label": "FRAME DECODER", "type": "decoder", "role": "rVFC / Canvas drawImage extraction" },
-        { "id": "node-preflight", "label": "PREFLIGHT CLAMP", "type": "preflight", "role": "Downsample buffer & aspect-ratio normalization" },
-        { "id": "node-lut", "label": "LUMINANCE LUT", "type": "lut_filter", "role": "Contrast / Brightness / Gamma / Dither curve" },
-        { "id": "node-kernel", "label": "ASCII KERNEL", "type": "ascii_kernel", "role": "Brightness-to-glyph ramp quantization" },
-        { "id": "node-viewport", "label": "CANVAS VIEWPORT", "type": "display_output", "role": "Monochrome bitmap character grid display" },
-        { "id": "node-telemetry", "label": "TELEMETRY BUS", "type": "telemetry", "role": "Real-time FPS, delta, latency monitoring" }
+    "system_overview": "Tauri v2 native cross-platform application delivering high-performance, dark minimalist ASCII rendering. Architected around three core pillars: (1) Discrete Isolated Workspaces eliminating cross-media collisions, (2) Authentic hardware acceleration tier detection and active execution via WebGPU compute/WebGL2 fragment shaders (zero facade/fillText fallback), and (3) Distraction-free Zen lockscreen mode with translucent top-right unlock trigger.",
+    "isolated_workspaces": {
+      "model": "WorkspaceSession (id, title, type: video | image | camera | procedural_3d, state: idle | loading | playing | paused | rendered | error, mediaSource, renderResult, options, proceduralParams)",
+      "isolation_guarantees": [
+        "Zero shared canvas buffer collisions: Each active workspace session possesses distinct media source references, aspect ratio bounds, and render result caches.",
+        "Automatic background throttling: Inactive workspaces have their video/camera loops paused and requestAnimationFrame unhooked, preserving CPU/GPU cycles.",
+        "Deterministic teardown: Switching workspaces cleanly stops audio tracks, releases Blob URLs, and disposes GPU textures associated with the previous session."
       ],
-      "edges": [
-        { "from": "node-source", "to": "node-decoder", "signal": "raw_media_stream" },
-        { "from": "node-decoder", "to": "node-preflight", "signal": "video_frame_imagedata" },
-        { "from": "node-preflight", "to": "node-lut", "signal": "clamped_pixel_buffer" },
-        { "from": "node-lut", "to": "node-kernel", "signal": "quantized_luminance" },
-        { "from": "node-kernel", "to": "node-viewport", "signal": "ascii_char_matrix" },
-        { "from": "node-kernel", "to": "node-telemetry", "signal": "render_latency_metrics" }
-      ]
+      "storage_and_state": "Managed via App.tsx state with activeWorkspaceId pointer, supporting multiple concurrent tabs with instantaneous switching."
     },
-    "technical_stickers": {
-      "purpose": "Information-dense, minimalist status badges providing instant telemetry and engine status.",
-      "items": [
-        { "category": "status", "label": "STATUS", "default_value": "OPERATIONAL", "variant": "monochrome_pill" },
-        { "category": "tier", "label": "TIER", "default_value": "CANVAS2D_CPU", "variant": "monochrome_pill" },
-        { "category": "fps", "label": "FPS", "default_value": "60.0", "variant": "dot_indicator" },
-        { "category": "resolution", "label": "GRID", "default_value": "120x60", "variant": "wire_badge" },
-        { "category": "codec", "label": "CODEC", "default_value": "H.264 / RAW", "variant": "wire_badge" },
-        { "category": "security", "label": "SANDBOX", "default_value": "SEALED", "variant": "inverted_chip" }
-      ]
+    "hardware_acceleration_runtime": {
+      "detection_protocol": {
+        "webgpu_probe": "Requests navigator.gpu.requestAdapter({ powerPreference: 'high-performance' }). Queries adapter.info (vendor, architecture, device, description). Requests GPUDevice to verify compute shader capability.",
+        "webgl2_probe": "Creates offscreen canvas, requests webgl2 context. Queries WEBGL_debug_renderer_info extension for UNMASKED_RENDERER_WEBGL to identify physical GPU string.",
+        "cpu_probe": "Verifies CanvasRenderingContext2D support for CPU baseline."
+      },
+      "active_execution_paths": {
+        "tier1_webgpu": "Executes WGSL compute shader via src/lib/renderers/webgpu.ts. Writes directly to WebGPU texture atlas.",
+        "tier2_webgl": "Executes GLSL fragment shader via src/lib/renderers/webgl.ts. Writes directly to WebGL2 texture buffer.",
+        "tier3_canvas2d": "Executes CPU pixel luminance quantization via src/lib/renderers/canvas2d.ts.",
+        "rust_sidecar": "Executes Tauri native Rust batch image processing command via src-tauri/src/commands.rs."
+      },
+      "zero_gimmick_guarantee": "App.tsx instantiates and delegates all rendering through RenderEngineManager (src/lib/renderers/manager.ts). The activeTier state directly switches the active renderer pipeline. No hardcoded fillText facade."
     },
-    "media_pipelines": {
-      "video_pipeline": {
-        "execution_flow": "1. User drops/picks video file -> 2. URL.createObjectURL creates blob URL -> 3. Offscreen HTMLVideoElement initialized with muted=true, playsInline=true -> 4. Video await loadeddata & play() -> 5. rVFC loop extracts frames into 2D canvas with willReadFrequently:true -> 6. Canvas getImageData extracts pixel buffer -> 7. Pixel buffer converted to monochrome ASCII characters -> 8. Rendered to AsciiCanvas viewport -> 9. Clean cancelVideoFrameCallback & URL.revokeObjectURL on tab change or stop.",
-        "fallback_mechanism": "If requestVideoFrameCallback is unsupported, automatically fall back to requestAnimationFrame loop bound to video.paused / video.ended state with 500ms heartbeat."
-      },
-      "image_pipeline": {
-        "execution_flow": "1. User selects image file -> 2. Preflight downsamples max dimension to 2048px preserving aspect ratio -> 3. Offscreen canvas rasterizes image to exact targetColumns x targetRows -> 4. getImageData extracts RGBA buffer -> 5. Monochrome contrast/brightness/gamma LUT converts brightness to ASCII characters -> 6. Instant viewport rendering with char count telemetry."
-      },
-      "camera_pipeline": {
-        "execution_flow": "1. User requests camera -> 2. MediaEngineService.startCamera() calls navigator.mediaDevices.getUserMedia -> 3. Video track streams to hidden preview element -> 4. Frame extraction loop feeds ASCII engine at target FPS -> 5. One-click snapshot draws current frame to canvas and generates PNG snapshot."
-      }
+    "zen_lockscreen_mode": {
+      "ui_specification": "Top-right floating translucent pill button ('bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 text-white rounded-full p-2.5 transition-all duration-200 z-50'). Displays Lock icon in normal view, Unlock icon in Zen view.",
+      "collapse_targets": [
+        "Header / Navigation tabs",
+        "Left ControlPanel drawer",
+        "Right Telemetry drawer",
+        "Constellation NodeGraph panel",
+        "Technical Stickers bar"
+      ],
+      "keyboard_shortcuts": [
+        "Escape",
+        "F11",
+        "KeyZ"
+      ],
+      "viewport_behavior": "AsciiViewport expands to 100vw x 100vh full bleed container. Preserves monospace character aspect ratio and zoom pan capabilities."
+    },
+    "contract_path": ".antigravity/artifacts/phase-1-contracts.ts",
+    "motion_lifecycle": {
+      "entry": "BootLoadingScreen orchestrated sequence (1200ms duration, cubic-bezier(0.16, 1, 0.3, 1))",
+      "exit": "Zen mode panel collapse transition (200ms duration, ease-in-out)",
+      "unmount_cleanup": "Cancel all rAF/rVFC handles, pause HTMLVideoElement, revoke Blob URLs, stop MediaStream tracks, DOM nodes unmounted cleanly",
+      "orchestrated_moment": "Single orchestrated load screen boot pulse at application startup; all subsequent tab transitions are snappy and static.",
+      "static_transitions_default": true
     }
-  },
-  "contract_path": ".opencode/artifacts/phase-1-contracts.ts",
-  "motion_lifecycle": {
-    "entry": "Single orchestrated matrix cascade reveal on load (duration 1.4s, cubic-bezier(0.16, 1, 0.3, 1))",
-    "exit": "opacity: 0, duration: 180ms, ease: easeOut",
-    "unmount_cleanup": "Video element paused and src revoked, cancelVideoFrameCallback and RAF canceled, camera tracks stopped, canvas contexts scrubbed",
-    "orchestrated_moment": "app_initial_load_matrix_cascade",
-    "static_transitions_default": true
   },
   "page_copy": {
     "brand": {
@@ -207,6 +156,20 @@
       "acl_verified": "Tauri Sandbox capabilities verified. Filesystem isolation active.",
       "media_loaded": "Media successfully initialized in ASCII pipeline."
     },
+    "zen_mode": {
+      "btn_enter_zen": "Enter Zen Mode",
+      "btn_exit_zen": "Exit Zen Mode",
+      "tooltip_zen": "Toggle distraction-free Zen canvas lock",
+      "status_zen_active": "Zen Mode Active - Press Escape or click unlock pill to restore"
+    },
+    "workspaces": {
+      "tab_new_workspace": "New Workspace",
+      "btn_close_workspace": "Close Workspace",
+      "empty_workspace_title": "Workspace Empty",
+      "empty_workspace_desc": "Select media source or scene for this isolated workspace.",
+      "badge_active": "Active Session",
+      "badge_paused": "Paused Background"
+    },
     "node_graph": {
       "panel_title": "Processing Pipeline Graph",
       "source_node": "Input Decoder",
@@ -230,6 +193,60 @@
   },
   "breaking_scenarios": [
     {
+      "id": "STRESS-WS1",
+      "name": "Concurrent Media Stream Collision & Resource Bleed",
+      "vector": "User loads an active 60 FPS video into Workspace 1, switches to Workspace 2 to run a 3D procedural donut, then rapidly inserts an image into Workspace 3",
+      "stress_parameters": {
+        "concurrent_workspaces": 3,
+        "switch_interval_ms": 50,
+        "media_types": [
+          "video",
+          "procedural_3d",
+          "image"
+        ]
+      },
+      "vulnerability_surface": "Canvas context clobbering, audio track leaking in background, procedural render loop racing against video frame callbacks on shared canvas ref",
+      "expected_defense": "Each workspace operates its own dedicated WorkspaceSession state. The inactive workspace video element is paused and unhooked from rVFC; procedural animation loop unbinds upon switching out; active workspace canvas receives exclusive paint access with zero artifact bleed",
+      "failure_threshold_ms": 100,
+      "recovery_action": "Isolate render targets by workspace ID; pause inactive streaming handles synchronously during workspace transition"
+    },
+    {
+      "id": "STRESS-HW1",
+      "name": "WebGPU GPUDevice Lost or Context Interruption During Active Render",
+      "vector": "User forces hardware tier to WebGPU; GPU encounters device lost (e.g. system sleep, driver reset, or memory threshold violation)",
+      "stress_parameters": {
+        "simulated_event": "device.lost",
+        "requested_tier": "tier1_webgpu",
+        "buffer_size_bytes": 16777216
+      },
+      "vulnerability_surface": "Uncaught promise rejection in command encoder submission; blank canvas frozen in unrecoverable error state",
+      "expected_defense": "RenderEngineManager listens to GPUDevice.lost promise. Automatically steps down active tier from tier1_webgpu to tier2_webgl (or tier3_canvas2d); notifies user via HardwareTelemetry banner; re-renders active frame seamlessly without dropping session state",
+      "failure_threshold_ms": 200,
+      "recovery_action": "Execute automatic graceful cascade fallback in RenderEngineManager; update active tier sticker to reflect true operating backend"
+    },
+    {
+      "id": "STRESS-ZEN1",
+      "name": "Zen Mode Viewport Snap, Window Resize & Keyboard Trapping",
+      "vector": "User activates Zen lockscreen mode, then hammers Escape key, F11, and resizes OS desktop window rapidly between 640x480 and 4K resolution",
+      "stress_parameters": {
+        "resize_events_count": 50,
+        "rapid_key_presses": [
+          "Escape",
+          "F11",
+          "Escape",
+          "F11"
+        ],
+        "viewport_bounds": {
+          "min_w": 640,
+          "max_w": 3840
+        }
+      },
+      "vulnerability_surface": "UI lockup if Escape key handler is blocked; layout overflowing screen bounds or hiding unlock button offscreen; z-index fighting between modal drawers",
+      "expected_defense": "Zen mode toggle is bound to root-level global keydown listener with highest priority. Unlock pill maintains fixed top-right coordinate (z-index 50) with safe area insets. AsciiCanvas recalculates monospace character bounds with debounced resize handler",
+      "failure_threshold_ms": 50,
+      "recovery_action": "Guarantee unlock trigger is always visible and accessible; clean toggle back to normal view on any Escape or F11 event"
+    },
+    {
       "id": "STRESS-1",
       "name": "Unsupported Video Codec or Corrupted Container",
       "vector": "User drops an MKV with unsupported AV1/HEVC codec or 0-byte corrupt file into dropzone",
@@ -249,54 +266,26 @@
       "vector": "User selects high-bitrate video, clicks play, and immediately rapid-clicks between 'video', 'camera_stream', and 'procedural_3d' tabs at 10Hz",
       "stress_parameters": {
         "switch_frequency_hz": 10,
-        "tab_sequence": ["video", "camera_stream", "procedural_3d", "image", "video"],
+        "tab_sequence": [
+          "video",
+          "camera_stream",
+          "procedural_3d",
+          "image",
+          "video"
+        ],
         "active_stream_count": 3
       },
       "vulnerability_surface": "Orphaned requestVideoFrameCallback handles writing to detached canvas context; memory leak of unmounted HTMLVideoElements; audio playback continuing in background",
       "expected_defense": "Active stream controller cancelVideoFrameCallback() and video.pause() executed synchronously in useEffect cleanup; offscreen canvas context released; video.src revoked; only single active loop executes",
       "failure_threshold_ms": 100,
       "recovery_action": "Enforce strict cancellation token on all frame callbacks; destroy prior pipeline before mounting new active tab"
-    },
-    {
-      "id": "STRESS-3",
-      "name": "Large 4K/8K Image Buffer Causing Canvas Allocation OOM",
-      "vector": "User uploads 8192x8192 high-resolution uncompressed camera RAW/PNG",
-      "stress_parameters": {
-        "width_px": 8192,
-        "height_px": 8192,
-        "raw_buffer_bytes": 268435456
-      },
-      "vulnerability_surface": "Calling getImageData on an 8K canvas creates a 268MB TypedArray, freezing the main UI thread or crashing the webview process",
-      "expected_defense": "Image preflight downsamples input image directly using an offscreen downsampling canvas with maxDimensionPx=2048 before rasterizing to grid dimensions (max 400x300 = 120,000 cells max); UI thread never touches >2048px buffers",
-      "failure_threshold_ms": 300,
-      "recovery_action": "Clamp image dimensions during initial drawImage call; cap maximum output columns to 400 and rows to 300"
-    },
-    {
-      "id": "STRESS-4",
-      "name": "Operating System Camera Permission Denial or Device In-Use Conflict",
-      "vector": "User switches to Live Camera tab while macOS / Windows privacy setting has camera access disabled, or another app holds exclusive lock",
-      "stress_parameters": {
-        "permission_state": "denied",
-        "error_name": "NotAllowedError"
-      },
-      "vulnerability_surface": "navigator.mediaDevices.getUserMedia rejects; unhandled rejection leaves camera state in infinite 'requesting_permission' spinner",
-      "expected_defense": "MediaEngineService catches NotAllowedError / TrackStartError; updates MediaPickerError state with PERMISSION_DENIED; renders inline permission recovery dialog with 'Open System Settings' and 'Retry' buttons; gracefully restores idle state",
-      "failure_threshold_ms": 400,
-      "recovery_action": "Present permission recovery UI; provide clear guidance for macOS System Settings / Windows Privacy settings"
-    },
-    {
-      "id": "STRESS-5",
-      "name": "Desktop Window Snap / Rapid Resize During Continuous 60 FPS Render",
-      "vector": "User maximizes or snaps Tauri desktop window between 800x600 and 3840x2160 during continuous video ASCII playback",
-      "stress_parameters": {
-        "start_width": 800,
-        "end_width": 3840,
-        "resize_events_per_sec": 60
-      },
-      "vulnerability_surface": "Canvas dimensions reallocated 60 times per second causing canvas buffer thrashing, flickering, and dropped frame bursts",
-      "expected_defense": "StreamPipeline debounces resize listener with 16ms clamp; canvas maintains fixed ASCII character aspect ratio; rendering continues uninterrupted without memory reallocation thrash",
-      "failure_threshold_ms": 16,
-      "recovery_action": "Debounce resize updates to render frame boundary; reuse existing canvas bitmap backing store"
     }
-  ]
+  ],
+  "motion_lifecycle": {
+    "primary_moment": "1.2s hardware handshake boot sequence with clean unmount",
+    "secondary_transitions": "Instant 0ms-50ms mechanical snaps; smooth 200ms ease-out for top-right zen lockscreen collapse",
+    "motion_moments_cap": 1,
+    "unmount_cleanup_verified": true
+  },
+  "contract_path": ".opencode/artifacts/phase-1-contracts.ts"
 }

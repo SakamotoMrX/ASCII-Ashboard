@@ -25,15 +25,15 @@
     "line_length_target": 72
   },
   "layout": {
-    "concept": "High-density technical workstation with central constellation node canvas, top telemetry pill bar, left-aligned minimal parameter controls, and collapsible status sticker strip.",
-    "ascii_wireframe": "+-------------------------------------------------------------------------+\n| [TITAN ASCII v2.0]  [• SOURCE] [• KERNEL] [• VIEWPORT]    [SYS: ONLINE] |\n+-------------------------------------------------------------------------+\n| PARAMETERS          | CONSTELLATION GRAPH CANVAS        | TELEMETRY     |\n| - Media Select      |       (o) Source Node             | FPS: 60.0     |\n| - Kernel: BRAILLE   |        |                          | LATENCY: 2ms  |\n| - Width: 120 cols   |       [=] Quantizer               | CHARS: 8,400  |\n| - Contrast: 1.2x    |        |                          | DROPPED: 0    |\n| - Invert: OFF       |       (o) ASCII Viewport Node     |               |\n|                     +-----------------------------------+ STICKERS:     |\n| [LOAD MEDIA]        | [ > PLAY ] [ [ ] STOP ] [ SNAP ]  | [NEURAL_LOCK] |\n+---------------------------------------------------------+ [BIT_DENSE]   |\n| STATUS: PIPELINE READY | HARDWARE: WebGPU TIER-1        | [ZERO_SLOP]   |\n+-------------------------------------------------------------------------+",
+    "concept": "Multi-workspace technical workstation with discrete per-workspace isolation (Workspace 1: Video, Workspace 2: Image, etc.), top telemetry and real hardware acceleration tier indicator bar, left-aligned minimal parameter controls, and an aesthetic top-right floating translucent Zen lockscreen button [ ⛶ ZEN ] / [ 🔒 LOCK ] to collapse all chrome into full-screen distraction-free viewing.",
+    "ascii_wireframe": "+-----------------------------------------------------------------------------------------+\n| [TITAN ASCII v2.0]  [+ TAB 1: VIDEO ⏺]  [TAB 2: IMAGE]  [+ NEW]         [TIER-1: WebGPU] [🔒 ZEN] |\n+-----------------------------------------------------------------------------------------+\n| WORKSPACE PARAMETERS | ISOLATED RENDER VIEWPORT                           | TELEMETRY         |\n| - Active: TAB 1      |                                                    | FPS: 60.0         |\n| - Media: video.mp4   |          .---.                                     | LATENCY: 1.4ms    |\n| - Kernel: BRAILLE    |         /     \\   ASCII MATRIX STREAM              | WORKSPACES: 2 ACT |\n| - Width: 140 cols    |        | () () |  (Isolated buffer & rAF loop)      | GPU: Apple M-Max  |\n| - Dither: ATKINSON   |         \\  _  /                                    | MEM: 42MB         |\n|                      |          '---'                                     |                   |\n| [LOAD MEDIA]         +----------------------------------------------------+ STICKERS:         |\n| [PAUSE WORKSPACE]    | [ ⏸ PAUSE ] [ ⏹ STOP ] [ 📷 SNAP ] [ ⛶ FULLSCREEN ] | [HARDWARE_NATIVE] |\n+---------------------------------------------------------------------------+ [ISOLATED_SLOT]   |\n| STATUS: REAL ACCELERATION ACTIVE | TIER: WebGPU (WGSL Compute)            | [ZERO_GIMMICK]    |\n+-----------------------------------------------------------------------------------------+",
     "alignment": "left",
-    "alignment_rationale": "Left-aligned technical parameter hierarchy with strictly centered constellation render viewport to maintain visual stability during 60 FPS ASCII frame streaming."
+    "alignment_rationale": "Left-aligned workspace parameter drawers and top workspace tab selector with centered canvas viewport ensure rock-solid stability during real-time 60 FPS video and procedural stream switching without layout shift."
   },
-  "principles": "Stripped of all colorful AI gradients, glassmorphic blur traps, and cartoon emojis, this interface treats ASCII generation as an austere high-precision engineering instrument. Deep obsidian graphite surfaces (#000000, #0a0a0c) paired with surgical white typography and crisp 1px borders echo the user reference photo's constellation node aesthetics, elevating terminal mechanics to desktop luxury across macOS, Windows, and Android. Honoring user request for strict monochrome black-and-white minimalism with deliberate override of default SaaS palettes.",
+  "principles": "Stripped of all colorful AI gradients, gimmicky mockup cards, and pastel badges, this interface operates as an authentic high-precision engineering console. Compartmentalized per-workspace isolation gives every video, image, and camera session dedicated execution lifecycles without canvas collisions. Deep obsidian graphite surfaces (#000000, #0a0a0c) paired with real hardware-detected telemetry and a surgical top-right Zen lockscreen button honor the user brief for strict black-and-white minimalism and zero-gimmick authenticity.",
   "orchestrated_moment": {
     "trigger": "Application initial launch / boot sequence",
-    "justification": "Exactly ONE 1.2s monochrome hardware-handshake entrance animation reveals the constellation grid, verifies the WebGPU/Canvas2D pipeline, and draws the primary control perimeter before resting into a completely static, low-overhead workstation."
+    "justification": "Exactly ONE 1.2s monochrome hardware-handshake entrance animation probes navigator.gpu and GPU device capabilities, reveals the active workspace container, and draws the primary parameter perimeter. Subsequent workspace switches and top-right Zen lockscreen collapse (200ms ease-out) remain crisp, low-overhead, and static."
   },
   "token_overrides": {
     "border_radius": {
@@ -47,7 +47,7 @@
       "none": "none",
       "subtle": "0 1px 2px 0 rgba(0, 0, 0, 0.8)",
       "elevation": "0 4px 20px -2px rgba(0, 0, 0, 0.95)",
-      "node_glow": "0 0 12px rgba(255, 255, 255, 0.08)"
+      "zen_pill": "0 2px 10px rgba(0, 0, 0, 0.5)"
     },
     "spacing": {
       "xs": "4px",
@@ -66,16 +66,17 @@
       "primary": "0 0% 100%",
       "primary_foreground": "0 0% 0%",
       "muted": "240 3.7% 15.9%",
-      "muted_foreground": "240 5% 64.9%"
+      "muted_foreground": "240 5% 64.9%",
+      "accent": "0 0% 100%"
     }
   },
   "tells_checked": [
     "Checked cream/terracotta tell: rejected warm-clay and paper tints in favor of deliberate pure black #000000 base and #ffffff white highlights.",
     "Checked near-black/acid-green slop tell: user brief explicitly mandates monochrome B&W minimalism; deliberate override of color accents to pure monochrome #ffffff with subtle graphite elevation #0a0a0c.",
-    "Checked broadsheet layout tell: rejected hairline newspaper columns; structured as high-density technical workstation with constellation node canvas.",
-    "Checked SaaS card kit tell: eliminated uniform rounded cards and soft shadows; used sharp 2px-4px borders, constellation nodes, and technical telemetry stickers.",
+    "Checked broadsheet layout tell: rejected hairline newspaper columns; structured as high-density multi-workspace technical workstation with tabbed workspace isolation.",
+    "Checked SaaS card kit tell: eliminated uniform rounded cards and soft shadows; used sharp 2px-4px borders, isolated workspace views, real hardware tier telemetry badges, and an aesthetic top-right floating translucent Zen lock pill.",
     "Checked template chrome: removed tracked-out ALL-CAPS eyebrows, middot separators, and arrow CTA suffixes; used clean sentence-case and monospace readouts.",
-    "Checked AI-slop colorful gradients: completely purged rainbow badges and purple-to-blue neon glows in favor of deliberate monochrome luminance mapping.",
-    "Checked blanket transitions tell: restricted motion to exactly ONE startup reveal moment (1.2s monochrome boot sequence), all subsequent interaction states use instant mechanical snaps."
+    "Checked AI-slop colorful gradients: completely purged rainbow badges and purple-to-blue neon glows in favor of deliberate monochrome luminance mapping and authentic hardware status indicators.",
+    "Checked blanket transitions tell: restricted motion to exactly ONE startup reveal moment (1.2s monochrome boot sequence) and a 200ms ease-out Zen lockscreen collapse; all tab switches and parameter adjustments use instant mechanical updates."
   ]
 }

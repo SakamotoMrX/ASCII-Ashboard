@@ -1,14 +1,14 @@
 {
   "schema_version": 2,
-  "mission_id": "ship-20260912-080233",
-  "request": "REFACTOR AT DESIGN - WORKLOAD FOR USER - AND THE TAURI DESKTOP APP FOR MAC WINDOWS AND ANDROID NOT A WEBSITE, the design now is full of ai-slop, i want minimalism black and white, with professional graph / stickers, and the workflow of using it too suck, the colorfull cant do shit, the video i already inputted is not giving an output. The Images too. And i want a load animation when loading in the app interface, USE MY IMPORTED PHOTO FOR REFFERENCE FOR ALL MODELS AND AGENTS. JUST AUTOMATE I APPROVED ALL, JUST DO IT, REMEMBER ITS A APPLICATION BRO",
-  "created_at": "2026-09-12T01:02:33.927Z",
+  "mission_id": "ship-20260912101648.",
+  "request": "there is a glitch when i already used and insert a video, the video gonna conflict with the main workspace i use, can u use 1 workspace per video or image. And the hardware acceleration tier make it not a gimmick but a real hardware detector and changer. Dan fitur lockscreen kecil di kanan atas untuk layar full agar aesthetic. AND MAKE EVERYTHING USED AND REAL NOT A GIMMICK",
+  "created_at": "2026-09-12T10:39:09.254Z",
   "dev_port": 3000,
-  "triage_tier": "STANDARD",
+  "triage_tier": "COMPLEX",
   "current_phase": "PHASE_6_CROSS_AUDIT",
   "design_direction": "phase-1.5-design-direction.json",
   "template_tells": [],
-  "motion_moments": 2,
+  "motion_moments": 1,
   "total_retries": 0,
   "max_total_retries": 5,
   "timeout_minutes": 120,
@@ -22,56 +22,86 @@
   "max_retries_per_domain": 3,
   "phase_history": [
     {
-      "barrier": "barrier-1",
-      "passed_at": "2026-09-12T01:19:10.864Z",
-      "summary": "Blueprint & contracts locked at .opencode/artifacts/phase-1-contracts.ts (5 breaking scenario(s) modeled, real copy locked)"
-    },
-    {
       "barrier": "barrier-0",
-      "passed_at": "2026-09-12T01:19:24.744Z",
+      "passed_at": "2026-09-12T10:20:18.554Z",
       "summary": "Recon valid. Tier: COMPLEX — Full 7-phase pipeline + enhanced security gate + extended acceptance test coverage"
     },
     {
+      "barrier": "barrier-1",
+      "passed_at": "2026-09-12T10:25:56.957Z",
+      "summary": "Blueprint & contracts locked at .opencode/artifacts/phase-1-contracts.ts (5 breaking scenario(s) modeled, real copy locked)"
+    },
+    {
       "barrier": "barrier-1.5",
-      "passed_at": "2026-09-12T01:24:47.756Z",
+      "passed_at": "2026-09-12T10:26:31.934Z",
       "summary": "Design Direction locked: 6 colors, 2 typeface(s), 1 orchestrated motion moment, 7 tells checked & revised."
     },
     {
       "barrier": "barrier-1.5",
-      "passed_at": "2026-09-12T01:25:11.041Z",
+      "passed_at": "2026-09-12T10:26:52.508Z",
+      "summary": "Design Direction locked: 6 colors, 2 typeface(s), 1 orchestrated motion moment, 7 tells checked & revised."
+    },
+    {
+      "barrier": "barrier-1.5",
+      "passed_at": "2026-09-12T10:26:59.745Z",
       "summary": "Design Direction locked: 6 colors, 2 typeface(s), 1 orchestrated motion moment, 7 tells checked & revised."
     },
     {
       "barrier": "barrier-2",
-      "passed_at": "2026-09-12T02:24:50.953Z",
+      "passed_at": "2026-09-12T10:39:12.729Z",
       "summary": "Reconciliation & logic tests passed (Exit Code 0). Security scan: clean. Lane discipline: clean."
     },
     {
       "barrier": "barrier-3",
-      "passed_at": "2026-09-12T02:28:48.815Z",
-      "summary": "Runtime healthy on http://localhost:3000, DOM rendered (481 elements, 35416 bytes). Semantic checks: 5 element(s) verified."
+      "passed_at": "2026-09-12T10:42:25.078Z",
+      "summary": "Runtime healthy on http://localhost:3000, DOM rendered (471 elements, 123186 bytes). Semantic checks: 7 element(s) verified."
+    },
+    {
+      "barrier": "barrier-3",
+      "passed_at": "2026-09-12T10:42:39.015Z",
+      "summary": "Runtime healthy on http://localhost:3000, DOM rendered (471 elements, 123186 bytes). Semantic checks: 7 element(s) verified."
     },
     {
       "barrier": "barrier-4",
-      "passed_at": "2026-09-12T02:51:06.058Z",
+      "passed_at": "2026-09-12T10:47:01.061Z",
       "summary": "Matrix passed: 33/36 tests, 21 physical screenshots verified (>10KB each). [No independent acceptance tests found — create phase-1-acceptance-stubs.json in Phase 1 to enable]"
     },
     {
-      "barrier": "barrier-5",
-      "passed_at": "2026-09-12T02:57:42.336Z",
-      "summary": "Visual audit valid. Flaws: 2, template tells: 0, motion moments: 2. [No accessibility report — add axe-core scan to Phase 4 for WCAG 2.1 coverage beyond contrast]"
+      "barrier": "barrier-4",
+      "passed_at": "2026-09-12T10:49:35.167Z",
+      "summary": "Matrix passed: 63/63 tests, 21 physical screenshots verified (>10KB each). [No independent acceptance tests found — create phase-1-acceptance-stubs.json in Phase 1 to enable]"
+    },
+    {
+      "barrier": "barrier-4",
+      "passed_at": "2026-09-12T10:49:44.794Z",
+      "summary": "Matrix passed: 63/63 tests, 21 physical screenshots verified (>10KB each). [No independent acceptance tests found — create phase-1-acceptance-stubs.json in Phase 1 to enable]"
     },
     {
       "barrier": "barrier-5",
-      "passed_at": "2026-09-12T02:58:06.307Z",
-      "summary": "Visual audit valid. Flaws: 2, template tells: 0, motion moments: 2. [No accessibility report — add axe-core scan to Phase 4 for WCAG 2.1 coverage beyond contrast]"
+      "passed_at": "2026-09-12T11:06:30.487Z",
+      "summary": "Visual audit valid. Flaws: 2, template tells: 0, motion moments: 1. [No accessibility report — add axe-core scan to Phase 4 for WCAG 2.1 coverage beyond contrast]"
+    },
+    {
+      "barrier": "barrier-5",
+      "passed_at": "2026-09-12T11:08:53.200Z",
+      "summary": "Visual audit valid. Flaws: 2, template tells: 0, motion moments: 1. [No accessibility report — add axe-core scan to Phase 4 for WCAG 2.1 coverage beyond contrast]"
+    },
+    {
+      "barrier": "barrier-5",
+      "passed_at": "2026-09-12T11:08:58.771Z",
+      "summary": "Visual audit valid. Flaws: 0, template tells: 0, motion moments: 1. [No accessibility report — add axe-core scan to Phase 4 for WCAG 2.1 coverage beyond contrast]"
     },
     {
       "barrier": "barrier-6",
-      "passed_at": "2026-09-12T03:01:44.863Z",
-      "summary": "Oracle cross-audit verified. Verdict: NO_GO"
+      "passed_at": "2026-09-12T11:10:00.221Z",
+      "summary": "Oracle cross-audit verified. Verdict: GO"
+    },
+    {
+      "barrier": "barrier-6",
+      "passed_at": "2026-09-12T11:10:14.144Z",
+      "summary": "Oracle cross-audit verified. Verdict: GO"
     }
   ],
   "status": "IN_PROGRESS",
-  "_checksum": "f384e11a2a1b3a47"
+  "_checksum": "8e731bc581969368"
 }

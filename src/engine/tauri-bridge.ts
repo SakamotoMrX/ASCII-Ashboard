@@ -6,6 +6,7 @@ import {
 import { renderImageDataToAscii } from "./canvas-renderer";
 import { renderProcedural3D } from "./procedural-3d";
 import { getCharsetRamp } from "./charsets";
+import { globalTierManager } from "./tier-manager";
 
 export const isTauriEnvironment = (): boolean => {
   return typeof window !== "undefined" && ("__TAURI_INTERNALS__" in window || "__TAURI__" in window);
@@ -90,11 +91,16 @@ export async function getTelemetryFromHost(): Promise<{
   rust_engine_version: string;
   max_ipc_payload_bytes: number;
   native_threads_available: number;
+  gpu_adapter_name: string;
 }> {
   if (isTauriEnvironment()) {
     try {
       const { invoke } = await import("@tauri-apps/api/core");
-      return await invoke("get_platform_telemetry");
+      const res = await invoke<any>("get_platform_telemetry");
+      return {
+        ...res,
+        gpu_adapter_name: res.gpu_adapter_name || globalTierManager.getHardwareGpuDescription(),
+      };
     } catch {
       // Fallthrough
     }
@@ -106,5 +112,6 @@ export async function getTelemetryFromHost(): Promise<{
     rust_engine_version: "1.0.0 (WASM/Client)",
     max_ipc_payload_bytes: 32 * 1024 * 1024,
     native_threads_available: typeof navigator !== "undefined" ? navigator.hardwareConcurrency || 4 : 4,
+    gpu_adapter_name: globalTierManager.getHardwareGpuDescription(),
   };
 }

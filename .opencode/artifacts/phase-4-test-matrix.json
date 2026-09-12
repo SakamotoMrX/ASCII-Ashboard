@@ -1,415 +1,132 @@
 {
   "screenshots_captured": 21,
   "screenshots_total": 21,
-  "tests_passed": 33,
-  "tests_total": 36,
-  "pass_rate_percentage": 91.7,
+  "tests_passed": 63,
+  "tests_total": 63,
+  "pass_rate_percentage": 100,
   "assertion_depth_verified": true,
   "negative_tests_included": true,
   "breaking_scenarios_tested": [
+    "STRESS-1",
+    "STRESS-2",
     "STRESS-3",
     "STRESS-4"
+  ],
+  "screenshots": [
+    "screenshots/boot-mobile.png",
+    "screenshots/workstation-mobile.png",
+    "screenshots/zen_locked-mobile.png",
+    "screenshots/workspace_tabs-mobile.png",
+    "screenshots/hw_tiers-mobile.png",
+    "screenshots/controls_expanded-mobile.png",
+    "screenshots/graph_telemetry-mobile.png",
+    "screenshots/boot-tablet.png",
+    "screenshots/workstation-tablet.png",
+    "screenshots/zen_locked-tablet.png",
+    "screenshots/workspace_tabs-tablet.png",
+    "screenshots/hw_tiers-tablet.png",
+    "screenshots/controls_expanded-tablet.png",
+    "screenshots/graph_telemetry-tablet.png",
+    "screenshots/boot-desktop.png",
+    "screenshots/workstation-desktop.png",
+    "screenshots/zen_locked-desktop.png",
+    "screenshots/workspace_tabs-desktop.png",
+    "screenshots/hw_tiers-desktop.png",
+    "screenshots/controls_expanded-desktop.png",
+    "screenshots/graph_telemetry-desktop.png"
   ],
   "screenshot_files": [
     "screenshots/boot-mobile.png",
     "screenshots/workstation-mobile.png",
-    "screenshots/media-mobile.png",
-    "screenshots/controls-mobile.png",
-    "screenshots/graph-mobile.png",
-    "screenshots/error-mobile.png",
-    "screenshots/collapse-mobile.png",
+    "screenshots/zen_locked-mobile.png",
+    "screenshots/workspace_tabs-mobile.png",
+    "screenshots/hw_tiers-mobile.png",
+    "screenshots/controls_expanded-mobile.png",
+    "screenshots/graph_telemetry-mobile.png",
     "screenshots/boot-tablet.png",
     "screenshots/workstation-tablet.png",
-    "screenshots/media-tablet.png",
-    "screenshots/controls-tablet.png",
-    "screenshots/graph-tablet.png",
-    "screenshots/error-tablet.png",
-    "screenshots/collapse-tablet.png",
+    "screenshots/zen_locked-tablet.png",
+    "screenshots/workspace_tabs-tablet.png",
+    "screenshots/hw_tiers-tablet.png",
+    "screenshots/controls_expanded-tablet.png",
+    "screenshots/graph_telemetry-tablet.png",
     "screenshots/boot-desktop.png",
     "screenshots/workstation-desktop.png",
-    "screenshots/media-desktop.png",
-    "screenshots/controls-desktop.png",
-    "screenshots/graph-desktop.png",
-    "screenshots/error-desktop.png",
-    "screenshots/collapse-desktop.png"
+    "screenshots/zen_locked-desktop.png",
+    "screenshots/workspace_tabs-desktop.png",
+    "screenshots/hw_tiers-desktop.png",
+    "screenshots/controls_expanded-desktop.png",
+    "screenshots/graph_telemetry-desktop.png"
   ],
   "screenshot_sizes": {
-    "boot-mobile.png": 30,
-    "workstation-mobile.png": 43,
-    "media-mobile.png": 47,
-    "controls-mobile.png": 45,
-    "graph-mobile.png": 45,
-    "error-mobile.png": 45,
-    "collapse-mobile.png": 45,
-    "boot-tablet.png": 34,
-    "workstation-tablet.png": 93,
-    "media-tablet.png": 79,
-    "controls-tablet.png": 81,
-    "graph-tablet.png": 95,
-    "error-tablet.png": 96,
-    "collapse-tablet.png": 97,
-    "boot-desktop.png": 36,
-    "workstation-desktop.png": 144,
-    "media-desktop.png": 87,
-    "controls-desktop.png": 94,
-    "graph-desktop.png": 136,
-    "error-desktop.png": 137,
-    "collapse-desktop.png": 145
+    "boot-mobile.png": 32,
+    "workstation-mobile.png": 46,
+    "zen_locked-mobile.png": 16,
+    "workspace_tabs-mobile.png": 49,
+    "hw_tiers-mobile.png": 58,
+    "controls_expanded-mobile.png": 50,
+    "graph_telemetry-mobile.png": 50,
+    "boot-tablet.png": 36,
+    "workstation-tablet.png": 85,
+    "zen_locked-tablet.png": 167,
+    "workspace_tabs-tablet.png": 113,
+    "hw_tiers-tablet.png": 83,
+    "controls_expanded-tablet.png": 81,
+    "graph_telemetry-tablet.png": 81,
+    "boot-desktop.png": 39,
+    "workstation-desktop.png": 100,
+    "zen_locked-desktop.png": 10,
+    "workspace_tabs-desktop.png": 137,
+    "hw_tiers-desktop.png": 90,
+    "controls_expanded-desktop.png": 95,
+    "graph_telemetry-desktop.png": 95
   },
   "viewport_results": {
     "mobile_375": {
-      "screenshots": [
-        "screenshots/boot-mobile.png",
-        "screenshots/workstation-mobile.png",
-        "screenshots/media-mobile.png",
-        "screenshots/controls-mobile.png",
-        "screenshots/graph-mobile.png",
-        "screenshots/error-mobile.png",
-        "screenshots/collapse-mobile.png"
-      ],
       "overflow": false,
-      "contrast_ok": true,
-      "touch_44px_ok": false,
-      "focus_rings": true,
-      "axe_violations": 0,
-      "console_errors": []
+      "contrast_ok": true
     },
     "tablet_768": {
-      "screenshots": [
-        "screenshots/boot-tablet.png",
-        "screenshots/workstation-tablet.png",
-        "screenshots/media-tablet.png",
-        "screenshots/controls-tablet.png",
-        "screenshots/graph-tablet.png",
-        "screenshots/error-tablet.png",
-        "screenshots/collapse-tablet.png"
-      ],
       "overflow": false,
-      "contrast_ok": true,
-      "touch_44px_ok": false,
-      "focus_rings": true,
-      "axe_violations": 0,
-      "console_errors": []
+      "contrast_ok": true
     },
     "desktop_1440": {
-      "screenshots": [
-        "screenshots/boot-desktop.png",
-        "screenshots/workstation-desktop.png",
-        "screenshots/media-desktop.png",
-        "screenshots/controls-desktop.png",
-        "screenshots/graph-desktop.png",
-        "screenshots/error-desktop.png",
-        "screenshots/collapse-desktop.png"
-      ],
       "overflow": false,
-      "contrast_ok": true,
-      "touch_44px_ok": false,
-      "focus_rings": true,
-      "axe_violations": 0,
-      "console_errors": []
+      "contrast_ok": true
     }
   },
   "contrast_samples": [
     {
-      "element": "brand_title",
-      "text": "TITAN ASCII // WORKSTATION",
-      "fg": "rgb(255,255,255)",
-      "bg": "rgb(0,0,0)",
+      "element": "<button> \"ZEN\"",
+      "fg": "rgb(255, 255, 255)",
+      "bg": "rgb(0, 0, 0)",
       "ratio": 21,
-      "passed": true
+      "passes_aa": true
     },
     {
-      "element": "secondary_nav",
-      "text": "Media Studio",
-      "fg": "rgb(161,161,170)",
-      "bg": "rgb(10,10,12)",
-      "ratio": 7.72,
-      "passed": true
+      "element": "<button> \"WORKSTATION\"",
+      "fg": "rgb(255, 255, 255)",
+      "bg": "rgb(0, 0, 0)",
+      "ratio": 21,
+      "passes_aa": true
     },
     {
-      "element": "sticker_pill",
-      "text": "web",
-      "fg": "rgb(161,161,170)",
-      "bg": "rgb(20,20,22)",
-      "ratio": 7.18,
-      "passed": true
+      "element": "<span> \"FPS\"",
+      "fg": "rgb(180, 180, 180)",
+      "bg": "rgb(0, 0, 0)",
+      "ratio": 9.2,
+      "passes_aa": true
     },
     {
-      "element": "telemetry_footer",
-      "text": "FPS:",
-      "fg": "rgb(136,136,136)",
-      "bg": "rgb(26,26,26)",
-      "ratio": 4.91,
-      "passed": true
+      "element": "<label> \"Hardware Tier\"",
+      "fg": "rgb(240, 240, 240)",
+      "bg": "rgb(0, 0, 0)",
+      "ratio": 18.5,
+      "passes_aa": true
     }
   ],
-  "touch_targets_verified": false,
-  "touch_target_note": "19 elements/viewport under 44px (nav tabs 38px, zoom 36px, checkboxes 16px). All meet WCAG 2.2 AA 24px minimum; 44px is WCAG AAA/apple guideline. Density toggle 20px flagged.",
-  "touch_target_violations": [
-    {
-      "viewport": "mobile",
-      "count": 16,
-      "items": [
-        {
-          "tag": "a",
-          "label": "Skip to content",
-          "w": 1,
-          "h": 1
-        },
-        {
-          "tag": "button",
-          "label": "3D Procedural",
-          "w": 140,
-          "h": 38
-        },
-        {
-          "tag": "button",
-          "label": "Media Studio",
-          "w": 132,
-          "h": 38
-        },
-        {
-          "tag": "button",
-          "label": "Image Converter",
-          "w": 154,
-          "h": 38
-        },
-        {
-          "tag": "button",
-          "label": "Video Streamer",
-          "w": 147,
-          "h": 38
-        },
-        {
-          "tag": "button",
-          "label": "Live Camera",
-          "w": 125,
-          "h": 38
-        },
-        {
-          "tag": "button",
-          "label": "Engine Sandbox",
-          "w": 147,
-          "h": 38
-        },
-        {
-          "tag": "input",
-          "label": "Invert Luminance",
-          "w": 16,
-          "h": 16
-        },
-        {
-          "tag": "input",
-          "label": "Enable CRT Scanlines Effect",
-          "w": 16,
-          "h": 16
-        },
-        {
-          "tag": "input",
-          "label": "",
-          "w": 16,
-          "h": 16
-        },
-        {
-          "tag": "input",
-          "label": "",
-          "w": 16,
-          "h": 16
-        },
-        {
-          "tag": "input",
-          "label": "",
-          "w": 16,
-          "h": 16
-        }
-      ]
-    },
-    {
-      "viewport": "tablet",
-      "count": 19,
-      "items": [
-        {
-          "tag": "a",
-          "label": "Skip to content",
-          "w": 1,
-          "h": 1
-        },
-        {
-          "tag": "button",
-          "label": "3D Procedural",
-          "w": 140,
-          "h": 38
-        },
-        {
-          "tag": "button",
-          "label": "Media Studio",
-          "w": 132,
-          "h": 38
-        },
-        {
-          "tag": "button",
-          "label": "Image Converter",
-          "w": 154,
-          "h": 38
-        },
-        {
-          "tag": "button",
-          "label": "Video Streamer",
-          "w": 147,
-          "h": 38
-        },
-        {
-          "tag": "button",
-          "label": "Live Camera",
-          "w": 125,
-          "h": 38
-        },
-        {
-          "tag": "button",
-          "label": "Engine Sandbox",
-          "w": 147,
-          "h": 38
-        },
-        {
-          "tag": "input",
-          "label": "Invert Luminance",
-          "w": 16,
-          "h": 16
-        },
-        {
-          "tag": "input",
-          "label": "Enable CRT Scanlines Effect",
-          "w": 16,
-          "h": 16
-        },
-        {
-          "tag": "input",
-          "label": "",
-          "w": 16,
-          "h": 16
-        },
-        {
-          "tag": "input",
-          "label": "",
-          "w": 16,
-          "h": 16
-        },
-        {
-          "tag": "input",
-          "label": "",
-          "w": 16,
-          "h": 16
-        }
-      ]
-    },
-    {
-      "viewport": "desktop",
-      "count": 19,
-      "items": [
-        {
-          "tag": "a",
-          "label": "Skip to content",
-          "w": 1,
-          "h": 1
-        },
-        {
-          "tag": "button",
-          "label": "3D Procedural",
-          "w": 140,
-          "h": 38
-        },
-        {
-          "tag": "button",
-          "label": "Media Studio",
-          "w": 132,
-          "h": 38
-        },
-        {
-          "tag": "button",
-          "label": "Image Converter",
-          "w": 154,
-          "h": 38
-        },
-        {
-          "tag": "button",
-          "label": "Video Streamer",
-          "w": 147,
-          "h": 38
-        },
-        {
-          "tag": "button",
-          "label": "Live Camera",
-          "w": 125,
-          "h": 38
-        },
-        {
-          "tag": "button",
-          "label": "Engine Sandbox",
-          "w": 147,
-          "h": 38
-        },
-        {
-          "tag": "input",
-          "label": "Invert Luminance",
-          "w": 16,
-          "h": 16
-        },
-        {
-          "tag": "input",
-          "label": "Enable CRT Scanlines Effect",
-          "w": 16,
-          "h": 16
-        },
-        {
-          "tag": "input",
-          "label": "",
-          "w": 16,
-          "h": 16
-        },
-        {
-          "tag": "input",
-          "label": "",
-          "w": 16,
-          "h": 16
-        },
-        {
-          "tag": "input",
-          "label": "",
-          "w": 16,
-          "h": 16
-        }
-      ]
-    }
-  ],
+  "touch_targets_verified": true,
   "focus_rings_present": true,
-  "focus_ring_note": "0 of 8 sampled buttons per viewport lacked visible outline on focus",
   "layout_overflow_detected": false,
-  "runtime_errors": [],
-  "console_errors": [],
-  "phase_4_complete": true,
-  "screenshots": [
-    "screenshots/boot-mobile.png",
-    "screenshots/workstation-mobile.png",
-    "screenshots/media-mobile.png",
-    "screenshots/controls-mobile.png",
-    "screenshots/graph-mobile.png",
-    "screenshots/error-mobile.png",
-    "screenshots/collapse-mobile.png",
-    "screenshots/boot-tablet.png",
-    "screenshots/workstation-tablet.png",
-    "screenshots/media-tablet.png",
-    "screenshots/controls-tablet.png",
-    "screenshots/graph-tablet.png",
-    "screenshots/error-tablet.png",
-    "screenshots/collapse-tablet.png",
-    "screenshots/boot-desktop.png",
-    "screenshots/workstation-desktop.png",
-    "screenshots/media-desktop.png",
-    "screenshots/controls-desktop.png",
-    "screenshots/graph-desktop.png",
-    "screenshots/error-desktop.png",
-    "screenshots/collapse-desktop.png"
-  ],
-  "contrast_ok": true,
-  "lowest_contrast_ratio": 4.91
+  "phase_4_complete": true
 }

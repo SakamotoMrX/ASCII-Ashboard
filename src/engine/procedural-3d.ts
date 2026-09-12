@@ -4,6 +4,7 @@ import { brightnessToChar } from "./charsets";
 export interface Procedural3DResult {
   text: string;
   colorBuffer: Uint8Array;
+  luminanceBuffer: Float32Array;
 }
 
 export function renderProcedural3D(
@@ -17,6 +18,7 @@ export function renderProcedural3D(
     return {
       text: "",
       colorBuffer: new Uint8Array(0),
+      luminanceBuffer: new Float32Array(0),
     };
   }
 
@@ -57,6 +59,7 @@ function renderDonut(
   const output: string[][] = Array.from({ length: height }, () => Array(width).fill(" "));
   const zbuffer: number[][] = Array.from({ length: height }, () => Array(width).fill(0));
   const colorBuffer = new Uint8Array(width * height * 3);
+  const luminanceBuffer = new Float32Array(width * height);
 
   const scaleX = width * 0.375;
   const scaleY = height * (15 / 35);
@@ -98,10 +101,12 @@ function renderDonut(
           const brightness = normalY3 * 0.7 - normalZ2;
           if (brightness > 0 && inverseDepth > zbuffer[screenY][screenX]) {
             zbuffer[screenY][screenX] = inverseDepth;
+            const idx = screenY * width + screenX;
+            luminanceBuffer[idx] = Math.min(1.0, Math.max(0, brightness));
             output[screenY][screenX] = brightnessToChar(brightness * 255, ramp);
 
             // Dynamic RGB based on angle and lighting: golden orange/amber/cyan gradients
-            const cIdx = (screenY * width + screenX) * 3;
+            const cIdx = idx * 3;
             const t = (Math.sin(phi + angleZ * 2.0) + 1.0) * 0.5;
             const lightFactor = Math.min(1.0, Math.max(0.2, brightness * 1.3));
 
@@ -121,6 +126,7 @@ function renderDonut(
   return {
     text: output.map((row) => row.join("")).join("\n"),
     colorBuffer,
+    luminanceBuffer,
   };
 }
 
@@ -141,6 +147,7 @@ function renderSphere(
 
   const output: string[][] = Array.from({ length: height }, () => Array(width).fill(" "));
   const colorBuffer = new Uint8Array(width * height * 3);
+  const luminanceBuffer = new Float32Array(width * height);
 
   for (let py = 0; py < height; py++) {
     const y = (py - height / 2) / (height / 2) / 0.5;
@@ -157,6 +164,7 @@ function renderSphere(
       const brightness = Math.max(0, diff) * (1 - params.ambient_light) + params.ambient_light;
       const clampedBright = Math.min(1, Math.max(0, brightness));
 
+      luminanceBuffer[py * width + px] = clampedBright;
       output[py][px] = brightnessToChar(clampedBright * 255, ramp);
 
       // Diffuse surface color with light direction
@@ -177,6 +185,7 @@ function renderSphere(
   return {
     text: output.map((row) => row.join("")).join("\n"),
     colorBuffer,
+    luminanceBuffer,
   };
 }
 
@@ -258,6 +267,7 @@ function renderCube(
   const output: string[][] = Array.from({ length: height }, () => Array(width).fill(" "));
   const zbuffer: number[][] = Array.from({ length: height }, () => Array(width).fill(Infinity));
   const colorBuffer = new Uint8Array(width * height * 3);
+  const luminanceBuffer = new Float32Array(width * height);
 
   for (let faceIdx = 0; faceIdx < CUBE_FACES.length; faceIdx++) {
     const face = CUBE_FACES[faceIdx];
@@ -313,6 +323,7 @@ function renderCube(
             const depth = w[0] * t0[2] + w[1] * t1[2] + w[2] * t2[2];
             if (depth < zbuffer[py][px]) {
               zbuffer[py][px] = depth;
+              luminanceBuffer[py * width + px] = brightness;
               output[py][px] = ch;
 
               const cIdx = (py * width + px) * 3;
@@ -329,6 +340,7 @@ function renderCube(
   return {
     text: output.map((row) => row.join("")).join("\n"),
     colorBuffer,
+    luminanceBuffer,
   };
 }
 
@@ -366,6 +378,7 @@ function renderPlanet(
 
   const output: string[][] = Array.from({ length: height }, () => Array(width).fill(" "));
   const colorBuffer = new Uint8Array(width * height * 3);
+  const luminanceBuffer = new Float32Array(width * height);
 
   for (let py = 0; py < height; py++) {
     const screenY = ((py - height / 2) / (height / 2)) * 2.0;
@@ -388,6 +401,7 @@ function renderPlanet(
       if (edge > 0.82) brightness += (edge - 0.82) * 1.5;
 
       const clampedBright = Math.min(1, Math.max(0, brightness));
+      luminanceBuffer[py * width + px] = clampedBright;
       output[py][px] = brightnessToChar(clampedBright * 255, ramp);
 
       const cIdx = (py * width + px) * 3;
@@ -431,6 +445,7 @@ function renderPlanet(
   return {
     text: output.map((row) => row.join("")).join("\n"),
     colorBuffer,
+    luminanceBuffer,
   };
 }
 
@@ -467,6 +482,7 @@ function renderBlackHole(
   const BLACK_HOLE_RADIUS = 0.42;
   const DISK_INNER = 0.52;
   const DISK_OUTER = 1.55;
+  const luminanceBuffer = new Float32Array(width * height);
 
   for (let py = 0; py < height; py++) {
     const y = ((py - height / 2) / (height / 2)) * 2.0;
@@ -504,6 +520,7 @@ function renderBlackHole(
       intensity += ringIntensity;
 
       const clampedIntensity = Math.min(1, Math.max(0, intensity));
+      luminanceBuffer[py * width + px] = clampedIntensity;
       output[py][px] = brightnessToChar(clampedIntensity * 255, ramp);
 
       if (radius < BLACK_HOLE_RADIUS) {
@@ -550,6 +567,7 @@ function renderBlackHole(
   return {
     text: output.map((row) => row.join("")).join("\n"),
     colorBuffer,
+    luminanceBuffer,
   };
 }
 

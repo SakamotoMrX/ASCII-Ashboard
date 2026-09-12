@@ -1,295 +1,248 @@
 {
-  "mission_id": "ascii-art-refactor-design-workload",
-  "scanned_at": "2026-09-12T01:02:33.927Z",
-  "target_platform": "TAURI_CROSS_PLATFORM",
+  "mission_id": "ascii-art-workspace-conflict-fix",
+  "scanned_at": "2026-09-12T01:05:00.000Z",
+  "target_platform": "TAURI_DESKTOP",
   "triage_tier": "COMPLEX",
-  "triage_rationale": "This is a COMPLEX task requiring full architectural redesign across 21+ files. Three critical failure domains: (1) Video/image media pipeline completely broken — video tab has zero frame extraction loop, camera handlers never instantiate MediaEngineService, image pipeline works but video path is a dead stub; (2) Full monochrome black/white redesign required — current design has 6 colorful ColorMode variants (matrix_green, amber, cyberpunk_neon, truecolor, rgb_ansi) that must all be stripped to pure B/W minimalism with professional graph/sticker aesthetic; (3) Load animation missing — only has 180ms CSS fade-in, needs a proper loading animation. Changes span React components, engine files, Rust backend, CSS, contracts, and type definitions. Architectural pattern changes: state management needs restructuring, styling engine must be fully redesigned, media pipeline must be rebuilt from scratch for video streaming.",
-  "framework": "Tauri v2 + Vite + React 19 + Tailwind CSS v3.4 + Rust (image/rayon)",
+  "triage_rationale": "COMPLEX task requiring full architectural intervention across 21+ files. Three critical failure domains: (1) Workspace conflict bug — video/image insertion conflicts with main workspace because canvasRef, lastRenderResultRef, and videoEngineRef are shared across ALL render modes; paintAsciiToCanvas always uses Canvas 2D context regardless of tier selection; video engine and procedural render loop both write to the same canvasRef causing frame corruption; (2) Hardware acceleration tiers are gimmicks — paintAsciiToCanvas always calls canvas.getContext('2d') and fillText, ignoring activeTier state entirely; src/engine/webgpu-renderer.ts and src/engine/webgl-renderer.ts are stubs that always fall back to CPU; src/lib/renderers/webgpu.ts and src/lib/renderers/webgl.ts contain actual GPU implementations but are never imported by App.tsx; RenderEngineManager exists but is never instantiated; (3) Lockscreen/zen fullscreen mode is missing — Header.tsx has no lock button, tauri.conf.json has fullscreen:false, no Tauri fullscreen API integration exists. Changes span React components, engine files, Tauri bridge, CSS, contracts, and type definitions.",
+  "framework": "Tauri v2 + React 19 + Vite + TypeScript 5.8 + Tailwind CSS 3.4",
   "architectural_patterns": {
-    "state_management": "React built-in useState/useCallback/useRef in App.tsx (485 lines) with StreamPipeline class for frame debouncing; no global state library; Zustand not present",
-    "data_fetching": "No server actions or React Query; all rendering is client-side CPU/GPU via WebGPU/WebGL/Canvas2D tiers + Rust sidecar IPC for image conversion",
+    "state_management": "React built-in useState/useCallback/useRef in App.tsx (917 lines) with StreamPipeline, VideoStreamingEngine, and MediaEngineService classes; no global state library; Zustand not present; all shared refs (canvasRef, videoEngineRef, streamPipelineRef, lastRenderResultRef) live in App.tsx and are shared across ALL modes",
+    "data_fetching": "No server actions or React Query; all rendering is client-side CPU/GPU via WebGPU/WebGL/Canvas2D tiers + Rust sidecar IPC via Tauri; video pipeline uses VideoStreamingEngine with onFrame callback",
     "routing": "No router — tab-based navigation via URLSearchParams (?mode=procedural_3d|image|video|camera_stream|settings|media_picker) in App.tsx",
-    "styling_engine": "Tailwind CSS v3.4 + CSS custom properties in src/index.css; currently colorful (matrix_green #00ff88, amber #ffb700, cyberpunk_neon #ff3366) — MUST be redesigned to pure monochrome B/W with #000000/#FFFFFF/#121212/#FAFAFA palette",
+    "styling_engine": "Tailwind CSS 3.4.17 + CSS custom properties in src/index.css; already monochrome B/W (#000000/#FFFFFF/#121212/#FAFAFA/#0a0a0c/#141416); no redesign needed for this mission",
     "orm_database": "None (no database)",
-    "rendering_pipeline": "Dual-path: (A) Procedural 3D via StreamPipeline + renderProcedural3D with zbuffer; (B) Image/Video via canvas-renderer.ts + renderImageDataToAscii with contrast/brightness/gamma; (C) Rust sidecar via Tauri IPC for heavy batch image conversion",
-    "media_pipeline": "BROKEN — MediaEngineService exists with startCamera/stopCamera/startRecording/capturePhoto but is NEVER instantiated in App.tsx. handleStartCamera/handleStopCamera only set boolean state flags. handleSelectVideoFile only sets a warning string and switches tab — NO video element, NO requestAnimationFrame frame extraction loop, NO connection to ASCII renderer",
-    "animation": "CSS keyframes only (mediaStateReveal 180ms ease-out). No Framer Motion. No load animation exists.",
-    "design_tokens": "DARK_MINIMALIST_TOKENS in contracts.ts defines palette with primary #3B82F6 (blue — must be removed for B/W minimalism), background #121212, surface #1a1a1a, text-primary #FAFAFA"
+    "rendering_pipeline": "Triple-path: (A) Procedural 3D via StreamPipeline + renderProcedural3D with zbuffer; (B) Image/Video via paintAsciiToCanvas() which ALWAYS uses canvas.getContext('2d').fillText regardless of tier; (C) Rust sidecar via Tauri IPC for heavy batch image conversion; src/lib/renderers/ contains WebGPU/WebGL implementations with actual shaders but they are NEVER used by App.tsx",
+    "video_pipeline": "VideoStreamingEngine class with loadSource/play/pause/stop/seek methods; onFrame callback calls paintAsciiToCanvas(canvasRef.current, ...); NOT isolated from procedural 3D render loop — both compete for canvasRef",
+    "animation": "CSS keyframes only (mediaStateReveal 180ms). No Framer Motion. BootLoadingScreen has 1.2s orchestrated reveal. Exactly 1 motion moment currently.",
+    "design_tokens": "DARK_MINIMALIST_TOKENS in contracts.ts already has pure monochrome palette (#000000/#0a0a0c/#141416/#ffffff/#a1a1aa/#71717a/#222224); CSS variables in index.css already match; no redesign needed"
   },
   "entry_points": [
     "src/main.tsx",
     "src/App.tsx",
+    "src/engine/tier-manager.ts",
+    "src/engine/video-pipeline.ts",
+    "src/engine/tauri-bridge.ts",
+    "src/components/Header.tsx",
     "src/components/AsciiCanvas.tsx",
     "src/components/ControlPanel.tsx",
-    "src/components/MediaPicker.tsx",
-    "src/components/Header.tsx",
-    "src/components/TelemetryDrawer.tsx",
-    "src/engine/stream-pipeline.ts",
-    "src/engine/canvas-renderer.ts",
-    "src/engine/procedural-3d.ts",
-    "src/engine/media-service.ts",
-    "src/engine/tauri-bridge.ts",
-    "src/engine/tier-manager.ts",
-    "src/engine/image-preflight.ts",
-    "src/engine/charsets.ts",
+    "src/lib/renderers/manager.ts",
+    "src/lib/renderers/webgpu.ts",
+    "src/lib/renderers/webgl.ts",
     "src/engine/webgpu-renderer.ts",
     "src/engine/webgl-renderer.ts",
-    "src/types.ts",
+    "src/engine/canvas-renderer.ts",
+    "src/engine/procedural-3d.ts",
+    "src/engine/stream-pipeline.ts",
+    "src/engine/media-service.ts",
+    "src/engine/image-preflight.ts",
+    "src/engine/charsets.ts",
     "src/contracts.ts",
+    "src/types.ts",
     "src/index.css",
     "src-tauri/tauri.conf.json",
-    "src-tauri/Cargo.toml",
     "src-tauri/src/main.rs",
     "src-tauri/src/lib.rs",
     "src-tauri/src/commands.rs",
-    "src-tauri/src/ascii/image_converter.rs",
-    "src-tauri/src/ascii/procedural.rs",
-    "src-tauri/src/ascii/charsets.rs",
-    "src-tauri/src/ascii/dither.rs",
-    "src-tauri/src/ascii/security.rs",
-    "src-tauri/Capabilities/default.json",
-    "vite.config.ts",
-    "tailwind.config.js",
-    "package.json",
-    ".opencode/ship-manifest.json"
+    "package.json"
   ],
   "blast_radius": {
     "target_modules": [
-      "src/App.tsx",
-      "src/components/AsciiCanvas.tsx",
-      "src/components/ControlPanel.tsx",
-      "src/components/MediaPicker.tsx",
-      "src/components/Header.tsx",
-      "src/components/TelemetryDrawer.tsx",
-      "src/engine/canvas-renderer.ts",
-      "src/engine/stream-pipeline.ts",
-      "src/engine/procedural-3d.ts",
-      "src/engine/media-service.ts",
-      "src/engine/tauri-bridge.ts",
-      "src/engine/tier-manager.ts",
-      "src/engine/image-preflight.ts",
-      "src/engine/charsets.ts",
-      "src/engine/webgpu-renderer.ts",
-      "src/engine/webgl-renderer.ts",
-      "src/types.ts",
-      "src/contracts.ts",
-      "src/index.css",
-      "src-tauri/src/commands.rs",
-      "src-tauri/src/ascii/image_converter.rs",
-      "src-tauri/src/ascii/procedural.rs"
+      "src/App.tsx — Shared canvasRef, videoEngineRef, streamPipelineRef, lastRenderResultRef, activeTab, activeTier all cause workspace conflicts; paintAsciiToCanvas always uses 2D canvas regardless of tier",
+      "src/engine/tier-manager.ts — Detects WebGPU/WebGL2 but App.tsx ignores results for rendering; tier selection is cosmetic only",
+      "src/engine/video-pipeline.ts — VideoStreamingEngine onFrame callback writes to shared canvasRef; no workspace isolation",
+      "src/engine/webgpu-renderer.ts — Stub always falls back to renderImageDataToAscii (CPU); never actually uses WebGPU",
+      "src/engine/webgl-renderer.ts — Stub always falls back to renderImageDataToAscii (CPU); never actually uses WebGL2",
+      "src/lib/renderers/webgpu.ts — Contains actual WebGPU compute pipeline implementation with WGSL shaders; NEVER imported by App.tsx",
+      "src/lib/renderers/webgl.ts — Contains actual WebGL2 fragment shader implementation with GLSL shaders; NEVER imported by App.tsx",
+      "src/lib/renderers/manager.ts — RenderEngineManager with proper tier cascade; NEVER instantiated in App.tsx",
+      "src/components/Header.tsx — No lockscreen/zen fullscreen button; needs top-right lock/unlock UI element",
+      "src/components/AsciiCanvas.tsx — Renders to shared canvasRef; no workspace isolation between modes",
+      "src/components/ControlPanel.tsx — Tier selector only changes activeTier state; doesn't affect rendering path",
+      "src/engine/canvas-renderer.ts — paintAsciiToCanvas always uses canvas.getContext('2d') and fillText",
+      "src/engine/tauri-bridge.ts — Platform detection works but fullscreen API not integrated",
+      "src-tauri/tauri.conf.json — fullscreen: false; needs fullscreen capability configuration",
+      "src-tauri/src/commands.rs — IPC commands need fullscreen toggle support",
+      "src/contracts.ts — DARK_MINIMALIST_TOKENS and PAGE_COPY already monochrome; needs fullscreen/lockscreen copy additions",
+      "src/types.ts — PlatformType and RenderTier already defined; needs fullscreen state type",
+      "src/index.css — Already monochrome B/W; needs fullscreen/lockscreen styles"
     ],
     "dependent_consumers": [
-      "src/App.tsx — ALL media handlers (handleSelectVideoFile, handleSelectImage, handleStartCamera, handleStopCamera) are broken stubs; ALL render loops reference color_mode; load animation only has 180ms fade; procedural render loop uses StreamPipeline but no video frame extraction",
-      "src/components/ControlPanel.tsx — ALL color_mode options (matrix_green, amber, cyberpunk_neon, truecolor, rgb_ansi) must be removed for B/W minimalism; ALL tier selectors and scene selectors need redesign; ALL export/action buttons need redesign",
-      "src/components/AsciiCanvas.tsx — getColorClass() maps 6 colorful modes to ctx.fillStyle; ALL must become monochrome (#f3f4f6 on #121212); zoom controls need redesign; showRawText toggle needs redesign",
-      "src/components/MediaPicker.tsx — ALL UI states need B/W redesign; onApplyVideoElement and onApplyMediaStream are wired but App.tsx never calls them; handleFile only sets uploadedPreviewUrl but never triggers ASCII conversion for video",
-      "src/components/Header.tsx — ALL tab labels reference colorful modes; needs B/W redesign with professional graph/sticker aesthetic",
-      "src/engine/canvas-renderer.ts — renderImageDataToAscii() completely ignores color_mode parameter; must be redesigned to produce only monochrome output",
-      "src/engine/procedural-3d.ts — ALL 5 scene renderers use only brightnessToChar (monochrome) but the procedural render loop in App.tsx still applies color_mode via ctx.fillStyle; engine itself is already monochrome",
-      "src/engine/media-service.ts — MediaEngineService is NEVER instantiated in App.tsx; handleStartCamera/handleStopCamera only set boolean state without calling any media service methods",
-      "src/engine/tauri-bridge.ts — invokeRenderAscii falls back to client-side engine when Tauri IPC unavailable; needs video source type support added",
-      "src/engine/tier-manager.ts — TierManager detects WebGPU/WebGL2 but both webgpu-renderer.ts and webgl-renderer.ts are stubs that always fall back to CPU; needs cleanup or actual implementation",
-      "src/types.ts — ColorMode enum includes 6 colorful variants that must all be removed; RenderMode includes 'video' and 'camera_stream' that have broken pipelines; all types must be updated for B/W minimalism",
-      "src/contracts.ts — DARK_MINIMALIST_TOKENS palette includes primary #3B82F6 (blue) that must be removed; PAGE_COPY has all colorful references; must be updated for monochrome B/W",
-      "src/index.css — ALL color references to matrix_green, amber, cyberpunk_neon in color_mode switch statements must be removed; accent-primary #3B82F6 must be removed for B/W; animation must be extended for load animation",
-      "src-tauri/src/commands.rs — render_ascii_frame handles 4 source types but has NO video source type; needs video frame extraction support via base64_blob from video frames",
-      "src-tauri/src/ascii/image_converter.rs — convert_rgba_to_ascii produces rgba_palette that is never used; must be simplified for monochrome-only output",
-      "src-tauri/src/ascii/procedural.rs — Rust procedural renderers produce monochrome output already but need B/W aesthetic alignment",
-      "src-tauri/Cargo.toml — Dependencies are fine for current scope; no new dependencies needed for B/W redesign"
+      "src/App.tsx — paintAsciiToCanvas (lines 33-123) ALWAYS uses canvas.getContext('2d') regardless of activeTier; procedural render loop (lines 379-449) and videoEngineRef.onFrame (lines 254-290) both write to shared canvasRef; workspace conflict when switching between modes; activeTier state is set but NEVER used to select rendering implementation",
+      "src/components/AsciiCanvas.tsx — Receives shared canvasRef; no workspace isolation; video and procedural both paint to same canvas",
+      "src/components/ControlPanel.tsx — Tier selector updates activeTier but rendering path unchanged; paintAsciiToCanvas ignores tier entirely",
+      "src/components/Header.tsx — Needs lockscreen/zen button in top-right corner; currently has no such UI element",
+      "src/engine/video-pipeline.ts — VideoStreamingEngine.onFrame calls paintAsciiToCanvas(canvasRef.current, ...); no workspace isolation; competes with procedural render loop for canvasRef",
+      "src/engine/tier-manager.ts — detectCapabilities() returns recommendedTier but App.tsx never uses it to switch between webgpu-renderer/webgl-renderer/canvas2d; tier is cosmetic only",
+      "src/lib/renderers/webgpu.ts — Actual WebGPU compute pipeline with WGSL shaders; completely unused; naming collision with src/engine/webgpu-renderer.ts stub",
+      "src/lib/renderers/webgl.ts — Actual WebGL2 fragment shader with GLSL shaders; completely unused; naming collision with src/engine/webgl-renderer.ts stub",
+      "src/lib/renderers/manager.ts — RenderEngineManager.initialize() has proper tier cascade logic; completely unused; naming collision with src/engine/tier-manager.ts",
+      "src/engine/canvas-renderer.ts — renderImageDataToAscii produces ASCII text; paintAsciiToCanvas renders it via 2D canvas fillText; tier never consulted",
+      "src-tauri/tauri.conf.json — fullscreen: false; needs fullscreen capability for zen/lockscreen mode",
+      "src-tauri/src/commands.rs — Needs fullscreen toggle IPC command",
+      "src-tauri/src/lib.rs — Needs fullscreen API exposure",
+      "src/contracts.ts — DARK_MINIMALIST_TOKENS already correct; PAGE_COPY needs lockscreen/zen mode copy",
+      "src/index.css — Already monochrome; needs fullscreen/lockscreen CSS styles",
+      "src/types.ts — PlatformType already defined; needs FullscreenState type"
     ],
     "estimated_affected_files": 22
   },
   "dependencies": {
     "ui_framework": "React 19.0.0",
-    "animation": "No Framer Motion; CSS keyframes only (mediaStateReveal 180ms); needs new load animation",
+    "animation": "CSS keyframes only (mediaStateReveal 180ms); no Framer Motion; exactly 1 orchestrated motion moment",
     "state": "React built-in (useState/useCallback/useRef) — no Zustand, no Jotai, no Context",
-    "styling": "Tailwind CSS 3.4.17 + CSS custom properties — currently colorful, MUST be redesigned to pure monochrome B/W",
+    "styling": "Tailwind CSS 3.4.17 + CSS custom properties — already pure monochrome B/W (#000000/#FFFFFF/#121212/#FAFAFA/#0a0a0c/#141416/#222224); no redesign needed",
     "database": "None (no ORM, no database)",
     "tauri": "@tauri-apps/api ^2.2.0, @tauri-apps/cli ^2.2.0, Rust tauri v2",
-    "rendering": "WebGPU (stub), WebGL2 (stub), Canvas2D (actual), Rust sidecar via Tauri IPC",
+    "rendering": "WebGPU (stub), WebGL2 (stub), Canvas2D (actual paintAsciiToCanvas), Rust sidecar via Tauri IPC; src/lib/renderers/ has actual GPU implementations but they are NEVER used",
     "icons": "lucide-react ^1.16.0",
     "validation": "zod ^3.24.2",
     "build": "Vite ^6.2.0, TypeScript ^5.8.2, Tailwind CSS ^3.4.17, Vitest ^3.0.7",
-    "rust_stack": "image 0.25 (PNG/JPEG/WebP), rayon 1.10 (parallelism), serde, base64 0.22, uuid",
+    "rust_stack": "image 0.25, rayon 1.10, serde, base64 0.22, uuid",
     "conflicts": [
-      "CRITICAL: Video pipeline is completely dead — handleSelectVideoFile only sets a warning string, no video element, no frame extraction loop, no ASCII rendering connection",
-      "CRITICAL: Camera handlers (handleStartCamera/handleStopCamera) never instantiate MediaEngineService — they only set boolean state flags, so camera never actually starts",
-      "CRITICAL: MediaEngineService is never imported or instantiated in App.tsx despite being fully implemented in src/engine/media-service.ts",
-      "CRITICAL: All 6 ColorMode variants (matrix_green, amber, cyberpunk_neon, truecolor, rgb_ansi, monochrome) must be stripped for B/W minimalism — affects types.ts, contracts.ts, index.css, ControlPanel.tsx, AsciiCanvas.tsx, App.tsx, canvas-renderer.ts, and all Rust renderers",
-      "CRITICAL: primary #3B82F6 (blue accent) in DARK_MINIMALIST_TOKENS and CSS custom properties must be removed for pure monochrome B/W",
-      "CRITICAL: Load animation is missing — only has 180ms mediaStateReveal CSS keyframe; needs a proper loading/spinner animation",
+      "CRITICAL: paintAsciiToCanvas always uses canvas.getContext('2d') and fillText regardless of activeTier — tier1_webgpu and tier2_webgl are cosmetic only; actual WebGPU/WebGL implementations exist in src/lib/renderers/ but are never imported by App.tsx",
+      "CRITICAL: canvasRef is shared across ALL modes — procedural 3D render loop and videoEngineRef.onFrame both write to the same canvasRef, causing workspace conflicts when switching between modes or when video plays alongside procedural",
+      "CRITICAL: lastRenderResultRef is shared across ALL modes — video, procedural, and image all write to and read from the same ref",
+      "CRITICAL: streamPipelineRef and videoEngineRef are both instantiated in separate useEffects but can be active simultaneously, competing for canvasRef writes",
+      "CRITICAL: src/lib/renderers/webgpu.ts and src/lib/renderers/webgl.ts contain actual GPU implementations but are NEVER imported by App.tsx — dead code due to naming collision with src/engine/webgpu-renderer.ts and src/engine/webgl-renderer.ts stubs",
+      "CRITICAL: RenderEngineManager in src/lib/renderers/manager.ts has proper tier cascade but is NEVER instantiated — dead code",
+      "CRITICAL: No lockscreen/zen fullscreen mode exists — Header.tsx has no lock button, tauri.conf.json has fullscreen:false, no Tauri fullscreen API integration",
       "WARNING: src/engine/webgpu-renderer.ts and src/engine/webgl-renderer.ts are stubs that always fall back to CPU — naming collision with src/lib/renderers/webgpu.ts and src/lib/renderers/webgl.ts which contain actual GPU implementations",
-      "WARNING: Two separate render systems (src/engine/ vs src/lib/renderers/) share no unified color_mode handling",
-      "WARNING: Procedural 3D engine produces monochrome output but App.tsx still applies color_mode via ctx.fillStyle in the render loop — inconsistent",
-      "WARNING: MediaPicker onApplyVideoElement and onApplyMediaStream props exist but are never wired up in ControlPanel or App.tsx",
-      "WARNING: Video tab in ControlPanel has file picker but no video playback/streaming UI — video element never rendered",
-      "WARNING: CSS accent-[#3b82f6] on all range inputs and radio buttons must be removed for B/W",
-      "WARNING: All bg-[#3b82f6] / hover:bg-[#2563eb] button styles in ControlPanel.tsx and MediaPicker.tsx must be removed"
+      "WARNING: Two separate render systems (src/engine/ vs src/lib/renderers/) share no unified color_mode handling; paintAsciiToCanvas handles color_mode but only for Canvas 2D",
+      "WARNING: handleSelectVideoFile calls videoEngineRef.current.loadSource(file) and play() but the video element is never rendered in the DOM — VideoStreamingEngine may use canvas capture or media stream internally",
+      "WARNING: handleStartCamera calls mediaEngineService.startCamera() but this is the only place mediaEngineService is actually used; camera stream goes through videoEngineRef which has no DOM video element visible"
     ]
   },
   "conflicts_detected": [
     {
-      "type": "missing_feature",
+      "type": "workspace_conflict",
       "severity": "critical",
-      "description": "Video streaming pipeline is completely dead. App.tsx handleSelectVideoFile (line 330-334) only sets a warning message and switches to the 'video' tab. There is NO video element, NO requestAnimationFrame loop reading video frames, and NO connection from video playback to the ASCII renderer. The 'video' mode in ControlPanel.tsx only has a file picker input but no video playback area or render loop.",
+      "description": "Shared canvasRef workspace conflict. When user inserts video/image, videoEngineRef.onFrame callback (line 264: paintAsciiToCanvas(canvasRef.current, text, optionsRef.current, ...)) writes to the same canvasRef that the procedural 3D render loop (lines 422-427) also writes to. Switching tabs does NOT cleanly isolate workspaces. The useEffect at line 338-351 repaints on activeTab change but the video engine may still be running its frame loop. lastRenderResultRef is also shared across modes.",
       "affected": [
         "src/App.tsx",
-        "src/components/ControlPanel.tsx",
-        "src/components/MediaPicker.tsx",
-        "src/engine/media-service.ts",
-        "src/engine/tauri-bridge.ts"
-      ]
-    },
-    {
-      "type": "missing_feature",
-      "severity": "critical",
-      "description": "Camera handlers never instantiate MediaEngineService. App.tsx handleStartCamera() (line 342) only sets isStreamingCamera=true and a warning string. It never calls mediaEngineService.startCamera(). Similarly handleStopCamera() only sets isStreamingCamera=false. The fully implemented MediaEngineService class in src/engine/media-service.ts is dead code in the current App.tsx.",
-      "affected": [
-        "src/App.tsx",
-        "src/engine/media-service.ts"
-      ]
-    },
-    {
-      "type": "design_violation",
-      "severity": "critical",
-      "description": "Current design violates the monochrome black/white minimalism requirement. 6 ColorMode variants (matrix_green #00ff88, amber #ffb700, cyberpunk_neon #ff3366, truecolor RGB, rgb_ansi ANSI 16-color) are fully implemented and used throughout. primary #3B82F6 blue accent is in DARK_MINIMALIST_TOKENS, CSS custom properties, Tailwind config, and all range input accent colors. Must be stripped to pure #000000/#FFFFFF/#121212/#FAFAFA with 1px borders.",
-      "affected": [
-        "src/types.ts",
-        "src/contracts.ts",
-        "src/index.css",
-        "src/App.tsx",
-        "src/components/ControlPanel.tsx",
         "src/components/AsciiCanvas.tsx",
-        "src/components/MediaPicker.tsx",
-        "src/components/Header.tsx",
-        "src/engine/canvas-renderer.ts",
-        "tailwind.config.js"
+        "src/engine/video-pipeline.ts",
+        "src/engine/procedural-3d.ts"
+      ]
+    },
+    {
+      "type": "gimmick_rendering",
+      "severity": "critical",
+      "description": "Hardware acceleration tiers are gimmicks. paintAsciiToCanvas (lines 33-123) ALWAYS uses canvas.getContext('2d') and fillText regardless of activeTier. activeTier state is set via globalTierManager.detectCapabilities() but is NEVER used to select between WebGPU/WebGL/Canvas2D implementations. src/lib/renderers/webgpu.ts and src/lib/renderers/webgl.ts contain actual GPU shader implementations but are NEVER imported by App.tsx. src/engine/webgpu-renderer.ts and src/engine/webgl-renderer.ts are stubs that always fall back to renderImageDataToAscii (CPU).",
+      "affected": [
+        "src/App.tsx",
+        "src/engine/tier-manager.ts",
+        "src/engine/webgpu-renderer.ts",
+        "src/engine/webgl-renderer.ts",
+        "src/lib/renderers/webgpu.ts",
+        "src/lib/renderers/webgl.ts",
+        "src/lib/renderers/manager.ts",
+        "src/engine/canvas-renderer.ts"
       ]
     },
     {
       "type": "missing_feature",
       "severity": "critical",
-      "description": "Load animation is missing. Only has 180ms mediaStateReveal CSS keyframe (opacity fade). The user explicitly requested a load animation when loading in the app interface. A proper loading spinner or progressive reveal animation must be implemented.",
+      "description": "Lockscreen/zen fullscreen mode is missing. Header.tsx has no lock/unlock button. tauri.conf.json has fullscreen: false. No Tauri window.setFullscreen() API integration exists. Need to add a minimal lock/unlock button in the top-right corner of Header that toggles Tauri fullscreen and pauses all rendering engines when locked.",
       "affected": [
-        "src/index.css",
-        "src/App.tsx",
-        "src/components/AsciiCanvas.tsx"
+        "src/components/Header.tsx",
+        "src/engine/tauri-bridge.ts",
+        "src-tauri/tauri.conf.json",
+        "src-tauri/src/commands.rs",
+        "src-tauri/src/lib.rs",
+        "src/index.css"
       ]
     },
     {
       "type": "naming_collision",
       "severity": "warning",
-      "description": "Duplicate renderer classes: src/engine/webgpu-renderer.ts and src/engine/webgl-renderer.ts are stubs that always fall back to renderImageDataToAscii (CPU), while src/lib/renderers/webgpu.ts and src/lib/renderers/webgl.ts contain the actual GPU shader implementations. This naming collision creates confusion and dead code.",
+      "description": "Duplicate renderer classes: src/engine/webgpu-renderer.ts and src/engine/webgl-renderer.ts are stubs that always fall back to renderImageDataToAscii (CPU), while src/lib/renderers/webgpu.ts and src/lib/renderers/webgl.ts contain the actual GPU shader implementations. This naming collision creates confusion and dead code. RenderEngineManager in src/lib/renderers/manager.ts is also never used.",
       "affected": [
         "src/engine/webgpu-renderer.ts",
         "src/engine/webgl-renderer.ts",
         "src/lib/renderers/webgpu.ts",
-        "src/lib/renderers/webgl.ts"
-      ]
-    },
-    {
-      "type": "design_violation",
-      "severity": "warning",
-      "description": "AI slop detected: colorful gradients, badges, neon glow effects, and non-minimalist UI elements throughout ControlPanel.tsx and MediaPicker.tsx. The user explicitly stated 'the design now is full of ai-slop' and wants 'minimalism black and white, with professional graph / stickers'.",
-      "affected": [
-        "src/components/ControlPanel.tsx",
-        "src/components/MediaPicker.tsx",
-        "src/components/AsciiCanvas.tsx",
-        "src/App.tsx"
-      ]
-    },
-    {
-      "type": "workflow_issue",
-      "severity": "warning",
-      "description": "The user reports 'the workflow of using it too suck, the colorfull cant do shit, the video i already inputted is not giving an output. The Images too.' This confirms both the media pipeline failures and the design issues are experienced by the user, not just theoretical.",
-      "affected": [
-        "src/App.tsx",
-        "src/components/ControlPanel.tsx",
-        "src/components/MediaPicker.tsx"
+        "src/lib/renderers/webgl.ts",
+        "src/lib/renderers/manager.ts"
       ]
     }
   ],
-  "video_image_failure_analysis": "VIDEO FAILURE: App.tsx handleSelectVideoFile (line 330-334) is a dead stub that only sets warningMessage and activeTab='video'. No video HTML element exists in the video mode. No requestAnimationFrame loop extracts frames from a video element. No connection from video playback to renderImageDataToAscii or renderProcedural3D. The ControlPanel.tsx video section (line 211-234) has a file input but no video playback area. The MediaPicker.tsx onApplyVideoElement prop exists but is never passed from App.tsx. The complete video-to-ASCII pipeline needs: (1) HTMLVideoElement rendering, (2) requestAnimationFrame frame extraction loop, (3) canvas capture of video frames, (4) ImageData conversion to ASCII via renderImageDataToAscii or Tauri IPC.\n\nIMAGE FAILURE: Image handling partially works via handleSelectImageFile → preflightImageSource → rasterizeImageData → setAsciiOutput. However, the image flow has issues: (1) handleApplyPhotoToAscii requires a snapshotCanvas from MediaPicker which requires camera access that never initializes, (2) the image pipeline works but is buried in complex UI, (3) no image-to-ASCII preview exists before applying. The video pipeline is the critical failure — it's completely non-functional.\n\nROOT CAUSE: The media pipeline was designed with a MediaEngineService class but never wired it to the App component. handleStartCamera/handleStopCamera are stubs. The video tab was never implemented beyond a file picker. The MediaPicker's onApplyVideoElement and onApplyMediaStream callbacks are defined but never consumed by App.tsx or ControlPanel.",
-  "reference_photo_description": "User reference photo aesthetic: Dark high-contrast monochrome with constellation/network graph nodes featuring fine connecting lines, pill-shaped badges, minimalist controls with clean typography. Pure black (#000000) and white (#FFFFFF) with #121212 background and #FAFAFA text. No colors, no gradients, no neon glows. Professional graph/sticker aesthetic with precise geometric elements.",
+  "video_image_failure_analysis": "VIDEO WORKSPACE CONFLICT: When user selects a video file, handleSelectVideoFile (line 541-571) calls videoEngineRef.current.loadSource(file) and videoEngineRef.current.play(). The VideoStreamingEngine's onFrame callback (line 264) calls paintAsciiToCanvas(canvasRef.current, text, optionsRef.current, renderResult?.colorBuffer). This writes to the SAME canvasRef that the procedural 3D render loop uses when activeTab === 'procedural_3d'. Switching tabs does NOT stop the video engine's frame loop — it only pauses it (line 301). The video element itself is never rendered in the DOM; VideoStreamingEngine must capture frames internally. When the user then switches back to video, the useEffect at line 338-351 repaints but the video engine may have already rendered frames to canvasRef.\n\nIMAGE WORKSPACE CONFLICT: handleSelectImageFile (line 509-533) calls rasterizeImageData which calls paintAsciiToCanvas(canvasRef.current, ...). This also writes to the shared canvasRef. The useEffect at line 477-481 re-rasterizes when activeTab changes to 'image', but lastImageDataRef is shared.\n\nROOT CAUSE: All rendering modes share canvasRef, lastRenderResultRef, and the paintAsciiToCanvas function which always uses 2D canvas context. No workspace isolation exists between video, image, procedural_3d, and camera_stream modes.",
+  "reference_photo_description": "User reference photo aesthetic: Dark high-contrast monochrome with constellation/network graph nodes featuring fine connecting lines, pill-shaped badges, minimalist controls with clean typography. Pure black (#000000) and white (#FFFFFF) with #121212 background and #FAFAFA text. No colors, no gradients, no neon glows. Professional graph/sticker aesthetic with precise geometric elements. NOTE: This aesthetic is already implemented in the current codebase — CSS variables, tokens, and Tailwind config all match this description. This mission focuses on the WORKSPACE CONFLICT, GIMMICK TIER, and MISSING FULLSCREEN issues, NOT a design redesign.",
   "design_direction_requirements": {
-    "palette": "Pure monochrome B/W: #000000 (black), #FFFFFF (white), #121212 (background), #1a1a1a (surface), #FAFAFA (text primary), #71717A (text muted), rgba(255,255,255,0.06) (border). ALL colors (#3B82F6, #00ff88, #ffb700, #ff3366) MUST be removed.",
-    "typography": "Inter/system font stack, JetBrains Mono for ASCII output. Max 80ch line length. Crisp, clean sans-serif.",
-    "motion": "Exactly ONE orchestrated motion moment: a load animation on app initialization. Use CSS keyframes with cubic-bezier easing. No blanket animations on every transition.",
-    "graph_sticker_aesthetic": "Professional graph nodes with fine connecting lines, pill badges for controls, minimalist 1px borders, grid-based layout, precise geometric elements.",
-    "strip_ai_slop": "Remove all colorful gradients, neon glows, badges with colors, and any AI-generated decorative elements. Replace with clean monochrome B/W minimalism.",
-    "load_animation": "Implement a proper loading animation (spinner or progressive reveal) that displays during app initialization before the main interface appears."
+    "palette": "Already correct — pure monochrome B/W: #000000, #FFFFFF, #121212, #0a0a0c, #141416, #FAFAFA, #a1a1aa, #71717a, #222224. NO redesign needed for this mission.",
+    "typography": "Already correct — Inter/system font stack, JetBrains Mono for ASCII output. Max 80ch line length. Crisp, clean sans-serif.",
+    "motion": "Exactly 1 orchestrated motion moment (boot loading screen). No redesign needed.",
+    "graph_sticker_aesthetic": "Already implemented — ConstellationGraph component, TechnicalStickers component, pill badges, minimalist 1px borders.",
+    "fullscreen_zen_mode": "NEW REQUIREMENT: Add lockscreen/zen fullscreen mode. Header needs top-right lock/unlock button. Tauri window.setFullscreen() API integration. All rendering engines pause when locked. Minimal chrome visible in locked state."
   },
   "complexity_warnings": [
     {
       "path": "src/App.tsx",
-      "lines": 485,
-      "warning": "Exceeds 400 lines — single-file state machine with procedural render loop, image/video handling, camera state, streaming pipeline, and ALL media handlers. Must be refactored into smaller composable hooks."
+      "lines": 917,
+      "warning": "Exceeds 900 lines — single-file state machine with ALL media handlers, procedural render loop, video engine, camera handlers, recording logic, and ALL shared refs. Must be refactored to isolate workspace contexts per mode. paintAsciiToCanvas always uses 2D canvas regardless of tier."
     },
     {
       "path": "src/components/ControlPanel.tsx",
       "lines": 582,
-      "warning": "Exceeds 500 lines — 6 sections with all mode-specific controls, color modes, tier selectors, sliders. Must be redesigned for B/W minimalism and split into smaller components."
+      "warning": "Exceeds 500 lines — 6 sections with all mode-specific controls. Tier selector updates activeTier but rendering path unchanged."
     },
     {
       "path": "src/components/MediaPicker.tsx",
       "lines": 519,
-      "warning": "Exceeds 500 lines — 4 media states with camera, recording, file pick logic. Must be redesigned for B/W minimalism and video pipeline must be added."
+      "warning": "Exceeds 500 lines — 4 media states with camera, recording, file pick logic. Video pipeline not fully wired."
     },
     {
       "path": "src/engine/procedural-3d.ts",
       "lines": 397,
-      "warning": "Exceeds 350 lines — 5 procedural scene renderers. Already monochrome but needs B/W aesthetic alignment."
+      "warning": "Exceeds 350 lines — 5 procedural scene renderers. Already monochrome but needs workspace isolation."
     },
     {
-      "path": "src-tauri/src/ascii/procedural.rs",
-      "lines": 524,
-      "warning": "Exceeds 500 lines — Rust procedural renderers mirror of TS engine."
+      "path": "src/engine/video-pipeline.ts",
+      "lines": 250,
+      "warning": "Exceeds 250 lines — VideoStreamingEngine with onFrame callback that writes to shared canvasRef. Needs workspace isolation."
     },
     {
       "path": "src-tauri/src/commands.rs",
       "lines": 265,
-      "warning": "Exceeds 250 lines — IPC command handlers. Needs video source type support."
-    },
-    {
-      "path": "src-tauri/src/ascii/image_converter.rs",
-      "lines": 241,
-      "warning": "Exceeds 240 lines — image converter with rgba_palette that is never used. Can be simplified for monochrome-only."
+      "warning": "Exceeds 250 lines — IPC command handlers. Needs fullscreen toggle support and video source type support."
     }
   ],
   "debug_recon": {
-    "is_retry_task": true,
+    "is_retry_task": false,
     "suspect_files": [
       {
         "path": "src/App.tsx",
-        "reason": "handleSelectVideoFile (line 330-334) is a dead stub — only sets warning string, no video pipeline. handleStartCamera/handleStopCamera (lines 342-349) never instantiate MediaEngineService."
+        "reason": "paintAsciiToCanvas (lines 33-123) ALWAYS uses canvas.getContext('2d') and fillText regardless of activeTier — this is the root cause of the gimmick tier bug. canvasRef (line 201), videoEngineRef (line 208), lastRenderResultRef (line 210), streamPipelineRef (line 207) are all shared refs causing workspace conflicts."
       },
       {
-        "path": "src/components/MediaPicker.tsx",
-        "reason": "onApplyVideoElement and onApplyMediaStream props defined but never wired from App.tsx. handleFile (line 199-241) sets uploadedPreviewUrl for video but never triggers ASCII conversion."
+        "path": "src/engine/video-pipeline.ts",
+        "reason": "VideoStreamingEngine.onFrame callback writes to shared canvasRef. No workspace isolation between video and procedural modes. The onFrame callback at line 264 calls paintAsciiToCanvas(canvasRef.current, ...)."
       },
       {
-        "path": "src/engine/media-service.ts",
-        "reason": "Fully implemented MediaEngineService class but never imported or instantiated in App.tsx. Dead code."
+        "path": "src/lib/renderers/webgpu.ts",
+        "reason": "Contains actual WebGPU compute pipeline with WGSL shaders but is NEVER imported by App.tsx. Dead code due to naming collision with src/engine/webgpu-renderer.ts stub."
       },
       {
-        "path": "src/components/ControlPanel.tsx",
-        "reason": "Video section (line 211-234) has file input but no video playback area or render loop. All color_mode options must be removed for B/W."
+        "path": "src/lib/renderers/webgl.ts",
+        "reason": "Contains actual WebGL2 fragment shader with GLSL shaders but is NEVER imported by App.tsx. Dead code due to naming collision with src/engine/webgl-renderer.ts stub."
       },
       {
-        "path": "src/contracts.ts",
-        "reason": "DARK_MINIMALIST_TOKENS includes primary #3B82F6 (blue) that must be removed. PAGE_COPY has all colorful references."
+        "path": "src/lib/renderers/manager.ts",
+        "reason": "RenderEngineManager with proper tier cascade but NEVER instantiated in App.tsx. Dead code."
+      },
+      {
+        "path": "src/components/Header.tsx",
+        "reason": "No lockscreen/zen fullscreen button exists. Needs top-right lock/unlock UI element with Tauri fullscreen integration."
       }
     ]
   },
   "unknowns": [
-    "The user's reference photo is not available on the filesystem — I cannot visually inspect it. The description says 'Dark high-contrast constellation/network graph nodes with fine connecting lines, pill badges, minimalist controls' but the actual image file path is unknown.",
-    "The exact specification for the 'load animation' is not defined — could be a spinner, progress bar, or progressive reveal. Need clarification on animation style.",
-    "The 'professional graph / stickers' aesthetic detail is ambiguous — could mean data visualization graphs, network topology graphs, or decorative sticker elements. Need clarification.",
-    "The Python backend files (ascii_art/, ascii_colour/) referenced in the existing phase-0-recon.json may not exist in this repository — they were listed but not found in the file scan. The current project appears to be fully Tauri/Rust/TS with no Python backend.",
-    "The src/lib/ directory contains additional renderer files (webgpu.ts, webgl.ts, canvas2d.ts, atlas.ts, manager.ts) that were not fully inspected — they may contain the actual GPU implementations that conflict with src/engine/ stubs.",
-    "No tauri.conf.json in the project root — it exists only in src-tauri/tauri.conf.json. The root-level tauri.conf.json referenced in the task description does not exist.",
-    "The .antigravity/artifacts/phase-0-recon.json is identical to .opencode/artifacts/phase-0-recon.json (both from previous mission). They need to be updated for this new mission.",
-    "The Cargo.lock is 5223 lines — full dependency tree not analyzed for potential version conflicts with Tauri v2 on Android."
+    "The exact mechanism of VideoStreamingEngine's frame extraction is not fully clear — it may use canvas captureStream or internal rendering. Need to verify how it produces text output without a visible video element.",
+    "The src/lib/renderers/webgpu.ts and src/lib/renderers/webgl.ts contain actual GPU implementations but it's unclear if they were intended to replace the src/engine/ stubs or if they are legacy code. The naming collision suggests they were written at different times.",
+    "The RenderEngineManager in src/lib/renderers/manager.ts has tier cascade logic but it's unclear if it was ever tested or if it works correctly with the actual webgpu.ts/webgl.ts implementations.",
+    "The Tauri fullscreen API (window.setFullscreen) needs to be verified against the Tauri v2 API surface — the exact method signature and permissions may differ from Tauri v1.",
+    "The 'lockscreen/zen mode' exact specification is ambiguous — does it mean fullscreen with all UI hidden, or a dimmed overlay with minimal controls? Need clarification on what 'lock' means in this context.",
+    "The src-tauri/src/lib.rs and src-tauri/src/commands.rs may need new Rust-side commands for fullscreen toggling, but the exact Tauri v2 command registration pattern needs verification.",
+    "The video engine's canvas capture mechanism (whether it uses canvas.captureStream or internal frame buffer) affects how workspace isolation should be implemented."
   ],
   "ready_for_oracle": true,
   "recon_complete": true,

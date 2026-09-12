@@ -1,14 +1,28 @@
 import React from "react";
-import { Terminal, Box, Image, Video, Camera, Settings, Cpu, Activity, ShieldCheck } from "lucide-react";
+import {
+  Terminal,
+  Box,
+  Image,
+  Video,
+  Camera,
+  Settings,
+  Cpu,
+  Activity,
+  ShieldCheck,
+  Lock,
+  Unlock,
+} from "lucide-react";
 import { RenderMode, RenderTier } from "../contracts";
 
-interface HeaderProps {
+export interface HeaderProps {
   activeMode: RenderMode | "settings" | "media_picker";
   onModeChange: (mode: RenderMode | "settings" | "media_picker") => void;
   activeTier: RenderTier;
   fps: number;
   platform: string;
   latencyMs?: number;
+  isZenMode?: boolean;
+  onToggleZenMode?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -18,6 +32,8 @@ export const Header: React.FC<HeaderProps> = ({
   fps,
   platform,
   latencyMs = 1.2,
+  isZenMode = false,
+  onToggleZenMode,
 }) => {
   const getTierLabel = (tier: RenderTier) => {
     switch (tier) {
@@ -62,7 +78,7 @@ export const Header: React.FC<HeaderProps> = ({
 
       {/* Navigation Tabs */}
       <nav
-        className="flex flex-wrap items-center gap-1 bg-[#0a0a0c] p-1 rounded-[4px] border border-[#222224] overflow-x-auto w-full md:w-auto"
+        className="flex flex-wrap items-center gap-1 bg-[#0a0a0c] p-1 rounded-[4px] border border-[#222224] overflow-x-auto w-full md:w-auto max-w-full"
         aria-label="Main Navigation"
       >
         {navTabs.map((tab) => {
@@ -73,7 +89,7 @@ export const Header: React.FC<HeaderProps> = ({
               onClick={() => onModeChange(tab.id)}
               aria-label={tab.label}
               aria-current={isActive ? "page" : undefined}
-              className={`min-h-[38px] px-3 py-1.5 flex items-center justify-center gap-2 text-xs rounded-[2px] transition-colors whitespace-nowrap font-mono ${
+              className={`min-h-[44px] px-3 py-2 flex items-center justify-center gap-2 text-xs rounded-[2px] transition-colors whitespace-nowrap font-mono ${
                 isActive
                   ? "bg-[#ffffff] text-[#000000] font-semibold shadow-[0_0_8px_rgba(255,255,255,0.2)]"
                   : "text-[#a1a1aa] hover:text-[#ffffff] hover:bg-[#141416]"
@@ -87,8 +103,8 @@ export const Header: React.FC<HeaderProps> = ({
       </nav>
 
       {/* Telemetry Pills Strip */}
-      <div className="flex items-center gap-2 self-start md:self-auto flex-wrap">
-        <div className="flex items-center gap-2 px-3 py-1.5 min-h-[38px] rounded-[4px] bg-[#0a0a0c] border border-[#222224] text-xs font-mono">
+      <div className="flex items-center gap-2 self-start md:self-auto flex-wrap max-w-full">
+        <div className="flex items-center gap-2 px-3 py-1.5 min-h-[44px] rounded-[4px] bg-[#0a0a0c] border border-[#222224] text-xs font-mono">
           <div className="flex items-center gap-1.5">
             <Cpu className="w-3.5 h-3.5 text-[#ffffff]" aria-hidden="true" />
             <span className="text-[#a1a1aa]">{getTierLabel(activeTier)}</span>
@@ -109,6 +125,27 @@ export const Header: React.FC<HeaderProps> = ({
             <span>SANDBOX: SEALED</span>
           </div>
         </div>
+
+        {onToggleZenMode && (
+          <button
+            type="button"
+            onClick={onToggleZenMode}
+            aria-label={isZenMode ? "Exit Zen mode" : "Enter Zen mode"}
+            className="flex items-center gap-1.5 px-3 py-2 min-h-[44px] rounded-[4px] bg-[#0a0a0c] border border-[#222224] text-xs font-mono text-[#ffffff] hover:border-[#ffffff]/40 hover:bg-[#141416] transition-all focus:outline-none focus:ring-1 focus:ring-[#ffffff] cursor-pointer"
+          >
+            {isZenMode ? (
+              <>
+                <Unlock className="w-3.5 h-3.5 text-[#ffffff]" aria-hidden="true" />
+                <span className="hidden sm:inline">[ 🔓 UNLOCK ]</span>
+              </>
+            ) : (
+              <>
+                <Lock className="w-3.5 h-3.5 text-[#a1a1aa]" aria-hidden="true" />
+                <span className="hidden sm:inline">[ 🔒 ZEN MODE ]</span>
+              </>
+            )}
+          </button>
+        )}
       </div>
     </header>
   );

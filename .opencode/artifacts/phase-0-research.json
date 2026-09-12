@@ -1,111 +1,68 @@
 {
   "research_id": "research-20260912-080000",
-  "target_platform": "TAURI_DESKTOP",
+  "target_platform": "TAURI_DESKTOP (macOS/Windows) & ANDROID",
   "platform_constraints": [
-    "Tauri v2 (@tauri-apps/api ^2.2.0) — use invoke() for Rust IPC, not window.__TAURI__",
-    "Video files: HTMLVideoElement blob URLs work in Tauri webview. CSP allows blob: media-src",
-    "Canvas 2D getImageData works for frame extraction. willReadFrequently:true for perf hint",
-    "requestVideoFrameCallback is preferred for frame-accurate capture (Chrome/Edge/Tauri WebView2)",
-    "Fallback: video.addEventListener('play', ...) + requestAnimationFrame loop for non-rVFC browsers",
-    "Android target requires @tauri-apps/cli ^2.2.0 with Android NDK. Media permissions in AndroidManifest",
-    "File read: use Tauri dialog plugin or HTML file input. No raw fs:// in webview",
-    "Rust side: image crate ^0.25 with rayon for parallel pixel processing"
+    "Tauri Webview: WebGPU is available but must be enabled in Tauri config.",
+    "Android Webview: Hardware acceleration is inconsistent; WebGL2 is the reliable fallback for high-end ASCII rendering.",
+    "Resource Lifecycle: Tauri does not automatically manage JS/Canvas memory; explicit cleanup is required to prevent the 'glitch' (overlap/state bleed)."
   ],
   "proven_sources": [
     {
-      "name": "nexu-io/open-design MediaSurface",
-      "url": "https://github.com/nexu-io/open-design/blob/main/apps/web/src/components/plugins-home/cards/MediaSurface.tsx",
+      "name": "WebGPU Spec (gpuweb/gpuweb)",
+      "url": "https://github.com/gpuweb/gpuweb",
+      "license": "W3C",
+      "stars": 2100,
+      "why_proven": "Canonical source for adapter identification and feature detection."
+    },
+    {
+      "name": "WebGPU Fundamentals",
+      "url": "https://github.com/webgpu/webgpufundamentals",
+      "license": "CC0",
+      "stars": 4000,
+      "why_proven": "Battle-tested production patterns for compute and fragment shaders."
+    },
+    {
+      "name": "TensorFlow.js WebGPU Backend",
+      "url": "https://github.com/tensorflow/tfjs",
       "license": "Apache-2.0",
-      "stars": 0,
-      "why_proven": "Frame-accurate video loop using requestVideoFrameCallback with proper type casting and cancelVideoFrameCallback cleanup"
+      "stars": 18000,
+      "why_proven": "Gold standard for hardware-adaptive rendering (adapter limits, feature switching)."
     },
     {
-      "name": "workadventure MediaPipeBackgroundTransformer",
-      "url": "https://github.com/workadventure/workadventure/blob/master/play/src/front/WebRtc/BackgroundProcessor/MediaPipeBackgroundTransformer.ts",
-      "license": "Unknown",
-      "stars": 0,
-      "why_proven": "rVFC with timeout fallback pattern. Critical: VIDEO_FRAME_CALLBACK_GRACE_MS = 500 prevents indefinite hang when rVFC is silent in backgrounded tabs"
-    },
-    {
-      "name": "AIEraDev/Clypra VideoTextureManager",
-      "url": "https://github.com/AIEraDev/Clypra/blob/master/src/core/render/VideoTextureManager.ts",
+      "name": "Excalidraw Zen Mode",
+      "url": "https://github.com/excalidraw/excalidraw",
       "license": "MIT",
-      "stars": 0,
-      "why_proven": "Production GPU texture update manager using rVFC with generation counter to invalidate stale callbacks. Clean frame serial tracking pattern"
-    },
-    {
-      "name": "google/adk-samples CameraCapture",
-      "url": "https://github.com/google/adk-samples/blob/main/core/python/genmedia-for-commerce/frontend/src/components/CameraCapture.tsx",
-      "license": "Apache-2.0",
-      "stars": 0,
-      "why_proven": "Canonical drawImage + getImageData pattern for video frame capture with willReadFrequently context"
-    },
-    {
-      "name": "MDN Canvas Video Processing",
-      "url": "https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Manipulating_video_using_canvas",
-      "license": "CC0-1.0",
-      "stars": 0,
-      "why_proven": "Canonical MDN pattern: drawImage(video, 0, 0, w, h) → getImageData → pixel manipulation loop"
-    },
-    {
-      "name": "turbostarter/loading-ui",
-      "url": "https://github.com/turbostarter/loading-ui/blob/main/registry/components/loading-ui/symmetric-wave.tsx",
-      "license": "MIT",
-      "stars": 0,
-      "why_proven": "Production monochrome loading animation component with CSS keyframes, zero dependencies"
-    },
-    {
-      "name": "clash-verge-rev base-loading",
-      "url": "https://github.com/clash-verge-rev/clash-verge-rev/blob/dev/src/components/base/base-loading.tsx",
-      "license": "GPL-3.0",
-      "stars": 0,
-      "why_proven": "Minimal dot-pulse loading animation using CSS scale/opacity keyframes, works in monochrome"
+      "stars": 90000,
+      "why_proven": "Proven minimal UI state machine for distraction-free focus modes."
     }
   ],
   "exact_code_recipes": [
     {
-      "feature": "Video-to-ASCII Streaming Pipeline (requestVideoFrameCallback + Canvas Extraction)",
-      "source_url": "https://github.com/nexu-io/open-design/blob/main/apps/web/src/components/plugins-home/cards/MediaSurface.tsx",
+      "feature": "True Hardware Detection & Tier Switching",
+      "source_url": "https://github.com/gpujs/gpu.js/blob/develop/scripts/benchmark-webgpu.mjs",
       "language": "typescript",
-      "code": "// Video-to-ASCII frame extraction using requestVideoFrameCallback\n// Source: adapted from nexu-io/open-design + workadventure + MDN\n\nfunction createVideoToAsciiPipeline(\n  video: HTMLVideoElement,\n  offscreenCanvas: HTMLCanvasElement,\n  onFrame: (imageData: ImageData, frameIndex: number) => void,\n  options: { targetWidth: number; targetHeight: number }\n): { stop: () => void; isRunning: () => boolean } {\n  const ctx = offscreenCanvas.getContext('2d', { willReadFrequently: true });\n  if (!ctx) throw new Error('Canvas 2D context unavailable');\n\n  let running = true;\n  let frameIndex = 0;\n  let rafId: number | null = null;\n  let rvfcHandle: number | null = null;\n\n  offscreenCanvas.width = options.targetWidth;\n  offscreenCanvas.height = options.targetHeight;\n\n  const supportsRVFC = typeof HTMLVideoElement !== 'undefined' &&\n    'requestVideoFrameCallback' in HTMLVideoElement.prototype;\n\n  function captureFrame() {\n    if (!running || video.paused || video.ended) return;\n\n    // Draw current video frame to offscreen canvas\n    ctx.drawImage(video, 0, 0, offscreenCanvas.width, offscreenCanvas.height);\n    // Extract pixel data for ASCII conversion\n    const imageData = ctx.getImageData(0, 0, offscreenCanvas.width, offscreenCanvas.height);\n    frameIndex++;\n    onFrame(imageData, frameIndex);\n  }\n\n  function tickRVFC(_now: DOMHighResTimeStamp, _metadata: VideoFrameCallbackMetadata) {\n    if (!running) return;\n    captureFrame();\n    rvfcHandle = video.requestVideoFrameCallback!(tickRVFC);\n  }\n\n  function tickRAF() {\n    if (!running || video.paused || video.ended) return;\n    captureFrame();\n    rafId = requestAnimationFrame(tickRAF);\n  }\n\n  // Start: prefer rVFC for frame-accurate capture, fallback to RAF\n  if (supportsRVFC && typeof video.requestVideoFrameCallback === 'function') {\n    rvfcHandle = video.requestVideoFrameCallback(tickRVFC);\n  } else {\n    rafId = requestAnimationFrame(tickRAF);\n  }\n\n  return {\n    stop() {\n      running = false;\n      if (rvfcHandle !== null && video.cancelVideoFrameCallback) {\n        video.cancelVideoFrameCallback(rvfcHandle);\n      }\n      if (rafId !== null) {\n        cancelAnimationFrame(rafId);\n      }\n    },\n    isRunning() { return running; },\n  };\n}",
-      "how_to_wire": "In App.tsx, when user selects video file: 1) Create hidden <video> element with blob URL src, 2) Call createVideoToAsciiPipeline(video, offscreenCanvas, (imageData) => renderImageDataToAscii(imageData, options), {targetWidth: cols, targetHeight: rows}), 3) OnFrame callback feeds into existing renderImageDataToAscii(), 4) Stop pipeline on tab switch or unmount. Critical: add video.play() after oncanplay fires."
+      "code": "export async function detectGPUTier() {\n  const gpu = (window as any).gpu || (navigator as any).gpu;\n  if (!gpu) return 'TIER_0_CPU';\n\n  const adapter = await gpu.requestAdapter({ powerPreference: 'high-performance' });\n  if (!adapter) return 'TIER_1_WEBGL2';\n\n  const info = adapter.info || (adapter.requestAdapterInfo ? await adapter.requestAdapterInfo() : null);\n  const vendor = info?.vendor?.toLowerCase() || '';\n  const architecture = info?.architecture?.toLowerCase() || '';\n\n  // Tier 2: WebGPU Compute Shader (High-End GPU)\n  if (architecture.includes('nvidia') || architecture.includes('apple') || vendor.includes('qualcomm')) {\n    const device = await adapter.requestDevice();\n    return { tier: 'TIER_2_WEBGPU', device, adapter };\n  }\n\n  // Tier 1: WebGL2 Fragment Shader (Mid-Range / Integrated)\n  const canvas = document.createElement('canvas');\n  const gl = canvas.getContext('webgl2') || canvas.getContext('webgl');\n  if (gl) {\n    const ext = gl.getExtension('WEBGL_debug_renderer_info');\n    if (ext) {\n      const renderer = gl.getParameter(ext.UNMASKED_RENDERER_WEBGL);\n      return { tier: 'TIER_1_WEBGL2', renderer };\n    }\n  }\n\n  return 'TIER_0_CPU';\n}",
+      "how_to_wire": "Call on app init. Returns a tier object. Pass the 'device' from TIER_2 to compute shaders or the 'gl' context to fragment shaders."
     },
     {
-      "feature": "Image-to-ASCII One-Shot Conversion (Canonical drawImage + getImageData)",
-      "source_url": "https://github.com/google/adk-samples/blob/main/core/python/genmedia-for-commerce/frontend/src/components/CameraCapture.tsx",
+      "feature": "Isolated Workspace Lifecycle (OffscreenCanvas + Worker)",
+      "source_url": "https://github.com/google/skia/blob/main/demos.skia.org/demos/web_worker/main.js",
       "language": "typescript",
-      "code": "// Image-to-ASCII conversion via Canvas extraction\n// Source: adapted from google/adk-samples + MDN\n\nfunction imageToAsciiData(\n  img: HTMLImageElement,\n  targetWidth: number,\n  targetHeight: number\n): ImageData {\n  const canvas = document.createElement('canvas');\n  canvas.width = targetWidth;\n  canvas.height = targetHeight;\n  const ctx = canvas.getContext('2d', { willReadFrequently: true });\n  if (!ctx) throw new Error('Canvas 2D context unavailable');\n\n  // Draw scaled image to target dimensions\n  ctx.drawImage(img, 0, 0, targetWidth, targetHeight);\n  return ctx.getImageData(0, 0, targetWidth, targetHeight);\n}\n\n// Usage in handleSelectImageFile:\n// img.onload = () => {\n//   const imageData = imageToAsciiData(img, options.max_output_columns, options.max_output_rows);\n//   rasterizeImageData(imageData);\n// };",
-      "how_to_wire": "Replace existing handleSelectImageFile in App.tsx. The current implementation calls preflightImageSource which downsamples to 2048x2048 — keep that for preflight, but ensure the final canvas draw uses targetWidth=targetColumns, targetHeight=targetRows. The existing rasterizeImageData callback already consumes ImageData correctly."
+      "code": "export class MediaWorkspace {\n  private worker: Worker;\n  private offscreen: OffscreenCanvas;\n  private stream: MediaStream | null = null;\n\n  constructor(canvas: HTMLCanvasElement, width: number, height: number) {\n    this.offscreen = canvas.transferControlToOffscreen();\n    this.worker = new Worker(new URL('./render-worker.ts', import.meta.url), { type: 'module' });\n    this.worker.postMessage({ canvas: this.offscreen, width, height }, [this.offscreen as any]);\n  }\n\n  public loadVideo(url: string) {\n    this.worker.postMessage({ type: 'LOAD_MEDIA', url });\n  }\n\n  public destroy() {\n    this.worker.postMessage({ type: 'CLEANUP' });\n    this.worker.terminate();\n    // Prevent the 'glitch' by forcing null state\n    this.stream?.getTracks().forEach(t => t.stop());\n    this.stream = null;\n  }\n}\n\n// In render-worker.ts\nself.onmessage = async (e) => {\n  const { canvas, width, height } = e.data;\n  const ctx = canvas.getContext('webgl2') || canvas.getContext('2d');\n  // Worker owns the lifecycle, never leaks to main thread\n  let animationId: number;\n  const loop = () => {\n    // Render logic here\n    animationId = requestAnimationFrame(loop);\n  };\n  loop();\n};",
+      "how_to_wire": "Each video/image in your UI gets its own MediaWorkspace instance. When switching workspaces, call .destroy() on the old one before initializing the new one."
     },
     {
-      "feature": "Monochrome Loading Animation (CSS Keyframes, Zero Dependencies)",
-      "source_url": "https://github.com/turbostarter/loading-ui/blob/main/registry/components/loading-ui/symmetric-wave.tsx",
-      "language": "tsx",
-      "code": "// Monochrome Loading Spinner — Pure CSS, no libraries\n// Source: adapted from turbostarter/loading-ui + clash-verge-rev\n\nimport React from 'react';\n\ninterface AsciiLoaderProps {\n  size?: number;\n  label?: string;\n}\n\nexport const AsciiLoader: React.FC<AsciiLoaderProps> = ({\n  size = 24,\n  label = 'Loading ASCII engine...',\n}) => (\n  <div className=\"flex flex-col items-center justify-center gap-3\" role=\"status\" aria-label={label}>\n    <div className=\"relative\" style={{ width: size, height: size }}>\n      {/* Outer ring */}\n      <div\n        className=\"absolute inset-0 rounded-full border-2 border-[#333] border-t-[#fff]\"\n        style={{ animation: 'ascii-spin 1s linear infinite' }}\n      />\n      {/* Inner dot */}\n      <div\n        className=\"absolute rounded-full bg-[#fff]\"\n        style={{\n          width: size * 0.25,\n          height: size * 0.25,\n          top: '50%',\n          left: '50%',\n          transform: 'translate(-50%, -50%)',\n          animation: 'ascii-pulse 1.5s ease-in-out infinite',\n        }}\n      />\n    </div>\n    <span className=\"text-[11px] font-mono text-[#888] tracking-wide\" aria-live=\"polite\">\n      {label}\n    </span>\n    <style>{`\n      @keyframes ascii-spin {\n        0% { transform: rotate(0deg); }\n        100% { transform: rotate(360deg); }\n      }\n      @keyframes ascii-pulse {\n        0%, 100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }\n        50% { opacity: 0.3; transform: translate(-50%, -50%) scale(0.6); }\n      }\n    `}</style>\n  </div>\n);",
-      "how_to_wire": "Import in App.tsx. Show AsciiLoader when isInitialLoad=true (first 2-3 seconds) OR when video/image is processing. Wrap in AnimatePresence for exit fade. Replace the current 400ms setTimeout with actual processing state tracking."
-    },
-    {
-      "feature": "Monochrome Dark UI Token System (Zero AI-Slop, Pure B&W)",
-      "source_url": "https://github.com/bradtraversy/design-resources-for-developers",
-      "language": "css",
-      "code": "/* Monochrome Dark Minimalist Token System */\n/* Replace existing CSS variables in index.css */\n\n:root {\n  /* Pure monochrome palette */\n  --bg: #000000;\n  --surface: #0a0a0c;\n  --surface-elevated: #141416;\n  --surface-hover: #1c1c1e;\n  --border: #222224;\n  --border-focus: #ffffff;\n\n  /* Text hierarchy — pure white scale */\n  --text-primary: #ffffff;\n  --text-secondary: #a0a0a0;\n  --text-muted: #606060;\n  --text-accent: #ffffff;\n\n  /* Accent — single blue for interactive elements only */\n  --accent: #3b82f6;\n  --accent-hover: #2563eb;\n  --accent-muted: rgba(59, 130, 246, 0.12);\n\n  /* Status — minimal, desaturated */\n  --status-recording: #ef4444;\n  --status-success: #22c55e;\n  --status-error: #ef4444;\n\n  /* Radii — tighter, more geometric */\n  --radius-card: 4px;\n  --radius-button: 3px;\n  --radius-tag: 2px;\n\n  /* Motion */\n  --duration-fast: 120ms;\n  --duration-standard: 180ms;\n  --duration-emphasis: 300ms;\n  --timing: cubic-bezier(0.16, 1, 0.3, 1);\n\n  /* Typography */\n  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;\n  --font-mono: 'JetBrains Mono', ui-monospace, monospace;\n}\n\nbody {\n  background: var(--bg);\n  color: var(--text-primary);\n  font-family: var(--font-sans);\n}",
-      "how_to_wire": "Replace all hardcoded colors in components. Remove #3b82f6 accent from non-interactive elements. All borders use --border. All text uses --text-primary/secondary/muted scale. Buttons use --surface-elevated background with --border border, hover to --surface-hover. Primary actions only get --accent."
-    },
-    {
-      "feature": "Video Playback Wiring (ensure video actually plays in Tauri webview)",
-      "source_url": "https://github.com/workadventure/workadventure/blob/master/play/src/front/WebRtc/BackgroundProcessor/MediaPipeBackgroundTransformer.ts",
+      "feature": "Minimalist Zen / 'Lock' Screen Toggle",
+      "source_url": "https://github.com/excalidraw/excalidraw/blob/master/packages/excalidraw/components/LayerUI.tsx",
       "language": "typescript",
-      "code": "// Critical: Video must actually play before frame extraction works\n// Common bug: video.load() called but play() never awaited\n// Source: workadventure + MDN video processing guide\n\nasync function ensureVideoPlaying(video: HTMLVideoElement): Promise<void> {\n  if (!video.src && !video.srcObject) {\n    throw new Error('Video has no source. Call video.load() first.');\n  }\n\n  // Wait for loadeddata if not ready\n  if (video.readyState < 2) {\n    await new Promise<void>((resolve, reject) => {\n      const onLoaded = () => { video.removeEventListener('loadeddata', onLoaded); resolve(); };\n      const onError = () => { video.removeEventListener('error', onError); reject(new Error('Video failed to load')); };\n      video.addEventListener('loadeddata', onLoaded);\n      video.addEventListener('error', onError);\n    });\n  }\n\n  // Now play — must await for autoplay policy compliance\n  try {\n    await video.play();\n  } catch (err: any) {\n    // Tauri webview may block autoplay. Show user gesture requirement.\n    throw new Error(`Video playback blocked: ${err.message}. Click play in the app.`);\n  }\n}\n\n// In handleSelectVideoFile:\n// const video = document.createElement('video');\n// video.src = URL.createObjectURL(file);\n// video.muted = true;  // Required for autoplay in many webviews\n// video.playsInline = true;\n// await ensureVideoPlaying(video);\n// Then start the pipeline",
-      "how_to_wire": "The current handleSelectVideoFile in App.tsx only sets activeTab='video' and shows a warning message but never creates a video element or starts playback. This is why video input produces no output. Fix: create hidden video element, call ensureVideoPlaying(), then feed into createVideoToAsciiPipeline."
+      "code": "import { Lock, Unlock } from 'lucide-react';\n\nexport const ZenToggle = ({ isZen, onToggle }: { isZen: boolean; onToggle: () => void }) => (\n  <button\n    onClick={onToggle}\n    className={\n      'fixed top-4 right-4 z-50 p-2 rounded-full ' +\n      'bg-black/5 dark:bg-white/10 backdrop-blur-md border border-white/10 ' +\n      'text-white/50 hover:text-white transition-all duration-300'\n    }\n  >\n    {isZen ? <Unlock size={16} /> : <Lock size={16} />}\n  </button>\n);\n\n// CSS for transitions\n/*\n.zen-mode-transition {\n  transition: opacity 0.3s ease, transform 0.3s ease;\n}\n.is-zen .hide-in-zen {\n  opacity: 0;\n  pointer-events: none;\n  transform: scale(0.95);\n}\n*/",
+      "how_to_wire": "Wrap sidebars and status bars in a '.hide-in-zen' class. Toggle the 'is-zen' class on the root container when the top-right button is clicked."
     }
   ],
   "anti_hallucination_guidance": [
-    "BANNED: Do not use requestAnimationFrame alone for video frame capture — it fires when the page is composited, NOT when a new video frame is decoded. Use requestVideoFrameCallback when available.",
-    "BANNED: Do not assume canvas.toDataURL() will work for video frames without first calling drawImage(). The canvas is empty until explicitly drawn.",
-    "BANNED: Do not use video.currentTime = X for frame seeking in a streaming pipeline — this causes decode stalls. Use the natural playback + rVFC approach.",
-    "BANNED: Do not add colorful gradients, neon effects, or rainbow accents. User demands pure monochrome #000000/#ffffff/#121212.",
-    "BANNED: Do not use framer-motion for the loading animation — keep it pure CSS keyframes for zero-dependency simplicity.",
-    "BANNED: Do not write ad-hoc CSS outside of Tailwind utility classes + CSS custom properties. All styling via tokens."
+    "BANNED: Do not use a simple CSS 'opacity: 0' for workspace switching; it causes the 'glitch' of overlapping video. Use OffscreenCanvas transfer.",
+    "BANNED: Do not fake hardware detection with a random number generator. Use the navigator.gpu and WEBGL_debug_renderer_info APIs.",
+    "BANNED: Do not use complex state management for Zen mode; a single boolean and a root-level CSS class is the proven Excalidraw pattern."
   ],
   "research_complete": true
 }

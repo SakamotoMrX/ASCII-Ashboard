@@ -790,6 +790,20 @@ export const PageCopySchema = z.object({
     acl_verified: z.string(),
     media_loaded: z.string()
   }),
+  zen_mode: z.object({
+    btn_enter_zen: z.string(),
+    btn_exit_zen: z.string(),
+    tooltip_zen: z.string(),
+    status_zen_active: z.string()
+  }).optional(),
+  workspaces: z.object({
+    tab_new_workspace: z.string(),
+    btn_close_workspace: z.string(),
+    empty_workspace_title: z.string(),
+    empty_workspace_desc: z.string(),
+    badge_active: z.string(),
+    badge_paused: z.string()
+  }).optional(),
   // Optional extensions for node graph, stickers, and load animation
   node_graph: z.object({
     panel_title: z.string(),
@@ -813,6 +827,130 @@ export const PageCopySchema = z.object({
   }).optional()
 });
 export type PageCopy = z.infer<typeof PageCopySchema>;
+
+// ============================================================================
+// 14.5. ISOLATED WORKSPACE, REAL HARDWARE & ZEN LOCKSCREEN CONTRACTS
+// ============================================================================
+
+export const WorkspaceTypeSchema = z.enum(["video", "image", "camera", "procedural_3d"]);
+export type WorkspaceType = z.infer<typeof WorkspaceTypeSchema>;
+
+export const WorkspaceSessionStateSchema = z.enum([
+  "idle",
+  "loading",
+  "playing",
+  "paused",
+  "rendered",
+  "error"
+]);
+export type WorkspaceSessionState = z.infer<typeof WorkspaceSessionStateSchema>;
+
+export const WorkspaceMediaSourceSchema = z.object({
+  type: WorkspaceTypeSchema,
+  url: z.string().optional(),
+  fileName: z.string().optional(),
+  fileSizeBytes: z.number().int().positive().optional(),
+  mimeType: z.string().optional(),
+  width: z.number().int().positive().optional(),
+  height: z.number().int().positive().optional(),
+  durationSeconds: z.number().positive().optional(),
+  proceduralScene: ProceduralSceneSchema.optional()
+});
+export type WorkspaceMediaSource = z.infer<typeof WorkspaceMediaSourceSchema>;
+
+export const WorkspaceRenderResultSchema = z.object({
+  asciiText: z.string(),
+  columns: z.number().int().positive(),
+  rows: z.number().int().positive(),
+  renderTimeMs: z.number().nonnegative(),
+  tierUsed: RenderTierSchema,
+  timestamp: z.number().int().positive()
+});
+export type WorkspaceRenderResult = z.infer<typeof WorkspaceRenderResultSchema>;
+
+export const WorkspaceSessionSchema = z.object({
+  id: z.string().uuid(),
+  title: z.string().min(1),
+  type: WorkspaceTypeSchema,
+  state: WorkspaceSessionStateSchema,
+  mediaSource: WorkspaceMediaSourceSchema.nullable(),
+  renderResult: WorkspaceRenderResultSchema.nullable(),
+  options: AsciiRenderOptionsSchema,
+  proceduralParams: Procedural3DParamsSchema.optional(),
+  createdAt: z.number().int().positive(),
+  lastActiveAt: z.number().int().positive()
+});
+export type WorkspaceSession = z.infer<typeof WorkspaceSessionSchema>;
+
+export const WorkspaceManagerContractSchema = z.object({
+  activeWorkspaceId: z.string().uuid(),
+  workspaces: z.array(WorkspaceSessionSchema),
+  maxConcurrentWorkspaces: z.number().int().positive().default(8)
+});
+export type WorkspaceManagerContract = z.infer<typeof WorkspaceManagerContractSchema>;
+
+export const HardwareGpuInfoSchema = z.object({
+  vendor: z.string(),
+  architecture: z.string().optional(),
+  device: z.string().optional(),
+  description: z.string().optional()
+});
+export type HardwareGpuInfo = z.infer<typeof HardwareGpuInfoSchema>;
+
+export const HardwareTierCapabilitiesSchema = z.object({
+  webgpuSupported: z.boolean(),
+  webgl2Supported: z.boolean(),
+  canvas2dSupported: z.boolean(),
+  rustSidecarSupported: z.boolean(),
+  recommendedTier: RenderTierSchema,
+  gpuInfo: HardwareGpuInfoSchema.nullable(),
+  webglRendererString: z.string().nullable(),
+  maxTextureDimension: z.number().int().positive().optional()
+});
+export type HardwareTierCapabilities = z.infer<typeof HardwareTierCapabilitiesSchema>;
+
+export const HardwareTelemetrySchema = z.object({
+  activeTier: RenderTierSchema,
+  gpuAdapterName: z.string(),
+  executionLatencyMs: z.number().nonnegative(),
+  fps: z.number().nonnegative(),
+  droppedFrames: z.number().int().nonnegative(),
+  vramEstimatedMb: z.number().nonnegative(),
+  activeShaderCore: z.string(),
+  deviceLostCount: z.number().int().nonnegative()
+});
+export type HardwareTelemetry = z.infer<typeof HardwareTelemetrySchema>;
+
+export const HardwareTierSelectionSchema = z.object({
+  requestedTier: RenderTierSchema,
+  actualTier: RenderTierSchema,
+  isFallback: z.boolean(),
+  fallbackReason: z.string().optional(),
+  verifiedExecutionPath: z.enum([
+    "src/lib/renderers/webgpu.ts",
+    "src/lib/renderers/webgl.ts",
+    "src/lib/renderers/canvas2d.ts",
+    "src-tauri/src/commands.rs"
+  ])
+});
+export type HardwareTierSelection = z.infer<typeof HardwareTierSelectionSchema>;
+
+export const ZenModeConfigSchema = z.object({
+  isZenLocked: z.boolean(),
+  zenButtonPosition: z.literal("top-right"),
+  zenButtonVariant: z.literal("translucent-pill"),
+  collapsedPanels: z.object({
+    navigationHeader: z.boolean(),
+    controlPanel: z.boolean(),
+    telemetryDrawer: z.boolean(),
+    constellationGraph: z.boolean(),
+    stickers: z.boolean()
+  }),
+  transitionDurationMs: z.number().int().positive().default(200),
+  allowKeyboardUnlock: z.boolean().default(true),
+  unlockKeyShortcuts: z.array(z.string()).default(["Escape", "F11", "KeyZ"])
+});
+export type ZenModeConfig = z.infer<typeof ZenModeConfigSchema>;
 
 // ============================================================================
 // 15. SKEPTICAL BREAKING SCENARIO STRESS VECTORS
@@ -860,6 +998,12 @@ export const Phase1ContractsSchema = z.object({
   motion_lifecycle: MotionLifecycleContractSchema,
   design_tokens: DesignTokensContractSchema,
   page_copy: PageCopySchema,
-  breaking_scenarios: z.array(BreakingScenarioSchema).min(3)
+  breaking_scenarios: z.array(BreakingScenarioSchema).min(3),
+  // New Architecture Extensions
+  workspace_session: WorkspaceSessionSchema.optional(),
+  hardware_tier_capabilities: HardwareTierCapabilitiesSchema.optional(),
+  hardware_telemetry: HardwareTelemetrySchema.optional(),
+  hardware_tier_selection: HardwareTierSelectionSchema.optional(),
+  zen_mode_config: ZenModeConfigSchema.optional()
 });
 export type Phase1Contracts = z.infer<typeof Phase1ContractsSchema>;

@@ -33,6 +33,11 @@ import {
   NodeGraphModelSchema,
   StickerCollectionSchema,
   Phase1ContractsSchema,
+  WorkspaceSessionSchema,
+  HardwareTierCapabilitiesSchema,
+  HardwareTelemetrySchema,
+  HardwareTierSelectionSchema,
+  ZenModeConfigSchema,
 } from "../contracts";
 
 describe("Contracts & Schemas Verification", () => {
@@ -601,5 +606,107 @@ describe("Contracts & Schemas Verification", () => {
     // Validate Phase1ContractsSchema is defined and is a Zod schema
     expect(Phase1ContractsSchema).toBeDefined();
     expect(typeof Phase1ContractsSchema.safeParse).toBe("function");
+  });
+
+  it("validates WorkspaceSessionSchema, HardwareTierSchemas, and ZenModeConfigSchema", () => {
+    const sampleWorkspace = {
+      id: "123e4567-e89b-12d3-a456-426614174000",
+      title: "Video Session 1",
+      type: "video",
+      state: "playing",
+      mediaSource: {
+        type: "video",
+        url: "blob:http://localhost:3000/demo.mp4",
+        fileName: "demo.mp4",
+        durationSeconds: 12.5
+      },
+      renderResult: {
+        asciiText: "@@@\n%%%\n***",
+        columns: 120,
+        rows: 60,
+        renderTimeMs: 4.2,
+        tierUsed: "tier1_webgpu",
+        timestamp: Date.now()
+      },
+      options: {
+        mode: "video",
+        tier: "tier1_webgpu",
+        color_mode: "monochrome",
+        charset: {
+          preset: "standard",
+          invert: false,
+          glyph_aspect_ratio: 0.55
+        },
+        contrast: 0,
+        brightness: 0,
+        gamma: 1.0,
+        dither: "none",
+        cell_width_px: 8,
+        cell_height_px: 14,
+        font_size_px: 12,
+        font_family: "JetBrains Mono, monospace",
+        fps_cap: 60,
+        enable_scanlines: false,
+        enable_bloom: false,
+        max_output_columns: 120,
+        max_output_rows: 60
+      },
+      createdAt: Date.now(),
+      lastActiveAt: Date.now()
+    };
+
+    expect(WorkspaceSessionSchema.safeParse(sampleWorkspace).success).toBe(true);
+
+    const sampleHwCapabilities = {
+      webgpuSupported: true,
+      webgl2Supported: true,
+      canvas2dSupported: true,
+      rustSidecarSupported: true,
+      recommendedTier: "tier1_webgpu",
+      gpuInfo: {
+        vendor: "Apple",
+        architecture: "Apple M-Series GPU",
+        device: "Apple M2 Pro"
+      },
+      webglRendererString: "Apple M2 Pro Metal WebGL"
+    };
+    expect(HardwareTierCapabilitiesSchema.safeParse(sampleHwCapabilities).success).toBe(true);
+
+    const sampleTelemetry = {
+      activeTier: "tier1_webgpu",
+      gpuAdapterName: "Apple M2 Pro (WebGPU Compute)",
+      executionLatencyMs: 2.4,
+      fps: 60.0,
+      droppedFrames: 0,
+      vramEstimatedMb: 128.5,
+      activeShaderCore: "WGSL Atlas Compute Kernel v2",
+      deviceLostCount: 0
+    };
+    expect(HardwareTelemetrySchema.safeParse(sampleTelemetry).success).toBe(true);
+
+    const sampleTierSelection = {
+      requestedTier: "tier1_webgpu",
+      actualTier: "tier1_webgpu",
+      isFallback: false,
+      verifiedExecutionPath: "src/lib/renderers/webgpu.ts"
+    };
+    expect(HardwareTierSelectionSchema.safeParse(sampleTierSelection).success).toBe(true);
+
+    const sampleZenConfig = {
+      isZenLocked: true,
+      zenButtonPosition: "top-right",
+      zenButtonVariant: "translucent-pill",
+      collapsedPanels: {
+        navigationHeader: true,
+        controlPanel: true,
+        telemetryDrawer: true,
+        constellationGraph: true,
+        stickers: true
+      },
+      transitionDurationMs: 200,
+      allowKeyboardUnlock: true,
+      unlockKeyShortcuts: ["Escape", "F11", "KeyZ"]
+    };
+    expect(ZenModeConfigSchema.safeParse(sampleZenConfig).success).toBe(true);
   });
 });

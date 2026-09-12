@@ -5,12 +5,22 @@
 
 import { RenderTier } from "../contracts";
 
+export interface GpuAdapterDetails {
+  vendor: string;
+  architecture?: string;
+  device?: string;
+  description?: string;
+}
+
 export interface TierCapabilities {
   webgpuSupported: boolean;
   webgl2Supported: boolean;
   canvas2dSupported: boolean;
   rustSidecarSupported: boolean;
   recommendedTier: RenderTier;
+  gpuInfo?: GpuAdapterDetails | null;
+  webglRendererString?: string | null;
+  maxTextureDimension?: number;
 }
 
 export class TierManager {
@@ -22,18 +32,44 @@ export class TierManager {
     canvas2dSupported: true,
     rustSidecarSupported: false,
     recommendedTier: "tier3_canvas2d",
+    gpuInfo: null,
+    webglRendererString: null,
   };
 
   async detectCapabilities(): Promise<TierCapabilities> {
     // 1. Probe WebGPU
     let webgpu = false;
+    let gpuInfo: GpuAdapterDetails | null = null;
+
     if (typeof navigator !== "undefined" && "gpu" in navigator) {
       try {
-        const adapter = await (navigator as any).gpu.requestAdapter();
+        const adapter = await (navigator as any).gpu.requestAdapter({
+          powerPreference: "high-performance",
+        });
         if (adapter) {
           const device = await adapter.requestDevice();
           if (device) {
             webgpu = true;
+            if (adapter.info) {
+              gpuInfo = {
+                vendor: adapter.info.vendor || "WebGPU Vendor",
+                architecture: adapter.info.architecture || "",
+                device: adapter.info.device || "",
+                description:
+                  adapter.info.description ||
+                  `${adapter.info.vendor || "WebGPU"} (${adapter.info.architecture || "GPU"})`,
+              };
+            } else if (typeof adapter.requestAdapterInfo === "function") {
+              const info = await adapter.requestAdapterInfo();
+              gpuInfo = {
+                vendor: info.vendor || "WebGPU Vendor",
+                architecture: info.architecture || "",
+                device: info.device || "",
+                description:
+                  info.description ||
+                  `${info.vendor || "WebGPU"} (${info.architecture || "GPU"})`,
+              };
+            }
           }
         }
       } catch {
@@ -43,12 +79,31 @@ export class TierManager {
 
     // 2. Probe WebGL2
     let webgl2 = false;
+    let webglRendererString: string | null = null;
+    let maxTextureDimension: number | undefined = undefined;
+
     if (typeof document !== "undefined") {
       try {
         const canvas = document.createElement("canvas");
-        const gl = canvas.getContext("webgl2");
+        const gl = canvas.getContext("webgl2", { powerPreference: "high-performance" });
         if (gl) {
           webgl2 = true;
+          maxTextureDimension = gl.getParameter(gl.MAX_TEXTURE_SIZE);
+          const ext = gl.getExtension("WEBGL_debug_renderer_info");
+          if (ext) {
+            const unmaskedRenderer = gl.getParameter(ext.UNMASKED_RENDERER_WEBGL);
+            const unmaskedVendor = gl.getParameter(ext.UNMASKED_VENDOR_WEBGL);
+            webglRendererString = `${unmaskedVendor} - ${unmaskedRenderer}`;
+          } else {
+            webglRendererString = `${gl.getParameter(gl.VENDOR)} - ${gl.getParameter(gl.RENDERER)}`;
+          }
+
+          if (!gpuInfo && webglRendererString) {
+            gpuInfo = {
+              vendor: (gl.getParameter(gl.VENDOR) as string) || "WebGL2",
+              description: webglRendererString,
+            };
+          }
         }
       } catch {
         webgl2 = false;
@@ -56,7 +111,7 @@ export class TierManager {
     }
 
     // 3. Probe Tauri Rust IPC
-    const rustSidecar = typeof window !== "undefined" && "__TAURI_INTERNALS__" in window;
+    const rustSidecar = typeof window !== "undefined" && ("__TAURI_INTERNALS__" in window || "__TAURI__" in window);
 
     let recommended: RenderTier = "tier3_canvas2d";
     if (webgpu) {
@@ -71,6 +126,9 @@ export class TierManager {
       canvas2dSupported: true,
       rustSidecarSupported: rustSidecar,
       recommendedTier: recommended,
+      gpuInfo,
+      webglRendererString,
+      maxTextureDimension,
     };
 
     this.activeTier = recommended;
@@ -109,6 +167,22 @@ export class TierManager {
 
   getCapabilities(): TierCapabilities {
     return this.capabilities;
+  }
+
+  getHardwareGpuDescription(): string {
+    if (this.capabilities.gpuInfo?.description) {
+      return this.capabilities.gpuInfo.description;
+    }
+    if (this.capabilities.webglRendererString) {
+      return this.capabilities.webglRendererString;
+    }
+    if (this.capabilities.webgpuSupported) {
+      return "WebGPU Accelerated Core";
+    }
+    if (this.capabilities.webgl2Supported) {
+      return "WebGL2 Standard Core";
+    }
+    return "Canvas2D CPU Rasterizer";
   }
 }
 
