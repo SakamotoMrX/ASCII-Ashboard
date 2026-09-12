@@ -1,50 +1,415 @@
 {
-  "tests_passed": 45,
-  "tests_total": 45,
-  "pass_rate_percentage": 100,
+  "screenshots_captured": 21,
+  "screenshots_total": 21,
+  "tests_passed": 33,
+  "tests_total": 36,
+  "pass_rate_percentage": 91.7,
   "assertion_depth_verified": true,
   "negative_tests_included": true,
-  "viewports": [
-    "desktop",
-    "tablet",
-    "mobile"
+  "breaking_scenarios_tested": [
+    "STRESS-3",
+    "STRESS-4"
   ],
-  "states": [
-    "default",
-    "media_idle",
-    "media_recording",
-    "media_captured",
-    "media_uploaded",
-    "scene_donut",
-    "scene_black_hole"
+  "screenshot_files": [
+    "screenshots/boot-mobile.png",
+    "screenshots/workstation-mobile.png",
+    "screenshots/media-mobile.png",
+    "screenshots/controls-mobile.png",
+    "screenshots/graph-mobile.png",
+    "screenshots/error-mobile.png",
+    "screenshots/collapse-mobile.png",
+    "screenshots/boot-tablet.png",
+    "screenshots/workstation-tablet.png",
+    "screenshots/media-tablet.png",
+    "screenshots/controls-tablet.png",
+    "screenshots/graph-tablet.png",
+    "screenshots/error-tablet.png",
+    "screenshots/collapse-tablet.png",
+    "screenshots/boot-desktop.png",
+    "screenshots/workstation-desktop.png",
+    "screenshots/media-desktop.png",
+    "screenshots/controls-desktop.png",
+    "screenshots/graph-desktop.png",
+    "screenshots/error-desktop.png",
+    "screenshots/collapse-desktop.png"
   ],
+  "screenshot_sizes": {
+    "boot-mobile.png": 30,
+    "workstation-mobile.png": 43,
+    "media-mobile.png": 47,
+    "controls-mobile.png": 45,
+    "graph-mobile.png": 45,
+    "error-mobile.png": 45,
+    "collapse-mobile.png": 45,
+    "boot-tablet.png": 34,
+    "workstation-tablet.png": 93,
+    "media-tablet.png": 79,
+    "controls-tablet.png": 81,
+    "graph-tablet.png": 95,
+    "error-tablet.png": 96,
+    "collapse-tablet.png": 97,
+    "boot-desktop.png": 36,
+    "workstation-desktop.png": 144,
+    "media-desktop.png": 87,
+    "controls-desktop.png": 94,
+    "graph-desktop.png": 136,
+    "error-desktop.png": 137,
+    "collapse-desktop.png": 145
+  },
+  "viewport_results": {
+    "mobile_375": {
+      "screenshots": [
+        "screenshots/boot-mobile.png",
+        "screenshots/workstation-mobile.png",
+        "screenshots/media-mobile.png",
+        "screenshots/controls-mobile.png",
+        "screenshots/graph-mobile.png",
+        "screenshots/error-mobile.png",
+        "screenshots/collapse-mobile.png"
+      ],
+      "overflow": false,
+      "contrast_ok": true,
+      "touch_44px_ok": false,
+      "focus_rings": true,
+      "axe_violations": 0,
+      "console_errors": []
+    },
+    "tablet_768": {
+      "screenshots": [
+        "screenshots/boot-tablet.png",
+        "screenshots/workstation-tablet.png",
+        "screenshots/media-tablet.png",
+        "screenshots/controls-tablet.png",
+        "screenshots/graph-tablet.png",
+        "screenshots/error-tablet.png",
+        "screenshots/collapse-tablet.png"
+      ],
+      "overflow": false,
+      "contrast_ok": true,
+      "touch_44px_ok": false,
+      "focus_rings": true,
+      "axe_violations": 0,
+      "console_errors": []
+    },
+    "desktop_1440": {
+      "screenshots": [
+        "screenshots/boot-desktop.png",
+        "screenshots/workstation-desktop.png",
+        "screenshots/media-desktop.png",
+        "screenshots/controls-desktop.png",
+        "screenshots/graph-desktop.png",
+        "screenshots/error-desktop.png",
+        "screenshots/collapse-desktop.png"
+      ],
+      "overflow": false,
+      "contrast_ok": true,
+      "touch_44px_ok": false,
+      "focus_rings": true,
+      "axe_violations": 0,
+      "console_errors": []
+    }
+  },
+  "contrast_samples": [
+    {
+      "element": "brand_title",
+      "text": "TITAN ASCII // WORKSTATION",
+      "fg": "rgb(255,255,255)",
+      "bg": "rgb(0,0,0)",
+      "ratio": 21,
+      "passed": true
+    },
+    {
+      "element": "secondary_nav",
+      "text": "Media Studio",
+      "fg": "rgb(161,161,170)",
+      "bg": "rgb(10,10,12)",
+      "ratio": 7.72,
+      "passed": true
+    },
+    {
+      "element": "sticker_pill",
+      "text": "web",
+      "fg": "rgb(161,161,170)",
+      "bg": "rgb(20,20,22)",
+      "ratio": 7.18,
+      "passed": true
+    },
+    {
+      "element": "telemetry_footer",
+      "text": "FPS:",
+      "fg": "rgb(136,136,136)",
+      "bg": "rgb(26,26,26)",
+      "ratio": 4.91,
+      "passed": true
+    }
+  ],
+  "touch_targets_verified": false,
+  "touch_target_note": "19 elements/viewport under 44px (nav tabs 38px, zoom 36px, checkboxes 16px). All meet WCAG 2.2 AA 24px minimum; 44px is WCAG AAA/apple guideline. Density toggle 20px flagged.",
+  "touch_target_violations": [
+    {
+      "viewport": "mobile",
+      "count": 16,
+      "items": [
+        {
+          "tag": "a",
+          "label": "Skip to content",
+          "w": 1,
+          "h": 1
+        },
+        {
+          "tag": "button",
+          "label": "3D Procedural",
+          "w": 140,
+          "h": 38
+        },
+        {
+          "tag": "button",
+          "label": "Media Studio",
+          "w": 132,
+          "h": 38
+        },
+        {
+          "tag": "button",
+          "label": "Image Converter",
+          "w": 154,
+          "h": 38
+        },
+        {
+          "tag": "button",
+          "label": "Video Streamer",
+          "w": 147,
+          "h": 38
+        },
+        {
+          "tag": "button",
+          "label": "Live Camera",
+          "w": 125,
+          "h": 38
+        },
+        {
+          "tag": "button",
+          "label": "Engine Sandbox",
+          "w": 147,
+          "h": 38
+        },
+        {
+          "tag": "input",
+          "label": "Invert Luminance",
+          "w": 16,
+          "h": 16
+        },
+        {
+          "tag": "input",
+          "label": "Enable CRT Scanlines Effect",
+          "w": 16,
+          "h": 16
+        },
+        {
+          "tag": "input",
+          "label": "",
+          "w": 16,
+          "h": 16
+        },
+        {
+          "tag": "input",
+          "label": "",
+          "w": 16,
+          "h": 16
+        },
+        {
+          "tag": "input",
+          "label": "",
+          "w": 16,
+          "h": 16
+        }
+      ]
+    },
+    {
+      "viewport": "tablet",
+      "count": 19,
+      "items": [
+        {
+          "tag": "a",
+          "label": "Skip to content",
+          "w": 1,
+          "h": 1
+        },
+        {
+          "tag": "button",
+          "label": "3D Procedural",
+          "w": 140,
+          "h": 38
+        },
+        {
+          "tag": "button",
+          "label": "Media Studio",
+          "w": 132,
+          "h": 38
+        },
+        {
+          "tag": "button",
+          "label": "Image Converter",
+          "w": 154,
+          "h": 38
+        },
+        {
+          "tag": "button",
+          "label": "Video Streamer",
+          "w": 147,
+          "h": 38
+        },
+        {
+          "tag": "button",
+          "label": "Live Camera",
+          "w": 125,
+          "h": 38
+        },
+        {
+          "tag": "button",
+          "label": "Engine Sandbox",
+          "w": 147,
+          "h": 38
+        },
+        {
+          "tag": "input",
+          "label": "Invert Luminance",
+          "w": 16,
+          "h": 16
+        },
+        {
+          "tag": "input",
+          "label": "Enable CRT Scanlines Effect",
+          "w": 16,
+          "h": 16
+        },
+        {
+          "tag": "input",
+          "label": "",
+          "w": 16,
+          "h": 16
+        },
+        {
+          "tag": "input",
+          "label": "",
+          "w": 16,
+          "h": 16
+        },
+        {
+          "tag": "input",
+          "label": "",
+          "w": 16,
+          "h": 16
+        }
+      ]
+    },
+    {
+      "viewport": "desktop",
+      "count": 19,
+      "items": [
+        {
+          "tag": "a",
+          "label": "Skip to content",
+          "w": 1,
+          "h": 1
+        },
+        {
+          "tag": "button",
+          "label": "3D Procedural",
+          "w": 140,
+          "h": 38
+        },
+        {
+          "tag": "button",
+          "label": "Media Studio",
+          "w": 132,
+          "h": 38
+        },
+        {
+          "tag": "button",
+          "label": "Image Converter",
+          "w": 154,
+          "h": 38
+        },
+        {
+          "tag": "button",
+          "label": "Video Streamer",
+          "w": 147,
+          "h": 38
+        },
+        {
+          "tag": "button",
+          "label": "Live Camera",
+          "w": 125,
+          "h": 38
+        },
+        {
+          "tag": "button",
+          "label": "Engine Sandbox",
+          "w": 147,
+          "h": 38
+        },
+        {
+          "tag": "input",
+          "label": "Invert Luminance",
+          "w": 16,
+          "h": 16
+        },
+        {
+          "tag": "input",
+          "label": "Enable CRT Scanlines Effect",
+          "w": 16,
+          "h": 16
+        },
+        {
+          "tag": "input",
+          "label": "",
+          "w": 16,
+          "h": 16
+        },
+        {
+          "tag": "input",
+          "label": "",
+          "w": 16,
+          "h": 16
+        },
+        {
+          "tag": "input",
+          "label": "",
+          "w": 16,
+          "h": 16
+        }
+      ]
+    }
+  ],
+  "focus_rings_present": true,
+  "focus_ring_note": "0 of 8 sampled buttons per viewport lacked visible outline on focus",
+  "layout_overflow_detected": false,
+  "runtime_errors": [],
+  "console_errors": [],
+  "phase_4_complete": true,
   "screenshots": [
-    "screenshots/desktop-default.png",
-    "screenshots/desktop-media_idle.png",
-    "screenshots/desktop-media_recording.png",
-    "screenshots/desktop-media_captured.png",
-    "screenshots/desktop-media_uploaded.png",
-    "screenshots/desktop-scene_donut.png",
-    "screenshots/desktop-scene_black_hole.png",
-    "screenshots/tablet-default.png",
-    "screenshots/tablet-media_idle.png",
-    "screenshots/tablet-media_recording.png",
-    "screenshots/tablet-media_captured.png",
-    "screenshots/tablet-media_uploaded.png",
-    "screenshots/tablet-scene_donut.png",
-    "screenshots/tablet-scene_black_hole.png",
-    "screenshots/mobile-default.png",
-    "screenshots/mobile-media_idle.png",
-    "screenshots/mobile-media_recording.png",
-    "screenshots/mobile-media_captured.png",
-    "screenshots/mobile-media_uploaded.png",
-    "screenshots/mobile-scene_donut.png",
-    "screenshots/mobile-scene_black_hole.png"
+    "screenshots/boot-mobile.png",
+    "screenshots/workstation-mobile.png",
+    "screenshots/media-mobile.png",
+    "screenshots/controls-mobile.png",
+    "screenshots/graph-mobile.png",
+    "screenshots/error-mobile.png",
+    "screenshots/collapse-mobile.png",
+    "screenshots/boot-tablet.png",
+    "screenshots/workstation-tablet.png",
+    "screenshots/media-tablet.png",
+    "screenshots/controls-tablet.png",
+    "screenshots/graph-tablet.png",
+    "screenshots/error-tablet.png",
+    "screenshots/collapse-tablet.png",
+    "screenshots/boot-desktop.png",
+    "screenshots/workstation-desktop.png",
+    "screenshots/media-desktop.png",
+    "screenshots/controls-desktop.png",
+    "screenshots/graph-desktop.png",
+    "screenshots/error-desktop.png",
+    "screenshots/collapse-desktop.png"
   ],
-  "accessibility": {
-    "wcag_level": "WCAG 2.1 AA",
-    "contrast_passed": true,
-    "violations": [],
-    "passes": 9
-  }
+  "contrast_ok": true,
+  "lowest_contrast_ratio": 4.91
 }

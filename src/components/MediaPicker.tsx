@@ -355,7 +355,7 @@ export const MediaPicker: React.FC<MediaPickerProps> = ({
             />
             {/* Blinking indicator & timer */}
             <div className="absolute top-3 left-3 bg-[#121212]/90 border border-[#2a2a2a] px-3 py-1.5 rounded-[4px] flex items-center gap-2 font-mono text-xs">
-              <span className="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse" />
+              <span className="w-2.5 h-2.5 rounded-full bg-red-500" />
               <span className="text-[#f3f4f6] font-semibold">{formatTime(recordingSeconds)}</span>
               <span className="text-[#888888] text-[10px]">REC</span>
             </div>

@@ -23,6 +23,16 @@ import {
   RecordingMetadataSchema,
   SnapshotMetadataSchema,
   MediaPickerErrorSchema,
+  VideoProcessorContractSchema,
+  ImageProcessorContractSchema,
+  CameraProcessorContractSchema,
+  AsciiRenderEngineContractSchema,
+  ColorTokensSchema,
+  MONOCHROME_COLOR_TOKENS,
+  LoadingAnimationStateSchema,
+  NodeGraphModelSchema,
+  StickerCollectionSchema,
+  Phase1ContractsSchema,
 } from "../contracts";
 
 describe("Contracts & Schemas Verification", () => {
@@ -408,5 +418,188 @@ describe("Contracts & Schemas Verification", () => {
       console.error("PageCopySchema parse error:", parsed.error);
     }
     expect(parsed.success).toBe(true);
+  });
+
+  it("validates VideoProcessorContractSchema, ImageProcessorContractSchema, and CameraProcessorContractSchema", () => {
+    const videoContract = {
+      state: "playing",
+      config: {
+        sourceUrl: "blob:http://localhost/test-video",
+        fileName: "clip.mp4",
+        fileSizeBytes: 1048576,
+        mimeType: "video/mp4",
+        targetColumns: 120,
+        targetRows: 60,
+        playbackRate: 1.0,
+        loop: true,
+        muted: true,
+        autoPlay: true,
+      },
+      frameMetadata: {
+        frameIndex: 42,
+        mediaTimeSec: 1.4,
+        durationSec: 10.0,
+        videoWidth: 1920,
+        videoHeight: 1080,
+        outputColumns: 120,
+        outputRows: 60,
+        extractionDurationMs: 2.1,
+        renderDurationMs: 4.5,
+        fpsActual: 59.8,
+        droppedFrames: 0,
+      },
+      error: null,
+    };
+    expect(VideoProcessorContractSchema.safeParse(videoContract).success).toBe(true);
+
+    const imageContract = {
+      state: "ready",
+      fileName: "test.png",
+      result: {
+        asciiText: "###",
+        columns: 120,
+        rows: 60,
+        originalWidth: 1920,
+        originalHeight: 1080,
+        rasterizedWidth: 120,
+        rasterizedHeight: 60,
+        renderDurationMs: 3.2,
+        charCount: 7200,
+      },
+      errorMessage: null,
+    };
+    expect(ImageProcessorContractSchema.safeParse(imageContract).success).toBe(true);
+
+    const cameraContract = {
+      state: "streaming",
+      activeDeviceId: "cam-default",
+      activeResolution: { width: 1280, height: 720 },
+      currentFps: 30,
+      lastSnapshot: null,
+      errorMessage: null,
+    };
+    expect(CameraProcessorContractSchema.safeParse(cameraContract).success).toBe(true);
+  });
+
+  it("validates AsciiRenderEngineContractSchema and Monochrome ColorTokens", () => {
+    const engineContract = {
+      state: "ready",
+      activeMode: "video",
+      activeTier: "tier3_canvas2d",
+      options: {
+        mode: "video",
+        tier: "tier3_canvas2d",
+        color_mode: "monochrome",
+        charset: { preset: "standard", invert: false, glyph_aspect_ratio: 0.55 },
+        contrast: 0,
+        brightness: 0,
+        gamma: 1.0,
+        dither: "none",
+        cell_width_px: 8,
+        cell_height_px: 14,
+        font_size_px: 12,
+        font_family: "JetBrains Mono",
+        fps_cap: 60,
+        enable_scanlines: false,
+        enable_bloom: false,
+        max_output_columns: 120,
+        max_output_rows: 60,
+      },
+      lastResult: null,
+      gpuContextLost: false,
+    };
+    expect(AsciiRenderEngineContractSchema.safeParse(engineContract).success).toBe(true);
+
+    // Validate MONOCHROME_COLOR_TOKENS against ColorTokensSchema
+    expect(ColorTokensSchema.safeParse(MONOCHROME_COLOR_TOKENS).success).toBe(true);
+    expect(MONOCHROME_COLOR_TOKENS.background).toBe("#000000");
+    expect(MONOCHROME_COLOR_TOKENS.primary).toBe("#ffffff");
+  });
+
+  it("validates LoadingAnimationStateSchema, NodeGraphModelSchema, and StickerCollectionSchema", () => {
+    const loadingState = {
+      phase: "initializing",
+      progress: 45,
+      stepLabel: "Probing hardware tier...",
+      elapsedMs: 650,
+      isComplete: false,
+      hardwareTierDetected: "tier3_canvas2d",
+    };
+    expect(LoadingAnimationStateSchema.safeParse(loadingState).success).toBe(true);
+
+    const graphModel = {
+      nodes: [
+        {
+          id: "node-source",
+          label: "Video Decoder (rVFC)",
+          type: "source",
+          position: { x: 100, y: 150 },
+          status: "active",
+          metrics: { fps: 60, latencyMs: 2.5 },
+          activeConnections: ["node-raster"],
+        },
+        {
+          id: "node-raster",
+          label: "ImageData Buffer",
+          type: "rasterizer",
+          position: { x: 300, y: 150 },
+          status: "active",
+          activeConnections: ["node-ascii"],
+        },
+        {
+          id: "node-ascii",
+          label: "Monochrome ASCII Kernel",
+          type: "ascii_kernel",
+          position: { x: 500, y: 150 },
+          status: "active",
+          activeConnections: [],
+        },
+      ],
+      edges: [
+        {
+          id: "edge-1",
+          sourceNodeId: "node-source",
+          targetNodeId: "node-raster",
+          status: "flowing",
+          style: "solid",
+        },
+        {
+          id: "edge-2",
+          sourceNodeId: "node-raster",
+          targetNodeId: "node-ascii",
+          status: "flowing",
+          style: "solid",
+        },
+      ],
+      activePipelineId: "pipe-video-stream",
+      constellationDensity: "regular",
+    };
+    expect(NodeGraphModelSchema.safeParse(graphModel).success).toBe(true);
+
+    const stickerCollection = {
+      stickers: [
+        {
+          id: "stk-tier",
+          category: "tier",
+          label: "TIER",
+          value: "CANVAS2D_CPU",
+          variant: "monochrome_pill",
+          pinned: true,
+        },
+        {
+          id: "stk-fps",
+          category: "fps",
+          label: "FPS",
+          value: "60.0",
+          variant: "dot_indicator",
+          pinned: true,
+        },
+      ],
+    };
+    expect(StickerCollectionSchema.safeParse(stickerCollection).success).toBe(true);
+
+    // Validate Phase1ContractsSchema is defined and is a Zod schema
+    expect(Phase1ContractsSchema).toBeDefined();
+    expect(typeof Phase1ContractsSchema.safeParse).toBe("function");
   });
 });

@@ -1,0 +1,42 @@
+{
+  "schema_version": 2,
+  "mission_id": "ship-20260912-080233",
+  "request": "REFACTOR AT DESIGN - WORKLOAD FOR USER - AND THE TAURI DESKTOP APP FOR MAC WINDOWS AND ANDROID NOT A WEBSITE, the design now is full of ai-slop, i want minimalism black and white, with professional graph / stickers, and the workflow of using it too suck, the colorfull cant do shit, the video i already inputted is not giving an output. The Images too. And i want a load animation when loading in the app interface, USE MY IMPORTED PHOTO FOR REFFERENCE FOR ALL MODELS AND AGENTS. JUST AUTOMATE I APPROVED ALL, JUST DO IT, REMEMBER ITS A APPLICATION BRO",
+  "created_at": "2026-09-12T01:02:33.927Z",
+  "dev_port": 3000,
+  "triage_tier": "STANDARD",
+  "current_phase": "PHASE_2_IMPLEMENTATION",
+  "design_direction": "phase-1.5-design-direction.json",
+  "template_tells": [],
+  "motion_moments": 0,
+  "total_retries": 0,
+  "max_total_retries": 5,
+  "timeout_minutes": 120,
+  "retry_counts": {
+    "ARCHITECTURE_FLAW": 0,
+    "DESIGN_UI_FLAW": 0,
+    "LOGIC_BACKEND_FLAW": 0,
+    "WIRING_FLAW": 0,
+    "RUNTIME_CRASH": 0
+  },
+  "max_retries_per_domain": 3,
+  "phase_history": [
+    {
+      "barrier": "barrier-1",
+      "passed_at": "2026-09-12T01:19:10.864Z",
+      "summary": "Blueprint & contracts locked at .opencode/artifacts/phase-1-contracts.ts (5 breaking scenario(s) modeled, real copy locked)"
+    },
+    {
+      "barrier": "barrier-0",
+      "passed_at": "2026-09-12T01:19:24.744Z",
+      "summary": "Recon valid. Tier: COMPLEX — Full 7-phase pipeline + enhanced security gate + extended acceptance test coverage"
+    },
+    {
+      "barrier": "barrier-1.5",
+      "passed_at": "2026-09-12T01:24:47.756Z",
+      "summary": "Design Direction locked: 6 colors, 2 typeface(s), 1 orchestrated motion moment, 7 tells checked & revised."
+    }
+  ],
+  "status": "IN_PROGRESS",
+  "_checksum": "492a168efb41727d"
+}

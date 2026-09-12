@@ -1,106 +1,117 @@
 {
-  "mission_id": "ship-media-minimalist-tauri",
-  "created_at": "2026-09-12T00:00:00.000Z",
+  "mission_id": "ascii-art-monochrome-desktop-refactor",
+  "created_at": "2026-09-12T08:20:00.000Z",
+  "risk_level": "MEDIUM",
+  "risk_reasons": [
+    "Video stream lifecycle in desktop webview",
+    "Tauri drag-and-drop local file IPC vs web standard File"
+  ],
+  "architecture_verdict": "SOUND",
+  "proceed": true,
+  "agent_lanes": {
+    "designer": "B/W monochrome UI, node graph visuals, technical stickers, entrance load animation",
+    "fixer": "Video element creation, requestVideoFrameCallback extraction, image/camera rendering pipeline, state hooks"
+  },
   "architecture": {
-    "system_overview": "Tauri v2 multiplatform desktop and mobile ASCII-rendering application sealed in a sandbox architecture matching Docker-grade process isolation. Features a Dark Minimalist UI (#121212 / #1a1a1a / #3B82F6), a Unified MediaPicker component (file drag-and-drop, live camera recording, and photo capture), and a high-performance WebGPU/WebGL/Canvas rendering frontend (React 19 + TypeScript + Vite) backed by a secure Rust backend core.",
+    "system_overview": "Tauri v2 native cross-platform application (macOS, Windows, Android) delivering a high-performance, pure monochrome (#000000 / #0a0a0c / #141416 / #ffffff) ASCII rendering studio. Features a node constellation graph representing processing pipelines, technical status stickers, a single orchestrated entrance load animation, and an ultra-reliable video/image/camera extraction pipeline with zero AI-slop.",
     "target_platforms": {
       "macos": {
-        "webview": "WKWebView (WebKit)",
-        "graphics": "Metal-backed WebGPU and WebGL2",
-        "packaging": "macOS App Bundle (.app) & Universal DMG (.dmg)",
-        "entitlements": {
-          "file": "src-tauri/Info.plist",
-          "NSCameraUsageDescription": "ASCII Studio requires camera access to capture still frames and live video for ASCII rendering.",
-          "NSMicrophoneUsageDescription": "ASCII Studio requires microphone access for audio in video recordings."
-        }
+        "webview": "WKWebView (WebKit) with Metal WebGPU/WebGL2 acceleration",
+        "packaging": "macOS Universal .app / .dmg bundle",
+        "video_codec_support": ["video/mp4; codecs=avc1", "video/quicktime", "video/mp4; codecs=hvc1"],
+        "entitlements": "NSCameraUsageDescription & NSMicrophoneUsageDescription in Info.plist"
       },
       "windows": {
-        "webview": "Microsoft Edge WebView2 (Chromium)",
-        "graphics": "Direct3D 12-backed WebGPU and WebGL2",
-        "packaging": "NSIS Installer & MSI Package",
-        "webview2_permissions": "CoreWebView2PermissionRequested event handling camera and microphone requests automatically"
+        "webview": "Microsoft Edge WebView2 (Chromium Evergreen) with Direct3D 12",
+        "packaging": "NSIS .exe installer & MSI bundle",
+        "video_codec_support": ["video/mp4", "video/webm; codecs=vp9", "video/webm; codecs=vp8"],
+        "permissions": "CoreWebView2PermissionRequested automated handler"
       },
-      "linux": {
-        "webview": "WebKitGTK (WebProcess)",
-        "graphics": "OpenGL / Vulkan-backed WebGL2 and WebGPU",
-        "packaging": "AppImage & Debian Package (.deb)",
-        "webkit_permissions": "WebKitPermissionRequest signal handling for media stream devices"
+      "android": {
+        "webview": "Android System WebView (Chromium) with Vulkan/OpenGLES",
+        "packaging": "Android APK & AAB package via Tauri CLI",
+        "video_codec_support": ["video/mp4", "video/webm"],
+        "permissions": "android.permission.CAMERA in AndroidManifest.xml"
       }
     },
-    "visual_design": {
-      "theme": "Dark Minimalist",
-      "tokens": {
-        "background": "#121212",
-        "surface": "#1a1a1a",
-        "surface_elevated": "#242424",
-        "accent": "#3B82F6",
-        "accent_hover": "#2563EB",
-        "accent_subtle": "rgba(59, 130, 246, 0.12)",
-        "text_primary": "#FAFAFA",
-        "text_secondary": "#A1A1AA",
-        "text_muted": "#71717A",
-        "border": "rgba(255, 255, 255, 0.06)",
-        "border_accent": "#3B82F6"
+    "visual_identity": {
+      "design_philosophy": "Luxury deep monochrome dark-mode UI inspired by professional node graph architectures (Cortex, Quant, Aelf, Meeton). Pure #000000 true black background, deep graphite surfaces (#0a0a0c, #141416), crisp 1px borders (#222224), pure white active highlights (#ffffff), zinc secondary typography (#a1a1aa), and monospaced telemetry chips. Zero colorful gradients, zero neon glows, zero AI-slop badges.",
+      "monochrome_tokens": {
+        "bg_root": "#000000",
+        "surface_card": "#0a0a0c",
+        "surface_elevated": "#141416",
+        "surface_hover": "#1c1c1e",
+        "border_subtle": "#222224",
+        "border_focus": "#ffffff",
+        "border_highlight": "rgba(255, 255, 255, 0.15)",
+        "text_primary": "#ffffff",
+        "text_secondary": "#a1a1aa",
+        "text_muted": "#71717a",
+        "graph_node_bg": "#0a0a0c",
+        "graph_node_border": "#27272a",
+        "graph_edge": "rgba(255, 255, 255, 0.12)",
+        "graph_edge_active": "rgba(255, 255, 255, 0.45)",
+        "sticker_bg": "#18181b",
+        "sticker_border": "#27272a",
+        "sticker_text": "#fafafa",
+        "status_recording": "#ef4444"
       },
       "typography": {
-        "font_family": "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-        "font_family_mono": "JetBrains Mono, Menlo, monospace",
-        "weights": [400, 600],
-        "line_length_target": "< 80ch"
-      },
-      "rules": [
-        "Zero decorative borders, gradients, or heavy box-shadows",
-        "Generous whitespace using 8px spacing scale",
-        "Single electric blue (#3B82F6) accent used sparingly for active states and primary actions",
-        "Maximum 2 font weights (400 regular, 600 semibold)"
-      ]
-    },
-    "media_picker_component": {
-      "name": "MediaPicker",
-      "flows": [
-        {
-          "flow": "video_upload",
-          "mechanism": "File selection dialog + drag-and-drop zone with drag-over visual feedback, validating video MIME types (video/mp4, video/webm, video/quicktime) and memory limits"
-        },
-        {
-          "flow": "camera_recording",
-          "mechanism": "Live camera feed via navigator.mediaDevices.getUserMedia, MediaRecorder with dynamic MIME detection ('video/webm;codecs=vp9', 'video/webm', 'video/mp4'), recording timer, pulsing red indicator, and stop-to-attach action"
-        },
-        {
-          "flow": "photo_snapshot",
-          "mechanism": "Video stream snapshot capture via offscreen HTMLCanvasElement drawImage, exported to high-resolution JPEG/PNG data URL"
-        }
-      ],
-      "states": ["idle", "recording", "captured", "uploaded"],
-      "state_transitions": {
-        "idle -> recording": "User clicks 'Start Recording' on active camera preview",
-        "recording -> captured": "User clicks 'Stop Recording' or recording limit reached",
-        "idle -> captured": "User clicks 'Capture Snapshot' on camera stream",
-        "idle -> uploaded": "User selects or drops a video file into dropzone",
-        "captured -> idle": "User clicks 'Retake Media' or discards capture",
-        "uploaded -> idle": "User clicks 'Clear Media' or drops new file"
+        "ui_font": "Inter, -apple-system, BlinkMacSystemFont, sans-serif",
+        "mono_font": "JetBrains Mono, ui-monospace, monospace",
+        "line_length_max": "80ch"
       }
     },
-    "sandbox_isolation_model": {
-      "security_posture": "Docker-equivalent containerized boundary within Tauri v2 Runtime Authority",
-      "acl_capabilities": {
-        "manifest_path": "src-tauri/capabilities/default.json",
-        "permissions": [
-          "core:default",
-          "core:event:default",
-          "core:window:default",
-          "core:app:default"
-        ]
+    "node_graph_model": {
+      "purpose": "Visual constellation graph showing real-time data flow from source media down to final ASCII canvas rendering.",
+      "node_definitions": [
+        { "id": "node-source", "label": "MEDIA SOURCE", "type": "source", "role": "Input file / Camera stream / Procedural seed" },
+        { "id": "node-decoder", "label": "FRAME DECODER", "type": "decoder", "role": "rVFC / Canvas drawImage extraction" },
+        { "id": "node-preflight", "label": "PREFLIGHT CLAMP", "type": "preflight", "role": "Downsample buffer & aspect-ratio normalization" },
+        { "id": "node-lut", "label": "LUMINANCE LUT", "type": "lut_filter", "role": "Contrast / Brightness / Gamma / Dither curve" },
+        { "id": "node-kernel", "label": "ASCII KERNEL", "type": "ascii_kernel", "role": "Brightness-to-glyph ramp quantization" },
+        { "id": "node-viewport", "label": "CANVAS VIEWPORT", "type": "display_output", "role": "Monochrome bitmap character grid display" },
+        { "id": "node-telemetry", "label": "TELEMETRY BUS", "type": "telemetry", "role": "Real-time FPS, delta, latency monitoring" }
+      ],
+      "edges": [
+        { "from": "node-source", "to": "node-decoder", "signal": "raw_media_stream" },
+        { "from": "node-decoder", "to": "node-preflight", "signal": "video_frame_imagedata" },
+        { "from": "node-preflight", "to": "node-lut", "signal": "clamped_pixel_buffer" },
+        { "from": "node-lut", "to": "node-kernel", "signal": "quantized_luminance" },
+        { "from": "node-kernel", "to": "node-viewport", "signal": "ascii_char_matrix" },
+        { "from": "node-kernel", "to": "node-telemetry", "signal": "render_latency_metrics" }
+      ]
+    },
+    "technical_stickers": {
+      "purpose": "Information-dense, minimalist status badges providing instant telemetry and engine status.",
+      "items": [
+        { "category": "status", "label": "STATUS", "default_value": "OPERATIONAL", "variant": "monochrome_pill" },
+        { "category": "tier", "label": "TIER", "default_value": "CANVAS2D_CPU", "variant": "monochrome_pill" },
+        { "category": "fps", "label": "FPS", "default_value": "60.0", "variant": "dot_indicator" },
+        { "category": "resolution", "label": "GRID", "default_value": "120x60", "variant": "wire_badge" },
+        { "category": "codec", "label": "CODEC", "default_value": "H.264 / RAW", "variant": "wire_badge" },
+        { "category": "security", "label": "SANDBOX", "default_value": "SEALED", "variant": "inverted_chip" }
+      ]
+    },
+    "media_pipelines": {
+      "video_pipeline": {
+        "execution_flow": "1. User drops/picks video file -> 2. URL.createObjectURL creates blob URL -> 3. Offscreen HTMLVideoElement initialized with muted=true, playsInline=true -> 4. Video await loadeddata & play() -> 5. rVFC loop extracts frames into 2D canvas with willReadFrequently:true -> 6. Canvas getImageData extracts pixel buffer -> 7. Pixel buffer converted to monochrome ASCII characters -> 8. Rendered to AsciiCanvas viewport -> 9. Clean cancelVideoFrameCallback & URL.revokeObjectURL on tab change or stop.",
+        "fallback_mechanism": "If requestVideoFrameCallback is unsupported, automatically fall back to requestAnimationFrame loop bound to video.paused / video.ended state with 500ms heartbeat."
       },
-      "content_security_policy": "default-src 'self'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; font-src 'self' data:; connect-src 'self' ipc: tauri: http://localhost:*; worker-src 'self' blob:; object-src 'none';"
+      "image_pipeline": {
+        "execution_flow": "1. User selects image file -> 2. Preflight downsamples max dimension to 2048px preserving aspect ratio -> 3. Offscreen canvas rasterizes image to exact targetColumns x targetRows -> 4. getImageData extracts RGBA buffer -> 5. Monochrome contrast/brightness/gamma LUT converts brightness to ASCII characters -> 6. Instant viewport rendering with char count telemetry."
+      },
+      "camera_pipeline": {
+        "execution_flow": "1. User requests camera -> 2. MediaEngineService.startCamera() calls navigator.mediaDevices.getUserMedia -> 3. Video track streams to hidden preview element -> 4. Frame extraction loop feeds ASCII engine at target FPS -> 5. One-click snapshot draws current frame to canvas and generates PNG snapshot."
+      }
     }
   },
   "contract_path": ".opencode/artifacts/phase-1-contracts.ts",
   "motion_lifecycle": {
-    "entry": "AnimatePresence mode=wait (single orchestrated state switch)",
+    "entry": "Single orchestrated matrix cascade reveal on load (duration 1.4s, cubic-bezier(0.16, 1, 0.3, 1))",
     "exit": "opacity: 0, duration: 180ms, ease: easeOut",
-    "unmount_cleanup": "MediaStream tracks stopped, WebGL/Canvas detached, RAF cancelled, Blob URL revoked",
-    "orchestrated_moment": "media_picker_state_transition",
+    "unmount_cleanup": "Video element paused and src revoked, cancelVideoFrameCallback and RAF canceled, camera tracks stopped, canvas contexts scrubbed",
+    "orchestrated_moment": "app_initial_load_matrix_cascade",
     "static_transitions_default": true
   },
   "page_copy": {
@@ -161,8 +172,8 @@
       "label_contrast": "Contrast",
       "label_brightness": "Brightness",
       "label_gamma": "Gamma",
-      "label_charset_select": "Character Ramp",
-      "label_color_mode": "Color Matrix",
+      "label_charset_select": "Character Ramp Preset",
+      "label_color_mode": "Color Matrix Output",
       "label_tier_select": "Hardware Acceleration Tier",
       "label_resolution": "Grid Dimensions"
     },
@@ -195,63 +206,97 @@
       "sidecar_healthy": "Rust Engine Sidecar connected and operational.",
       "acl_verified": "Tauri Sandbox capabilities verified. Filesystem isolation active.",
       "media_loaded": "Media successfully initialized in ASCII pipeline."
+    },
+    "node_graph": {
+      "panel_title": "Processing Pipeline Graph",
+      "source_node": "Input Decoder",
+      "raster_node": "Frame Rasterizer",
+      "ascii_node": "Quantization Kernel",
+      "viewport_node": "Matrix Display",
+      "telemetry_node": "Performance Metrics"
+    },
+    "stickers": {
+      "tier_label": "HARDWARE TIER",
+      "resolution_label": "GRID RESOLUTION",
+      "fps_label": "RENDER FPS",
+      "engine_status_label": "ENGINE STATUS",
+      "sandbox_label": "TAURI SANDBOX"
+    },
+    "load_animation": {
+      "initial_title": "ASCII STUDIO ENGINE INITIALIZING",
+      "hardware_detect": "PROBING HARDWARE ACCELERATION TIERS",
+      "ready_prompt": "MATRIX CORE ONLINE"
     }
   },
   "breaking_scenarios": [
     {
-      "id": "STRESS-CAM-01",
-      "name": "Camera Permission Denial & Device Absence Stress",
-      "vector": "User explicitly denies camera permission or requests getUserMedia when no physical camera hardware is connected (e.g. headless VM or detached USB webcam).",
+      "id": "STRESS-1",
+      "name": "Unsupported Video Codec or Corrupted Container",
+      "vector": "User drops an MKV with unsupported AV1/HEVC codec or 0-byte corrupt file into dropzone",
       "stress_parameters": {
-        "simulated_error": "NotAllowedError",
-        "device_count": 0,
-        "concurrent_camera_invocations": 5
+        "file_size": 0,
+        "mime_type": "video/x-matroska",
+        "corrupt_header": true
       },
-      "vulnerability_surface": "Unhandled Promise rejection in navigator.mediaDevices.getUserMedia crashing the React render loop or leaving the UI stuck in indefinite loading state.",
-      "expected_defense": "MediaPicker catches NotAllowedError / NotFoundError, transitions to friendly error state, displays structured permission dialog with system instructions, and prevents app hang.",
+      "vulnerability_surface": "HTMLVideoElement triggers 'error' event; unhandled promise rejection in ensureVideoPlaying() or silent black output",
+      "expected_defense": "HTMLVideoElement error listener intercepts error code MEDIA_ERR_SRC_NOT_SUPPORTED; pipeline catches error, rejects cleanly, sets user-friendly error sticker 'CODEC_UNSUPPORTED', and preserves existing canvas without blank screen",
+      "failure_threshold_ms": 250,
+      "recovery_action": "Display inline error message explaining supported codecs (MP4, WebM), clean up Blob URL, and reset dropzone state to idle"
+    },
+    {
+      "id": "STRESS-2",
+      "name": "Rapid Mode Switching During Active 60 FPS Video Loop",
+      "vector": "User selects high-bitrate video, clicks play, and immediately rapid-clicks between 'video', 'camera_stream', and 'procedural_3d' tabs at 10Hz",
+      "stress_parameters": {
+        "switch_frequency_hz": 10,
+        "tab_sequence": ["video", "camera_stream", "procedural_3d", "image", "video"],
+        "active_stream_count": 3
+      },
+      "vulnerability_surface": "Orphaned requestVideoFrameCallback handles writing to detached canvas context; memory leak of unmounted HTMLVideoElements; audio playback continuing in background",
+      "expected_defense": "Active stream controller cancelVideoFrameCallback() and video.pause() executed synchronously in useEffect cleanup; offscreen canvas context released; video.src revoked; only single active loop executes",
+      "failure_threshold_ms": 100,
+      "recovery_action": "Enforce strict cancellation token on all frame callbacks; destroy prior pipeline before mounting new active tab"
+    },
+    {
+      "id": "STRESS-3",
+      "name": "Large 4K/8K Image Buffer Causing Canvas Allocation OOM",
+      "vector": "User uploads 8192x8192 high-resolution uncompressed camera RAW/PNG",
+      "stress_parameters": {
+        "width_px": 8192,
+        "height_px": 8192,
+        "raw_buffer_bytes": 268435456
+      },
+      "vulnerability_surface": "Calling getImageData on an 8K canvas creates a 268MB TypedArray, freezing the main UI thread or crashing the webview process",
+      "expected_defense": "Image preflight downsamples input image directly using an offscreen downsampling canvas with maxDimensionPx=2048 before rasterizing to grid dimensions (max 400x300 = 120,000 cells max); UI thread never touches >2048px buffers",
       "failure_threshold_ms": 300,
-      "recovery_action": "Render permission guidance banner, provide 'Retry Access' CTA and fallback option to file upload or procedural mode without page reload."
+      "recovery_action": "Clamp image dimensions during initial drawImage call; cap maximum output columns to 400 and rows to 300"
     },
     {
-      "id": "STRESS-REC-02",
-      "name": "MediaRecorder mimeType Unsupported & Stream Interruption Corruption",
-      "vector": "MediaRecorder initialized with an unsupported container codec (e.g. video/webm on older Safari/WKWebView or WebM without VP8/VP9 support) or camera feed is disconnected mid-recording.",
+      "id": "STRESS-4",
+      "name": "Operating System Camera Permission Denial or Device In-Use Conflict",
+      "vector": "User switches to Live Camera tab while macOS / Windows privacy setting has camera access disabled, or another app holds exclusive lock",
       "stress_parameters": {
-        "unsupported_mime_candidates": ["video/x-matroska", "video/webm;codecs=av01", "video/unknown"],
-        "simulated_track_stop_during_record_ms": 1500
+        "permission_state": "denied",
+        "error_name": "NotAllowedError"
       },
-      "vulnerability_surface": "MediaRecorder constructor throws TypeError on unsupported MIME type; unhandled 'stop' or 'error' event results in 0-byte corrupted Blob and application crash.",
-      "expected_defense": "Dynamic MIME selection using MediaRecorder.isTypeSupported() cascading across ['video/webm;codecs=vp9', 'video/webm;codecs=vp8', 'video/webm', 'video/mp4']. If track abruptly ends, onstop handles available buffer chunks and gracefully seals recording.",
-      "failure_threshold_ms": 500,
-      "recovery_action": "Fall back to supported MIME type. If recording corrupted, clear buffer, alert user with plain copy, and restore idle camera state."
+      "vulnerability_surface": "navigator.mediaDevices.getUserMedia rejects; unhandled rejection leaves camera state in infinite 'requesting_permission' spinner",
+      "expected_defense": "MediaEngineService catches NotAllowedError / TrackStartError; updates MediaPickerError state with PERMISSION_DENIED; renders inline permission recovery dialog with 'Open System Settings' and 'Retry' buttons; gracefully restores idle state",
+      "failure_threshold_ms": 400,
+      "recovery_action": "Present permission recovery UI; provide clear guidance for macOS System Settings / Windows Privacy settings"
     },
     {
-      "id": "STRESS-MEM-03",
-      "name": "Extreme File Drag-and-Drop & 4K Video Memory Pressure",
-      "vector": "User drags and drops a 4K 60FPS video file (> 500MB) or a malformed non-video file renamed with .mp4 extension into the dropzone.",
+      "id": "STRESS-5",
+      "name": "Desktop Window Snap / Rapid Resize During Continuous 60 FPS Render",
+      "vector": "User maximizes or snaps Tauri desktop window between 800x600 and 3840x2160 during continuous video ASCII playback",
       "stress_parameters": {
-        "file_size_bytes": 1073741824,
-        "resolution": "3840x2160",
-        "invalid_file_signature": true
+        "start_width": 800,
+        "end_width": 3840,
+        "resize_events_per_sec": 60
       },
-      "vulnerability_surface": "Browser attempts to buffer multi-gigabyte video into RAM via FileReader.readAsArrayBuffer, triggering Out-Of-Memory (OOM) tab crash or long main-thread lockup.",
-      "expected_defense": "MediaPicker validates file size against 500MB safety ceiling BEFORE buffering, uses streaming URL.createObjectURL instead of loading full ArrayBuffer into memory, and verifies HTMLVideoElement can decode initial frame metadata without freezing UI.",
-      "failure_threshold_ms": 1000,
-      "recovery_action": "Reject file immediately if exceeding size ceiling or format unsupported; revoke previous Blob URLs to prevent memory leaks."
-    },
-    {
-      "id": "STRESS-TAURI-04",
-      "name": "Tauri Native Permission Event Failure & Webview Boundary Desync",
-      "vector": "App runs within Tauri desktop webview (macOS WKWebView, Windows WebView2, Linux WebKitGTK) where camera entitlement is missing in Info.plist or WebView2 permission event fails to fire auto-allow.",
-      "stress_parameters": {
-        "environment": "tauri-desktop",
-        "missing_plist_entitlement": true,
-        "webview2_permission_state": "denied"
-      },
-      "vulnerability_surface": "WebView silently blocks getUserMedia without raising browser prompt, leaving video element with readyState = 0 and blank canvas.",
-      "expected_defense": "Tauri bridge preflights media environment with timeout check (2000ms). If stream does not produce active tracks within threshold, detects webview permission deadlock and surfaces native guidance with link to OS settings.",
-      "failure_threshold_ms": 2000,
-      "recovery_action": "Display desktop-specific diagnostic message explaining macOS/Windows permission setting location, release webview locks, and retain active ASCII engine."
+      "vulnerability_surface": "Canvas dimensions reallocated 60 times per second causing canvas buffer thrashing, flickering, and dropped frame bursts",
+      "expected_defense": "StreamPipeline debounces resize listener with 16ms clamp; canvas maintains fixed ASCII character aspect ratio; rendering continues uninterrupted without memory reallocation thrash",
+      "failure_threshold_ms": 16,
+      "recovery_action": "Debounce resize updates to render frame boundary; reuse existing canvas bitmap backing store"
     }
   ]
 }

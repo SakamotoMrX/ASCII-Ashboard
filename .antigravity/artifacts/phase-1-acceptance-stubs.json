@@ -1,48 +1,55 @@
 {
-  "mission_id": "ship-media-minimalist-tauri",
-  "created_at": "2026-09-12T00:00:00.000Z",
+  "mission_id": "ascii-art-monochrome-desktop-refactor",
+  "created_at": "2026-09-12T08:20:00.000Z",
   "acceptance_stubs": [
     {
       "id": "STUB-001",
-      "category": "DARK_MINIMALIST_THEME",
-      "user_intent": "Apply clean dark theme (#121212 / #1a1a1a) with single electric blue (#3B82F6) accent, generous whitespace, zero decorative borders/gradients, and max 2 font weights.",
-      "observable_outcome": "Background renders #121212, card surfaces render #1a1a1a, active/focused elements use #3B82F6. No gradients or box-shadows on card elements. Fonts strictly 400 regular and 600 semibold.",
-      "verification_method": "Inspect DOM styles and CSS custom properties; assert color contrast meets WCAG AA (>= 4.5:1) and zero non-minimalist decorative styles."
+      "category": "MONOCHROME_LUXURY_AESTHETIC",
+      "user_intent": "Eliminate all AI-slop colorful gradients and rainbow modes; enforce luxury deep monochrome dark-mode UI (#000000, #0a0a0c, #141416, #ffffff, #a1a1aa) with crisp 1px borders.",
+      "observable_outcome": "Application background renders true black #000000, elevated panels use #0a0a0c and #141416, all text is high-contrast white #ffffff or secondary zinc #a1a1aa. All 6 colorful modes (matrix_green, amber, cyberpunk_neon, truecolor, rgb_ansi) are stripped or defaulted to high-contrast monochrome.",
+      "verification_method": "Inspect computed DOM styles and CSS custom properties; verify WCAG AA contrast ratio >= 4.5:1 across all text elements; ensure zero saturated color backgrounds."
     },
     {
       "id": "STUB-002",
-      "category": "MEDIA_PICKER_VIDEO_UPLOAD",
-      "user_intent": "Upload video via file browser or drag-and-drop into MediaPicker with clear uploaded state.",
-      "observable_outcome": "User selects or drops MP4/WebM video into dropzone; component transitions from 'idle' to 'uploaded' state; video attaches to ASCII render engine.",
-      "verification_method": "Drag and drop sample video file into dropzone; verify MediaPicker transitions to 'uploaded' and ASCII canvas renders video frame stream."
+      "category": "NODE_CONSTELLATION_GRAPH_AND_STICKERS",
+      "user_intent": "Implement professional graph constellation visualization with fine interconnected lines and technical pill stickers inspired by reference architecture (Cortex, Quant, Aelf, Meeton).",
+      "observable_outcome": "Viewport shows node graph representation of processing pipeline (Source -> Decoder -> Preflight -> Kernel -> Viewport) with fine connecting lines; technical status stickers (TIER, FPS, RESOLUTION, SANDBOX) render in header and telemetry drawers.",
+      "verification_method": "Verify SVG/Canvas rendering of node graph; assert technical sticker badges contain real-time values; verify clean typography and no layout overflow."
     },
     {
       "id": "STUB-003",
-      "category": "MEDIA_PICKER_CAMERA_RECORDING",
-      "user_intent": "Access camera, start/stop live video recording, save/attach recorded clip to ASCII pipeline.",
-      "observable_outcome": "User clicks 'Open Live Camera', sees preview, clicks 'Start Recording' (shows recording state with pulsing red dot), clicks 'Stop Recording' (transitions to 'captured' state), attaches video.",
-      "verification_method": "Trigger recording loop in browser harness with mock or real media stream; assert valid blob and RecordingMetadata generated without errors."
+      "category": "FUNCTIONAL_VIDEO_PIPELINE",
+      "user_intent": "Fix video pipeline: previously inputted video gave no output. Video must decode frames and render real-time ASCII characters.",
+      "observable_outcome": "User selects an MP4 or WebM video file; video element mounts and plays; requestVideoFrameCallback extracts frames continuously to offscreen canvas; ASCII characters update in real time on the main canvas viewport at up to 60 FPS.",
+      "verification_method": "Load test video in Playwright; assert frame counter advances > 10 frames within 1 second and AsciiCanvas output is non-empty."
     },
     {
       "id": "STUB-004",
-      "category": "MEDIA_PICKER_PHOTO_CAPTURE",
-      "user_intent": "Snap still photo from camera stream and send directly into ASCII canvas.",
-      "observable_outcome": "User clicks 'Capture Snapshot'; active camera frame is blitted to canvas; component transitions to 'captured' with snapshot preview; user confirms and frame converts to ASCII.",
-      "verification_method": "Trigger snapshot button during camera preview; assert SnapshotMetadata with valid dataUrl produced."
+      "category": "FUNCTIONAL_IMAGE_PIPELINE",
+      "user_intent": "Fix image pipeline: image selection must instantly convert and produce high-contrast ASCII art in the viewport.",
+      "observable_outcome": "User uploads PNG, JPEG, or WebP image; image preflight downsamples buffer to prevent OOM; rasterizer produces full ASCII string matching grid columns and rows; char count and render time display in telemetry sticker.",
+      "verification_method": "Upload test image; assert image converts within 200ms and asciiText is rendered with non-zero length in DOM."
     },
     {
       "id": "STUB-005",
-      "category": "TAURI_DESKTOP_PERMISSIONS",
-      "user_intent": "Configure camera/media permissions in Tauri desktop app (Info.plist on macOS, WebView2 events on Windows, WebKit on Linux).",
-      "observable_outcome": "tauri.conf.json contains capability mapping, Info.plist has NSCameraUsageDescription and NSMicrophoneUsageDescription, desktop build permits getUserMedia without unhandled crash.",
-      "verification_method": "Verify presence and schema compliance of Info.plist, tauri.conf.json, and Tauri permissions."
+      "category": "ENTRANCE_LOAD_ANIMATION",
+      "user_intent": "Display a smooth, professional loading animation when the application interface initializes.",
+      "observable_outcome": "On startup, app shows a high-end monochrome matrix/cascade loader (progress indicator, hardware tier detection step, sealed sandbox confirmation) for 1.2-1.8 seconds, then smoothly transitions to the workspace with exactly one orchestrated reveal moment.",
+      "verification_method": "Verify AsciiLoader displays during initial load phase; assert transition completes cleanly without layout shift or stuck spinner."
     },
     {
       "id": "STUB-006",
-      "category": "BREAKING_SCENARIO_DEFENSES",
-      "user_intent": "System defends gracefully against permission denial, unsupported MIME types, 4K OOM, and Tauri webview locks.",
-      "observable_outcome": "All 4 breaking scenarios (STRESS-CAM-01, STRESS-REC-02, STRESS-MEM-03, STRESS-TAURI-04) trigger defensive handlers and friendly user copy without crashing.",
-      "verification_method": "Run automated unit and integration tests executing stress vectors; verify failure thresholds survived."
+      "category": "CROSS_PLATFORM_TAURI_SANDBOX",
+      "user_intent": "Operate strictly as a native Tauri desktop application for macOS, Windows, and Android, not a generic web page.",
+      "observable_outcome": "App handles native drag-and-drop file paths, camera permission negotiation (Info.plist / WebView2 / AndroidManifest), and IPC communication with Rust backend with zero runtime crashes.",
+      "verification_method": "Verify tauri-bridge correctly identifies platform capabilities; verify camera access dialog and least-privilege capability schema."
+    },
+    {
+      "id": "STUB-007",
+      "category": "BREAKING_STRESS_DEFENSES",
+      "user_intent": "Survive edge-case failures: corrupt video codecs, rapid tab switching, 4K/8K images, and camera locks without crashing.",
+      "observable_outcome": "Unsupported codecs show inline 'CODEC_UNSUPPORTED' sticker; rapid 10Hz tab switching cancels prior video loops cleanly without detached canvas leaks; 8K images clamp to 2048px without thread freeze.",
+      "verification_method": "Run automated stress tests in Vitest and Playwright simulating edge-case failure inputs."
     }
   ]
 }

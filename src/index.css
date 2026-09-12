@@ -3,29 +3,33 @@
 @tailwind utilities;
 
 :root {
-  /* Minimalist Design Tokens */
-  --radius-card: 6px;
-  --radius-button: 4px;
+  /* Strict Luxury Monochrome System (#000000 / #ffffff) */
+  --background: #000000;
+  --surface: #0a0a0c;
+  --surface-elevated: #141416;
+  --surface-hover: #1c1c1e;
+  --primary: #ffffff;
+  --primary-hover: #e4e4e7;
+  --primary-muted: rgba(255, 255, 255, 0.10);
+  --accent: #ffffff;
+  --text-primary: #ffffff;
+  --text-secondary: #a1a1aa;
+  --text-muted: #71717a;
+  --border: #222224;
+  --border-focus: #ffffff;
+  --border-highlight: rgba(255, 255, 255, 0.20);
+  --foreground: #ffffff;
+
+  /* Workstation Radii */
+  --radius-card: 4px;
+  --radius-button: 2px;
   --radius-tag: 2px;
-  --radius: 4px;
+  --radius: 2px;
   --radius-sm: 2px;
-  --radius-xs: 2px;
+  --radius-xs: 1px;
   --space-unit: 4px;
   --panel-padding: 24px;
   --grid-gap: 16px;
-
-  /* Semantic Color System - Dark Minimalist */
-  --background: #121212;
-  --surface: #1a1a1a;
-  --surface-elevated: #242424;
-  --primary: #3B82F6;
-  --primary-hover: #2563EB;
-  --accent: #3B82F6;
-  --text-primary: #FAFAFA;
-  --text-secondary: #A1A1AA;
-  --text-muted: #71717A;
-  --border: #242424;
-  --foreground: #FAFAFA;
 }
 
 * {
@@ -42,23 +46,23 @@ body {
   padding: 0;
 }
 
-/* Custom Minimal Scrollbars */
+/* Precision Technical Scrollbars */
 ::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+  width: 4px;
+  height: 4px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--surface);
+  background: #000000;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--border);
-  border-radius: var(--radius-xs);
+  background: #27272a;
+  border-radius: 1px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #333333;
+  background: #3f3f46;
 }
 
 /* Monospace ASCII Viewport */
@@ -74,11 +78,11 @@ body {
 
 /* High-Visibility Focus Outline for A11y */
 :focus-visible {
-  outline: 2px solid var(--primary);
+  outline: 2px solid #ffffff;
   outline-offset: 2px;
 }
 
-/* Accessible 44px Hit-Area Range Inputs */
+/* Accessible 44px Hit-Area Range Inputs (Monochrome) */
 input[type="range"] {
   height: 44px;
   min-height: 44px;
@@ -89,45 +93,50 @@ input[type="range"] {
 }
 
 input[type="range"]:focus-visible {
-  outline: 2px solid var(--primary);
+  outline: 2px solid #ffffff;
   outline-offset: 2px;
 }
 
 input[type="range"]::-webkit-slider-runnable-track {
-  height: 6px;
-  background-color: var(--surface-elevated);
-  border-radius: var(--radius-xs);
-  border: 1px solid var(--border);
+  height: 4px;
+  background-color: #141416;
+  border-radius: 1px;
+  border: 1px solid #222224;
 }
 
 input[type="range"]::-webkit-slider-thumb {
-  height: 18px;
-  width: 18px;
-  border-radius: 50%;
-  background: var(--primary);
+  height: 16px;
+  width: 16px;
+  border-radius: 2px;
+  background: #ffffff;
   cursor: pointer;
   -webkit-appearance: none;
   margin-top: -6px;
+  border: 1px solid #ffffff;
+  transition: transform 0.1s ease;
+}
+
+input[type="range"]:hover::-webkit-slider-thumb {
+  transform: scale(1.1);
 }
 
 input[type="range"]::-moz-range-track {
-  height: 6px;
-  background-color: var(--surface-elevated);
-  border-radius: var(--radius-xs);
-  border: 1px solid var(--border);
+  height: 4px;
+  background-color: #141416;
+  border-radius: 1px;
+  border: 1px solid #222224;
 }
 
 input[type="range"]::-moz-range-thumb {
-  height: 18px;
-  width: 18px;
-  border-radius: 50%;
-  background: var(--primary);
+  height: 16px;
+  width: 16px;
+  border-radius: 2px;
+  background: #ffffff;
   cursor: pointer;
-  border: none;
+  border: 1px solid #ffffff;
 }
 
-
-/* Orchestrated Motion Moment (180ms easeOut) */
+/* Orchestrated Motion Moment (Clean 180ms easeOut) */
 @keyframes mediaStateReveal {
   from {
     opacity: 0;

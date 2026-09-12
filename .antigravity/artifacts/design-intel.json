@@ -1,388 +1,164 @@
 {
   "research_metadata": {
-    "executed_at": "2026-09-12T23:50:00Z",
-    "project_context": "ASCII-art Tauri v2 desktop app — Dark Minimalist UI with full media support (video upload, camera recording, photo capture)",
+    "executed_at": "2026-09-12T08:00:00Z",
+    "project_context": "Tauri v2 Desktop App — ASCII Art Engine (macOS, Windows, Android). React 19 + TypeScript + Vite + Tailwind CSS v3. User demands monochrome minimalism, zero AI-slop, working video/image processing, professional graph/stickers aesthetic.",
     "layers_completed": ["A", "B", "C", "D", "E"],
     "confidence": "HIGH"
   },
   "design_signals": {
     "recommended_color_system": {
-      "background": "#121212",
-      "surface": "#1a1a1a",
-      "surface_elevated": "#242424",
-      "primary": "#3B82F6",
-      "primary_hover": "#2563EB",
-      "primary_muted": "rgba(59,130,246,0.12)",
-      "accent": "#3B82F6",
-      "text_primary": "#FAFAFA",
-      "text_secondary": "#A1A1AA",
-      "text_muted": "#71717A",
-      "border": "rgba(255,255,255,0.06)",
-      "border_focus": "#3B82F6",
-      "destructive": "#EF4444",
-      "success": "#22C55E",
-      "recording_red": "#EF4444",
-      "rationale": "Dark Minimalist demands single accent used sparingly. #3B82F6 electric blue on #121212/#1a1a1a gives 7.2:1 contrast ratio (WCAG AAA). Surfaces differentiated by subtle lightness shift, not borders or shadows."
+      "background": "#000000",
+      "surface": "#0a0a0c",
+      "surface_elevated": "#141416",
+      "primary": "#ffffff",
+      "accent": "#3b82f6",
+      "text_primary": "#ffffff",
+      "text_secondary": "#a0a0a0",
+      "text_muted": "#606060",
+      "border": "#222224",
+      "border_focus": "#ffffff",
+      "rationale": "User explicitly demands 'minimalism black and white' with 'professional graph/stickers'. Pure monochrome #000000/#ffffff with single blue accent only for interactive elements. Zero colorful gradients. Deep graphite surfaces (#0a0a0c, #141416) for subtle depth without color."
     },
     "recommended_typography": {
       "heading_font": "Inter",
       "body_font": "Inter",
       "mono_font": "JetBrains Mono",
-      "size_scale": "text-xs(12) text-sm(14) text-base(16) text-lg(18) text-xl(20) text-2xl(24)",
-      "weight_heading": "font-semibold (600)",
-      "weight_body": "font-normal (400)",
-      "rationale": "Max 2 weights (400 + 600) enforced. Inter is the de facto standard for dark minimalist interfaces — high legibility at small sizes, clean geometric forms. JetBrains Mono for code/terminal elements. Community consensus: Inter dominates 2024-2026 minimalist UI."
+      "size_scale": "xs(11px) sm(12px) base(13px) lg(14px)",
+      "rationale": "Already installed in project. Inter for UI, JetBrains Mono for ASCII output and telemetry readouts. Monospace is critical for ASCII grid alignment."
     },
-    "recommended_layout_pattern": "Generous whitespace, 8px spacing grid, max-width content containers, single-column primary layout. Zero decorative borders/shadows/gradients.",
     "recommended_animation_approach": {
-      "library": "framer-motion",
-      "version": "12.x",
-      "pattern": "AnimatePresence mode='wait' for media state transitions (idle→recording→captured→uploaded). Single orchestrated moment on page load. All other transitions instant.",
-      "rationale": "Framer Motion v12 AnimatePresence with mode='wait' prevents layout thrashing during state transitions. One deliberate motion moment per page enforced by Motion Cap."
+      "library": "Pure CSS keyframes (zero dependencies)",
+      "pattern": "Single orchestrated entrance reveal + processing spinner",
+      "rationale": "User wants 'load animation when loading in the app interface'. CSS keyframes are zero-dependency, performant in Tauri webview, and match the minimalist ethos. No framer-motion needed."
     },
-    "trending_components": ["MediaPicker", "DropZone", "CameraCapture", "VideoRecorder", "FileUpload"],
+    "trending_components": [
+      "monochrome-loading-spinner",
+      "telemetry-chip",
+      "status-pill",
+      "ascii-viewport-overlay",
+      "media-dropzone"
+    ],
     "anti_patterns_to_avoid": [
-      "gradient backgrounds — antithetical to dark minimalist",
-      "box-shadow on every card — use subtle border or elevation shift instead",
-      "more than 2 font weights — breaks minimalist hierarchy",
-      "decorative borders — use spacing/whitespace for separation",
-      "mixed light/dark sections — full dark theme only",
-      "generic purple-blue gradients — 2022 era, community consensus: avoid",
-      "emoji icons in production UI — use Lucide/Tabler icons",
-      "custom focus trap implementation — use Radix Dialog focus management",
-      "hand-rolled media permissions logic — use Tauri capabilities system"
+      "AI-slop gradient buttons (purple-to-blue, neon glow effects)",
+      "Colorful badges/tags (use monochrome chips with border only)",
+      "Rainbow status indicators (use desaturated single-color dots)",
+      "Excessive drop shadows (use 1px borders for depth)",
+      "Generic bento grid layouts with emoji icons",
+      "Framer-motion for simple loading states (CSS keyframes suffice)",
+      "Colorful empty states with illustrations"
     ]
   },
   "library_decisions": {
     "animation": {
-      "library": "framer-motion",
-      "version": "12.x",
-      "key_apis": ["AnimatePresence", "motion.div", "useMotionValue", "variants"],
-      "source_url": "https://github.com/grx7/framer-motion"
+      "library": "Pure CSS @keyframes",
+      "version": "N/A",
+      "key_apis": ["@keyframes", "animation", "transition"]
     },
     "icons": {
       "library": "lucide-react",
-      "version": "0.400+",
-      "key_icons": ["Video", "Camera", "Upload", "StopCircle", "Circle", "Check", "X", "Mic"]
+      "version": "^1.16.0",
+      "note": "Already installed. Keep monochrome — use stroke icons only, no filled colored variants."
     },
     "ui_primitives": {
-      "library": "shadcn/ui (Radix Primitives)",
-      "version": "2.x",
-      "key_components": ["Button", "Dialog", "Card", "Input", "Badge", "Progress"],
-      "source_url": "https://github.com/shadcn-ui/ui"
+      "library": "Native HTML + Tailwind CSS",
+      "version": "^3.4.17",
+      "note": "No shadcn needed — this is a terminal/engine app, not a SaaS dashboard. Keep components minimal and native."
     },
     "state": {
-      "library": "zustand",
-      "version": "5.x",
-      "pattern": "Lightweight store for media picker state machine"
-    },
-    "forms": {
-      "library": "react-hook-form",
-      "version": "8.x",
-      "resolver": "zod"
-    },
-    "tauri": {
-      "library": "@tauri-apps/api",
-      "version": "2.x",
-      "key_apis": ["core.invoke", "event.listen", "window.getCurrentWindow"],
-      "source_url": "https://github.com/tauri-apps/tauri-docs"
-    }
-  },
-  "tauri_media_permissions": {
-    "summary": "Tauri v2 replaces v1 allowlist with ACL-based permissions/capabilities system. Camera/microphone access requires: (1) macOS Info.plist entitlements, (2) Tauri capability file granting permissions, (3) platform-specific WebView permission handling.",
-    "macos_entitlements": {
-      "file": "src-tauri/Info.plist",
-      "required_keys": {
-        "NSCameraUsageDescription": "Request camera access for photo and video capture",
-        "NSMicrophoneUsageDescription": "Request microphone access for video recording"
-      },
-      "example": "<?xml version=\"1.0\" encoding=\"UTF-8\"?><!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\"><plist version=\"1.0\"><dict><key>NSCameraUsageDescription</key><string>Request camera access for photo and video capture</string><key>NSMicrophoneUsageDescription</key><string>Request microphone access for video recording</string></dict></plist>",
-      "localization": "Create de.lproj/InfoPlist.strings for localized descriptions"
-    },
-    "capability_file": {
-      "path": "src-tauri/capabilities/default.json",
-      "structure": {
-        "$schema": "../gen/schemas/desktop-schema.json",
-        "identifier": "media-capability",
-        "description": "Media capture permissions for main window",
-        "windows": ["main"],
-        "platforms": ["linux", "macOS", "windows"],
-        "permissions": [
-          "core:default",
-          "core:webview:allow-create-webview-window",
-          "core:window:allow-set-size",
-          "core:window:allow-center"
-        ]
-      },
-      "note": "getUserMedia is NOT a Tauri command — it's a browser API accessed through the WebView. Permissions are handled by the OS (macOS entitlements) + WebView permission events, not Tauri ACL. The ACL only controls Tauri-native commands."
-    },
-    "platform_specific": {
-      "macOS": {
-        "entitlements": "Info.plist with NSCameraUsageDescription + NSMicrophoneUsageDescription",
-        "webview": "WKWebView — permission dialogs handled by macOS system prompts",
-        "gotcha": "Must sign the app for entitlements to take effect in production builds"
-      },
-      "windows": {
-        "webview": "WebView2 — permission events must be handled via WebPermissionRequest event",
-        "approach": "Listen for 'permission-request' event on WebView, auto-allow camera/microphone",
-        "note": "WebView2 requires Windows 10+ andEvergreen WebView2 Runtime"
-      },
-      "linux": {
-        "webview": "WebKitGTK — permission requests handled via WebKitPermissionRequest",
-        "approach": "Connect to 'permission-request' signal, grant camera/microphone permissions",
-        "note": "Requires WebKitGTK 4.1+ for full media support"
-      }
-    },
-    "code_pattern": {
-      "description": "Unified getUserMedia wrapper with Tauri webview compatibility",
-      "pattern": "navigator.mediaDevices.getUserMedia(constraints) with fallback for Tauri webview initialization delay",
-      "source_repos": [
-        "jamiepine/voicebox — Tauri getUserMedia with retry logic",
-        "openclaw/openclaw — track management and stop patterns",
-        "CapSoftware/Cap — camera fallback and retry on overconstrained"
-      ]
-    }
-  },
-  "mediapicker_component_architecture": {
-    "state_machine": {
-      "states": ["idle", "previewing", "recording", "captured", "uploaded", "error"],
-      "transitions": {
-        "idle → previewing": "User selects camera or opens media picker",
-        "previewing → recording": "User clicks record button",
-        "recording → captured": "User clicks stop or timer expires",
-        "captured → uploaded": "File upload completes",
-        "captured → idle": "User discards capture",
-        "* → error": "Permission denied, device not found, upload failed",
-        "error → idle": "User dismisses error"
-      }
-    },
-    "three_flows": {
-      "video_upload": {
-        "input": "File input (accept='video/*') + drag-and-drop zone",
-        "api": "File API + FormData for upload",
-        "pattern": "react-dropzone or native onDrop handler"
-      },
-      "camera_recording": {
-        "input": "getUserMedia({ video: true, audio: true })",
-        "api": "MediaRecorder API",
-        "mimeType_detection": "MediaRecorder.isTypeSupported() — try ['video/webm;codecs=vp9', 'video/webm', 'video/mp4']",
-        "pattern": "new MediaRecorder(stream, { mimeType }) → ondataavailable → chunks → Blob → URL.createObjectURL",
-        "source_repos": [
-          "lobehub/lobehub — selectRecordingMimeType pattern",
-          "CapSoftware/Cap — voice recorder with mimeType fallback",
-          "BasedHardware/omi — recordingMimeTypes array with isTypeSupported check"
-        ]
-      },
-      "photo_capture": {
-        "input": "getUserMedia({ video: true })",
-        "api": "Canvas API — drawImage from video element, toDataURL/toBlob",
-        "pattern": "video → canvas.getContext('2d').drawImage(video, 0, 0) → canvas.toDataURL('image/jpeg')",
-        "source_repos": [
-          "Chocobozzz/PeerTube — video to canvas capture",
-          "wesbos/hot-tips — realtime face finder with canvas drawImage"
-        ]
-      }
-    },
-    "ui_states": {
-      "idle": "Clean dropzone with dashed border, upload icon, text prompt",
-      "previewing": "Live video feed from camera, capture/record buttons",
-      "recording": "Red pulsing indicator, timer, stop button",
-      "captured": "Preview of captured media, retake/confirm buttons",
-      "uploaded": "Success state with checkmark, file info",
-      "error": "Error message with retry button"
-    },
-    "component_composition": {
-      "base": "shadcn/ui Card + Button + Dialog primitives",
-      "dropzone": "Native HTML5 drag-and-drop (onDragEnter/onDragOver/onDrop) or react-dropzone",
-      "video_feed": "HTMLVideoElement with ref, objectURL from MediaStream",
-      "canvas_capture": "Hidden HTMLCanvasElement, drawImage from video ref",
-      "recording_indicator": "Framer Motion AnimatePresence with pulsing red dot variant",
-      "state_transitions": "Framer Motion mode='wait' for smooth state swaps"
-    }
-  },
-  "dark_minimalist_implementation": {
-    "css_variables": {
-      "description": "Override shadcn/ui dark theme CSS variables per Phase 1.5 token system",
-      "overrides": {
-        "--background": "#121212",
-        "--foreground": "#FAFAFA",
-        "--card": "#1a1a1a",
-        "--card-foreground": "#FAFAFA",
-        "--popover": "#1a1a1a",
-        "--popover-foreground": "#FAFAFA",
-        "--primary": "#3B82F6",
-        "--primary-foreground": "#FFFFFF",
-        "--secondary": "#242424",
-        "--secondary-foreground": "#FAFAFA",
-        "--muted": "#242424",
-        "--muted-foreground": "#A1A1AA",
-        "--accent": "#3B82F6",
-        "--accent-foreground": "#FFFFFF",
-        "--destructive": "#EF4444",
-        "--border": "rgba(255,255,255,0.06)",
-        "--input": "rgba(255,255,255,0.08)",
-        "--ring": "#3B82F6",
-        "--radius": "0.5rem"
-      }
-    },
-    "tailwind_config": {
-      "colors": {
-        "background": "#121212",
-        "surface": "#1a1a1a",
-        "surface-elevated": "#242424",
-        "accent": "#3B82F6",
-        "accent-hover": "#2563EB",
-        "text-primary": "#FAFAFA",
-        "text-secondary": "#A1A1AA",
-        "text-muted": "#71717A",
-        "border-subtle": "rgba(255,255,255,0.06)",
-        "recording-red": "#EF4444"
-      }
-    },
-    "spacing": {
-      "system": "8px grid",
-      "generous_whitespace": "p-6 md:p-8 lg:p-12 for main containers",
-      "component_padding": "p-4 to p-6",
-      "gap": "gap-4 to gap-6"
-    },
-    "borders_shadows": {
-      "rule": "Eliminate all decorative borders and shadows",
-      "exception": "1px border on interactive elements only (buttons, inputs) using border-subtle",
-      "elevation": "Use background-color shift (#1a1a1a → #242424) instead of box-shadow"
+      "library": "React useState/useCallback/useRef",
+      "version": "^19.0.0",
+      "note": "Already in use. No additional state library needed for this app's scope."
     }
   },
   "proven_templates_and_kits": {
-    "brad_traversy_catalog": "https://github.com/bradtraversy/design-resources-for-developers#html--css-templates",
-    "recommended_component_kits": [
+    "brad_traversy_catalog": "https://github.com/bradtraversy/design-resources-for-developers",
+    "recommended_references": [
       {
-        "name": "shadcn/ui",
-        "url": "https://ui.shadcn.com",
-        "primitives": ["button", "dialog", "card", "input", "badge", "progress", "tabs"],
-        "dark_theme": true,
-        "rationale": "Battle-tested Radix primitives with full CSS variable theming. Zero-dependency copy-paste components."
+        "name": "Linear App (Linear.app)",
+        "url": "https://linear.app",
+        "type": "dark monospace tool",
+        "why": "Gold standard for dark monochrome developer tools. Minimal borders, monospace telemetry, chip-based status indicators."
       },
       {
-        "name": "Tail-Kit",
-        "url": "https://www.tailwind-kit.com",
-        "components": ["dropzone", "file-upload", "modal", "tabs"],
-        "rationale": "250+ Tailwind components including file upload patterns"
+        "name": "Raycast",
+        "url": "https://raycast.com",
+        "type": "dark command palette",
+        "why": "Pure black background, white text, monospace output panels. Professional sticker/chip aesthetic."
       },
       {
-        "name": "Float UI",
-        "url": "https://floatui.com",
-        "rationale": "Modern dark-mode-first Tailwind components"
-      },
-      {
-        "name": "HyperUI",
-        "url": "https://www.hyperui.dev",
-        "rationale": "Free Tailwind CSS component collection with dark variants"
-      },
-      {
-        "name": "daisyUI",
-        "url": "https://daisyui.com",
-        "rationale": "Tailwind component library with built-in dark themes"
-      }
-    ],
-    "templates_for_inspiration": [
-      {
-        "name": "Horizon UI",
-        "url": "https://horizon-ui.com",
-        "type": "dashboard",
-        "rationale": "Dark dashboard template with clean minimal aesthetic"
-      },
-      {
-        "name": "Sneat Admin",
-        "url": "https://github.com/themeselection/sneat-html-admin-template-free",
-        "type": "admin",
-        "rationale": "Free dark admin template with media components"
+        "name": "1Password CLI",
+        "url": "https://developer.1password.com/docs/cli/",
+        "type": "terminal reference",
+        "why": "Monochrome terminal-style documentation with professional graph/chip elements."
       }
     ]
   },
   "component_composition_sources": {
-    "shadcn_registry_items": ["button", "dialog", "card", "input", "badge", "progress", "tabs", "dropdown-menu"],
-    "reactbits_components": ["SplitText", "SpotlightCard", "GlowEffect"],
+    "pattern": "Native React components with Tailwind utilities",
     "zero_scratch_mandate": true,
-    "rationale": "Every UI element MUST be composed from shadcn/Radix primitives or proven component kits. Hand-rolling buttons, dialogs, inputs, cards, or tables is strictly forbidden."
+    "note": "This is a specialized ASCII art engine, not a generic web app. Components are domain-specific (AsciiCanvas, ControlPanel, MediaPicker). Refactor existing components rather than replacing with generic UI kit components."
   },
   "react_ts_decisions": {
-    "component_pattern": "Function components with explicit TypeScript props interfaces. Use React.ComponentProps<> for Radix extension.",
-    "state_pattern": "Zustand store for media picker state machine (idle/previewing/recording/captured/uploaded/error). Local useState for transient UI state.",
-    "typescript_strictness": "STRICT",
-    "key_idioms_to_use": [
-      "satisfies for design token definitions",
-      "as const for static config objects",
-      "Extract<MediaPickerState, { status: 'idle' }> for discriminated unions",
-      "NonNullable<> for optional chain guards",
-      "React.RefObject<HTMLVideoElement> for media element refs"
-    ],
-    "code_example": "type MediaPickerState = { status: 'idle' } | { status: 'recording'; startTime: number } | { status: 'captured'; blob: Blob; url: string } | { status: 'uploaded'; fileId: string } | { status: 'error'; message: string }"
+    "component_pattern": "Functional components with React.FC<Props> typing (existing pattern)",
+    "state_pattern": "useState + useCallback for performance-critical paths, useRef for DOM refs",
+    "typescript_strictness": "STRICT — existing contracts.ts provides Zod-validated types",
+    "key_idioms_to_use": ["useCallback for stable function references", "useRef for canvas/video DOM elements", "useState with functional updates for nested state"]
   },
   "community_verdict": {
-    "sentiment_summary": "Dark minimalist remains the dominant UI paradigm for developer tools and desktop apps in 2026. Community strongly favors shadcn/ui + Tailwind for dark themes. MediaRecorder mimeType detection pattern is universally adopted. Tauri v2 permissions system praised but documented as having a steep learning curve for platform-specific WebView permissions.",
+    "sentiment_summary": "Dark monochrome UIs are trending for developer tools in 2026. Community consensus: drop colorful accents, use pure B&W with subtle surface elevation for depth. Terminal/engine apps benefit from monospace typography throughout.",
     "key_warnings": [
-      "Tauri v2 getUserMedia is NOT controlled by Tauri ACL — it's OS/WebView permission. Info.plist entitlements on macOS are mandatory.",
-      "WebView2 on Windows requires explicit permission-request event handling for camera/microphone",
-      "MediaRecorder mimeType must be detected at runtime via isTypeSupported() — never hardcode",
-      "Don't use box-shadow for elevation in dark themes — use background-color shifts instead",
-      "Generic purple-blue gradients are community-confirmed anti-pattern for 2026"
+      "requestAnimationFrame alone is insufficient for video frame capture — it doesn't sync with video decode. Use requestVideoFrameCallback.",
+      "Canvas drawImage(video) only works when video.readyState >= 2 (HAVE_CURRENT_DATA). Must wait for loadeddata event.",
+      "Tauri v2 CSP is stricter than v1 — ensure blob: and mediastream: are in media-src for video playback.",
+      "Framer-motion adds 40KB+ gzipped — unnecessary for simple CSS transitions in a terminal-style app."
     ],
     "key_endorsements": [
-      "shadcn/ui is the consensus choice for accessible, themeable component primitives",
-      "Framer Motion AnimatePresence mode='wait' for state transitions prevents layout thrashing",
-      "Inter font for dark minimalist UIs — community standard 2024-2026",
-      "Lucide icons over custom SVG — consistent, tree-shakeable, dark-mode-aware",
-      "Tauri v2 capabilities system is well-designed but requires per-platform permission handling"
+      "CSS @keyframes for loading animations — zero dependency, GPU-accelerated, works in all webviews",
+      "requestVideoFrameCallback for frame-accurate video processing — standard in Chromium-based webviews (Tauri uses WebView2 on Windows, WKWebView on macOS)",
+      "Pure monochrome token system with CSS custom properties for consistent theming",
+      "lucide-react for monochrome stroke icons — already installed, fits the aesthetic perfectly"
     ]
   },
   "github_signals": {
     "reference_repos": [
       {
-        "name": "jamiepine/voicebox",
-        "stars": 500,
-        "why_relevant": "Tauri + getUserMedia with retry logic for webview initialization delay"
+        "name": "nexu-io/open-design",
+        "stars": 0,
+        "why_relevant": "Production requestVideoFrameCallback pattern with cancelVideoFrameCallback cleanup"
       },
       {
-        "name": "CapSoftware/Cap",
-        "stars": 2000,
-        "why_relevant": "Screen recording with camera/mic, MediaRecorder mimeType detection, Tauri desktop"
+        "name": "workadventure/workadventure",
+        "stars": 0,
+        "why_relevant": "rVFC with timeout fallback — prevents hang when rVFC is silent in backgrounded tabs"
       },
       {
-        "name": "lobehub/lobehub",
-        "stars": 50000,
-        "why_relevant": "Voice message recording with selectRecordingMimeType pattern"
+        "name": "AIEraDev/Clypra",
+        "stars": 0,
+        "why_relevant": "GPU texture update manager with generation counter for stale callback invalidation"
       },
       {
-        "name": "BasedHardware/omi",
-        "stars": 5000,
-        "why_relevant": "Voice recorder component with mimeType fallback chain"
-      },
-      {
-        "name": "openclaw/openclaw",
-        "stars": 1000,
-        "why_relevant": "getUserMedia track management, stop patterns, fault injection testing"
+        "name": "pmndrs/drei",
+        "stars": 0,
+        "why_relevant": "VideoTexture component using rVFC for React Three Fiber — clean callback pattern"
       }
     ],
     "pattern_evidence": [
-      "MediaRecorder mimeType detection: try candidates array, use MediaRecorder.isTypeSupported(), fallback to default",
-      "getUserMedia retry pattern: await webview init delay, re-check navigator.mediaDevices",
-      "Canvas photo capture: video → canvas.getContext('2d').drawImage(video, 0, 0) → toDataURL/toBlob",
-      "Track cleanup: stream.getTracks().forEach(track => track.stop()) on unmount",
-      "Drag-and-drop: native onDragEnter/onDragOver/onDrop with dataTransfer.files"
+      "requestVideoFrameCallback + cancelVideoFrameCallback is the standard pattern for frame-accurate video processing in 2026",
+      "getContext('2d', { willReadFrequently: true }) is used by all production repos for pixel data extraction",
+      "CSS @keyframes loading animations dominate over framer-motion for simple spinners/loaders",
+      "Monochrome dark themes (#000000/#0a0a0c/#141416) are the standard for terminal/developer tool apps"
     ]
   },
   "ui_precedents": [
-    "Linear.app — dark minimalist with electric blue accent, generous whitespace, clean typography",
-    "Raycast — dark desktop app with minimal chrome, single accent color for actions",
-    "Arc Browser — dark UI with media capture integration, clean state transitions",
-    "Vercel Dashboard — dark mode with #3B82F6 blue accent, minimal borders/shadows",
-    "GitHub Copilot — dark editor UI with camera/mic permissions pattern"
+    "Linear.app — dark monospace telemetry chips, minimal borders, professional status indicators",
+    "Raycast — pure black command palette with white text, monospace output panels",
+    "VS Code terminal — monochrome ASCII output with subtle surface elevation"
   ],
   "design_references": [
-    "https://ui.shadcn.com/themes — dark theme CSS variable scaffold",
-    "https://github.com/shadcn-ui/ui/blob/main/apps/v4/content/docs/(root)/theming.mdx — theming documentation",
-    "https://github.com/tauri-apps/tauri-docs/blob/v2/src/content/docs/distribute/macos-application-bundle.mdx — macOS entitlements",
-    "https://github.com/tauri-apps/tauri-docs/blob/v2/src/content/docs/security/capabilities.mdx — capabilities system",
-    "https://github.com/bradtraversy/design-resources-for-developers — component kit catalog"
+    "https://linear.app — dark monochrome developer tool UI",
+    "https://raycast.com — command palette with monospace panels",
+    "https://github.com/turbostarter/loading-ui — monochrome loading components",
+    "https://github.com/clash-verge-rev/clash-verge-rev — minimal dot-pulse loading"
   ],
   "research_complete": true
 }

@@ -323,3 +323,7 @@ export class MediaEngineService {
 }
 
 export const mediaEngineService = new MediaEngineService();
+
+export { VideoStreamingEngine } from "./video-pipeline";
+export type { VideoEngineCallbacks } from "./video-pipeline";
+

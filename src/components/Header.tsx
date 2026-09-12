@@ -1,5 +1,5 @@
 import React from "react";
-import { Sparkles, Box, Image, Video, Camera, Settings, Cpu } from "lucide-react";
+import { Terminal, Box, Image, Video, Camera, Settings, Cpu, Activity, ShieldCheck } from "lucide-react";
 import { RenderMode, RenderTier } from "../contracts";
 
 interface HeaderProps {
@@ -8,6 +8,7 @@ interface HeaderProps {
   activeTier: RenderTier;
   fps: number;
   platform: string;
+  latencyMs?: number;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -16,43 +17,44 @@ export const Header: React.FC<HeaderProps> = ({
   activeTier,
   fps,
   platform,
+  latencyMs = 1.2,
 }) => {
   const getTierLabel = (tier: RenderTier) => {
     switch (tier) {
       case "tier1_webgpu":
-        return "WebGPU 60FPS";
+        return "WEBGPU_TIER1";
       case "tier2_webgl":
-        return "WebGL2 Active";
+        return "WEBGL2_CORE";
       case "tier3_canvas2d":
-        return "Canvas2D CPU";
+        return "CANVAS2D_CPU";
       case "rust_sidecar":
-        return "Rust Core";
+        return "RUST_NATIVE";
     }
   };
 
   const navTabs: { id: RenderMode | "settings" | "media_picker"; label: string; icon: React.ReactNode }[] = [
     { id: "procedural_3d", label: "3D Procedural", icon: <Box className="w-3.5 h-3.5" /> },
-    { id: "media_picker", label: "Media Studio", icon: <Sparkles className="w-3.5 h-3.5" /> },
+    { id: "media_picker", label: "Media Studio", icon: <Terminal className="w-3.5 h-3.5" /> },
     { id: "image", label: "Image Converter", icon: <Image className="w-3.5 h-3.5" /> },
     { id: "video", label: "Video Streamer", icon: <Video className="w-3.5 h-3.5" /> },
     { id: "camera_stream", label: "Live Camera", icon: <Camera className="w-3.5 h-3.5" /> },
-    { id: "settings", label: "Sandbox & Engines", icon: <Settings className="w-3.5 h-3.5" /> },
+    { id: "settings", label: "Engine Sandbox", icon: <Settings className="w-3.5 h-3.5" /> },
   ];
 
   return (
-    <header className="w-full bg-[#1a1a1a] border-b border-[#2a2a2a] px-6 py-3 flex flex-col md:flex-row md:items-center justify-between gap-3 select-none w-full max-w-full overflow-x-hidden font-sans">
-      {/* Brand Identity */}
+    <header className="w-full bg-[#000000] border-b border-[#222224] px-6 py-2.5 flex flex-col md:flex-row md:items-center justify-between gap-3 select-none w-full max-w-full overflow-x-hidden font-sans">
+      {/* Brand Identity & Platform Pill */}
       <div className="flex items-center gap-3 min-w-0">
-        <div className="w-7 h-7 rounded-[4px] bg-[#222222] border border-[#2a2a2a] flex items-center justify-center text-[#3b82f6] flex-shrink-0">
-          <Sparkles className="w-3.5 h-3.5" aria-hidden="true" />
+        <div className="w-7 h-7 rounded-[4px] bg-[#0a0a0c] border border-[#222224] flex items-center justify-center text-[#ffffff] flex-shrink-0">
+          <Terminal className="w-3.5 h-3.5" aria-hidden="true" />
         </div>
         <div className="min-w-0">
           <div className="flex items-center gap-2">
-            <h1 className="text-xs font-semibold tracking-tight text-[#f3f4f6] truncate">
-              ASCII Studio Desktop
+            <h1 className="text-xs font-mono font-semibold tracking-tight text-[#ffffff] truncate">
+              TITAN ASCII // WORKSTATION
             </h1>
-            <span className="text-[10px] font-mono px-1.5 py-0.5 rounded-[2px] bg-[#222222] text-[#a1a1aa] border border-[#2a2a2a]">
-              ACL Sealed
+            <span className="text-[10px] font-mono px-1.5 py-0.5 rounded-[2px] bg-[#141416] text-[#a1a1aa] border border-[#222224] uppercase">
+              {platform}
             </span>
           </div>
         </div>
@@ -60,7 +62,7 @@ export const Header: React.FC<HeaderProps> = ({
 
       {/* Navigation Tabs */}
       <nav
-        className="flex flex-wrap items-center gap-1 bg-[#121212] p-1 rounded-[4px] border border-[#2a2a2a] overflow-x-auto w-full max-w-full"
+        className="flex flex-wrap items-center gap-1 bg-[#0a0a0c] p-1 rounded-[4px] border border-[#222224] overflow-x-auto w-full md:w-auto"
         aria-label="Main Navigation"
       >
         {navTabs.map((tab) => {
@@ -71,10 +73,10 @@ export const Header: React.FC<HeaderProps> = ({
               onClick={() => onModeChange(tab.id)}
               aria-label={tab.label}
               aria-current={isActive ? "page" : undefined}
-              className={`min-h-[44px] px-3 py-2.5 flex items-center justify-center gap-2 text-xs rounded-[4px] transition-colors whitespace-nowrap ${
+              className={`min-h-[38px] px-3 py-1.5 flex items-center justify-center gap-2 text-xs rounded-[2px] transition-colors whitespace-nowrap font-mono ${
                 isActive
-                  ? "bg-[#222222] text-[#60a5fa] font-semibold"
-                  : "text-[#888888] hover:text-[#f3f4f6] hover:bg-[#1a1a1a]"
+                  ? "bg-[#ffffff] text-[#000000] font-semibold shadow-[0_0_8px_rgba(255,255,255,0.2)]"
+                  : "text-[#a1a1aa] hover:text-[#ffffff] hover:bg-[#141416]"
               }`}
             >
               {tab.icon}
@@ -84,15 +86,28 @@ export const Header: React.FC<HeaderProps> = ({
         })}
       </nav>
 
-      {/* Hardware Status */}
-      <div className="flex items-center gap-2 self-start md:self-auto">
-        <div className="flex items-center gap-2 px-3 py-1.5 min-h-[44px] rounded-[4px] bg-[#121212] border border-[#2a2a2a] text-xs font-mono">
-          <Cpu className="w-3.5 h-3.5 text-[#3b82f6] flex-shrink-0" aria-hidden="true" />
-          <span className="text-[#f3f4f6]">{getTierLabel(activeTier)}</span>
-          <span className="text-[#3b82f6] font-semibold">{fps} FPS</span>
-          <span className="text-[10px] text-[#888888] border-l border-[#2a2a2a] pl-2 uppercase">
-            {platform}
-          </span>
+      {/* Telemetry Pills Strip */}
+      <div className="flex items-center gap-2 self-start md:self-auto flex-wrap">
+        <div className="flex items-center gap-2 px-3 py-1.5 min-h-[38px] rounded-[4px] bg-[#0a0a0c] border border-[#222224] text-xs font-mono">
+          <div className="flex items-center gap-1.5">
+            <Cpu className="w-3.5 h-3.5 text-[#ffffff]" aria-hidden="true" />
+            <span className="text-[#a1a1aa]">{getTierLabel(activeTier)}</span>
+          </div>
+
+          <span className="w-1 h-3 border-r border-[#222224]" />
+
+          <div className="flex items-center gap-1.5">
+            <Activity className="w-3.5 h-3.5 text-[#ffffff]" aria-hidden="true" />
+            <span className="text-[#ffffff] font-semibold">{fps} FPS</span>
+            <span className="text-[10px] text-[#a1a1aa]">({latencyMs.toFixed(1)}ms)</span>
+          </div>
+
+          <span className="w-1 h-3 border-r border-[#222224]" />
+
+          <div className="flex items-center gap-1 text-[#a1a1aa] text-[10px]">
+            <ShieldCheck className="w-3 h-3 text-[#ffffff]" aria-hidden="true" />
+            <span>SANDBOX: SEALED</span>
+          </div>
         </div>
       </div>
     </header>

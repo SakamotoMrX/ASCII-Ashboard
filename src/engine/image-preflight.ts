@@ -103,3 +103,53 @@ export async function preflightImageSource(
     imageData,
   };
 }
+
+/**
+ * Load an image File/Blob and run preflight dimension clamping (STRESS-3 Defense).
+ */
+export async function preflightImageFile(
+  file: File | Blob,
+  maxLimit: number = MAX_DIMENSION_LIMIT
+): Promise<PreflightResult> {
+  const url = typeof URL !== "undefined" && URL.createObjectURL ? URL.createObjectURL(file) : null;
+
+  return new Promise<PreflightResult>((resolve, reject) => {
+    const img = new Image();
+
+    const cleanup = () => {
+      if (url && typeof URL !== "undefined" && URL.revokeObjectURL) {
+        URL.revokeObjectURL(url);
+      }
+    };
+
+    img.onload = async () => {
+      try {
+        const result = await preflightImageSource(img, maxLimit);
+        cleanup();
+        resolve(result);
+      } catch (err) {
+        cleanup();
+        reject(err);
+      }
+    };
+
+    img.onerror = () => {
+      cleanup();
+      reject(new Error("Failed to decode image file format."));
+    };
+
+    if (url) {
+      img.src = url;
+    } else if (typeof FileReader !== "undefined") {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        img.src = e.target?.result as string;
+      };
+      reader.onerror = () => reject(new Error("FileReader failed to read image file."));
+      reader.readAsDataURL(file);
+    } else {
+      reject(new Error("Neither URL.createObjectURL nor FileReader is supported."));
+    }
+  });
+}
+

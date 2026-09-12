@@ -10,13 +10,72 @@ import { ControlPanel } from "./components/ControlPanel";
 import { AsciiCanvas } from "./components/AsciiCanvas";
 import { TelemetryDrawer, TelemetryData } from "./components/TelemetryDrawer";
 import { MediaPicker } from "./components/MediaPicker";
+import { BootLoadingScreen } from "./components/BootLoadingScreen";
+import { ConstellationGraph } from "./components/ConstellationGraph";
+import { TechnicalStickers } from "./components/TechnicalStickers";
 import { renderProcedural3D } from "./engine/procedural-3d";
 import { getCharsetRamp } from "./engine/charsets";
-import { preflightImageSource } from "./engine/image-preflight";
+import { preflightImageFile } from "./engine/image-preflight";
 import { renderImageDataToAscii } from "./engine/canvas-renderer";
 import { globalTierManager } from "./engine/tier-manager";
 import { StreamPipeline } from "./engine/stream-pipeline";
 import { getTelemetryFromHost } from "./engine/tauri-bridge";
+import { VideoStreamingEngine } from "./engine/video-pipeline";
+import { mediaEngineService } from "./engine/media-service";
+
+/**
+ * Shared helper to paint ASCII text lines onto a 2D canvas backing store.
+ */
+function paintAsciiToCanvas(
+  canvas: HTMLCanvasElement | null,
+  text: string,
+  options: AsciiRenderOptions
+): void {
+  if (!canvas) return;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return;
+
+  const charWidth = options.cell_width_px;
+  const charHeight = options.cell_height_px;
+  const cols = options.max_output_columns;
+  const rows = options.max_output_rows;
+
+  const targetWidth = cols * charWidth;
+  const targetHeight = rows * charHeight;
+
+  if (canvas.width !== targetWidth || canvas.height !== targetHeight) {
+    canvas.width = targetWidth;
+    canvas.height = targetHeight;
+  }
+
+  // Clear background
+  ctx.fillStyle = "#121212";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  // Set font and baseline
+  ctx.font = `${options.font_size_px}px "JetBrains Mono", monospace`;
+  ctx.textBaseline = "top";
+
+  switch (options.color_mode) {
+    case "matrix_green":
+      ctx.fillStyle = "#00ff88";
+      break;
+    case "amber":
+      ctx.fillStyle = "#ffb700";
+      break;
+    case "cyberpunk_neon":
+      ctx.fillStyle = "#ff3366";
+      break;
+    case "monochrome":
+    default:
+      ctx.fillStyle = "#f3f4f6";
+  }
+
+  const lines = text.split("\n");
+  for (let r = 0; r < lines.length; r++) {
+    ctx.fillText(lines[r], 0, r * charHeight);
+  }
+}
 
 export default function App() {
   const urlParams = new URLSearchParams(window.location.search);
@@ -27,6 +86,7 @@ export default function App() {
   const [activeTab, setActiveTab] = useState<RenderMode | "settings" | "media_picker">(initialMode);
   const [activeTier, setActiveTier] = useState<RenderTier>("tier1_webgpu");
   const [isInitialLoad, setIsInitialLoad] = useState<boolean>(true);
+  const [showBoot, setShowBoot] = useState<boolean>(true);
 
   // Procedural 3D State
   const [proceduralParams, setProceduralParams] = useState<Procedural3DParams>({
@@ -45,7 +105,7 @@ export default function App() {
   const [options, setOptions] = useState<AsciiRenderOptions>({
     mode: "procedural_3d",
     tier: "tier1_webgpu",
-    color_mode: "matrix_green",
+    color_mode: "monochrome",
     charset: {
       preset: "standard",
       invert: false,
@@ -74,6 +134,15 @@ export default function App() {
   const [isStreamingCamera, setIsStreamingCamera] = useState<boolean>(false);
   const [warningMessage, setWarningMessage] = useState<string | null>(null);
 
+  // Video playback state
+  const [videoState, setVideoState] = useState({
+    isPlaying: false,
+    isLooping: true,
+    currentTime: 0,
+    duration: 0,
+    fileName: null as string | null,
+  });
+
   const [hostTelemetry, setHostTelemetry] = useState({
     platform: "web",
     sandbox_sealed: true,
@@ -89,6 +158,8 @@ export default function App() {
   const fpsTimerRef = useRef<number>(performance.now());
   const framesRenderedRef = useRef<number>(0);
   const streamPipelineRef = useRef<StreamPipeline<number, string> | null>(null);
+  const videoEngineRef = useRef<VideoStreamingEngine | null>(null);
+  const lastImageDataRef = useRef<ImageData | null>(null);
 
   // Clear 1 orchestrated load reveal state after initial trigger
   useEffect(() => {
@@ -122,6 +193,82 @@ export default function App() {
 
     getTelemetryFromHost().then(setHostTelemetry);
   }, []);
+
+  // Initialize VideoStreamingEngine lifecycle (STRESS-2 Defense: synchronous teardown)
+  useEffect(() => {
+    const engine = new VideoStreamingEngine(options, {
+      onFrame: (text, meta) => {
+        setAsciiOutput(text);
+        setRenderTimeMs(meta.renderDurationMs);
+        setFps(meta.fpsActual || 60);
+        setDroppedFrames(meta.droppedFrames);
+        paintAsciiToCanvas(canvasRef.current, text, options);
+      },
+      onError: (err) => {
+        setWarningMessage(err.message);
+      },
+      onStateChange: (state) => {
+        setVideoState((prev) => ({
+          ...prev,
+          isPlaying: state === "playing",
+        }));
+      },
+      onTimeUpdate: (currentTime, duration) => {
+        setVideoState((prev) => ({
+          ...prev,
+          currentTime,
+          duration,
+        }));
+      },
+    });
+
+    videoEngineRef.current = engine;
+
+    return () => {
+      engine.dispose();
+      videoEngineRef.current = null;
+    };
+  }, []);
+
+  // Synchronize options changes to video engine
+  useEffect(() => {
+    if (videoEngineRef.current) {
+      videoEngineRef.current.updateOptions(options);
+    }
+  }, [options]);
+
+  // STRESS-2 Defense: Synchronously stop or pause background streams when switching away
+  useEffect(() => {
+    if (activeTab !== "video" && videoEngineRef.current && videoState.isPlaying) {
+      videoEngineRef.current.pause();
+    }
+    if (activeTab !== "camera_stream" && isStreamingCamera) {
+      if (videoEngineRef.current) {
+        videoEngineRef.current.stop();
+      }
+      mediaEngineService.stopCamera();
+      setIsStreamingCamera(false);
+    }
+  }, [activeTab, isStreamingCamera, videoState.isPlaying]);
+
+  // STRESS-5 Defense: Debounce window resize listener (16ms boundary)
+  useEffect(() => {
+    let resizeTimer: ReturnType<typeof setTimeout> | null = null;
+    const handleResize = () => {
+      if (resizeTimer) clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        if (canvasRef.current && asciiOutput) {
+          paintAsciiToCanvas(canvasRef.current, asciiOutput, options);
+        }
+      }, 16);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => {
+      if (resizeTimer) clearTimeout(resizeTimer);
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [asciiOutput, options]);
 
   // Re-instantiate StreamPipeline for procedural frame processing & STRESS-3 defense
   useEffect(() => {
@@ -183,48 +330,8 @@ export default function App() {
                   setDroppedFrames(tel.droppedFrames);
                 }
 
-                // Render onto canvas if present
-                const canvas = canvasRef.current;
-                if (canvas) {
-                  const ctx = canvas.getContext("2d");
-                  if (ctx) {
-                    const charWidth = options.cell_width_px;
-                    const charHeight = options.cell_height_px;
-                    const cols = options.max_output_columns;
-                    const rows = options.max_output_rows;
-
-                    canvas.width = cols * charWidth;
-                    canvas.height = rows * charHeight;
-
-                    // Fill background
-                    ctx.fillStyle = "#121212";
-                    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-                    // Set font & color
-                    ctx.font = `${options.font_size_px}px "JetBrains Mono", monospace`;
-                    ctx.textBaseline = "top";
-
-                    switch (options.color_mode) {
-                      case "matrix_green":
-                        ctx.fillStyle = "#00ff88";
-                        break;
-                      case "amber":
-                        ctx.fillStyle = "#ffb700";
-                        break;
-                      case "cyberpunk_neon":
-                        ctx.fillStyle = "#ff3366";
-                        break;
-                      case "monochrome":
-                      default:
-                        ctx.fillStyle = "#f3f4f6";
-                    }
-
-                    const lines = text.split("\n");
-                    for (let r = 0; r < lines.length; r++) {
-                      ctx.fillText(lines[r], 0, r * charHeight);
-                    }
-                  }
-                }
+                // Render onto canvas
+                paintAsciiToCanvas(canvasRef.current, text, options);
               }
             })
             .catch(() => {
@@ -254,29 +361,17 @@ export default function App() {
       const res = renderImageDataToAscii(imageData, options);
       setAsciiOutput(res.asciiText);
       setRenderTimeMs(Math.round(res.durationMs * 10) / 10);
-
-      const canvas = canvasRef.current;
-      if (canvas) {
-        const ctx = canvas.getContext("2d");
-        if (ctx) {
-          const charWidth = options.cell_width_px;
-          const charHeight = options.cell_height_px;
-          canvas.width = options.max_output_columns * charWidth;
-          canvas.height = options.max_output_rows * charHeight;
-          ctx.fillStyle = "#121212";
-          ctx.fillRect(0, 0, canvas.width, canvas.height);
-          ctx.font = `${options.font_size_px}px "JetBrains Mono", monospace`;
-          ctx.textBaseline = "top";
-          ctx.fillStyle = "#f3f4f6";
-          const lines = res.asciiText.split("\n");
-          for (let r = 0; r < lines.length; r++) {
-            ctx.fillText(lines[r], 0, r * charHeight);
-          }
-        }
-      }
+      paintAsciiToCanvas(canvasRef.current, res.asciiText, options);
     },
     [options]
   );
+
+  // Re-rasterize cached image when options adjust in image mode
+  useEffect(() => {
+    if (activeTab === "image" && lastImageDataRef.current) {
+      rasterizeImageData(lastImageDataRef.current);
+    }
+  }, [activeTab, options, rasterizeImageData]);
 
   // Direct photo canvas rasterization
   const handleApplyPhotoToAscii = useCallback(
@@ -284,40 +379,36 @@ export default function App() {
       const ctx = snapshotCanvas.getContext("2d");
       if (!ctx) return;
       const imageData = ctx.getImageData(0, 0, snapshotCanvas.width, snapshotCanvas.height);
+      lastImageDataRef.current = imageData;
       rasterizeImageData(imageData);
       setActiveTab("image");
     },
     [rasterizeImageData]
   );
 
-  // Handle Image File
+  // Instant Image File Ingestion (STRESS-3 Defense: preflight clamp to 2048px)
   const handleSelectImageFile = useCallback(
     async (file: File) => {
-      const img = new Image();
-      const url = URL.createObjectURL(file);
-      img.src = url;
+      try {
+        setWarningMessage(`Ingesting image: ${file.name}...`);
+        const preflight = await preflightImageFile(file, 2048);
 
-      img.onload = async () => {
-        try {
-          const preflight = await preflightImageSource(img, 2048);
-          if (preflight.wasDownsampled) {
-            setWarningMessage(
-              `High-resolution image (${preflight.originalWidth}x${preflight.originalHeight}) was automatically clamped to 2048x2048.`
-            );
-          } else {
-            setWarningMessage(null);
-          }
-
-          if (preflight.imageData) {
-            rasterizeImageData(preflight.imageData);
-            setActiveTab("image");
-          }
-        } catch (err: any) {
-          setWarningMessage(`Error processing image: ${err.message}`);
-        } finally {
-          URL.revokeObjectURL(url);
+        if (preflight.wasDownsampled) {
+          setWarningMessage(
+            `High-resolution image (${preflight.originalWidth}x${preflight.originalHeight}) was automatically clamped to 2048x2048.`
+          );
+        } else {
+          setWarningMessage(null);
         }
-      };
+
+        if (preflight.imageData) {
+          lastImageDataRef.current = preflight.imageData;
+          rasterizeImageData(preflight.imageData);
+          setActiveTab("image");
+        }
+      } catch (err: any) {
+        setWarningMessage(`Error processing image: ${err.message}`);
+      }
     },
     [rasterizeImageData]
   );
@@ -327,27 +418,103 @@ export default function App() {
     if (file) handleSelectImageFile(file);
   };
 
-  const handleSelectVideoFile = useCallback((file: File) => {
-    setWarningMessage(
-      `Video file loaded: ${file.name} (${Math.round(file.size / 1024)} KB). Ready for streaming rasterization.`
-    );
-    setActiveTab("video");
-  }, []);
+  // Video Streaming Pipeline Ingestion (STRESS-1 Defense)
+  const handleSelectVideoFile = useCallback(
+    async (file: File) => {
+      if (file.size === 0) {
+        setWarningMessage("Invalid video file: corrupted container (0-byte file). Supported formats: MP4, WebM.");
+        return;
+      }
+
+      try {
+        setWarningMessage(`Loading video stream: ${file.name}...`);
+        setActiveTab("video");
+
+        if (videoEngineRef.current) {
+          await videoEngineRef.current.loadSource(file);
+          setVideoState({
+            isPlaying: true,
+            isLooping: videoEngineRef.current.isLooping(),
+            currentTime: 0,
+            duration: videoEngineRef.current.getDuration(),
+            fileName: file.name,
+          });
+          await videoEngineRef.current.play();
+        }
+        setWarningMessage(null);
+      } catch (err: any) {
+        setWarningMessage(
+          err.message || "Unsupported video codec or corrupted container. Supported formats: MP4, WebM."
+        );
+      }
+    },
+    []
+  );
 
   const handleSelectVideo = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) handleSelectVideoFile(file);
   };
 
-  const handleStartCamera = () => {
-    setIsStreamingCamera(true);
-    setWarningMessage("Camera stream active. Sandbox IPC stream locked.");
-  };
+  // Video Playback Controls
+  const handlePlayVideo = useCallback(() => {
+    videoEngineRef.current?.play();
+  }, []);
 
-  const handleStopCamera = () => {
+  const handlePauseVideo = useCallback(() => {
+    videoEngineRef.current?.pause();
+  }, []);
+
+  const handleSeekVideo = useCallback((timeSec: number) => {
+    videoEngineRef.current?.seek(timeSec);
+    setVideoState((prev) => ({ ...prev, currentTime: timeSec }));
+  }, []);
+
+  const handleToggleLoopVideo = useCallback((loop: boolean) => {
+    videoEngineRef.current?.setLoop(loop);
+    setVideoState((prev) => ({ ...prev, isLooping: loop }));
+  }, []);
+
+  const handleStopVideo = useCallback(() => {
+    videoEngineRef.current?.stop();
+    setVideoState((prev) => ({ ...prev, isPlaying: false, currentTime: 0 }));
+  }, []);
+
+  // Live Camera Streaming Engine (STRESS-4 Defense)
+  const handleStartCamera = useCallback(async () => {
+    try {
+      setWarningMessage("Accessing camera device...");
+      const session = await mediaEngineService.startCamera({ width: 640, height: 480 });
+      setIsStreamingCamera(true);
+      setActiveTab("camera_stream");
+
+      if (videoEngineRef.current) {
+        await videoEngineRef.current.loadSource(session.stream);
+        await videoEngineRef.current.play();
+      }
+      setWarningMessage(null);
+    } catch (err: any) {
+      setIsStreamingCamera(false);
+      if (err.code === "PERMISSION_DENIED") {
+        setWarningMessage("Camera permission was denied. Please grant camera access in system settings.");
+      } else if (err.code === "DEVICE_NOT_FOUND") {
+        setWarningMessage("No compatible camera device detected on this system.");
+      } else if (err.code === "TAURI_WEBVIEW_ERROR") {
+        setWarningMessage("Camera initialization timed out. Operating system permissions may be blocked.");
+      } else {
+        setWarningMessage(err.message || "Failed to initialize camera stream.");
+      }
+    }
+  }, []);
+
+  const handleStopCamera = useCallback(() => {
+    if (videoEngineRef.current) {
+      videoEngineRef.current.stop();
+    }
+    mediaEngineService.stopCamera();
     setIsStreamingCamera(false);
     setWarningMessage("Camera stream stopped.");
-  };
+  }, []);
 
   const handleCopyAscii = useCallback(() => {
     if (!asciiOutput) return;
@@ -403,6 +570,23 @@ export default function App() {
         Skip to content
       </a>
 
+      {/* Boot Loading Screen (orchestrated 1.2s hardware handshake reveal) */}
+      {showBoot && (
+        <BootLoadingScreen
+          detectedTier={
+            activeTier === "tier1_webgpu"
+              ? "WebGPU Tier 1"
+              : activeTier === "tier2_webgl"
+              ? "WebGL2 Tier 2"
+              : activeTier === "rust_sidecar"
+              ? "Rust Native Sidecar"
+              : "Canvas 2D Fallback"
+          }
+          durationMs={1200}
+          onComplete={() => setShowBoot(false)}
+        />
+      )}
+
       {/* Top Header Bar */}
       <Header
         activeMode={activeTab}
@@ -410,6 +594,16 @@ export default function App() {
         activeTier={activeTier}
         fps={fps}
         platform={hostTelemetry.platform}
+      />
+
+      {/* Technical Stickers Strip (TIER / FPS / GRID / ACL / HOST) */}
+      <TechnicalStickers
+        activeTier={activeTier}
+        fps={fps}
+        resolution={{ columns: options.max_output_columns, rows: options.max_output_rows }}
+        platform={hostTelemetry.platform}
+        sandboxSealed={hostTelemetry.sandbox_sealed}
+        className="px-6 py-2 bg-[#0a0a0c] border-b border-[#222224]"
       />
 
       {/* Warning Notification Banner */}
@@ -449,6 +643,12 @@ export default function App() {
           onExportPng={handleExportPng}
           activeMode={activeTab}
           onOpenMediaPicker={() => setActiveTab("media_picker")}
+          videoState={videoState}
+          onPlayVideo={handlePlayVideo}
+          onPauseVideo={handlePauseVideo}
+          onSeekVideo={handleSeekVideo}
+          onToggleLoopVideo={handleToggleLoopVideo}
+          onStopVideo={handleStopVideo}
         />
 
         {/* Central Viewport & ASCII Canvas / MediaPicker */}
@@ -474,6 +674,21 @@ export default function App() {
               asciiText={asciiOutput}
               isInitialLoad={isInitialLoad}
             />
+          )}
+
+          {/* Constellation Pipeline Graph (embedded viewport visualization, md+ to avoid 375px overflow) */}
+          {activeTab !== "media_picker" && (
+            <div className="hidden md:flex flex-shrink-0 border-t border-[#222224] h-[320px] bg-[#0a0a0c]">
+              <ConstellationGraph
+                activeMode={activeTab}
+                activeTier={activeTier}
+                fps={fps}
+                latencyMs={renderTimeMs}
+                columns={options.max_output_columns}
+                rows={options.max_output_rows}
+                isEmbedded
+              />
+            </div>
           )}
         </main>
       </div>

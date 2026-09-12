@@ -79,7 +79,7 @@ export const TelemetryDrawer: React.FC<TelemetryDrawerProps> = ({ telemetry }) =
 
       {/* Sandbox Status */}
       <div className="flex items-center gap-2">
-        <span className="inline-flex items-center gap-1.5 px-2 py-1 rounded-[2px] text-[11px] bg-[#222222] text-[#888888] border border-[#2a2a2a] font-mono">
+        <span className="inline-flex items-center gap-1.5 px-2 py-1 rounded-[2px] text-[11px] bg-[#222222] text-[#a1a1aa] border border-[#2a2a2a] font-mono">
           <Shield className="w-3 h-3 text-[#3b82f6]" aria-hidden="true" />
           Sandbox ACL Verified
         </span>
