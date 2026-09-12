@@ -47,6 +47,9 @@ export const AsciiCanvas: React.FC<AsciiCanvasProps> = ({
         return "text-[#ffb700]";
       case "cyberpunk_neon":
         return "text-[#ff3366]";
+      case "truecolor":
+      case "rgb_ansi":
+        return "text-[#38bdf8]";
       case "monochrome":
       default:
         return "text-[#f3f4f6]";

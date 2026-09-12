@@ -50,7 +50,7 @@ export async function invokeRenderAscii(
       ambient_light: 0.2,
       specular_strength: 0.5,
     };
-    asciiText = renderProcedural3D(proceduralParams, 0, cols, rows, ramp);
+    asciiText = renderProcedural3D(proceduralParams, 0, cols, rows, ramp).text;
   } else if (sourceImageData) {
     const res = renderImageDataToAscii(sourceImageData, request.options);
     asciiText = res.asciiText;
@@ -67,7 +67,7 @@ export async function invokeRenderAscii(
       ambient_light: 0.2,
       specular_strength: 0.5,
     };
-    asciiText = renderProcedural3D(proceduralParams, 0, cols, rows, ramp);
+    asciiText = renderProcedural3D(proceduralParams, 0, cols, rows, ramp).text;
   }
 
   const durationMs = performance.now() - start;

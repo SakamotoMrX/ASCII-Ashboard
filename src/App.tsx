@@ -13,7 +13,7 @@ import { MediaPicker } from "./components/MediaPicker";
 import { BootLoadingScreen } from "./components/BootLoadingScreen";
 import { ConstellationGraph } from "./components/ConstellationGraph";
 import { TechnicalStickers } from "./components/TechnicalStickers";
-import { renderProcedural3D } from "./engine/procedural-3d";
+import { renderProcedural3D, Procedural3DResult } from "./engine/procedural-3d";
 import { getCharsetRamp } from "./engine/charsets";
 import { preflightImageFile } from "./engine/image-preflight";
 import { CanvasRenderResult, renderImageDataToAscii } from "./engine/canvas-renderer";
@@ -199,7 +199,7 @@ export default function App() {
   const lastTimeRef = useRef<number>(performance.now());
   const fpsTimerRef = useRef<number>(performance.now());
   const framesRenderedRef = useRef<number>(0);
-  const streamPipelineRef = useRef<StreamPipeline<number, string> | null>(null);
+  const streamPipelineRef = useRef<StreamPipeline<number, Procedural3DResult> | null>(null);
   const videoEngineRef = useRef<VideoStreamingEngine | null>(null);
   const lastImageDataRef = useRef<ImageData | null>(null);
   const lastRenderResultRef = useRef<CanvasRenderResult | null>(null);
@@ -384,17 +384,30 @@ export default function App() {
           const startTime = performance.now();
           streamPipelineRef.current
             .submit(frameIndexRef.current)
-            .then((text) => {
+            .then((result) => {
               if (isMounted) {
-                setAsciiOutput(text);
+                setAsciiOutput(result.text);
                 setRenderTimeMs(Math.round((performance.now() - startTime) * 10) / 10);
                 const tel = streamPipelineRef.current?.getTelemetry();
                 if (tel) {
                   setDroppedFrames(tel.droppedFrames);
                 }
 
-                // Render onto canvas
-                paintAsciiToCanvas(canvasRef.current, text, options);
+                lastRenderResultRef.current = {
+                  asciiText: result.text,
+                  colorBuffer: result.colorBuffer,
+                  durationMs: performance.now() - startTime,
+                  width: options.max_output_columns,
+                  height: options.max_output_rows,
+                };
+
+                // Render onto canvas with calculated colorBuffer
+                paintAsciiToCanvas(
+                  canvasRef.current,
+                  result.text,
+                  options,
+                  result.colorBuffer
+                );
               }
             })
             .catch(() => {

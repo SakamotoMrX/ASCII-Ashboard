@@ -8,7 +8,7 @@ describe("Procedural 3D ASCII Engine Math Verification", () => {
   const scenes: ProceduralScene[] = ["donut", "sphere", "cube", "planet", "blackhole"];
 
   for (const scene of scenes) {
-    it(`renders ${scene} scene with exact dimensions and non-empty character distribution`, () => {
+    it(`renders ${scene} scene with exact dimensions, valid colorBuffer, and non-empty character distribution`, () => {
       const params: Procedural3DParams = {
         scene,
         rotation_speed_x: 1.0,
@@ -25,18 +25,24 @@ describe("Procedural 3D ASCII Engine Math Verification", () => {
       const rows = 40;
       const result = renderProcedural3D(params, 0, cols, rows, ramp);
 
-      expect(result).toBeTypeOf("string");
-      expect(result.length).toBeGreaterThan(0);
+      expect(result.text).toBeTypeOf("string");
+      expect(result.text.length).toBeGreaterThan(0);
+      expect(result.colorBuffer).toBeInstanceOf(Uint8Array);
+      expect(result.colorBuffer.length).toBe(cols * rows * 3);
 
-      const lines = result.split("\n");
+      const lines = result.text.split("\n");
       expect(lines).toHaveLength(rows);
       for (const line of lines) {
         expect(line.length).toBe(cols);
       }
 
       // Verify that non-space characters exist (rendered geometry is visible)
-      const nonSpaceChars = result.replace(/[\s\n]/g, "").length;
+      const nonSpaceChars = result.text.replace(/[\s\n]/g, "").length;
       expect(nonSpaceChars).toBeGreaterThan(50);
+
+      // Verify non-zero color channels exist in colorBuffer for rendered scene
+      const hasColor = result.colorBuffer.some((val) => val > 0);
+      expect(hasColor).toBe(true);
     });
   }
 
@@ -56,6 +62,6 @@ describe("Procedural 3D ASCII Engine Math Verification", () => {
     const frame0 = renderProcedural3D(params, 0, 60, 30, ramp);
     const frame25 = renderProcedural3D(params, 25, 60, 30, ramp);
 
-    expect(frame0).not.toBe(frame25);
+    expect(frame0.text).not.toBe(frame25.text);
   });
 });
