@@ -165,7 +165,88 @@ export const IpcStreamingFrameSchema = z.object({
 export type IpcStreamingFrame = z.infer<typeof IpcStreamingFrameSchema>;
 
 // ============================================================================
-// 5. MOTION LIFECYCLE & DESIGN TOKENS CONTRACT
+// 5. UNIFIED MEDIA PICKER & DESKTOP CONTRACTS
+// ============================================================================
+
+export const MediaPickerStateSchema = z.enum([
+  "idle",
+  "recording",
+  "captured",
+  "uploaded"
+]);
+export type MediaPickerState = z.infer<typeof MediaPickerStateSchema>;
+
+export const MediaSourceTypeSchema = z.enum([
+  "file_upload",
+  "camera_stream",
+  "video_recording",
+  "photo_snapshot"
+]);
+export type MediaSourceType = z.infer<typeof MediaSourceTypeSchema>;
+
+export const CameraFacingModeSchema = z.enum(["user", "environment"]);
+export type CameraFacingMode = z.infer<typeof CameraFacingModeSchema>;
+
+export const CameraConfigSchema = z.object({
+  deviceId: z.string().optional(),
+  facingMode: CameraFacingModeSchema.default("user"),
+  width: z.number().int().positive().default(1280),
+  height: z.number().int().positive().default(720),
+  frameRate: z.number().positive().max(60).default(30),
+  audio: z.boolean().default(false)
+});
+export type CameraConfig = z.infer<typeof CameraConfigSchema>;
+
+export const RecordingMetadataSchema = z.object({
+  durationMs: z.number().nonnegative(),
+  mimeType: z.string().min(1),
+  fileSizeBytes: z.number().nonnegative(),
+  blobUrl: z.string().url().or(z.string().startsWith("blob:")),
+  createdAt: z.string().datetime(),
+  videoWidth: z.number().int().positive(),
+  videoHeight: z.number().int().positive()
+});
+export type RecordingMetadata = z.infer<typeof RecordingMetadataSchema>;
+
+export const SnapshotMetadataSchema = z.object({
+  dataUrl: z.string().startsWith("data:image/"),
+  mimeType: z.enum(["image/png", "image/jpeg"]),
+  width: z.number().int().positive(),
+  height: z.number().int().positive(),
+  fileSizeBytes: z.number().nonnegative(),
+  capturedAt: z.string().datetime()
+});
+export type SnapshotMetadata = z.infer<typeof SnapshotMetadataSchema>;
+
+export const VideoUploadPayloadSchema = z.object({
+  fileName: z.string().min(1),
+  fileSizeBytes: z.number().positive().max(500 * 1024 * 1024), // 500MB safety limit
+  mimeType: z.string().regex(/^video\//),
+  objectUrl: z.string().url().or(z.string().startsWith("blob:")),
+  durationSec: z.number().positive().optional(),
+  width: z.number().int().positive().optional(),
+  height: z.number().int().positive().optional()
+});
+export type VideoUploadPayload = z.infer<typeof VideoUploadPayloadSchema>;
+
+export const MediaPickerErrorSchema = z.object({
+  code: z.enum([
+    "PERMISSION_DENIED",
+    "DEVICE_NOT_FOUND",
+    "UNSUPPORTED_MIMETYPE",
+    "OOM_FILE_TOO_LARGE",
+    "TAURI_WEBVIEW_ERROR",
+    "RECORDER_ABORTED",
+    "MEDIA_TRACK_MUTED"
+  ]),
+  message: z.string().min(1),
+  technicalDetails: z.string().optional(),
+  recoverable: z.boolean().default(true)
+});
+export type MediaPickerError = z.infer<typeof MediaPickerErrorSchema>;
+
+// ============================================================================
+// 6. MOTION LIFECYCLE & DARK MINIMALIST DESIGN TOKENS CONTRACT (#121212 / #1a1a1a / #3B82F6)
 // ============================================================================
 
 export const MotionLifecycleContractSchema = z.object({
@@ -179,21 +260,29 @@ export type MotionLifecycleContract = z.infer<typeof MotionLifecycleContractSche
 
 export const DesignTokensContractSchema = z.object({
   palette: z.object({
-    bg_deep: z.literal("#0a0a0f"),
-    bg_surface: z.literal("#12121a"),
-    bg_surface_elevated: z.literal("#1a1a26"),
-    primary_phosphor: z.literal("#00ff88"),
-    accent_crimson: z.literal("#ff3366"),
-    text_bright: z.literal("#f0f0f5"),
-    text_muted: z.literal("#8b8b9e"),
-    border_subtle: z.literal("#262638"),
-    glow_phosphor: z.literal("rgba(0, 255, 136, 0.15)"),
-    error_state: z.literal("#ff4444")
+    background: z.literal("#121212"),
+    surface: z.literal("#1a1a1a"),
+    surface_elevated: z.literal("#242424"),
+    primary: z.literal("#3B82F6"),
+    primary_hover: z.literal("#2563EB"),
+    primary_muted: z.literal("rgba(59, 130, 246, 0.12)"),
+    accent: z.literal("#3B82F6"),
+    text_primary: z.literal("#FAFAFA"),
+    text_secondary: z.literal("#A1A1AA"),
+    text_muted: z.literal("#71717A"),
+    border: z.literal("rgba(255, 255, 255, 0.06)"),
+    border_focus: z.literal("#3B82F6"),
+    status_recording: z.literal("#EF4444"),
+    status_success: z.literal("#22C55E"),
+    status_error: z.literal("#EF4444")
   }),
   typography: z.object({
-    font_mono_display: z.literal("JetBrains Mono, IBM Plex Mono, monospace"),
-    font_mono_body: z.literal("IBM Plex Mono, monospace"),
-    font_ascii_grid: z.literal("ui-monospace, SFMono-Regular, Menlo, Consolas, monospace"),
+    font_sans: z.literal("Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"),
+    font_mono: z.literal("JetBrains Mono, Menlo, monospace"),
+    weights: z.object({
+      regular: z.literal(400),
+      semibold: z.literal(600)
+    }),
     line_length_max: z.literal("80ch")
   }),
   radii: z.object({
@@ -209,26 +298,57 @@ export const DesignTokensContractSchema = z.object({
 });
 export type DesignTokensContract = z.infer<typeof DesignTokensContractSchema>;
 
+export const DarkMinimalistTokensSchema = DesignTokensContractSchema;
+export type DarkMinimalistTokens = DesignTokensContract;
+
 // ============================================================================
-// 6. LOCKED REAL END-USER PAGE COPY (ZERO LOREM POLICY)
+// 7. LOCKED REAL END-USER PAGE COPY (ZERO LOREM POLICY)
 // ============================================================================
 
 export const PageCopySchema = z.object({
   brand: z.object({
     name: z.literal("ASCII Studio Desktop"),
-    tagline: z.literal("Sealed Multiplatform Terminal & GPU ASCII Engine"),
-    status_sandbox: z.literal("Sandbox Sealed (Tauri ACL Active)")
+    tagline: z.literal("Dark Minimalist Terminal & Real-Time ASCII Engine"),
+    status_sandbox: z.literal("Tauri Native Sandbox Sealed")
   }),
   navigation: z.object({
-    tab_image: z.literal("Image Converter"),
-    tab_video: z.literal("Video Streamer"),
+    tab_image: z.literal("Image"),
+    tab_video: z.literal("Video"),
     tab_procedural: z.literal("3D Procedural"),
     tab_camera: z.literal("Live Camera"),
-    tab_settings: z.literal("Sandbox & Engines")
+    tab_settings: z.literal("Settings")
   }),
   hero: z.object({
-    headline: z.literal("High-Throughput ASCII Art Engine"),
-    subheading: z.literal("Render real-time 3D geometry, high-resolution images, and video streams into crystal-clear ASCII grids with WebGPU acceleration and zero sandbox leakage.")
+    headline: z.literal("Real-Time ASCII Art Engine"),
+    subheading: z.literal("Transform images, video streams, and live camera input into high-contrast ASCII grids.")
+  }),
+  media_picker: z.object({
+    title: z.literal("Media Source Selection"),
+    description: z.literal("Drop video files, connect live camera, or capture stills directly into the ASCII pipeline."),
+    dropzone_prompt: z.literal("Drop video file here or click to browse"),
+    dropzone_subtext: z.literal("Supports MP4, WebM, MOV up to 500MB"),
+    btn_browse: z.literal("Browse Video File"),
+    btn_start_camera: z.literal("Open Live Camera"),
+    btn_stop_camera: z.literal("Close Camera"),
+    btn_record_start: z.literal("Start Recording"),
+    btn_record_stop: z.literal("Stop Recording"),
+    btn_snap_photo: z.literal("Capture Snapshot"),
+    btn_retake: z.literal("Retake Media"),
+    btn_confirm_media: z.literal("Use in ASCII Engine"),
+    status_idle: z.literal("Awaiting media source selection"),
+    status_recording: z.literal("Recording live camera feed..."),
+    status_captured: z.literal("Media captured and ready for conversion"),
+    status_uploaded: z.literal("Video file loaded into engine")
+  }),
+  permission_dialog: z.object({
+    title: z.literal("Camera Permission Required"),
+    description: z.literal("ASCII Studio requires camera access to stream live video and snap still frames. Please allow camera permissions in system settings."),
+    btn_open_settings: z.literal("Open System Settings"),
+    btn_retry: z.literal("Retry Access"),
+    btn_dismiss: z.literal("Cancel"),
+    error_denied: z.literal("Camera permission denied by operating system."),
+    error_no_device: z.literal("No compatible camera device detected on this system."),
+    error_in_use: z.literal("Camera is currently in use by another application.")
   }),
   controls: z.object({
     btn_import_image: z.literal("Select Source Image"),
@@ -240,13 +360,13 @@ export const PageCopySchema = z.object({
     btn_export_png: z.literal("Export Canvas PNG"),
     btn_copy_clipboard: z.literal("Copy to Clipboard"),
     btn_copied_feedback: z.literal("Copied to Clipboard"),
-    label_contrast: z.literal("Contrast Adjust"),
-    label_brightness: z.literal("Brightness Adjust"),
-    label_gamma: z.literal("Gamma Correction"),
+    label_contrast: z.literal("Contrast"),
+    label_brightness: z.literal("Brightness"),
+    label_gamma: z.literal("Gamma"),
     label_charset_select: z.literal("Character Ramp Preset"),
     label_color_mode: z.literal("Color Matrix Output"),
     label_tier_select: z.literal("Hardware Acceleration Tier"),
-    label_resolution: z.literal("Grid Resolution (Columns x Rows)")
+    label_resolution: z.literal("Grid Dimensions")
   }),
   procedural_scenes: z.object({
     donut_title: z.literal("Rotating Torus (Donut)"),
@@ -263,7 +383,7 @@ export const PageCopySchema = z.object({
   }),
   empty_state: z.object({
     title: z.literal("No Source Media Loaded"),
-    description: z.literal("Drop an image, choose a 3D procedural demo, or start the camera to begin generating ASCII art."),
+    description: z.literal("Upload a video, snap a camera photo, or select a procedural 3D scene to begin."),
     action: z.literal("Load Demo Scene")
   }),
   error_boundary: z.object({
@@ -275,20 +395,21 @@ export const PageCopySchema = z.object({
   confirmation: z.object({
     export_success: z.literal("ASCII Art successfully saved to target path."),
     sidecar_healthy: z.literal("Rust Engine Sidecar connected and operational."),
-    acl_verified: z.literal("Tauri Sandbox capabilities verified. Filesystem isolation active.")
+    acl_verified: z.literal("Tauri Sandbox capabilities verified. Filesystem isolation active."),
+    media_loaded: z.literal("Media successfully initialized in ASCII pipeline.")
   })
 });
 export type PageCopy = z.infer<typeof PageCopySchema>;
 
 // ============================================================================
-// 7. SKEPTICAL BREAKING SCENARIO STRESS VECTORS
+// 8. SKEPTICAL BREAKING SCENARIO STRESS VECTORS
 // ============================================================================
 
 export const BreakingScenarioSchema = z.object({
   id: z.string(),
   name: z.string(),
   vector: z.string(),
-  stress_parameters: z.record(z.any()),
+  stress_parameters: z.record(z.string(), z.any()),
   vulnerability_surface: z.string(),
   expected_defense: z.string(),
   failure_threshold_ms: z.number().int().positive(),
@@ -297,6 +418,14 @@ export const BreakingScenarioSchema = z.object({
 export type BreakingScenario = z.infer<typeof BreakingScenarioSchema>;
 
 export const Phase1ContractsSchema = z.object({
+  media_picker_state: MediaPickerStateSchema,
+  media_source_type: MediaSourceTypeSchema,
+  camera_config: CameraConfigSchema,
+  recording_metadata: RecordingMetadataSchema,
+  snapshot_metadata: SnapshotMetadataSchema,
+  video_upload_payload: VideoUploadPayloadSchema,
+  media_picker_error: MediaPickerErrorSchema,
+  dark_minimalist_tokens: DarkMinimalistTokensSchema,
   sandbox: SandboxCapabilitySchema,
   ascii_options: AsciiRenderOptionsSchema,
   procedural_params: Procedural3DParamsSchema,
@@ -306,6 +435,6 @@ export const Phase1ContractsSchema = z.object({
   motion_lifecycle: MotionLifecycleContractSchema,
   design_tokens: DesignTokensContractSchema,
   page_copy: PageCopySchema,
-  breaking_scenarios: z.array(BreakingScenarioSchema).min(3)
+  breaking_scenarios: z.array(BreakingScenarioSchema).min(4)
 });
 export type Phase1Contracts = z.infer<typeof Phase1ContractsSchema>;

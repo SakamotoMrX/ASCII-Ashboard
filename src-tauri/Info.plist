@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>NSCameraUsageDescription</key>
+  <string>ASCII Studio requires camera access for live video streaming and photo capture.</string>
+  <key>NSMicrophoneUsageDescription</key>
+  <string>ASCII Studio requires microphone access for video recording with audio.</string>
+</dict>
+</plist>

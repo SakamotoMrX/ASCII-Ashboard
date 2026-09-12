@@ -18,6 +18,11 @@ import {
   DesignTokensContractSchema,
   PageCopySchema,
   BreakingScenarioSchema,
+  MediaPickerStateSchema,
+  CameraConfigSchema,
+  RecordingMetadataSchema,
+  SnapshotMetadataSchema,
+  MediaPickerErrorSchema,
 } from "../contracts";
 
 describe("Contracts & Schemas Verification", () => {
@@ -53,6 +58,50 @@ describe("Contracts & Schemas Verification", () => {
       glyph_aspect_ratio: 0.55,
     };
     expect(CharsetConfigSchema.safeParse(charsetConfig).success).toBe(true);
+  });
+
+  it("validates MediaPicker Schemas", () => {
+    expect(MediaPickerStateSchema.safeParse("idle").success).toBe(true);
+    expect(MediaPickerStateSchema.safeParse("recording").success).toBe(true);
+    expect(MediaPickerStateSchema.safeParse("captured").success).toBe(true);
+    expect(MediaPickerStateSchema.safeParse("uploaded").success).toBe(true);
+
+    const cameraCfg = {
+      facingMode: "user",
+      width: 1280,
+      height: 720,
+      frameRate: 30,
+      audio: false,
+    };
+    expect(CameraConfigSchema.safeParse(cameraCfg).success).toBe(true);
+
+    const recording = {
+      durationMs: 5000,
+      mimeType: "video/webm",
+      fileSizeBytes: 10240,
+      blobUrl: "blob:http://localhost/test",
+      createdAt: new Date().toISOString(),
+      videoWidth: 1280,
+      videoHeight: 720,
+    };
+    expect(RecordingMetadataSchema.safeParse(recording).success).toBe(true);
+
+    const snapshot = {
+      dataUrl: "data:image/jpeg;base64,/9j/4AAQSkZJRg==",
+      mimeType: "image/jpeg",
+      width: 640,
+      height: 480,
+      fileSizeBytes: 1024,
+      capturedAt: new Date().toISOString(),
+    };
+    expect(SnapshotMetadataSchema.safeParse(snapshot).success).toBe(true);
+
+    const err = {
+      code: "PERMISSION_DENIED",
+      message: "Camera permission denied",
+      recoverable: true,
+    };
+    expect(MediaPickerErrorSchema.safeParse(err).success).toBe(true);
   });
 
   it("validates SandboxCapabilitySchema with strict memory ceiling", () => {
@@ -131,7 +180,7 @@ describe("Contracts & Schemas Verification", () => {
     expect(Procedural3DParamsSchema.safeParse(procParams).success).toBe(true);
 
     const ipcReq = {
-      request_id: "a0000000-0000-0000-0000-000000000001",
+      request_id: "a0000000-0000-4000-8000-000000000001",
       timestamp_ms: 1000,
       options: {
         mode: "image",
@@ -145,7 +194,7 @@ describe("Contracts & Schemas Verification", () => {
         cell_width_px: 8,
         cell_height_px: 14,
         font_size_px: 12,
-        font_family: "monospace",
+        font_family: "JetBrains Mono, IBM Plex Mono, monospace",
         fps_cap: 60,
         enable_scanlines: false,
         enable_bloom: false,
@@ -155,10 +204,14 @@ describe("Contracts & Schemas Verification", () => {
       source_type: "procedural",
       source_payload: "donut",
     };
-    expect(IpcRenderRequestSchema.safeParse(ipcReq).success).toBe(true);
+    const parsedReq = IpcRenderRequestSchema.safeParse(ipcReq);
+    if (!parsedReq.success) {
+      console.error("IpcRenderRequestSchema parse error:", parsedReq.error);
+    }
+    expect(parsedReq.success).toBe(true);
 
     const ipcRes = {
-      request_id: "a0000000-0000-0000-0000-000000000001",
+      request_id: "a0000000-0000-4000-8000-000000000001",
       success: true,
       execution_tier_used: "tier1_webgpu",
       render_duration_ms: 1.5,
@@ -167,10 +220,14 @@ describe("Contracts & Schemas Verification", () => {
       ascii_text: "...",
       error_message: null,
     };
-    expect(IpcRenderResponseSchema.safeParse(ipcRes).success).toBe(true);
+    const parsedRes = IpcRenderResponseSchema.safeParse(ipcRes);
+    if (!parsedRes.success) {
+      console.error("IpcRenderResponseSchema error:", parsedRes.error);
+    }
+    expect(parsedRes.success).toBe(true);
 
     const streamingFrame = {
-      stream_id: "a0000000-0000-0000-0000-000000000002",
+      stream_id: "a0000000-0000-4000-8000-000000000002",
       frame_index: 10,
       timestamp_ms: 2000,
       delta_ms: 16.6,
@@ -193,21 +250,29 @@ describe("Contracts & Schemas Verification", () => {
 
     const tokens = {
       palette: {
-        bg_deep: "#0a0a0f",
-        bg_surface: "#12121a",
-        bg_surface_elevated: "#1a1a26",
-        primary_phosphor: "#00ff88",
-        accent_crimson: "#ff3366",
-        text_bright: "#f0f0f5",
-        text_muted: "#8b8b9e",
-        border_subtle: "#262638",
-        glow_phosphor: "rgba(0, 255, 136, 0.15)",
-        error_state: "#ff4444",
+        background: "#121212",
+        surface: "#1a1a1a",
+        surface_elevated: "#242424",
+        primary: "#3B82F6",
+        primary_hover: "#2563EB",
+        primary_muted: "rgba(59, 130, 246, 0.12)",
+        accent: "#3B82F6",
+        text_primary: "#FAFAFA",
+        text_secondary: "#A1A1AA",
+        text_muted: "#71717A",
+        border: "rgba(255, 255, 255, 0.06)",
+        border_focus: "#3B82F6",
+        status_recording: "#EF4444",
+        status_success: "#22C55E",
+        status_error: "#EF4444",
       },
       typography: {
-        font_mono_display: "JetBrains Mono, IBM Plex Mono, monospace",
-        font_mono_body: "IBM Plex Mono, monospace",
-        font_ascii_grid: "ui-monospace, SFMono-Regular, Menlo, Consolas, monospace",
+        font_sans: "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+        font_mono: "JetBrains Mono, Menlo, monospace",
+        weights: {
+          regular: 400,
+          semibold: 600,
+        },
         line_length_max: "80ch",
       },
       radii: {
@@ -242,20 +307,50 @@ describe("Contracts & Schemas Verification", () => {
     const lockedCopy = {
       brand: {
         name: "ASCII Studio Desktop",
-        tagline: "Sealed Multiplatform Terminal & GPU ASCII Engine",
-        status_sandbox: "Sandbox Sealed (Tauri ACL Active)",
+        tagline: "Dark Minimalist Terminal & Real-Time ASCII Engine",
+        status_sandbox: "Tauri Native Sandbox Sealed",
       },
       navigation: {
-        tab_image: "Image Converter",
-        tab_video: "Video Streamer",
+        tab_image: "Image",
+        tab_video: "Video",
         tab_procedural: "3D Procedural",
         tab_camera: "Live Camera",
-        tab_settings: "Sandbox & Engines",
+        tab_settings: "Settings",
       },
       hero: {
-        headline: "High-Throughput ASCII Art Engine",
+        headline: "Real-Time ASCII Art Engine",
         subheading:
-          "Render real-time 3D geometry, high-resolution images, and video streams into crystal-clear ASCII grids with WebGPU acceleration and zero sandbox leakage.",
+          "Transform images, video streams, and live camera input into high-contrast ASCII grids.",
+      },
+      media_picker: {
+        title: "Media Source Selection",
+        description:
+          "Drop video files, connect live camera, or capture stills directly into the ASCII pipeline.",
+        dropzone_prompt: "Drop video file here or click to browse",
+        dropzone_subtext: "Supports MP4, WebM, MOV up to 500MB",
+        btn_browse: "Browse Video File",
+        btn_start_camera: "Open Live Camera",
+        btn_stop_camera: "Close Camera",
+        btn_record_start: "Start Recording",
+        btn_record_stop: "Stop Recording",
+        btn_snap_photo: "Capture Snapshot",
+        btn_retake: "Retake Media",
+        btn_confirm_media: "Use in ASCII Engine",
+        status_idle: "Awaiting media source selection",
+        status_recording: "Recording live camera feed...",
+        status_captured: "Media captured and ready for conversion",
+        status_uploaded: "Video file loaded into engine",
+      },
+      permission_dialog: {
+        title: "Camera Permission Required",
+        description:
+          "ASCII Studio requires camera access to stream live video and snap still frames. Please allow camera permissions in system settings.",
+        btn_open_settings: "Open System Settings",
+        btn_retry: "Retry Access",
+        btn_dismiss: "Cancel",
+        error_denied: "Camera permission denied by operating system.",
+        error_no_device: "No compatible camera device detected on this system.",
+        error_in_use: "Camera is currently in use by another application.",
       },
       controls: {
         btn_import_image: "Select Source Image",
@@ -267,13 +362,13 @@ describe("Contracts & Schemas Verification", () => {
         btn_export_png: "Export Canvas PNG",
         btn_copy_clipboard: "Copy to Clipboard",
         btn_copied_feedback: "Copied to Clipboard",
-        label_contrast: "Contrast Adjust",
-        label_brightness: "Brightness Adjust",
-        label_gamma: "Gamma Correction",
+        label_contrast: "Contrast",
+        label_brightness: "Brightness",
+        label_gamma: "Gamma",
         label_charset_select: "Character Ramp Preset",
         label_color_mode: "Color Matrix Output",
         label_tier_select: "Hardware Acceleration Tier",
-        label_resolution: "Grid Resolution (Columns x Rows)",
+        label_resolution: "Grid Dimensions",
       },
       procedural_scenes: {
         donut_title: "Rotating Torus (Donut)",
@@ -291,7 +386,7 @@ describe("Contracts & Schemas Verification", () => {
       empty_state: {
         title: "No Source Media Loaded",
         description:
-          "Drop an image, choose a 3D procedural demo, or start the camera to begin generating ASCII art.",
+          "Upload a video, snap a camera photo, or select a procedural 3D scene to begin.",
         action: "Load Demo Scene",
       },
       error_boundary: {
@@ -305,10 +400,13 @@ describe("Contracts & Schemas Verification", () => {
         export_success: "ASCII Art successfully saved to target path.",
         sidecar_healthy: "Rust Engine Sidecar connected and operational.",
         acl_verified: "Tauri Sandbox capabilities verified. Filesystem isolation active.",
+        media_loaded: "Media successfully initialized in ASCII pipeline.",
       },
     };
     const parsed = PageCopySchema.safeParse(lockedCopy);
+    if (!parsed.success) {
+      console.error("PageCopySchema parse error:", parsed.error);
+    }
     expect(parsed.success).toBe(true);
   });
 });
-

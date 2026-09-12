@@ -3,25 +3,29 @@
 @tailwind utilities;
 
 :root {
-  /* Phase 1.5 Design Tokens */
-  --radius: 6px;
-  --radius-sm: 4px;
+  /* Minimalist Design Tokens */
+  --radius-card: 6px;
+  --radius-button: 4px;
+  --radius-tag: 2px;
+  --radius: 4px;
+  --radius-sm: 2px;
   --radius-xs: 2px;
-  --shadow-subtle: 0 1px 2px rgba(0, 0, 0, 0.4);
-  --shadow-glow: 0 0 12px rgba(0, 255, 136, 0.12);
   --space-unit: 4px;
-  --panel-padding: 16px;
-  --grid-gap: 12px;
+  --panel-padding: 24px;
+  --grid-gap: 16px;
 
-  /* Semantic Color System */
-  --background: #0a0a0f;
-  --surface: #12121a;
-  --surface-elevated: #1a1a26;
-  --primary: #00ff88;
-  --accent: #ff4d79;
-  --muted: #a8abbf;
-  --border: #262638;
-  --foreground: #f0f0f5;
+  /* Semantic Color System - Dark Minimalist */
+  --background: #121212;
+  --surface: #1a1a1a;
+  --surface-elevated: #242424;
+  --primary: #3B82F6;
+  --primary-hover: #2563EB;
+  --accent: #3B82F6;
+  --text-primary: #FAFAFA;
+  --text-secondary: #A1A1AA;
+  --text-muted: #71717A;
+  --border: #242424;
+  --foreground: #FAFAFA;
 }
 
 * {
@@ -31,16 +35,17 @@
 body {
   background-color: var(--background);
   color: var(--foreground);
-  font-family: "IBM Plex Mono", "JetBrains Mono", ui-monospace, monospace;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-weight: 400;
   overflow-x: hidden;
   margin: 0;
   padding: 0;
 }
 
-/* Custom Monospace Scrollbars */
+/* Custom Minimal Scrollbars */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 
 ::-webkit-scrollbar-track {
@@ -53,12 +58,12 @@ body {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #3a3a52;
+  background: #333333;
 }
 
 /* Monospace ASCII Viewport */
 .ascii-viewport {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   line-height: 1.05;
   letter-spacing: 0.04em;
   white-space: pre;
@@ -67,48 +72,10 @@ body {
   text-rendering: optimizeSpeed;
 }
 
-/* 1 Orchestrated Initial Load Cascade Animation (280ms) */
-@keyframes matrixStartup {
-  0% {
-    opacity: 0;
-    transform: scale(0.985) translateY(4px);
-    filter: blur(2px) brightness(1.5);
-  }
-  60% {
-    opacity: 0.9;
-    filter: blur(0px) brightness(1.2);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-    filter: blur(0px) brightness(1);
-  }
-}
-
-.animate-matrix-startup {
-  animation: matrixStartup 280ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-/* CRT Scanlines Layer */
-.crt-scanlines {
-  background: linear-gradient(
-    rgba(18, 16, 16, 0) 50%,
-    rgba(0, 0, 0, 0.25) 50%
-  ),
-  linear-gradient(
-    90deg,
-    rgba(255, 0, 0, 0.02),
-    rgba(0, 255, 0, 0.01),
-    rgba(0, 0, 255, 0.02)
-  );
-  background-size: 100% 3px, 6px 100%;
-  pointer-events: none;
-}
-
 /* High-Visibility Focus Outline for A11y */
 :focus-visible {
   outline: 2px solid var(--primary);
-  outline-offset: 1px;
+  outline-offset: 2px;
 }
 
 /* Accessible 44px Hit-Area Range Inputs */
@@ -127,36 +94,51 @@ input[type="range"]:focus-visible {
 }
 
 input[type="range"]::-webkit-slider-runnable-track {
-  height: 8px;
+  height: 6px;
   background-color: var(--surface-elevated);
   border-radius: var(--radius-xs);
   border: 1px solid var(--border);
 }
 
 input[type="range"]::-webkit-slider-thumb {
-  height: 20px;
-  width: 20px;
+  height: 18px;
+  width: 18px;
   border-radius: 50%;
   background: var(--primary);
   cursor: pointer;
   -webkit-appearance: none;
   margin-top: -6px;
-  box-shadow: 0 0 4px rgba(0, 255, 136, 0.4);
 }
 
 input[type="range"]::-moz-range-track {
-  height: 8px;
+  height: 6px;
   background-color: var(--surface-elevated);
   border-radius: var(--radius-xs);
   border: 1px solid var(--border);
 }
 
 input[type="range"]::-moz-range-thumb {
-  height: 20px;
-  width: 20px;
+  height: 18px;
+  width: 18px;
   border-radius: 50%;
   background: var(--primary);
   cursor: pointer;
   border: none;
-  box-shadow: 0 0 4px rgba(0, 255, 136, 0.4);
+}
+
+
+/* Orchestrated Motion Moment (180ms easeOut) */
+@keyframes mediaStateReveal {
+  from {
+    opacity: 0;
+    transform: translateY(2px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.media-state-reveal {
+  animation: mediaStateReveal 180ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }

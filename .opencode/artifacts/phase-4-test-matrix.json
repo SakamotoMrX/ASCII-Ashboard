@@ -1,57 +1,45 @@
 {
-  "tests_total": 32,
-  "tests_passed": 32,
-  "pass_rate": 100,
+  "tests_passed": 45,
+  "tests_total": 45,
   "pass_rate_percentage": 100,
   "assertion_depth_verified": true,
   "negative_tests_included": true,
-  "breaking_scenarios_tested": [
-    "STRESS-1-DownsampleHugeImage",
-    "STRESS-2-PreventAudioContextExhaustion",
-    "STRESS-3-ProceduralFrameDropBackpressure",
-    "STRESS-4-PathTraversalSanitization"
-  ],
   "viewports": [
     "desktop",
     "tablet",
     "mobile"
   ],
-  "viewports_tested": [
-    "desktop-1440x900",
-    "tablet-768x1024",
-    "mobile-375x812"
-  ],
   "states": [
     "default",
+    "media_idle",
+    "media_recording",
+    "media_captured",
+    "media_uploaded",
     "scene_donut",
-    "scene_sphere",
-    "scene_cube",
-    "scene_planet",
-    "scene_black_hole",
-    "mode_text"
+    "scene_black_hole"
   ],
   "screenshots": [
     "screenshots/desktop-default.png",
+    "screenshots/desktop-media_idle.png",
+    "screenshots/desktop-media_recording.png",
+    "screenshots/desktop-media_captured.png",
+    "screenshots/desktop-media_uploaded.png",
     "screenshots/desktop-scene_donut.png",
-    "screenshots/desktop-scene_sphere.png",
-    "screenshots/desktop-scene_cube.png",
-    "screenshots/desktop-scene_planet.png",
     "screenshots/desktop-scene_black_hole.png",
-    "screenshots/desktop-mode_text.png",
     "screenshots/tablet-default.png",
+    "screenshots/tablet-media_idle.png",
+    "screenshots/tablet-media_recording.png",
+    "screenshots/tablet-media_captured.png",
+    "screenshots/tablet-media_uploaded.png",
     "screenshots/tablet-scene_donut.png",
-    "screenshots/tablet-scene_sphere.png",
-    "screenshots/tablet-scene_cube.png",
-    "screenshots/tablet-scene_planet.png",
     "screenshots/tablet-scene_black_hole.png",
-    "screenshots/tablet-mode_text.png",
     "screenshots/mobile-default.png",
+    "screenshots/mobile-media_idle.png",
+    "screenshots/mobile-media_recording.png",
+    "screenshots/mobile-media_captured.png",
+    "screenshots/mobile-media_uploaded.png",
     "screenshots/mobile-scene_donut.png",
-    "screenshots/mobile-scene_sphere.png",
-    "screenshots/mobile-scene_cube.png",
-    "screenshots/mobile-scene_planet.png",
-    "screenshots/mobile-scene_black_hole.png",
-    "screenshots/mobile-mode_text.png"
+    "screenshots/mobile-scene_black_hole.png"
   ],
   "accessibility": {
     "wcag_level": "WCAG 2.1 AA",

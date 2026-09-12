@@ -1,53 +1,48 @@
 {
   "color_system": {
-    "background": "#0a0a0f",
-    "surface": "#12121a",
-    "surface_elevated": "#1a1a26",
-    "primary": "#00ff88",
-    "accent": "#ff3366",
-    "text_bright": "#f0f0f5",
-    "muted": "#8b8b9e",
-    "border": "#262638"
+    "background": "#121212",
+    "surface": "#1a1a1a",
+    "surface_elevated": "#222222",
+    "primary": "#3B82F6",
+    "accent": "#3B82F6",
+    "text_primary": "#EDEDED",
+    "muted": "#888888"
   },
   "typography": {
     "typefaces": [
       {
-        "name": "JetBrains Mono",
+        "name": "Inter",
         "role": "display"
       },
       {
-        "name": "IBM Plex Mono",
+        "name": "JetBrains Mono",
         "role": "body"
-      },
-      {
-        "name": "ui-monospace, SFMono-Regular, Menlo, monospace",
-        "role": "ascii_grid"
       }
     ],
-    "line_length_target": 68
+    "line_length_target": 72
   },
   "layout": {
-    "concept": "Split-pane terminal workbench layout engineered for sub-millisecond visual feedback and dual-pane operational control. The left quadrant houses source media ingestion, procedural parameters, and tier controls, while the central viewport expands into an unclipped high-density ASCII rendering canvas framed by real-time hardware telemetry and sandbox status badges.",
-    "ascii_wireframe": "+-------------------------------------------------------------------------+\n| ASCII Studio Desktop [Sandbox Sealed (Tauri ACL Active)]   [WebGPU 60FPS]|\n+-------------------------------------------------------------------------+\n| [Image Converter] [Video Streamer] [3D Procedural] [Live Camera] [Engines]|\n+-----------------------+-------------------------------------------------+\n| CONTROLS & PARAMS     | ASCII LIVE CANVAS PREVIEW                       |\n| > Character Ramp:     | +---------------------------------------------+ |\n|   [Extended Ramp    v]| | @%#*+=-:.      .:-=+*#%@%#*+=-:.     .:-=+*#| |\n| > Color Mode:         | | #*+=-:.          .:-=+*#%#*+=-:.       .:-=+| |\n|   [TrueColor RGB    v]| | *+=-:.     @@     .:-=+*#*+=-:.   @@    .:-=| |\n| > Contrast: [||||..]  | | +=-:.     @@@@     .:-=++=-:.    @@@@   .:-=| |\n| > Brightness: [||...] | | =-.        @@        .:-=:.       @@      .-| |\n| > Engine Tier:        | | -:                    .:-:                .-| |\n|   (o) Tier 1: WebGPU  | | +-------------------------------------------+ | |\n|   ( ) Tier 2: WebGL2  | | Resolution: 120x60 | Render Time: 1.4ms       | |\n|   ( ) Tier 3: Canvas2D| +---------------------------------------------+ |\n| > Actions:            | TELEMETRY DRAWER                                |\n|   [Select Image]      | IPC Payload: 1.2MB | Dropped Frames: 0          |\n|   [Export Text (.txt)]| Hardware: Apple M-Series Metal / Direct3D 12    |\n+-----------------------+-------------------------------------------------+",
+    "concept": "Dark Minimalist terminal workbench. Generous whitespace with 24px and 32px paddings, strictly separating regions via background tonal steps (#121212 base, #1a1a1a workbench surface, #222222 elevated active segments) and hairline rules. Zero drop shadows, neon blooms, or decorative gradients. The central ASCII viewport is flanked by a unified minimal MediaPicker pane and an uncluttered parameter drawer.",
+    "ascii_wireframe": "+--------------------------------------------------------------------------------+\n| ASCII Studio Desktop                    [Image] [Video] [3D Procedural] [Camera]|\n+--------------------------------------------------------------------------------+\n| MEDIA PICKER (FLUID)            | ASCII VIEWPORT (PRIMARY)                      |\n|                                 |                                               |\n| [ idle / recording /            | +-------------------------------------------+ |\n|   captured / uploaded ]         | |                                           | |\n|                                 | |   @@@@@@%%%%####****++++====----....      | |\n| +-----------------------------+ | |   @@@@@@%%%%####****++++====----....      | |\n| | Drop video or browse        | | |   @@@@@@%%%%####****++++====----....      | |\n| | [Browse File] [Open Camera] | | |                                           | |\n| +-----------------------------+ | +-------------------------------------------+ |\n|                                 | Status: 60 FPS | Tier: WebGPU Compute Atlas   |\n| Parameters:                     |                                               |\n| - Contrast: [0]                 | Controls:                                     |\n| - Brightness: [0]               | [Render ASCII Frame] [Export TXT] [Copy]      |\n+--------------------------------------------------------------------------------+",
     "alignment": "left",
-    "alignment_rationale": "Terminal consoles and high-throughput rendering workbenches strictly adhere to left-aligned monospace rhythm for rapid column scanning and zero typographical drift."
+    "alignment_rationale": "Left-aligned terminal information architecture matches natural eye scanning for code, parameters, and dense data outputs while preserving strict monospaced grid integrity."
   },
-  "principles": "Visual identity fuses retro-futuristic CRT precision with rigorous modern desktop productivity. Deliberately rejects generic SaaS gradients in favor of high-legibility phosphor luminescence, hard-edged telemetry panels, and functional monospace typography tailored for multiplatform GPU ASCII rendering.",
+  "principles": "Form follows function through rigorous elimination of visual chrome. Restraint over decoration: surfaces communicate depth solely through tonal step luminance rather than faux elevation or skeuomorphic lighting. Monospaced and sans typography strictly bound to 400 regular and 600 semibold weights with a single electric blue accent (#3B82F6) reserved exclusively for active states and critical interaction points.",
   "orchestrated_moment": {
-    "trigger": "initial load reveal and tier switch",
-    "justification": "Hero ASCII canvas undergoes a single 280ms character rasterization cascade on startup to establish the matrix resolution and hardware tier. All subsequent interactions, slider adjustments, and mode switches execute instantly with zero UI latency or transition jank."
+    "trigger": "media_picker_state_transition",
+    "justification": "Exactly ONE deliberate orchestrated moment on the page: a subtle 240ms cross-fade between MediaPicker states (idle -> recording -> captured -> uploaded). All subsequent buttons, sliders, inspector panels, and status indicators remain strictly static to avoid visual noise and layout recalculation churn."
   },
   "token_overrides": {
-    "border_radius": "--radius: 6px; --radius-sm: 4px; --radius-xs: 2px;",
-    "shadows": "--shadow-subtle: 0 1px 2px rgba(0,0,0,0.4); --shadow-glow: 0 0 12px rgba(0,255,136,0.12);",
-    "spacing": "--space-unit: 4px; --panel-padding: 16px; --grid-gap: 12px;",
-    "palette": "--background: 240 20% 5%; --foreground: 240 10% 96%; --primary: 152 100% 50%; --accent: 345 100% 60%; --muted: 240 6% 58%; --border: 240 19% 19%; --card: 240 18% 9%; --card-foreground: 240 10% 96%;"
+    "border_radius": "--radius: 4px; --radius-card: 4px; --radius-button: 4px; --radius-tag: 2px;",
+    "shadows": "--shadow-sm: none; --shadow-md: none; --shadow-lg: none; --shadow-xl: none;",
+    "spacing": "--space-unit: 8px; --space-card-p: 24px; --space-viewport-p: 32px; --space-gap: 16px;",
+    "palette": "--background: 0 0% 7%; --surface: 0 0% 10%; --surface-elevated: 0 0% 13%; --primary: 217 91% 60%; --accent: 217 91% 60%; --foreground: 0 0% 93%; --muted-foreground: 0 0% 53%; --border: 0 0% 100% / 0.06;"
   },
   "tells_checked": [
-    "Checked cream/terracotta tell: rejected warm-clay editorial palettes; selected Void Black (#0a0a0f) and Phosphor Terminal Green (#00ff88) engineered for terminal console environments.",
-    "Checked near-black/acid-green slop: rejected toxic fluorescent green on pitch black; calibrated Phosphor Green to WCAG AA-compliant #00ff88 with Cold Chrome (#f0f0f5) primary text for readable luminance contrast.",
-    "Checked broadsheet layout: rejected newspaper hairline columns; implemented structured split-pane workbench optimized for dual-column controls and unconstrained ASCII canvas.",
-    "Checked SaaS card kit tell: rejected uniform rounded cards with generic drop shadows; implemented dense 6px/4px border-radius hierarchy with subtle border framing (#262638) and specialized phosphor glow accents.",
-    "Checked template chrome tell: stripped tracked-out ALL-CAPS eyebrows, middot separators, and arrow CTA suffixes; used clean sentence-case badges, semantic status pills, and direct imperative button labels."
+    "Checked cream/terracotta tell: rejected warm-clay and paper tints in favor of an unapologetic #121212 terminal black base and disciplined #3B82F6 electric blue accent.",
+    "Checked near-black/acid-green slop tell: rejected harsh pitch black (#000000 / #0A0A0A) paired with toxic matrix-green or neon-vermilion glows. Grounded in balanced neutral charcoal (#1a1a1a) with a singular calibrated electric blue.",
+    "Checked broadsheet layout tell: rejected artificial newspaper column rules and simulated print styling; constructed a clean, functional desktop terminal workbench layout optimized for media pipelines.",
+    "Checked SaaS card kit tell: eliminated uniform rounded cards with fuzzy drop shadows and decorative gradient borders. Implemented flat functional containers using pure tonal steps (#1a1a1a surface, #222222 elevated) and discrete 4px radii.",
+    "Checked template chrome: strictly purged tracked-out ALL-CAPS eyebrows, middot meta chains (A · B · C), em-dash labels (LABEL — item), and arrow-suffixed CTA buttons (->). All typography uses natural sentence-case labels and explicit descriptive verbs."
   ]
 }

@@ -22,7 +22,7 @@
       }
     ],
     "security": {
-      "csp": "default-src 'self'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; font-src 'self' data:; connect-src 'self' ipc: tauri: http://localhost:*; worker-src 'self' blob:; object-src 'none';"
+      "csp": "default-src 'self'; media-src 'self' blob: mediastream:; img-src 'self' blob: data:; connect-src 'self' ipc: http://ipc.localhost; style-src 'self' 'unsafe-inline'; font-src 'self' data:; worker-src 'self' blob:; object-src 'none';"
     }
   },
   "bundle": {
@@ -34,6 +34,9 @@
       "icons/128x128@2x.png",
       "icons/icon.icns",
       "icons/icon.ico"
-    ]
+    ],
+    "macOS": {
+      "infoPlist": "Info.plist"
+    }
   }
 }

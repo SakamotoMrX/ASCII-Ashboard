@@ -1,0 +1,123 @@
+- generic [ref=f1e3]:
+  - link "Skip to content" [ref=f1e4] [cursor=pointer]:
+    - /url: "#main-content"
+  - banner [ref=f1e5]:
+    - generic [ref=f1e12]:
+      - heading "ASCII Studio Desktop" [level=1] [ref=f1e13]
+      - generic [ref=f1e14]: ACL Sealed
+    - navigation "Main Navigation" [ref=f1e15]:
+      - button "3D Procedural" [ref=f1e16] [cursor=pointer]
+      - button "Media Studio" [active] [ref=f1e21] [cursor=pointer]
+      - button "Image Converter" [ref=f1e26] [cursor=pointer]
+      - button "Video Streamer" [ref=f1e32] [cursor=pointer]
+      - button "Live Camera" [ref=f1e37] [cursor=pointer]
+      - button "Sandbox & Engines" [ref=f1e42] [cursor=pointer]
+    - generic [ref=f1e48]:
+      - generic [ref=f1e52]: WebGPU 60FPS
+      - generic [ref=f1e53]: 40 FPS
+      - generic [ref=f1e54]: web
+  - generic [ref=f1e55]:
+    - complementary [ref=f1e56]:
+      - generic [ref=f1e57]:
+        - generic [ref=f1e221]:
+          - text: Unified Media Studio
+          - paragraph [ref=f1e222]: Use the main workbench viewport to upload, capture photos, or record videos.
+          - button "Reset Media Studio" [ref=f1e223] [cursor=pointer]
+        - generic [ref=f1e78]:
+          - generic [ref=f1e79]: Character Ramp Preset
+          - combobox "Character Ramp Preset" [ref=f1e84]:
+            - option "Standard ( .:-=+*#%@ )" [selected]
+            - option "Extended 70-Glyph Ramp"
+            - option "Unicode Block ( ░▒▓█ )"
+            - option "Binary Digital ( 01 )"
+            - option "Matrix Katakana Stream"
+            - option "Custom Glyph Ramp"
+          - generic [ref=f1e85] [cursor=pointer]:
+            - generic [ref=f1e86]: Invert Luminance
+            - checkbox "Invert Luminance" [ref=f1e87]
+        - generic [ref=f1e88]:
+          - generic [ref=f1e89]: Color Matrix Output
+          - combobox "Select Color Matrix Output" [ref=f1e96]:
+            - option "Monochrome Minimal"
+            - option "Phosphor Terminal Green" [selected]
+            - option "CRT Amber Phosphor"
+            - option "Cyberpunk Neon Glow"
+            - option "TrueColor RGB (24-bit)"
+            - option "ANSI 16-Color Palette"
+          - generic [ref=f1e97] [cursor=pointer]:
+            - generic [ref=f1e98]: CRT Scanlines
+            - checkbox "Enable CRT Scanlines Effect" [ref=f1e99]
+        - generic [ref=f1e100]:
+          - generic [ref=f1e101]: Signal Adjustments
+          - generic [ref=f1e103]:
+            - generic [ref=f1e104]:
+              - generic [ref=f1e105]:
+                - generic [ref=f1e106]: Contrast Adjust
+                - generic [ref=f1e107]: 0%
+              - slider "Contrast Adjust" [ref=f1e109] [cursor=pointer]: "0"
+            - generic [ref=f1e110]:
+              - generic [ref=f1e111]:
+                - generic [ref=f1e112]: Brightness Adjust
+                - generic [ref=f1e113]: 0%
+              - slider "Brightness Adjust" [ref=f1e115] [cursor=pointer]: "0"
+            - generic [ref=f1e116]:
+              - generic [ref=f1e117]:
+                - generic [ref=f1e118]: Gamma Correction
+                - generic [ref=f1e119]: 1.00γ
+              - slider "Gamma Correction" [ref=f1e121] [cursor=pointer]: "1"
+            - generic [ref=f1e122]:
+              - generic [ref=f1e123]:
+                - generic [ref=f1e124]: Grid Density (Cols)
+                - generic [ref=f1e125]: "100"
+              - slider "Grid Column Density" [ref=f1e127] [cursor=pointer]: "100"
+        - group "Hardware Acceleration Tier" [ref=f1e129]:
+          - generic [ref=f1e134]:
+            - generic [ref=f1e135] [cursor=pointer]:
+              - 'radio "Tier 1: WebGPU Compute Atlas" [checked] [ref=f1e136]'
+              - generic [ref=f1e137]: "Tier 1: WebGPU Compute Atlas"
+            - generic [ref=f1e138] [cursor=pointer]:
+              - 'radio "Tier 2: WebGL2 Fragment Shader" [ref=f1e139]'
+              - generic [ref=f1e140]: "Tier 2: WebGL2 Fragment Shader"
+            - generic [ref=f1e141] [cursor=pointer]:
+              - 'radio "Tier 3: Canvas 2D CPU Rasterizer" [ref=f1e142]'
+              - generic [ref=f1e143]: "Tier 3: Canvas 2D CPU Rasterizer"
+        - generic [ref=f1e144]:
+          - text: Export & Actions
+          - generic [ref=f1e145]:
+            - button "Copy ASCII text to clipboard" [ref=f1e146] [cursor=pointer]:
+              - generic [ref=f1e150]: Copy Text
+            - button "Export ASCII art as plain text file" [ref=f1e151] [cursor=pointer]:
+              - generic [ref=f1e155]: .txt File
+          - button "Export rendered canvas image as PNG" [ref=f1e156] [cursor=pointer]:
+            - generic [ref=f1e160]: Export Canvas PNG
+    - main [ref=f1e161]:
+      - generic [ref=f1e226]:
+        - generic [ref=f1e227]:
+          - generic [ref=f1e228]:
+            - heading "Media Ingestion" [level=2] [ref=f1e229]
+            - paragraph [ref=f1e230]: Capture, record, or upload media for real-time ASCII rasterization.
+          - button "Close" [ref=f1e231] [cursor=pointer]
+        - generic [ref=f1e232]:
+          - generic [ref=f1e233] [cursor=pointer]:
+            - paragraph [ref=f1e237]: Drag & drop video or image files here
+            - paragraph [ref=f1e238]: Supports MP4, WebM, PNG, JPEG, WebP
+          - generic [ref=f1e239]:
+            - button "Select File" [ref=f1e240] [cursor=pointer]
+            - button "Record Video" [ref=f1e245] [cursor=pointer]
+            - button "Snap Photo" [ref=f1e250] [cursor=pointer]
+  - contentinfo [ref=f1e185]:
+    - generic [ref=f1e186]:
+      - generic [ref=f1e187]:
+        - generic [ref=f1e190]: "FPS:"
+        - generic [ref=f1e191]: "40"
+        - generic [ref=f1e192]: (17.8ms)
+      - generic [ref=f1e193]:
+        - generic [ref=f1e199]: "Grid:"
+        - generic [ref=f1e200]: 100 × 45
+      - generic [ref=f1e201]:
+        - generic [ref=f1e204]: "Memory:"
+        - generic [ref=f1e205]: ~17.6MB
+      - generic [ref=f1e206]:
+        - generic [ref=f1e209]: "Dropped:"
+        - generic [ref=f1e210]: "0"
+    - generic [ref=f1e217]: Sandbox ACL Verified

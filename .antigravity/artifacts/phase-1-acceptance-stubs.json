@@ -1,41 +1,48 @@
 {
-  "mission_id": "ship-20260912-051817",
+  "mission_id": "ship-media-minimalist-tauri",
   "created_at": "2026-09-12T00:00:00.000Z",
   "acceptance_stubs": [
     {
       "id": "STUB-001",
-      "category": "MULTI_PLATFORM_SANDBOX",
-      "user_intent": "Application must run in a sealed environment like Docker with multiplatform compatibility (macOS, Windows, Android).",
-      "observable_outcome": "Tauri v2 configuration defines explicit ACL capabilities in `src-tauri/capabilities/default.json` restricting filesystem and process spawning, and sets Android 16KB page alignment.",
-      "verification_method": "Inspect tauri.conf.json and capabilities manifest; verify zero arbitrary shell execution permissions."
+      "category": "DARK_MINIMALIST_THEME",
+      "user_intent": "Apply clean dark theme (#121212 / #1a1a1a) with single electric blue (#3B82F6) accent, generous whitespace, zero decorative borders/gradients, and max 2 font weights.",
+      "observable_outcome": "Background renders #121212, card surfaces render #1a1a1a, active/focused elements use #3B82F6. No gradients or box-shadows on card elements. Fonts strictly 400 regular and 600 semibold.",
+      "verification_method": "Inspect DOM styles and CSS custom properties; assert color contrast meets WCAG AA (>= 4.5:1) and zero non-minimalist decorative styles."
     },
     {
       "id": "STUB-002",
-      "category": "THREE_TIER_RENDERER",
-      "user_intent": "Real-time, performant ASCII rendering for images, videos, and 3D scenes.",
-      "observable_outcome": "Engine initializes Tier 1 (WebGPU) if available, falling back to Tier 2 (WebGL2) or Tier 3 (Canvas 2D) without breaking frame output or crashing the UI thread.",
-      "verification_method": "Execute render loop in browser harness; simulate WebGPU absence; verify Canvas2D rasterizer generates valid ASCII matrix."
+      "category": "MEDIA_PICKER_VIDEO_UPLOAD",
+      "user_intent": "Upload video via file browser or drag-and-drop into MediaPicker with clear uploaded state.",
+      "observable_outcome": "User selects or drops MP4/WebM video into dropzone; component transitions from 'idle' to 'uploaded' state; video attaches to ASCII render engine.",
+      "verification_method": "Drag and drop sample video file into dropzone; verify MediaPicker transitions to 'uploaded' and ASCII canvas renders video frame stream."
     },
     {
       "id": "STUB-003",
-      "category": "PROCEDURAL_3D_PARITY",
-      "user_intent": "Port 3D procedural geometries (torus donut, sphere, cube, planet, blackhole) from Python core to interactive desktop/mobile UI.",
-      "observable_outcome": "User selects any of the 5 procedural scenes and sees real-time animated ASCII rendering with interactive rotation and lighting controls.",
-      "verification_method": "Cycle through all 5 demo presets; verify non-blank ASCII stream with active animation tick."
+      "category": "MEDIA_PICKER_CAMERA_RECORDING",
+      "user_intent": "Access camera, start/stop live video recording, save/attach recorded clip to ASCII pipeline.",
+      "observable_outcome": "User clicks 'Open Live Camera', sees preview, clicks 'Start Recording' (shows recording state with pulsing red dot), clicks 'Stop Recording' (transitions to 'captured' state), attaches video.",
+      "verification_method": "Trigger recording loop in browser harness with mock or real media stream; assert valid blob and RecordingMetadata generated without errors."
     },
     {
       "id": "STUB-004",
-      "category": "MEDIA_CONVERSION_EXPORT",
-      "user_intent": "Convert images/videos into ASCII with adjustable contrast, brightness, charset ramps, and export capabilities.",
-      "observable_outcome": "User loads an image or video, tweaks parameters, views instant ASCII conversion, and exports result to .txt file, PNG, or system clipboard.",
-      "verification_method": "Load test bitmap; trigger export to text; assert generated string matches expected character ramp length."
+      "category": "MEDIA_PICKER_PHOTO_CAPTURE",
+      "user_intent": "Snap still photo from camera stream and send directly into ASCII canvas.",
+      "observable_outcome": "User clicks 'Capture Snapshot'; active camera frame is blitted to canvas; component transitions to 'captured' with snapshot preview; user confirms and frame converts to ASCII.",
+      "verification_method": "Trigger snapshot button during camera preview; assert SnapshotMetadata with valid dataUrl produced."
     },
     {
       "id": "STUB-005",
-      "category": "STRESS_DEFENSE_OOM_AND_FLOOD",
-      "user_intent": "Renderer must not crash on high-resolution inputs or rapid parameter scrubbing.",
-      "observable_outcome": "8K image upload is automatically clamped to 2048x2048 in worker without exceeding 100MB heap allocation; 120Hz slider scrubbing renders at capped 60 FPS without dropping UI frames.",
-      "verification_method": "Simulate STRESS-1 and STRESS-3 test vectors; monitor memory consumption and frame rate."
+      "category": "TAURI_DESKTOP_PERMISSIONS",
+      "user_intent": "Configure camera/media permissions in Tauri desktop app (Info.plist on macOS, WebView2 events on Windows, WebKit on Linux).",
+      "observable_outcome": "tauri.conf.json contains capability mapping, Info.plist has NSCameraUsageDescription and NSMicrophoneUsageDescription, desktop build permits getUserMedia without unhandled crash.",
+      "verification_method": "Verify presence and schema compliance of Info.plist, tauri.conf.json, and Tauri permissions."
+    },
+    {
+      "id": "STUB-006",
+      "category": "BREAKING_SCENARIO_DEFENSES",
+      "user_intent": "System defends gracefully against permission denial, unsupported MIME types, 4K OOM, and Tauri webview locks.",
+      "observable_outcome": "All 4 breaking scenarios (STRESS-CAM-01, STRESS-REC-02, STRESS-MEM-03, STRESS-TAURI-04) trigger defensive handlers and friendly user copy without crashing.",
+      "verification_method": "Run automated unit and integration tests executing stress vectors; verify failure thresholds survived."
     }
   ]
 }

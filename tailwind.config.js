@@ -8,36 +8,33 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: "#0a0a0f",
-        surface: "#12121a",
-        "surface-elevated": "#1a1a26",
+        background: "#121212",
+        surface: "#1a1a1a",
+        "surface-elevated": "#222222",
         primary: {
-          DEFAULT: "#00ff88",
-          foreground: "#0a0a0f",
+          DEFAULT: "#3b82f6",
+          foreground: "#ffffff",
         },
         accent: {
-          DEFAULT: "#ff3366",
-          foreground: "#f0f0f5",
+          DEFAULT: "#3b82f6",
+          foreground: "#ffffff",
         },
         muted: {
-          DEFAULT: "#8b8b9e",
-          foreground: "#f0f0f5",
+          DEFAULT: "#888888",
+          foreground: "#f3f4f6",
         },
-        border: "#262638",
-        foreground: "#f0f0f5",
+        border: "#2a2a2a",
+        foreground: "#f3f4f6",
       },
       fontFamily: {
+        sans: ["Inter", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "sans-serif"],
         mono: ["JetBrains Mono", "IBM Plex Mono", "monospace"],
-        grid: ["ui-monospace", "SFMono-Regular", "Menlo", "Consolas", "monospace"],
+        grid: ["JetBrains Mono", "ui-monospace", "SFMono-Regular", "Menlo", "Consolas", "monospace"],
       },
       borderRadius: {
-        card: "6px",
+        card: "4px",
         btn: "4px",
         tag: "2px",
-      },
-      boxShadow: {
-        glow: "0 0 12px rgba(0, 255, 136, 0.15)",
-        subtle: "0 1px 2px rgba(0, 0, 0, 0.4)",
       },
     },
   },
