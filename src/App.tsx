@@ -256,6 +256,7 @@ export default function App() {
     const newWs = globalWorkspaceManager.createWorkspace({
       name: `Workspace ${nextIdx}`,
       type: "procedural_3d",
+      options: { ...optionsRef.current },
       isActive: true,
     });
     handleSelectWorkspace(newWs.id);
@@ -358,7 +359,13 @@ export default function App() {
 
   useEffect(() => {
     optionsRef.current = options;
-  }, [options]);
+    globalWorkspaceManager.updateWorkspace(activeWorkspaceId, {
+      options: { ...options },
+    });
+    if (videoEngineRef.current) {
+      videoEngineRef.current.updateOptions(options);
+    }
+  }, [options, activeWorkspaceId]);
 
   // Clear 1 orchestrated load reveal state after initial trigger
   useEffect(() => {
@@ -642,23 +649,11 @@ export default function App() {
         max_output_rows: rows,
       };
 
-      if (renderEngineRef.current) {
-        const res = renderEngineRef.current.renderImageData(imageData, renderOptions);
-        lastRenderResultRef.current = {
-          asciiText: res.text,
-          durationMs: res.renderTimeMs,
-          width: cols,
-          height: rows,
-        };
-        setAsciiOutput(res.text);
-        setRenderTimeMs(Math.round(res.renderTimeMs * 10) / 10);
-      } else {
-        const res = renderImageDataToAscii(imageData, renderOptions);
-        lastRenderResultRef.current = res;
-        setAsciiOutput(res.asciiText);
-        setRenderTimeMs(Math.round(res.durationMs * 10) / 10);
-        paintAsciiToCanvas(canvasRef.current, res.asciiText, renderOptions, res.colorBuffer);
-      }
+      const res = renderImageDataToAscii(imageData, renderOptions);
+      lastRenderResultRef.current = res;
+      setAsciiOutput(res.asciiText);
+      setRenderTimeMs(Math.round(res.durationMs * 10) / 10);
+      paintAsciiToCanvas(canvasRef.current, res.asciiText, renderOptions, res.colorBuffer);
     },
     [options]
   );
@@ -692,6 +687,7 @@ export default function App() {
         name: `Snapshot ${new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`,
         type: "image",
         imageData,
+        options: { ...optionsRef.current },
         isActive: true,
       });
       handleSelectWorkspace(ws.id);
@@ -722,6 +718,7 @@ export default function App() {
             type: "image",
             sourceFile: file,
             imageData: preflight.imageData,
+            options: { ...optionsRef.current },
             isActive: true,
           });
 
@@ -757,11 +754,12 @@ export default function App() {
           name: `Video: ${file.name}`,
           type: "video",
           sourceFile: file,
+          options: { ...optionsRef.current },
           isActive: true,
         });
 
         // 2. Discrete VideoStreamingEngine bound to this workspace
-        const engine = new VideoStreamingEngine(ws.options, {
+        const engine = new VideoStreamingEngine(optionsRef.current, {
           onFrame: (text, meta, renderResult) => {
             const activeWs = globalWorkspaceManager.getActiveWorkspace();
             if (activeWs.id !== ws.id) return;
@@ -773,11 +771,7 @@ export default function App() {
             ws.asciiOutput = text;
             ws.colorBuffer = renderResult?.colorBuffer;
 
-            if (renderEngineRef.current && lastImageDataRef.current) {
-              renderEngineRef.current.renderImageData(lastImageDataRef.current, ws.options);
-            } else {
-              paintAsciiToCanvas(canvasRef.current, text, ws.options, renderResult?.colorBuffer);
-            }
+            paintAsciiToCanvas(canvasRef.current, text, optionsRef.current, renderResult?.colorBuffer);
           },
           onError: (err) => {
             setWarningMessage(err.message);
@@ -1090,6 +1084,8 @@ export default function App() {
           platform={hostTelemetry.platform}
           isZenMode={isZenMode}
           onToggleZenMode={() => setIsZenMode((prev) => !prev)}
+          isFullscreen={isFullscreen}
+          onToggleFullscreen={handleToggleFullscreen}
         />
 
         {/* Workspace Session Tabs / Bar */}

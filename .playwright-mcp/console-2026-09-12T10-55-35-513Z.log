@@ -1,2 +1,22 @@
 [     605ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=5127b5d9:22164
 [ 1766656ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=5127b5d9:22164
+[ 2354633ms] ReferenceError: Cannot access 'options' before initialization
+    at App (http://localhost:3000/src/App.tsx?t=1789212889391:231:30)
+    at Object.react_stack_bottom_frame (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=5127b5d9:20259:20)
+    at renderWithHooks (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=5127b5d9:5918:24)
+    at updateFunctionComponent (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=5127b5d9:7763:21)
+    at beginWork (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=5127b5d9:8843:20)
+    at runWithFiberInDEV (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=5127b5d9:1133:72)
+    at performUnitOfWork (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=5127b5d9:13598:98)
+    at workLoopSync (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=5127b5d9:13461:43)
+    at renderRootSync (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=5127b5d9:13445:13)
+    at performWorkOnRoot (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=5127b5d9:12861:37)
+[ 2354592ms] [WARNING] %s
+
+%s
+ An error occurred in the <App> component. Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://react.dev/link/error-boundaries to learn more about error boundaries. @ http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=5127b5d9:7240
+[ 2423123ms] [ERROR] The final argument passed to %s changed size between renders. The order and size of this array must remain constant.
+
+Previous: %s
+Incoming: %s useEffect [[object Object]] [[object Object], ws-3d-1] @ http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=5127b5d9:5891

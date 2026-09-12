@@ -10,6 +10,8 @@ import {
   Activity,
   ShieldCheck,
   Lock,
+  Maximize2,
+  Minimize2,
 } from "lucide-react";
 import { RenderMode, RenderTier } from "../contracts";
 
@@ -22,6 +24,8 @@ export interface HeaderProps {
   latencyMs?: number;
   isZenMode?: boolean;
   onToggleZenMode?: () => void;
+  isFullscreen?: boolean;
+  onToggleFullscreen?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -33,6 +37,8 @@ export const Header: React.FC<HeaderProps> = ({
   latencyMs = 1.2,
   isZenMode = false,
   onToggleZenMode,
+  isFullscreen = false,
+  onToggleFullscreen,
 }) => {
   const getTierLabel = (tier: RenderTier) => {
     switch (tier) {
@@ -134,6 +140,22 @@ export const Header: React.FC<HeaderProps> = ({
           >
             <Lock className="w-3.5 h-3.5 text-[#a1a1aa]" aria-hidden="true" />
             <span className="hidden sm:inline">ZEN</span>
+          </button>
+        )}
+
+        {onToggleFullscreen && (
+          <button
+            type="button"
+            onClick={onToggleFullscreen}
+            aria-label={isFullscreen ? "Exit Fullscreen" : "Enter Fullscreen"}
+            title={isFullscreen ? "Exit Fullscreen" : "Fullscreen"}
+            className="flex items-center justify-center p-2 min-h-[38px] min-w-[38px] rounded-[4px] bg-[#0a0a0c] border border-[#222224] text-[#a1a1aa] hover:text-[#ffffff] hover:border-[#ffffff]/40 hover:bg-[#141416] transition-all cursor-pointer focus:outline-none focus:ring-1 focus:ring-[#ffffff]"
+          >
+            {isFullscreen ? (
+              <Minimize2 className="w-3.5 h-3.5 text-[#ffffff]" aria-hidden="true" />
+            ) : (
+              <Maximize2 className="w-3.5 h-3.5 text-[#a1a1aa]" aria-hidden="true" />
+            )}
           </button>
         )}
       </div>
