@@ -2,9 +2,6 @@ import React from "react";
 import {
   Terminal,
   Box,
-  Image,
-  Video,
-  Camera,
   Settings,
   Cpu,
   Activity,
@@ -56,11 +53,14 @@ export const Header: React.FC<HeaderProps> = ({
   const navTabs: { id: RenderMode | "settings" | "media_picker"; label: string; icon: React.ReactNode }[] = [
     { id: "procedural_3d", label: "3D Procedural", icon: <Box className="w-3.5 h-3.5" /> },
     { id: "media_picker", label: "Media Studio", icon: <Terminal className="w-3.5 h-3.5" /> },
-    { id: "image", label: "Image Converter", icon: <Image className="w-3.5 h-3.5" /> },
-    { id: "video", label: "Video Streamer", icon: <Video className="w-3.5 h-3.5" /> },
-    { id: "camera_stream", label: "Live Camera", icon: <Camera className="w-3.5 h-3.5" /> },
     { id: "settings", label: "Sandbox", icon: <Settings className="w-3.5 h-3.5" /> },
   ];
+
+  const isMediaActive =
+    activeMode === "media_picker" ||
+    activeMode === "image" ||
+    activeMode === "video" ||
+    activeMode === "camera_stream";
 
   return (
     <header className="w-full bg-[#000000] border-b border-[#222224] px-6 py-2.5 flex flex-col md:flex-row md:items-center justify-between gap-3 select-none w-full max-w-full overflow-x-hidden font-sans">
@@ -87,7 +87,8 @@ export const Header: React.FC<HeaderProps> = ({
         aria-label="Main Navigation"
       >
         {navTabs.map((tab) => {
-          const isActive = activeMode === tab.id;
+          const isActive =
+            tab.id === "media_picker" ? isMediaActive : activeMode === tab.id;
           return (
             <button
               key={tab.id}
