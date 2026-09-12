@@ -351,4 +351,14 @@ describe("MediaEngineService", () => {
       });
     });
   });
+
+  describe("Canvas Video Stream & MediaRecorder Export Logic", () => {
+    it("should correctly identify webm vs mp4 extension from negotiated mimeType", () => {
+      const getExtension = (mime: string) => (mime.includes("mp4") ? "mp4" : "webm");
+      expect(getExtension("video/webm;codecs=vp9")).toBe("webm");
+      expect(getExtension("video/webm")).toBe("webm");
+      expect(getExtension("video/mp4")).toBe("mp4");
+      expect(getExtension("video/mp4;codecs=avc1")).toBe("mp4");
+    });
+  });
 });

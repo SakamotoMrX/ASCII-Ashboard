@@ -21,7 +21,10 @@ import { globalTierManager } from "./engine/tier-manager";
 import { StreamPipeline } from "./engine/stream-pipeline";
 import { getTelemetryFromHost } from "./engine/tauri-bridge";
 import { VideoStreamingEngine } from "./engine/video-pipeline";
-import { mediaEngineService } from "./engine/media-service";
+import {
+  mediaEngineService,
+  getOptimalRecordingMimeType,
+} from "./engine/media-service";
 
 /**
  * Shared helper to paint ASCII text lines onto a 2D canvas backing store.
@@ -175,6 +178,8 @@ export default function App() {
   const [isCopied, setIsCopied] = useState<boolean>(false);
   const [isStreamingCamera, setIsStreamingCamera] = useState<boolean>(false);
   const [warningMessage, setWarningMessage] = useState<string | null>(null);
+  const [isRecordingVideo, setIsRecordingVideo] = useState<boolean>(false);
+  const [recordingProgressSec, setRecordingProgressSec] = useState<number>(0);
 
   // Video playback state
   const [videoState, setVideoState] = useState({
@@ -204,6 +209,9 @@ export default function App() {
   const lastImageDataRef = useRef<ImageData | null>(null);
   const lastRenderResultRef = useRef<CanvasRenderResult | null>(null);
   const optionsRef = useRef<AsciiRenderOptions>(options);
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  const recordedChunksRef = useRef<Blob[]>([]);
+  const recordingTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
     optionsRef.current = options;
@@ -655,6 +663,101 @@ export default function App() {
     a.click();
   }, []);
 
+  const handleStopRecordVideo = useCallback(() => {
+    if (recordingTimerRef.current) {
+      clearInterval(recordingTimerRef.current);
+      recordingTimerRef.current = null;
+    }
+    if (mediaRecorderRef.current && mediaRecorderRef.current.state !== "inactive") {
+      mediaRecorderRef.current.stop();
+    }
+    setIsRecordingVideo(false);
+  }, []);
+
+  const handleStartRecordVideo = useCallback(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) {
+      setWarningMessage("Render canvas not available for recording.");
+      return;
+    }
+
+    if (typeof MediaRecorder === "undefined" || !canvas.captureStream) {
+      setWarningMessage("Video recording is not supported in this browser environment.");
+      return;
+    }
+
+    try {
+      // 30fps canvas stream
+      const stream = canvas.captureStream(30);
+      recordedChunksRef.current = [];
+
+      const mimeType = getOptimalRecordingMimeType();
+
+      const recorder = new MediaRecorder(stream, mimeType ? { mimeType } : undefined);
+      mediaRecorderRef.current = recorder;
+
+      recorder.ondataavailable = (e) => {
+        if (e.data && e.data.size > 0) {
+          recordedChunksRef.current.push(e.data);
+        }
+      };
+
+      recorder.onstop = () => {
+        const chunks = recordedChunksRef.current;
+        if (chunks.length > 0) {
+          const ext = mimeType.includes("mp4") ? "mp4" : "webm";
+          const blob = new Blob(chunks, { type: mimeType });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = `ascii_video_${Date.now()}.${ext}`;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          setTimeout(() => URL.revokeObjectURL(url), 1000);
+        }
+        setIsRecordingVideo(false);
+        setRecordingProgressSec(0);
+      };
+
+      recorder.start(250); // timeslice 250ms
+      setIsRecordingVideo(true);
+      setRecordingProgressSec(0);
+
+      // Auto start video playback if in video mode and paused
+      if (activeTab === "video" && videoEngineRef.current && !videoState.isPlaying) {
+        videoEngineRef.current.play();
+      }
+
+      recordingTimerRef.current = setInterval(() => {
+        setRecordingProgressSec((prev) => prev + 1);
+      }, 1000);
+    } catch (err: any) {
+      setWarningMessage(err?.message || "Failed to start video recording.");
+      setIsRecordingVideo(false);
+    }
+  }, [activeTab, videoState.isPlaying]);
+
+  const handleToggleRecordVideo = useCallback(() => {
+    if (isRecordingVideo) {
+      handleStopRecordVideo();
+    } else {
+      handleStartRecordVideo();
+    }
+  }, [isRecordingVideo, handleStartRecordVideo, handleStopRecordVideo]);
+
+  // Teardown recording timer on unmount
+  useEffect(() => {
+    return () => {
+      if (recordingTimerRef.current) {
+        clearInterval(recordingTimerRef.current);
+      }
+      if (mediaRecorderRef.current && mediaRecorderRef.current.state !== "inactive") {
+        mediaRecorderRef.current.stop();
+      }
+    };
+  }, []);
+
   const telemetryData: TelemetryData = {
     fps,
     frame_time_ms: renderTimeMs,
@@ -752,6 +855,9 @@ export default function App() {
           isCopied={isCopied}
           onExportTxt={handleExportTxt}
           onExportPng={handleExportPng}
+          isRecordingVideo={isRecordingVideo}
+          recordingProgressSec={recordingProgressSec}
+          onToggleRecordVideo={handleToggleRecordVideo}
           activeMode={activeTab}
           onOpenMediaPicker={() => setActiveTab("media_picker")}
           videoState={videoState}

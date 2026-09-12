@@ -24,6 +24,8 @@ import {
   Square,
   Play,
   Pause,
+  Video,
+  VideoOff,
 } from "lucide-react";
 
 export interface ControlPanelProps {
@@ -42,6 +44,9 @@ export interface ControlPanelProps {
   isCopied: boolean;
   onExportTxt: () => void;
   onExportPng: () => void;
+  isRecordingVideo?: boolean;
+  recordingProgressSec?: number;
+  onToggleRecordVideo?: () => void;
   activeMode: RenderMode | "settings" | "media_picker";
   onOpenMediaPicker?: () => void;
     videoState?: {
@@ -74,6 +79,9 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
   isCopied,
   onExportTxt,
   onExportPng,
+  isRecordingVideo = false,
+  recordingProgressSec = 0,
+  onToggleRecordVideo,
   activeMode,
   onOpenMediaPicker,
   videoState,
@@ -667,14 +675,45 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
               <span>.TXT FILE</span>
             </button>
           </div>
-          <button
-            onClick={onExportPng}
-            aria-label="Export rendered canvas image as PNG"
-            className="w-full min-h-[44px] py-2.5 px-3 bg-[#ffffff] hover:bg-[#e4e4e7] text-[#000000] rounded-[4px] text-xs font-mono font-semibold flex items-center justify-center gap-2 transition-colors cursor-pointer"
-          >
-            <Download className="w-4 h-4" aria-hidden="true" />
-            <span>EXPORT CANVAS PNG</span>
-          </button>
+          <div className="flex flex-col gap-2">
+            {onToggleRecordVideo && (
+              <button
+                onClick={onToggleRecordVideo}
+                aria-label={isRecordingVideo ? "Stop recording and download video" : "Record and export ASCII video"}
+                className={`w-full min-h-[44px] py-2.5 px-3 rounded-[4px] text-xs font-mono font-semibold flex items-center justify-center gap-2 transition-all cursor-pointer ${
+                  isRecordingVideo
+                    ? "bg-[#ef4444] hover:bg-[#dc2626] text-white animate-pulse"
+                    : activeMode === "video"
+                    ? "bg-[#ffffff] hover:bg-[#e4e4e7] text-[#000000]"
+                    : "bg-[#141416] hover:bg-[#1c1c1e] text-[#ffffff] border border-[#222224] hover:border-[#ffffff]"
+                }`}
+              >
+                {isRecordingVideo ? (
+                  <>
+                    <VideoOff className="w-4 h-4 text-white" aria-hidden="true" />
+                    <span>STOP & DOWNLOAD ({recordingProgressSec}s)</span>
+                  </>
+                ) : (
+                  <>
+                    <Video className={`w-4 h-4 ${activeMode === "video" ? "text-black" : "text-[#ffffff]"}`} aria-hidden="true" />
+                    <span>RECORD & EXPORT VIDEO</span>
+                  </>
+                )}
+              </button>
+            )}
+            <button
+              onClick={onExportPng}
+              aria-label="Export rendered canvas image as PNG"
+              className={`w-full min-h-[44px] py-2.5 px-3 rounded-[4px] text-xs font-mono font-semibold flex items-center justify-center gap-2 transition-colors cursor-pointer ${
+                activeMode === "video"
+                  ? "bg-[#141416] hover:bg-[#1c1c1e] text-[#ffffff] border border-[#222224] hover:border-[#ffffff]"
+                  : "bg-[#ffffff] hover:bg-[#e4e4e7] text-[#000000]"
+              }`}
+            >
+              <Download className="w-4 h-4" aria-hidden="true" />
+              <span>EXPORT CANVAS PNG</span>
+            </button>
+          </div>
         </div>
       </div>
     </aside>
