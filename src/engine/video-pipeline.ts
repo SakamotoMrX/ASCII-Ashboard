@@ -4,11 +4,11 @@ import {
   VideoFrameMetadata,
   VideoProcessorError,
 } from "../contracts";
-import { renderImageDataToAscii } from "./canvas-renderer";
+import { CanvasRenderResult, renderImageDataToAscii } from "./canvas-renderer";
 import { getCharsetRamp } from "./charsets";
 
 export interface VideoEngineCallbacks {
-  onFrame?: (asciiText: string, metadata: VideoFrameMetadata) => void;
+  onFrame?: (asciiText: string, metadata: VideoFrameMetadata, renderResult?: CanvasRenderResult) => void;
   onError?: (error: VideoProcessorError) => void;
   onStateChange?: (state: VideoProcessorState) => void;
   onTimeUpdate?: (currentTime: number, duration: number) => void;
@@ -159,12 +159,20 @@ export class VideoStreamingEngine {
         isSettled = true;
       };
 
-      video.onloadedmetadata = () => {
-        if (!isSettled) {
+      const checkReady = () => {
+        if (!isSettled && (video.readyState >= 2 || video.videoWidth > 0)) {
           cleanup();
           this.setState("ready");
           resolve();
         }
+      };
+
+      video.onloadedmetadata = () => {
+        checkReady();
+      };
+
+      video.oncanplay = () => {
+        checkReady();
       };
 
       video.onplay = () => {
@@ -316,12 +324,16 @@ export class VideoStreamingEngine {
   /**
    * Extract video frame onto an offscreen canvas and quantize to ASCII characters.
    */
-  public processSingleFrame(): { asciiText: string; metadata: VideoFrameMetadata } | null {
+  public processSingleFrame(): { asciiText: string; metadata: VideoFrameMetadata; renderResult?: CanvasRenderResult } | null {
     if (!this.videoElement || this.isDisposed) return null;
     const video = this.videoElement;
 
+    // Preserve aspect ratio using CHAR_ASPECT = 0.5 (from Python fit_source_size)
     const cols = this.options.max_output_columns;
-    const rows = this.options.max_output_rows;
+    let rows = this.options.max_output_rows;
+    if (video.videoWidth > 0 && video.videoHeight > 0) {
+      rows = Math.max(1, Math.round(cols * (video.videoHeight / video.videoWidth) * 0.5));
+    }
 
     const startExtract = performance.now();
 
@@ -364,10 +376,16 @@ export class VideoStreamingEngine {
 
     const startRender = performance.now();
     let asciiText = "";
+    let renderResult: CanvasRenderResult | undefined = undefined;
 
     if (imageData) {
-      const result = renderImageDataToAscii(imageData, this.options);
-      asciiText = result.asciiText;
+      const renderOptions: AsciiRenderOptions = {
+        ...this.options,
+        max_output_columns: cols,
+        max_output_rows: rows,
+      };
+      renderResult = renderImageDataToAscii(imageData, renderOptions);
+      asciiText = renderResult.asciiText;
     } else {
       // Fallback deterministic quantization if canvas 2D context is mocked or unavailable
       const ramp = getCharsetRamp(this.options.charset.preset, this.options.charset.custom_glyphs, this.options.charset.invert);
@@ -401,8 +419,8 @@ export class VideoStreamingEngine {
       droppedFrames: this.droppedFrames,
     };
 
-    this.callbacks.onFrame?.(asciiText, metadata);
-    return { asciiText, metadata };
+    this.callbacks.onFrame?.(asciiText, metadata, renderResult);
+    return { asciiText, metadata, renderResult };
   }
 
   /**

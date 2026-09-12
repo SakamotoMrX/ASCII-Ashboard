@@ -102,19 +102,20 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
   ];
 
   const charsets: { id: CharsetPreset; label: string }[] = [
-    { id: "standard", label: "Standard ( .:-=+*#%@ )" },
-    { id: "extended", label: "Dense 70-Glyph Ramp" },
+    { id: "standard", label: "Classic Standard ( .:-=+*#%@ )" },
+    { id: "extended", label: "Detailed 70-Glyph Ramp" },
+    { id: "matrix", label: "Letter Glyphs ( .,:;irsXA253hMHGS#9B&@ )" },
     { id: "block", label: "Unicode Blocks ( ░▒▓█ )" },
     { id: "binary", label: "Binary Digital ( 01 )" },
-    { id: "matrix", label: "Matrix Katakana Stream" },
     { id: "custom", label: "Custom Character Ramp" },
   ];
 
   const colorModes: { id: ColorMode; label: string }[] = [
+    { id: "truecolor", label: "ANSI True-Color (Full RGB Video & Image)" },
     { id: "monochrome", label: "Monochrome Pure (#FFFFFF)" },
     { id: "matrix_green", label: "Phosphor Matrix (#00FF88)" },
     { id: "amber", label: "CRT Amber (#FFB700)" },
-    { id: "cyberpunk_neon", label: "High-Contrast Wire" },
+    { id: "cyberpunk_neon", label: "Cyberpunk Neon (#FF3366)" },
   ];
 
   return (

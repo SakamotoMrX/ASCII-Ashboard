@@ -16,7 +16,7 @@ import { TechnicalStickers } from "./components/TechnicalStickers";
 import { renderProcedural3D } from "./engine/procedural-3d";
 import { getCharsetRamp } from "./engine/charsets";
 import { preflightImageFile } from "./engine/image-preflight";
-import { renderImageDataToAscii } from "./engine/canvas-renderer";
+import { CanvasRenderResult, renderImageDataToAscii } from "./engine/canvas-renderer";
 import { globalTierManager } from "./engine/tier-manager";
 import { StreamPipeline } from "./engine/stream-pipeline";
 import { getTelemetryFromHost } from "./engine/tauri-bridge";
@@ -25,20 +25,24 @@ import { mediaEngineService } from "./engine/media-service";
 
 /**
  * Shared helper to paint ASCII text lines onto a 2D canvas backing store.
+ * Supports run-length optimized True-Color RGB rendering matching ascii_colour_video.py.
  */
 function paintAsciiToCanvas(
   canvas: HTMLCanvasElement | null,
   text: string,
-  options: AsciiRenderOptions
+  options: AsciiRenderOptions,
+  colorBuffer?: Uint8Array
 ): void {
   if (!canvas) return;
   const ctx = canvas.getContext("2d");
   if (!ctx) return;
 
+  const lines = text.split("\n");
+  const rows = lines.length;
+  const cols = lines[0]?.length || options.max_output_columns;
+
   const charWidth = options.cell_width_px;
   const charHeight = options.cell_height_px;
-  const cols = options.max_output_columns;
-  const rows = options.max_output_rows;
 
   const targetWidth = cols * charWidth;
   const targetHeight = rows * charHeight;
@@ -56,24 +60,62 @@ function paintAsciiToCanvas(
   ctx.font = `${options.font_size_px}px "JetBrains Mono", monospace`;
   ctx.textBaseline = "top";
 
-  switch (options.color_mode) {
-    case "matrix_green":
-      ctx.fillStyle = "#00ff88";
-      break;
-    case "amber":
-      ctx.fillStyle = "#ffb700";
-      break;
-    case "cyberpunk_neon":
-      ctx.fillStyle = "#ff3366";
-      break;
-    case "monochrome":
-    default:
-      ctx.fillStyle = "#f3f4f6";
-  }
+  const isTruecolor = (options.color_mode === "truecolor" || options.color_mode === "rgb_ansi") && !!colorBuffer;
 
-  const lines = text.split("\n");
-  for (let r = 0; r < lines.length; r++) {
-    ctx.fillText(lines[r], 0, r * charHeight);
+  if (isTruecolor && colorBuffer) {
+    for (let r = 0; r < rows; r++) {
+      const line = lines[r];
+      if (!line) continue;
+      const lineLen = line.length;
+      let c = 0;
+
+      while (c < lineLen) {
+        const cIdx = (r * cols + c) * 3;
+        const red = colorBuffer[cIdx];
+        const green = colorBuffer[cIdx + 1];
+        const blue = colorBuffer[cIdx + 2];
+
+        // Run-length optimization: batch adjacent characters sharing the same color
+        let runEnd = c + 1;
+        while (runEnd < lineLen) {
+          const nextIdx = (r * cols + runEnd) * 3;
+          if (
+            colorBuffer[nextIdx] === red &&
+            colorBuffer[nextIdx + 1] === green &&
+            colorBuffer[nextIdx + 2] === blue
+          ) {
+            runEnd++;
+          } else {
+            break;
+          }
+        }
+
+        ctx.fillStyle = `rgb(${red},${green},${blue})`;
+        ctx.fillText(line.substring(c, runEnd), c * charWidth, r * charHeight);
+        c = runEnd;
+      }
+    }
+  } else {
+    switch (options.color_mode) {
+      case "matrix_green":
+        ctx.fillStyle = "#00ff88";
+        break;
+      case "amber":
+        ctx.fillStyle = "#ffb700";
+        break;
+      case "cyberpunk_neon":
+        ctx.fillStyle = "#ff3366";
+        break;
+      case "truecolor":
+      case "rgb_ansi":
+      case "monochrome":
+      default:
+        ctx.fillStyle = "#f3f4f6";
+    }
+
+    for (let r = 0; r < rows; r++) {
+      ctx.fillText(lines[r], 0, r * charHeight);
+    }
   }
 }
 
@@ -160,6 +202,7 @@ export default function App() {
   const streamPipelineRef = useRef<StreamPipeline<number, string> | null>(null);
   const videoEngineRef = useRef<VideoStreamingEngine | null>(null);
   const lastImageDataRef = useRef<ImageData | null>(null);
+  const lastRenderResultRef = useRef<CanvasRenderResult | null>(null);
 
   // Clear 1 orchestrated load reveal state after initial trigger
   useEffect(() => {
@@ -197,12 +240,15 @@ export default function App() {
   // Initialize VideoStreamingEngine lifecycle (STRESS-2 Defense: synchronous teardown)
   useEffect(() => {
     const engine = new VideoStreamingEngine(options, {
-      onFrame: (text, meta) => {
+      onFrame: (text, meta, renderResult) => {
         setAsciiOutput(text);
         setRenderTimeMs(meta.renderDurationMs);
         setFps(meta.fpsActual || 60);
         setDroppedFrames(meta.droppedFrames);
-        paintAsciiToCanvas(canvasRef.current, text, options);
+        if (renderResult) {
+          lastRenderResultRef.current = renderResult;
+        }
+        paintAsciiToCanvas(canvasRef.current, text, options, renderResult?.colorBuffer);
       },
       onError: (err) => {
         setWarningMessage(err.message);
@@ -258,7 +304,12 @@ export default function App() {
       if (resizeTimer) clearTimeout(resizeTimer);
       resizeTimer = setTimeout(() => {
         if (canvasRef.current && asciiOutput) {
-          paintAsciiToCanvas(canvasRef.current, asciiOutput, options);
+          paintAsciiToCanvas(
+            canvasRef.current,
+            asciiOutput,
+            options,
+            lastRenderResultRef.current?.colorBuffer
+          );
         }
       }, 16);
     };
@@ -269,6 +320,18 @@ export default function App() {
       window.removeEventListener("resize", handleResize);
     };
   }, [asciiOutput, options]);
+
+  // Repaint canvas whenever asciiOutput or options change
+  useEffect(() => {
+    if (canvasRef.current && asciiOutput) {
+      paintAsciiToCanvas(
+        canvasRef.current,
+        asciiOutput,
+        options,
+        lastRenderResultRef.current?.colorBuffer
+      );
+    }
+  }, [options.color_mode, options.enable_scanlines]);
 
   // Re-instantiate StreamPipeline for procedural frame processing & STRESS-3 defense
   useEffect(() => {
@@ -358,10 +421,24 @@ export default function App() {
   // Rasterize an ImageData object to ASCII and paint to main canvas
   const rasterizeImageData = useCallback(
     (imageData: ImageData) => {
-      const res = renderImageDataToAscii(imageData, options);
+      // Calculate target rows using CHAR_ASPECT = 0.5 (from Python fit_source_size)
+      const cols = options.max_output_columns;
+      const rows =
+        imageData.width > 0 && imageData.height > 0
+          ? Math.max(1, Math.round(cols * (imageData.height / imageData.width) * 0.5))
+          : options.max_output_rows;
+
+      const renderOptions: AsciiRenderOptions = {
+        ...options,
+        max_output_columns: cols,
+        max_output_rows: rows,
+      };
+
+      const res = renderImageDataToAscii(imageData, renderOptions);
+      lastRenderResultRef.current = res;
       setAsciiOutput(res.asciiText);
       setRenderTimeMs(Math.round(res.durationMs * 10) / 10);
-      paintAsciiToCanvas(canvasRef.current, res.asciiText, options);
+      paintAsciiToCanvas(canvasRef.current, res.asciiText, renderOptions, res.colorBuffer);
     },
     [options]
   );
@@ -372,6 +449,18 @@ export default function App() {
       rasterizeImageData(lastImageDataRef.current);
     }
   }, [activeTab, options, rasterizeImageData]);
+
+  // Ensure canvas is painted if canvasRef mounts or tab switches to image/video
+  useEffect(() => {
+    if (canvasRef.current && lastRenderResultRef.current) {
+      paintAsciiToCanvas(
+        canvasRef.current,
+        lastRenderResultRef.current.asciiText,
+        options,
+        lastRenderResultRef.current.colorBuffer
+      );
+    }
+  }, [activeTab]);
 
   // Direct photo canvas rasterization
   const handleApplyPhotoToAscii = useCallback(

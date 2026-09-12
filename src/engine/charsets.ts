@@ -5,7 +5,7 @@ export const CHARSETS: Record<CharsetPreset, string> = {
   extended: " .`^\\,:;Il!i><~+_-?][}{1)(|/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$",
   block: " ░▒▓█",
   binary: " 01",
-  matrix: " .,:;irsXA253hMHGS#9B&@",
+  matrix: ".,:;irsXA253hMHGS#9B&@",
   custom: " .:-=+*#%@",
 };
 

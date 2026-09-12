@@ -73,5 +73,61 @@ describe("ASCII Renderers & Character Mapping", () => {
     expect(res.height).toBe(4);
     expect(res.asciiText.split("\n")).toHaveLength(4);
     expect(res.durationMs).toBeGreaterThanOrEqual(0);
+    expect(res.colorBuffer).toBeUndefined();
+  });
+
+  it("rasterizes simulated ImageData into ASCII grid with truecolor RGB buffer", () => {
+    const width = 2;
+    const height = 2;
+    const buffer = new Uint8ClampedArray(width * height * 4);
+    // Pixel 0: Red
+    buffer[0] = 255; buffer[1] = 0; buffer[2] = 0; buffer[3] = 255;
+    // Pixel 1: Green
+    buffer[4] = 0; buffer[5] = 255; buffer[6] = 0; buffer[7] = 255;
+    // Pixel 2: Blue
+    buffer[8] = 0; buffer[9] = 0; buffer[10] = 255; buffer[11] = 255;
+    // Pixel 3: White
+    buffer[12] = 255; buffer[13] = 255; buffer[14] = 255; buffer[15] = 255;
+
+    const mockImageData = {
+      width,
+      height,
+      data: buffer,
+      colorSpace: "srgb" as PredefinedColorSpace,
+    };
+
+    const options: AsciiRenderOptions = {
+      mode: "image",
+      tier: "tier3_canvas2d",
+      color_mode: "truecolor",
+      charset: {
+        preset: "standard",
+        invert: false,
+        glyph_aspect_ratio: 0.55,
+      },
+      contrast: 0,
+      brightness: 0,
+      gamma: 1.0,
+      dither: "none",
+      cell_width_px: 8,
+      cell_height_px: 14,
+      font_size_px: 12,
+      font_family: "monospace",
+      fps_cap: 60,
+      enable_scanlines: false,
+      enable_bloom: false,
+      max_output_columns: 2,
+      max_output_rows: 2,
+    };
+
+    const res = renderImageDataToAscii(mockImageData, options);
+    expect(res.width).toBe(2);
+    expect(res.height).toBe(2);
+    expect(res.colorBuffer).toBeDefined();
+    expect(res.colorBuffer?.length).toBe(2 * 2 * 3);
+    // Quantized red (255 // 4 * 4 = 252)
+    expect(res.colorBuffer?.[0]).toBe(252);
+    expect(res.colorBuffer?.[1]).toBe(0);
+    expect(res.colorBuffer?.[2]).toBe(0);
   });
 });
