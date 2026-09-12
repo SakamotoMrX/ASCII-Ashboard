@@ -21,6 +21,6 @@ export function brightnessToChar(brightness: number, ramp: string): string {
   if (ramp.length === 0) return " ";
   if (ramp.length === 1) return ramp[0];
   const clamped = Math.max(0, Math.min(255, brightness));
-  const index = Math.round((clamped / 255) * (ramp.length - 1));
+  const index = Math.floor((clamped * (ramp.length - 1)) / 255.0);
   return ramp[Math.min(ramp.length - 1, Math.max(0, index))];
 }

@@ -17,14 +17,12 @@ import { TechnicalStickers } from "./components/TechnicalStickers";
 import { ZenLockscreenToggle } from "./components/ZenLockscreenToggle";
 import { WorkspaceTabBar, WorkspaceSession } from "./components/WorkspaceTabBar";
 import { RenderEngineManager } from "./lib/renderers/manager";
-import { SceneFrameData } from "./lib/procedural/scenes";
 import { globalWorkspaceManager } from "./engine/workspace-manager";
-import { renderProcedural3D, Procedural3DResult } from "./engine/procedural-3d";
+import { renderProcedural3D } from "./engine/procedural-3d";
 import { getCharsetRamp } from "./engine/charsets";
 import { preflightImageFile } from "./engine/image-preflight";
 import { CanvasRenderResult, renderImageDataToAscii } from "./engine/canvas-renderer";
 import { globalTierManager } from "./engine/tier-manager";
-import { StreamPipeline } from "./engine/stream-pipeline";
 import { getTelemetryFromHost } from "./engine/tauri-bridge";
 import { VideoStreamingEngine } from "./engine/video-pipeline";
 import {
@@ -347,7 +345,6 @@ export default function App() {
   const lastTimeRef = useRef<number>(performance.now());
   const fpsTimerRef = useRef<number>(performance.now());
   const framesRenderedRef = useRef<number>(0);
-  const streamPipelineRef = useRef<StreamPipeline<number, Procedural3DResult> | null>(null);
   const videoEngineRef = useRef<VideoStreamingEngine | null>(null);
   const renderEngineRef = useRef<RenderEngineManager | null>(null);
   const lastImageDataRef = useRef<ImageData | null>(null);
@@ -392,9 +389,8 @@ export default function App() {
       setActiveTier(caps.recommendedTier);
     });
 
-    globalTierManager.onFallback((newTier, reason) => {
+    globalTierManager.onFallback((newTier) => {
       setActiveTier(newTier);
-      setWarningMessage(`Hardware fallback triggered: ${reason}. Switched to ${newTier}.`);
     });
 
     getTelemetryFromHost().then(setHostTelemetry);
@@ -406,9 +402,8 @@ export default function App() {
     const engine = new RenderEngineManager(canvasRef.current);
     renderEngineRef.current = engine;
 
-    engine.onFallback((newTier, reason) => {
+    engine.onFallback((newTier) => {
       setActiveTier(newTier);
-      setWarningMessage(`Hardware fallback: ${reason}. Switched to ${newTier}.`);
     });
 
     engine.initialize(activeTier).then((effectiveTier) => {
@@ -525,36 +520,18 @@ export default function App() {
     }
   }, [activeTab, options.color_mode, options.enable_scanlines, videoState.isPlaying]);
 
-  // Re-instantiate StreamPipeline for procedural frame processing & STRESS-3 defense
-  useEffect(() => {
-    streamPipelineRef.current = new StreamPipeline(async (frameIdx) => {
-      const ramp = getCharsetRamp(
-        options.charset.preset,
-        options.charset.custom_glyphs,
-        options.charset.invert
-      );
-      return renderProcedural3D(
-        proceduralParams,
-        frameIdx,
-        options.max_output_columns,
-        options.max_output_rows,
-        ramp
-      );
-    });
-  }, [
-    options.charset.preset,
-    options.charset.custom_glyphs,
-    options.charset.invert,
-    options.max_output_columns,
-    options.max_output_rows,
-    proceduralParams,
-  ]);
-
   // Procedural Animation Render Loop
   useEffect(() => {
     if (activeTab !== "procedural_3d") return;
 
     let isMounted = true;
+    lastTimeRef.current = performance.now();
+
+    const ramp = getCharsetRamp(
+      options.charset.preset,
+      options.charset.custom_glyphs,
+      options.charset.invert
+    );
 
     const renderLoop = (now: number) => {
       const delta = now - lastTimeRef.current;
@@ -572,49 +549,34 @@ export default function App() {
           fpsTimerRef.current = now;
         }
 
-        if (streamPipelineRef.current) {
-          const startTime = performance.now();
-          streamPipelineRef.current
-            .submit(frameIndexRef.current)
-            .then((result) => {
-              if (isMounted) {
-                setAsciiOutput(result.text);
-                setRenderTimeMs(Math.round((performance.now() - startTime) * 10) / 10);
-                const tel = streamPipelineRef.current?.getTelemetry();
-                if (tel) {
-                  setDroppedFrames(tel.droppedFrames);
-                }
+        const startTime = performance.now();
+        const result = renderProcedural3D(
+          proceduralParams,
+          frameIndexRef.current,
+          options.max_output_columns,
+          options.max_output_rows,
+          ramp
+        );
 
-                lastRenderResultRef.current = {
-                  asciiText: result.text,
-                  colorBuffer: result.colorBuffer,
-                  durationMs: performance.now() - startTime,
-                  width: options.max_output_columns,
-                  height: options.max_output_rows,
-                };
+        if (isMounted) {
+          setAsciiOutput(result.text);
+          setRenderTimeMs(Math.round((performance.now() - startTime) * 10) / 10);
 
-                // Render onto canvas via Hardware Acceleration (WebGPU / WebGL2 / Canvas2D)
-                if (renderEngineRef.current && result.luminanceBuffer && result.colorBuffer) {
-                  const frameData: SceneFrameData = {
-                    columns: options.max_output_columns,
-                    rows: options.max_output_rows,
-                    luminanceBuffer: result.luminanceBuffer,
-                    colorBuffer: new Uint8ClampedArray(result.colorBuffer.buffer),
-                  };
-                  renderEngineRef.current.render(frameData, options);
-                } else {
-                  paintAsciiToCanvas(
-                    canvasRef.current,
-                    result.text,
-                    options,
-                    result.colorBuffer
-                  );
-                }
-              }
-            })
-            .catch(() => {
-              // Discarded backpressure frame
-            });
+          lastRenderResultRef.current = {
+            asciiText: result.text,
+            colorBuffer: result.colorBuffer,
+            durationMs: performance.now() - startTime,
+            width: options.max_output_columns,
+            height: options.max_output_rows,
+          };
+
+          // Paint directly via paintAsciiToCanvas
+          paintAsciiToCanvas(
+            canvasRef.current,
+            result.text,
+            options,
+            result.colorBuffer
+          );
         }
       }
 

@@ -184,4 +184,53 @@ describe("ASCII Renderers & Character Mapping", () => {
     expect(resColor.colorBuffer?.[1]).toBe(100);
     expect(resColor.colorBuffer?.[2]).toBe(48); // 50 / 4 * 4 = 48
   });
+
+  it("downsamples high-res ImageData with area-averaged box filter integration", () => {
+    const width = 4;
+    const height = 4;
+    const buffer = new Uint8ClampedArray(width * height * 4);
+    // Fill with gradient values
+    for (let i = 0; i < width * height; i++) {
+      buffer[i * 4] = i * 15;
+      buffer[i * 4 + 1] = i * 15;
+      buffer[i * 4 + 2] = i * 15;
+      buffer[i * 4 + 3] = 255;
+    }
+
+    const mockImageData = {
+      width,
+      height,
+      data: buffer,
+      colorSpace: "srgb" as PredefinedColorSpace,
+    };
+
+    const options: AsciiRenderOptions = {
+      mode: "image",
+      tier: "tier3_canvas2d",
+      color_mode: "monochrome",
+      charset: {
+        preset: "standard",
+        invert: false,
+        glyph_aspect_ratio: 0.55,
+      },
+      contrast: 0,
+      brightness: 0,
+      gamma: 1.0,
+      dither: "none",
+      cell_width_px: 8,
+      cell_height_px: 14,
+      font_size_px: 12,
+      font_family: "monospace",
+      fps_cap: 60,
+      enable_scanlines: false,
+      enable_bloom: false,
+      max_output_columns: 2,
+      max_output_rows: 2,
+    };
+
+    const res = renderImageDataToAscii(mockImageData, options);
+    expect(res.width).toBe(2);
+    expect(res.height).toBe(2);
+    expect(res.asciiText.split("\n")).toHaveLength(2);
+  });
 });

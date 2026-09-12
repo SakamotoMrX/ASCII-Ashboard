@@ -38,15 +38,28 @@ export function renderImageDataToAscii(
   const lines: string[] = [];
 
   for (let ty = 0; ty < targetH; ty++) {
-    const sy = Math.min(origH - 1, Math.floor(ty * yRatio));
+    const y0 = Math.floor(ty * yRatio);
+    const y1 = Math.min(origH, Math.floor((ty + 1) * yRatio));
     let line = "";
     for (let tx = 0; tx < targetW; tx++) {
-      const sx = Math.min(origW - 1, Math.floor(tx * xRatio));
-      const idx = (sy * origW + sx) * 4;
+      const x0 = Math.floor(tx * xRatio);
+      const x1 = Math.min(origW, Math.floor((tx + 1) * xRatio));
 
-      const r = data[idx];
-      const g = data[idx + 1];
-      const b = data[idx + 2];
+      let sumR = 0, sumG = 0, sumB = 0, count = 0;
+      for (let sy = y0; sy < y1; sy++) {
+        const rowOffset = sy * origW;
+        for (let sx = x0; sx < x1; sx++) {
+          const idx = (rowOffset + sx) * 4;
+          sumR += data[idx];
+          sumG += data[idx + 1];
+          sumB += data[idx + 2];
+          count++;
+        }
+      }
+
+      const r = count > 0 ? sumR / count : data[(y0 * origW + x0) * 4];
+      const g = count > 0 ? sumG / count : data[(y0 * origW + x0) * 4 + 1];
+      const b = count > 0 ? sumB / count : data[(y0 * origW + x0) * 4 + 2];
 
       if (needColor && colorBuffer) {
         const cIdx = (ty * targetW + tx) * 3;
