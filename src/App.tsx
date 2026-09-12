@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
+import { Sliders, Eye } from "lucide-react";
 import {
   AsciiRenderOptions,
   Procedural3DParams,
@@ -133,17 +134,17 @@ function getWorkspaceTitleForMode(
 ): string {
   switch (mode) {
     case "procedural_3d":
-      return "⬡ 3D Procedural";
+      return "3D Procedural";
     case "video":
-      return "🎬 Video: Stream";
+      return "Video Stream";
     case "image":
-      return "🖼️ Image: Photo";
+      return "Image Photo";
     case "camera_stream":
-      return "📷 Live Camera";
+      return "Live Camera";
     case "media_picker":
-      return "⚡ Media Studio";
+      return "Media Studio";
     case "settings":
-      return "⚙️ Engine Sandbox";
+      return "Sandbox";
     default:
       return fallback;
   }
@@ -164,6 +165,7 @@ export default function App() {
   // Zen Lockscreen and Fullscreen State
   const [isZenMode, setIsZenMode] = useState<boolean>(false);
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
+  const [mobileViewMode, setMobileViewMode] = useState<"controls" | "viewport">("viewport");
 
   // Workspace Sessions State bound to WorkspaceManager
   const [workspaces, setWorkspaces] = useState<WorkspaceSession[]>(() =>
@@ -1037,7 +1039,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen h-screen bg-[#121212] text-[#f3f4f6] flex flex-col font-sans antialiased overflow-x-hidden select-none">
+    <div className="min-h-screen h-screen bg-[#121212] text-[#f3f4f6] flex flex-col font-sans antialiased overflow-x-hidden select-none min-h-0">
       {/* Accessibility Skip Link */}
       <a
         href="#main-content"
@@ -1106,8 +1108,38 @@ export default function App() {
           resolution={{ columns: options.max_output_columns, rows: options.max_output_rows }}
           platform={hostTelemetry.platform}
           sandboxSealed={hostTelemetry.sandbox_sealed}
-          className="px-6 py-2 bg-[#0a0a0c] border-b border-[#222224]"
+          className="hidden md:flex px-6 py-2 bg-[#0a0a0c] border-b border-[#222224]"
         />
+
+        {/* Mobile View Mode Switcher (md:hidden) */}
+        <div className="flex md:hidden items-center justify-center p-1.5 bg-[#0a0a0c] border-b border-[#222224]">
+          <div className="grid grid-cols-2 w-full max-w-sm gap-1 bg-[#141416] p-1 rounded-[4px] border border-[#222224] text-xs font-mono">
+            <button
+              type="button"
+              onClick={() => setMobileViewMode("controls")}
+              className={`flex items-center justify-center gap-2 py-2 min-h-[40px] rounded-[2px] transition-colors ${
+                mobileViewMode === "controls"
+                  ? "bg-[#ffffff] text-[#000000] font-semibold"
+                  : "text-[#a1a1aa] hover:text-[#ffffff]"
+              }`}
+            >
+              <Sliders className="w-3.5 h-3.5" />
+              <span>CONTROLS</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setMobileViewMode("viewport")}
+              className={`flex items-center justify-center gap-2 py-2 min-h-[40px] rounded-[2px] transition-colors ${
+                mobileViewMode === "viewport"
+                  ? "bg-[#ffffff] text-[#000000] font-semibold"
+                  : "text-[#a1a1aa] hover:text-[#ffffff]"
+              }`}
+            >
+              <Eye className="w-3.5 h-3.5" />
+              <span>VIEWPORT</span>
+            </button>
+          </div>
+        </div>
       </div>
 
       {/* Warning Notification Banner */}
@@ -1125,13 +1157,15 @@ export default function App() {
       )}
 
       {/* Main Split-Pane Workbench Layout */}
-      <div className="flex-1 flex flex-col md:flex-row overflow-y-auto md:overflow-hidden w-full max-w-full relative">
+      <div className="flex-1 flex flex-col md:flex-row min-h-0 overflow-hidden w-full max-w-full relative">
         {/* Left Quadrant: Controls Sidebar */}
         <div
-          className={`transition-all duration-200 ease-out flex-shrink-0 ${
+          className={`transition-all duration-200 ease-out flex-shrink-0 h-full md:h-full min-h-0 overflow-hidden ${
             isZenMode
-              ? "w-0 max-w-0 opacity-0 pointer-events-none overflow-hidden m-0 p-0 border-none"
-              : "w-full md:w-96 opacity-100"
+              ? "hidden md:flex w-0 max-w-0 opacity-0 pointer-events-none overflow-hidden m-0 p-0 border-none"
+              : mobileViewMode === "controls"
+              ? "flex w-full md:w-96 opacity-100"
+              : "hidden md:flex md:w-96 opacity-100"
           }`}
         >
           <ControlPanel
@@ -1170,7 +1204,9 @@ export default function App() {
         <main
           id="main-content"
           tabIndex={-1}
-          className="flex-1 flex flex-col bg-[#121212] overflow-hidden relative min-h-[350px] w-full max-w-full"
+          className={`flex-1 flex flex-col bg-[#121212] overflow-hidden relative min-h-0 w-full max-w-full h-full ${
+            mobileViewMode === "controls" ? "hidden md:flex" : "flex"
+          }`}
         >
           {activeTab === "media_picker" ? (
             <div className="flex-1 p-6 overflow-y-auto max-w-4xl mx-auto w-full flex items-center justify-center">

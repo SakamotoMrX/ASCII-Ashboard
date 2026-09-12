@@ -5,9 +5,9 @@ import { WorkspaceSession } from "../components/WorkspaceTabBar";
 describe("UI Zen Mode & Workspace Sessions Logic", () => {
   it("conforms to WorkspaceSessionSchema and supports multi-workspace switching", () => {
     const defaultWorkspaces: WorkspaceSession[] = [
-      { id: "ws-1", title: "⬡ 3D Procedural", mode: "procedural_3d", badge: "ACTIVE", status: "active" },
-      { id: "ws-2", title: "🎬 Video: Clip 1", mode: "video", badge: "IDLE", status: "idle" },
-      { id: "ws-3", title: "🖼️ Image: Photo 1", mode: "image", badge: "IDLE", status: "idle" },
+      { id: "ws-1", title: "3D Procedural", mode: "procedural_3d", badge: "ACTIVE", status: "active" },
+      { id: "ws-2", title: "Video: Clip 1", mode: "video", badge: "IDLE", status: "idle" },
+      { id: "ws-3", title: "Image: Photo 1", mode: "image", badge: "IDLE", status: "idle" },
     ];
 
     expect(defaultWorkspaces.length).toBe(3);
@@ -17,7 +17,7 @@ describe("UI Zen Mode & Workspace Sessions Logic", () => {
     // Adding new workspace
     const newWs: WorkspaceSession = {
       id: "ws-4",
-      title: "⬡ Workspace 4",
+      title: "Workspace 4",
       mode: "procedural_3d",
       badge: "ACTIVE",
       status: "active",
