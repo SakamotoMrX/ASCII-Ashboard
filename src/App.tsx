@@ -1026,7 +1026,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen h-screen bg-[#121212] text-[#f3f4f6] flex flex-col font-sans antialiased overflow-x-hidden select-none min-h-0">
+    <div className="min-h-screen h-screen bg-[#121212] text-[#f3f4f6] flex flex-col font-sans antialiased overflow-x-hidden select-none min-h-0 w-full max-w-full">
       {/* Accessibility Skip Link */}
       <a
         href="#main-content"
@@ -1106,7 +1106,7 @@ export default function App() {
             <button
               type="button"
               onClick={() => setMobileViewMode("controls")}
-              className={`flex items-center justify-center gap-2 py-2 min-h-[40px] rounded-[2px] transition-colors ${
+              className={`flex items-center justify-center gap-2 py-2 min-h-[44px] rounded-[2px] transition-colors ${
                 mobileViewMode === "controls"
                   ? "bg-[#ffffff] text-[#000000] font-semibold"
                   : "text-[#a1a1aa] hover:text-[#ffffff]"
@@ -1118,7 +1118,7 @@ export default function App() {
             <button
               type="button"
               onClick={() => setMobileViewMode("viewport")}
-              className={`flex items-center justify-center gap-2 py-2 min-h-[40px] rounded-[2px] transition-colors ${
+              className={`flex items-center justify-center gap-2 py-2 min-h-[44px] rounded-[2px] transition-colors ${
                 mobileViewMode === "viewport"
                   ? "bg-[#ffffff] text-[#000000] font-semibold"
                   : "text-[#a1a1aa] hover:text-[#ffffff]"
@@ -1195,7 +1195,7 @@ export default function App() {
         <main
           id="main-content"
           tabIndex={-1}
-          className={`flex-1 flex flex-col bg-[#121212] overflow-hidden relative min-h-0 w-full max-w-full h-full ${
+          className={`flex-1 flex flex-col bg-[#121212] overflow-x-hidden overflow-y-auto relative min-h-0 w-full max-w-full h-full ${
             mobileViewMode === "controls" ? "hidden md:flex" : "flex"
           }`}
         >

@@ -1,42 +1,36 @@
 {
   "touch_targets_verified": false,
-  "total_interactive": 26,
-  "violation_count": 26,
+  "violation_count": 16,
   "violations": [
     {
-      "tag": "button",
-      "text": "3D Procedural",
-      "role": null,
-      "width": 140,
-      "height": 26
+      "tag": "a",
+      "text": "Skip to content",
+      "width": 1,
+      "height": 1
     },
     {
       "tag": "button",
-      "text": "Image Converter",
-      "role": null,
-      "width": 152,
-      "height": 24
+      "text": "Enter Fullscreen",
+      "width": 38,
+      "height": 38
     },
     {
-      "tag": "button",
-      "text": "Video Streamer",
-      "role": null,
-      "width": 145,
-      "height": 24
+      "tag": "input",
+      "text": "Invert Luminance",
+      "width": 20,
+      "height": 20
     },
     {
-      "tag": "button",
-      "text": "Live Camera",
-      "role": null,
-      "width": 123,
-      "height": 24
+      "tag": "input",
+      "text": "Toggle Sobel Edge Detection",
+      "width": 20,
+      "height": 20
     },
     {
-      "tag": "button",
-      "text": "Sandbox & Engines",
-      "role": null,
-      "width": 167,
-      "height": 24
+      "tag": "input",
+      "text": "Toggle Background Removal Mask",
+      "width": 20,
+      "height": 20
     }
   ]
 }

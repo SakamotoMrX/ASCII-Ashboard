@@ -1,0 +1,15 @@
+{
+  "accessibility": {
+    "focus_visible_verified": false,
+    "aria_landmarks_verified": true,
+    "reduced_motion_supported": false,
+    "violations": [
+      {
+        "rule": "focus_visible_missing",
+        "impact": "serious",
+        "description": "43 interactive element(s) have outline: none without alternative focus ring or shadow."
+      }
+    ],
+    "passes": 1
+  }
+}

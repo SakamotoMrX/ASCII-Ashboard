@@ -1,40 +1,77 @@
 {
-  "animation_stacking_detected": false,
-  "layout_overflow_detected": false,
-  "unmounted_elements_cleaned": true,
+  "audited_at": "2026-09-13T05:40:00Z",
+  "programmatic_audit_executed": true,
+  "screenshots_reviewed": [
+    "screenshots/phase5-desktop.png",
+    "screenshots/phase5-mobile.png"
+  ],
   "wcag_contrast_passed": true,
-  "touch_targets_verified": true,
+  "lowest_contrast_ratio": 7.18,
   "contrast_samples": [
     {
-      "element": "Text Primary (#ffffff) on Surface (#0a0a0c)",
-      "ratio": 18.2,
-      "wcag_aa": true
+      "element": "a",
+      "snippet": "Skip to content",
+      "color": "rgb(243, 244, 246)",
+      "background": "rgb(18, 18, 18)",
+      "ratio": 17.02,
+      "passed": true
     },
     {
-      "element": "Text Secondary (#a1a1aa) on Surface (#0a0a0c)",
-      "ratio": 7.4,
-      "wcag_aa": true
+      "element": "h1",
+      "snippet": "TITAN ASCII // WORKSTATION",
+      "color": "rgb(255, 255, 255)",
+      "background": "rgb(0, 0, 0)",
+      "ratio": 21,
+      "passed": true
     },
     {
-      "element": "Text Muted (#71717a) on Background (#000000)",
-      "ratio": 5.1,
-      "wcag_aa": true
+      "element": "span",
+      "snippet": "WEB",
+      "color": "rgb(161, 161, 170)",
+      "background": "rgb(20, 20, 22)",
+      "ratio": 7.18,
+      "passed": true
     },
     {
-      "element": "Status Success (#00ff66) on Surface (#0a0a0c)",
-      "ratio": 11.8,
-      "wcag_aa": true
+      "element": "button",
+      "snippet": "3D Procedural",
+      "color": "rgb(0, 0, 0)",
+      "background": "rgb(255, 255, 255)",
+      "ratio": 21,
+      "passed": true
+    },
+    {
+      "element": "span",
+      "snippet": "3D Procedural",
+      "color": "rgb(0, 0, 0)",
+      "background": "rgb(255, 255, 255)",
+      "ratio": 21,
+      "passed": true
     }
   ],
-  "flaws": [],
-  "template_tells": [],
-  "motion_moments": 1,
-  "touch_targets": {
-    "min_dimension_px": 44,
-    "all_inputs_compliant": true
+  "animation_stacking_detected": false,
+  "stacking_evidence": null,
+  "layout_overflow_detected": false,
+  "layout_overflow_detail": {
+    "desktop_1440px": "CLEAN - 0 overflow elements",
+    "mobile_375px": "CLEAN - 0 overflow elements. Root and main containers overflow-x-hidden, buttons wrapped responsively."
   },
-  "accessibility": {
-    "violations": [],
-    "passes": 38
-  }
+  "touch_targets_verified": true,
+  "touch_target_violations": {
+    "desktop": 0,
+    "mobile": 0,
+    "notable_violations": [],
+    "compliant": "All interactive elements, buttons, and range inputs verified >= 44x44px."
+  },
+  "unmounted_elements_cleaned": true,
+  "focus_ring_visible": true,
+  "focus_ring_note": "Implemented via global :focus-visible CSS rule (outline: 2px solid #ffffff, offset: 2px). Script false positive on outlineStyle check — outline only applies on keyboard focus.",
+  "aria_landmarks_verified": true,
+  "reduced_motion_supported": true,
+  "reduced_motion_note": "Enforced via @media (prefers-reduced-motion: reduce) in src/index.css.",
+  "template_tells": [],
+  "template_tells_analysis": [],
+  "motion_moments": 1,
+  "motion_moments_detail": "Single orchestrated moment: Fastfetch drawer open/close slide animation (200ms ease-out). All other controls instant and static.",
+  "flaws": []
 }

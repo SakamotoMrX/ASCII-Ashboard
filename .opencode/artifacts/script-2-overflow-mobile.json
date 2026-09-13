@@ -1,0 +1,29 @@
+{
+  "has_overflow": true,
+  "scrollWidth": 375,
+  "innerWidth": 375,
+  "overflow_count": 32,
+  "offending_elements": [
+    {
+      "tag": "button",
+      "id": null,
+      "className": "min-h-[44px] px-3 py-2 flex items-center",
+      "rightEdge": 406,
+      "viewportWidth": 375
+    },
+    {
+      "tag": "span",
+      "id": null,
+      "className": null,
+      "rightEdge": 394,
+      "viewportWidth": 375
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "className": "flex items-center gap-1.5 px-3 py-2 min-",
+      "rightEdge": 378,
+      "viewportWidth": 375
+    }
+  ]
+}

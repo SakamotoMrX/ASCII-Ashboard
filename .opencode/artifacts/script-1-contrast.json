@@ -1,71 +1,45 @@
 {
   "wcag_passed": true,
-  "lowest_ratio": 5.15,
-  "total_tested": 41,
-  "failed_count": 0,
+  "lowest_ratio": 7.18,
   "samples": [
     {
+      "element": "a",
+      "snippet": "Skip to content",
+      "color": "rgb(243, 244, 246)",
+      "background": "rgb(18, 18, 18)",
+      "ratio": 17.02,
+      "passed": true
+    },
+    {
       "element": "h1",
-      "snippet": "ASCII Studio Desktop",
-      "color": "rgb(240, 240, 245)",
-      "background": "rgb(18, 18, 26)",
-      "ratio": 16.4,
+      "snippet": "TITAN ASCII // WORKSTATION",
+      "color": "rgb(255, 255, 255)",
+      "background": "rgb(0, 0, 0)",
+      "ratio": 21,
       "passed": true
     },
     {
       "element": "span",
-      "snippet": "Sandbox Sealed (Tauri ACL Active)",
-      "color": "rgb(0, 255, 136)",
-      "background": "rgb(26, 26, 38)",
-      "ratio": 12.84,
-      "passed": true
-    },
-    {
-      "element": "p",
-      "snippet": "Sealed Multiplatform Terminal & GPU ASCI",
-      "color": "rgb(139, 139, 158)",
-      "background": "rgb(18, 18, 26)",
-      "ratio": 5.58,
+      "snippet": "WEB",
+      "color": "rgb(161, 161, 170)",
+      "background": "rgb(20, 20, 22)",
+      "ratio": 7.18,
       "passed": true
     },
     {
       "element": "button",
       "snippet": "3D Procedural",
-      "color": "rgb(0, 255, 136)",
-      "background": "rgb(26, 26, 38)",
-      "ratio": 12.84,
+      "color": "rgb(0, 0, 0)",
+      "background": "rgb(255, 255, 255)",
+      "ratio": 21,
       "passed": true
     },
     {
       "element": "span",
       "snippet": "3D Procedural",
-      "color": "rgb(0, 255, 136)",
-      "background": "rgb(26, 26, 38)",
-      "ratio": 12.84,
-      "passed": true
-    },
-    {
-      "element": "button",
-      "snippet": "Image Converter",
-      "color": "rgb(139, 139, 158)",
-      "background": "rgb(10, 10, 15)",
-      "ratio": 5.91,
-      "passed": true
-    },
-    {
-      "element": "span",
-      "snippet": "Image Converter",
-      "color": "rgb(139, 139, 158)",
-      "background": "rgb(10, 10, 15)",
-      "ratio": 5.91,
-      "passed": true
-    },
-    {
-      "element": "button",
-      "snippet": "Video Streamer",
-      "color": "rgb(139, 139, 158)",
-      "background": "rgb(10, 10, 15)",
-      "ratio": 5.91,
+      "color": "rgb(0, 0, 0)",
+      "background": "rgb(255, 255, 255)",
+      "ratio": 21,
       "passed": true
     }
   ]

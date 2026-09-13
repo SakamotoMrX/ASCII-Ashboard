@@ -160,7 +160,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
       aria-label="Workstation Parameter Controls"
       className="w-full h-full min-h-0 overflow-y-auto overflow-x-hidden touch-pan-y overscroll-contain bg-[#0a0a0c] border-b md:border-b-0 md:border-r border-[#1a1a22] flex flex-col max-w-full font-mono text-xs select-none"
     >
-      <div className="p-5 space-y-6">
+      <div className="p-3 sm:p-5 space-y-6 w-full max-w-full overflow-x-hidden">
         {/* Fastfetch Drawer Trigger Button */}
         {onToggleFastfetch && (
           <div className="pb-1">
@@ -174,7 +174,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
                   : "bg-[#121215] border-[#1a1a22] text-[#e2e8f0] hover:border-[#e2e8f0] hover:bg-[#141416]"
               }`}
             >
-              <div className="flex items-center gap-2">
+              <div className="flex flex-wrap items-center gap-2 w-full max-w-full">
                 <Terminal className="w-4 h-4 text-[#38bdf8]" aria-hidden="true" />
                 <span>FASTFETCH TELEMETRY</span>
               </div>

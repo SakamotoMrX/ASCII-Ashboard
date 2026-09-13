@@ -1,0 +1,94 @@
+- generic [ref=e3]:
+  - link "Skip to content" [ref=e4] [cursor=pointer]:
+    - /url: "#main-content"
+  - generic [ref=e63]:
+    - banner [ref=e64]:
+      - generic [ref=e70]:
+        - heading "TITAN ASCII // WORKSTATION" [level=1] [ref=e71]
+        - generic [ref=e72]: web
+      - navigation "Main Navigation" [ref=e73]:
+        - button "3D Procedural" [ref=e74] [cursor=pointer]
+        - button "Media Studio" [ref=e79] [cursor=pointer]
+        - button "Sandbox" [ref=e83] [cursor=pointer]
+      - generic [ref=e88]:
+        - generic [ref=e89]:
+          - generic [ref=e90]: CANVAS2D_CPU
+          - generic [ref=e96]:
+            - generic [ref=e99]: 42 FPS
+            - generic [ref=e100]: (1.2ms)
+          - generic [ref=e102]: "SANDBOX: SEALED"
+        - button "Enter Zen mode" [ref=e107] [cursor=pointer]
+        - button "Enter Fullscreen" [ref=e112] [cursor=pointer]
+    - tablist "Workspace Sessions" [ref=e118]:
+      - generic [ref=e119]:
+        - tab "3D Procedural ACTIVE" [selected] [ref=e120] [cursor=pointer]:
+          - generic [ref=e125]: 3D Procedural
+          - generic [ref=e126]: ACTIVE
+        - button "Create new workspace" [ref=e127] [cursor=pointer]:
+          - generic [ref=e129]: "[ ＋ New Workspace ]"
+    - generic [ref=e518]:
+      - button "CONTROLS" [ref=e519] [cursor=pointer]
+      - button "VIEWPORT" [ref=e522] [cursor=pointer]
+  - main [ref=e361]:
+    - generic [ref=e494]:
+      - generic [ref=e495]:
+        - button "Zoom out viewport" [ref=e496] [cursor=pointer]
+        - 'generic "Current Zoom: 100 percent" [ref=e500]': 100%
+        - button "Zoom in viewport" [ref=e501] [cursor=pointer]
+        - button "Reset zoom to 100 percent" [ref=e505] [cursor=pointer]
+        - button "Switch to Raw Monospace Text rendering" [ref=e510] [cursor=pointer]:
+          - generic [ref=e514]: Raw ASCII
+      - img "ASCII Art Real-Time Visualizer Canvas" [ref=e516]
+    - region "ASCII Pipeline Constellation Graph" [ref=e386]:
+      - generic [ref=e387]:
+        - generic [ref=e388]:
+          - generic [ref=e393]: Constellation Pipeline Graph
+          - generic [ref=e394]: pipeline-procedural_3d-tier3_canvas2d
+        - generic [ref=e396]:
+          - button "compact" [ref=e397] [cursor=pointer]
+          - button "regular" [ref=e398] [cursor=pointer]
+          - button "expanded" [ref=e399] [cursor=pointer]
+      - generic [ref=e411]:
+        - generic [ref=e412] [cursor=pointer]:
+          - generic [ref=e413]: source
+          - generic [ref=e416]: Procedural 3D Math Engine
+          - generic [ref=e417]: 42 FPS
+        - generic [ref=e419] [cursor=pointer]:
+          - generic [ref=e420]: preflight
+          - generic [ref=e423]: Luminance & Contrast Normalize
+          - generic [ref=e424]: 0.3ms
+        - generic [ref=e426] [cursor=pointer]:
+          - generic [ref=e427]: ascii_kernel
+          - generic [ref=e430]: Canvas 2D CPU Rasterizer
+          - generic [ref=e431]:
+            - generic [ref=e432]: 42 FPS
+            - generic [ref=e433]: 1.2ms
+        - generic [ref=e434] [cursor=pointer]:
+          - generic [ref=e435]: display_output
+          - generic [ref=e438]: ASCII Viewport Renderer
+          - generic [ref=e439]: 270k c/s
+        - generic [ref=e441] [cursor=pointer]:
+          - generic [ref=e442]: telemetry
+          - generic [ref=e445]: Hardware IPC Telemetry
+          - generic [ref=e446]: 0.1ms
+      - generic [ref=e448]:
+        - generic [ref=e449]: Click a node to inspect hardware telemetry
+        - generic [ref=e450]:
+          - generic [ref=e451]: "LATENCY: 1.2ms"
+          - generic [ref=e452]: 42 FPS
+  - contentinfo [ref=e454]:
+    - generic [ref=e455]:
+      - generic [ref=e456]:
+        - generic [ref=e459]: "FPS:"
+        - generic [ref=e460]: "42"
+        - generic [ref=e461]: (1.2ms)
+      - generic [ref=e462]:
+        - generic [ref=e468]: "Grid:"
+        - generic [ref=e469]: 100 × 45
+      - generic [ref=e470]:
+        - generic [ref=e473]: "Memory:"
+        - generic [ref=e474]: ~17.6MB
+      - generic [ref=e475]:
+        - generic [ref=e478]: "Dropped:"
+        - generic [ref=e479]: "0"
+    - generic [ref=e486]: Sandbox ACL Verified

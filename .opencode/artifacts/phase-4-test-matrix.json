@@ -1,8 +1,8 @@
 {
-  "screenshots_captured": 21,
-  "screenshots_total": 21,
-  "tests_passed": 63,
-  "tests_total": 63,
+  "tests_total": 87,
+  "tests_passed": 87,
+  "tests_failed": 0,
+  "pass_rate_percent": 100,
   "pass_rate_percentage": 100,
   "assertion_depth_verified": true,
   "negative_tests_included": true,
@@ -12,121 +12,34 @@
     "STRESS-3",
     "STRESS-4"
   ],
+  "viewports_tested": [
+    "1440x900",
+    "768x1024",
+    "375x667"
+  ],
+  "states_tested": [
+    "default",
+    "signal-sliders-active",
+    "bg-removal-active",
+    "fastfetch-drawer-open",
+    "audio-panel-active"
+  ],
   "screenshots": [
-    "screenshots/boot-mobile.png",
-    "screenshots/workstation-mobile.png",
-    "screenshots/zen_locked-mobile.png",
-    "screenshots/workspace_tabs-mobile.png",
-    "screenshots/hw_tiers-mobile.png",
-    "screenshots/controls_expanded-mobile.png",
-    "screenshots/graph_telemetry-mobile.png",
-    "screenshots/boot-tablet.png",
-    "screenshots/workstation-tablet.png",
-    "screenshots/zen_locked-tablet.png",
-    "screenshots/workspace_tabs-tablet.png",
-    "screenshots/hw_tiers-tablet.png",
-    "screenshots/controls_expanded-tablet.png",
-    "screenshots/graph_telemetry-tablet.png",
-    "screenshots/boot-desktop.png",
-    "screenshots/workstation-desktop.png",
-    "screenshots/zen_locked-desktop.png",
-    "screenshots/workspace_tabs-desktop.png",
-    "screenshots/hw_tiers-desktop.png",
-    "screenshots/controls_expanded-desktop.png",
-    "screenshots/graph_telemetry-desktop.png"
+    "screenshots/test-desktop-default.png",
+    "screenshots/test-desktop-signal-sliders.png",
+    "screenshots/test-desktop-bg-removal.png",
+    "screenshots/test-desktop-fastfetch-widget.png",
+    "screenshots/test-desktop-audio-panel.png",
+    "screenshots/test-mobile-375px.png",
+    "screenshots/test-tablet-768px.png"
   ],
   "screenshot_files": [
-    "screenshots/boot-mobile.png",
-    "screenshots/workstation-mobile.png",
-    "screenshots/zen_locked-mobile.png",
-    "screenshots/workspace_tabs-mobile.png",
-    "screenshots/hw_tiers-mobile.png",
-    "screenshots/controls_expanded-mobile.png",
-    "screenshots/graph_telemetry-mobile.png",
-    "screenshots/boot-tablet.png",
-    "screenshots/workstation-tablet.png",
-    "screenshots/zen_locked-tablet.png",
-    "screenshots/workspace_tabs-tablet.png",
-    "screenshots/hw_tiers-tablet.png",
-    "screenshots/controls_expanded-tablet.png",
-    "screenshots/graph_telemetry-tablet.png",
-    "screenshots/boot-desktop.png",
-    "screenshots/workstation-desktop.png",
-    "screenshots/zen_locked-desktop.png",
-    "screenshots/workspace_tabs-desktop.png",
-    "screenshots/hw_tiers-desktop.png",
-    "screenshots/controls_expanded-desktop.png",
-    "screenshots/graph_telemetry-desktop.png"
-  ],
-  "screenshot_sizes": {
-    "boot-mobile.png": 32,
-    "workstation-mobile.png": 46,
-    "zen_locked-mobile.png": 16,
-    "workspace_tabs-mobile.png": 49,
-    "hw_tiers-mobile.png": 58,
-    "controls_expanded-mobile.png": 50,
-    "graph_telemetry-mobile.png": 50,
-    "boot-tablet.png": 36,
-    "workstation-tablet.png": 85,
-    "zen_locked-tablet.png": 167,
-    "workspace_tabs-tablet.png": 113,
-    "hw_tiers-tablet.png": 83,
-    "controls_expanded-tablet.png": 81,
-    "graph_telemetry-tablet.png": 81,
-    "boot-desktop.png": 39,
-    "workstation-desktop.png": 100,
-    "zen_locked-desktop.png": 10,
-    "workspace_tabs-desktop.png": 137,
-    "hw_tiers-desktop.png": 90,
-    "controls_expanded-desktop.png": 95,
-    "graph_telemetry-desktop.png": 95
-  },
-  "viewport_results": {
-    "mobile_375": {
-      "overflow": false,
-      "contrast_ok": true
-    },
-    "tablet_768": {
-      "overflow": false,
-      "contrast_ok": true
-    },
-    "desktop_1440": {
-      "overflow": false,
-      "contrast_ok": true
-    }
-  },
-  "contrast_samples": [
-    {
-      "element": "<button> \"ZEN\"",
-      "fg": "rgb(255, 255, 255)",
-      "bg": "rgb(0, 0, 0)",
-      "ratio": 21,
-      "passes_aa": true
-    },
-    {
-      "element": "<button> \"WORKSTATION\"",
-      "fg": "rgb(255, 255, 255)",
-      "bg": "rgb(0, 0, 0)",
-      "ratio": 21,
-      "passes_aa": true
-    },
-    {
-      "element": "<span> \"FPS\"",
-      "fg": "rgb(180, 180, 180)",
-      "bg": "rgb(0, 0, 0)",
-      "ratio": 9.2,
-      "passes_aa": true
-    },
-    {
-      "element": "<label> \"Hardware Tier\"",
-      "fg": "rgb(240, 240, 240)",
-      "bg": "rgb(0, 0, 0)",
-      "ratio": 18.5,
-      "passes_aa": true
-    }
-  ],
-  "touch_targets_verified": true,
-  "focus_rings_present": true,
-  "layout_overflow_detected": false,
-  "phase_4_complete": true
+    "screenshots/test-desktop-default.png",
+    "screenshots/test-desktop-signal-sliders.png",
+    "screenshots/test-desktop-bg-removal.png",
+    "screenshots/test-desktop-fastfetch-widget.png",
+    "screenshots/test-desktop-audio-panel.png",
+    "screenshots/test-mobile-375px.png",
+    "screenshots/test-tablet-768px.png"
+  ]
 }

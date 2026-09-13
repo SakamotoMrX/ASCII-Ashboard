@@ -1,0 +1,85 @@
+{
+  "range_inputs": [
+    {
+      "text": "Rotation Speed X",
+      "width": 164,
+      "height": 44,
+      "parentHeight": 44,
+      "minHeight": "44px",
+      "display": "block"
+    },
+    {
+      "text": "Rotation Speed Y",
+      "width": 164,
+      "height": 44,
+      "parentHeight": 44,
+      "minHeight": "44px",
+      "display": "block"
+    },
+    {
+      "text": "Contrast Adjust",
+      "width": 339,
+      "height": 44,
+      "parentHeight": 44,
+      "minHeight": "44px",
+      "display": "block"
+    },
+    {
+      "text": "Brightness Adjust",
+      "width": 339,
+      "height": 44,
+      "parentHeight": 44,
+      "minHeight": "44px",
+      "display": "block"
+    },
+    {
+      "text": "Gamma Correction",
+      "width": 339,
+      "height": 44,
+      "parentHeight": 44,
+      "minHeight": "44px",
+      "display": "block"
+    },
+    {
+      "text": "Exposure Adjust",
+      "width": 339,
+      "height": 44,
+      "parentHeight": 44,
+      "minHeight": "44px",
+      "display": "block"
+    },
+    {
+      "text": "Saturation Adjust",
+      "width": 339,
+      "height": 44,
+      "parentHeight": 44,
+      "minHeight": "44px",
+      "display": "block"
+    },
+    {
+      "text": "Sharpness Kernel Adjust",
+      "width": 339,
+      "height": 44,
+      "parentHeight": 44,
+      "minHeight": "44px",
+      "display": "block"
+    },
+    {
+      "text": "Audio Volume Slider",
+      "width": 309,
+      "height": 44,
+      "parentHeight": 44,
+      "minHeight": "44px",
+      "display": "block"
+    },
+    {
+      "text": "Grid Column Density",
+      "width": 339,
+      "height": 44,
+      "parentHeight": 44,
+      "minHeight": "44px",
+      "display": "block"
+    }
+  ],
+  "fullscreen_button": null
+}

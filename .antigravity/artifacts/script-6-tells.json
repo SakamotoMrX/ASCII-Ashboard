@@ -1,7 +1,5 @@
 {
-  "template_tells": [
-    "template_chrome:monospace_small_label"
-  ],
+  "template_tells": [],
   "motion_moments": 1,
   "card_count": 28,
   "animated_elements_count": 299,

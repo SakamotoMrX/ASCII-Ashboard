@@ -1,0 +1,36 @@
+{
+  "touch_targets_verified": false,
+  "violation_count": 12,
+  "violations": [
+    {
+      "tag": "a",
+      "text": "Skip to content",
+      "width": 1,
+      "height": 1
+    },
+    {
+      "tag": "button",
+      "text": "Enter Zen mode",
+      "width": 40,
+      "height": 44
+    },
+    {
+      "tag": "button",
+      "text": "Enter Fullscreen",
+      "width": 38,
+      "height": 38
+    },
+    {
+      "tag": "button",
+      "text": "CONTROLS",
+      "width": 175,
+      "height": 40
+    },
+    {
+      "tag": "button",
+      "text": "VIEWPORT",
+      "width": 175,
+      "height": 40
+    }
+  ]
+}

@@ -44,7 +44,7 @@ export const ZenLockscreenToggle: React.FC<ZenLockscreenToggleProps> = ({
         type="button"
         onClick={onToggleZenMode}
         aria-label="Exit Zen mode"
-        className="zen-motion-moment bg-[#141416] border border-[#ffffff] text-[#ffffff] px-3.5 py-2 min-h-[44px] rounded-[2px] font-mono text-xs font-semibold transition-colors duration-150 flex items-center gap-2 cursor-pointer focus:outline-none focus:ring-1 focus:ring-[#ffffff] shadow-lg hover:bg-[#222224]"
+        className="zen-motion-moment bg-[#141416] border border-[#ffffff] text-[#ffffff] px-3.5 py-2 min-h-[44px] min-w-[44px] rounded-[2px] font-mono text-xs font-semibold transition-colors duration-150 flex items-center gap-2 cursor-pointer focus:outline-none focus:ring-1 focus:ring-[#ffffff] shadow-lg hover:bg-[#222224]"
       >
         <Unlock className="w-3.5 h-3.5 text-[#ffffff]" aria-hidden="true" />
         <span>EXIT</span>

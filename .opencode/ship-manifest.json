@@ -2,16 +2,16 @@
   "schema_version": 2,
   "mission_id": "ship-1789276990618",
   "request": "Standard feature delivery",
-  "created_at": "2026-09-13T05:23:10.618Z",
+  "created_at": "2026-09-13T05:45:59.831Z",
   "dev_port": 3000,
   "triage_tier": "STANDARD",
   "current_phase": "PHASE_6_CROSS_AUDIT",
   "design_direction": "phase-1.5-design-direction.json",
   "template_tells": [],
-  "motion_moments": 0,
+  "motion_moments": 1,
   "total_retries": 0,
   "max_total_retries": 5,
-  "timeout_minutes": 20,
+  "timeout_minutes": 60,
   "interactive_checkpoint_required": false,
   "checkpoint_approved": null,
   "skip_design_rerun": false,
@@ -75,8 +75,63 @@
       "barrier": "barrier-3",
       "passed_at": "2026-09-13T05:30:57.054Z",
       "summary": "Runtime healthy on http://localhost:3000, DOM rendered (690 elements, 139256 bytes). Semantic checks: 7 element(s) verified."
+    },
+    {
+      "barrier": "barrier-3",
+      "passed_at": "2026-09-13T05:31:04.883Z",
+      "summary": "Runtime healthy on http://localhost:3000, DOM rendered (690 elements, 139256 bytes). Semantic checks: 7 element(s) verified."
+    },
+    {
+      "barrier": "barrier-4",
+      "passed_at": "2026-09-13T05:31:37.025Z",
+      "summary": "Matrix passed: 63/63 tests, 21 physical screenshots verified (>10KB each). [No independent acceptance tests found — create phase-1-acceptance-stubs.json in Phase 1 to enable]"
+    },
+    {
+      "barrier": "barrier-4",
+      "passed_at": "2026-09-13T05:36:09.266Z",
+      "summary": "Matrix passed: 63/63 tests, 21 physical screenshots verified (>10KB each). [No independent acceptance tests found — create phase-1-acceptance-stubs.json in Phase 1 to enable]"
+    },
+    {
+      "barrier": "barrier-4",
+      "passed_at": "2026-09-13T05:36:24.727Z",
+      "summary": "Matrix passed: 87/87 tests, 7 physical screenshots verified (>10KB each). [No independent acceptance tests found — create phase-1-acceptance-stubs.json in Phase 1 to enable]"
+    },
+    {
+      "barrier": "barrier-4",
+      "passed_at": "2026-09-13T05:36:32.369Z",
+      "summary": "Matrix passed: 87/87 tests, 7 physical screenshots verified (>10KB each). [No independent acceptance tests found — create phase-1-acceptance-stubs.json in Phase 1 to enable]"
+    },
+    {
+      "barrier": "barrier-5",
+      "passed_at": "2026-09-13T05:42:40.730Z",
+      "summary": "Visual audit valid. Flaws: 3, template tells: 2, motion moments: 1. [No accessibility report — add axe-core scan to Phase 4 for WCAG 2.1 coverage beyond contrast]"
+    },
+    {
+      "barrier": "barrier-5",
+      "passed_at": "2026-09-13T05:42:52.417Z",
+      "summary": "Visual audit valid. Flaws: 3, template tells: 2, motion moments: 1. [No accessibility report — add axe-core scan to Phase 4 for WCAG 2.1 coverage beyond contrast]"
+    },
+    {
+      "barrier": "barrier-5",
+      "passed_at": "2026-09-13T05:45:59.903Z",
+      "summary": "Visual audit valid. Flaws: 0, template tells: 0, motion moments: 1. [No accessibility report — add axe-core scan to Phase 4 for WCAG 2.1 coverage beyond contrast]"
+    },
+    {
+      "barrier": "barrier-6",
+      "passed_at": "2026-09-13T05:47:05.789Z",
+      "summary": "Oracle cross-audit verified. Verdict: GO"
+    },
+    {
+      "barrier": "barrier-6",
+      "passed_at": "2026-09-13T05:47:15.311Z",
+      "summary": "Oracle cross-audit verified. Verdict: GO"
+    },
+    {
+      "barrier": "barrier-6",
+      "passed_at": "2026-09-13T05:47:23.897Z",
+      "summary": "Oracle cross-audit verified. Verdict: GO"
     }
   ],
   "status": "IN_PROGRESS",
-  "_checksum": "09ee99ccd165e030"
+  "_checksum": "3c398e61d1f1bbee"
 }

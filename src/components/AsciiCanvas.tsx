@@ -67,7 +67,7 @@ export const AsciiCanvas: React.FC<AsciiCanvasProps> = ({
           onClick={handleZoomOut}
           aria-label="Zoom out viewport"
           title="Zoom Out"
-          className="min-w-[36px] min-h-[36px] flex items-center justify-center hover:bg-[#222222] text-[#888888] hover:text-[#f3f4f6] rounded-[2px] transition-colors"
+          className="min-w-[44px] min-h-[44px] flex items-center justify-center hover:bg-[#222222] text-[#888888] hover:text-[#f3f4f6] rounded-[2px] transition-colors"
         >
           <ZoomOut className="w-4 h-4" aria-hidden="true" />
         </button>
@@ -82,7 +82,7 @@ export const AsciiCanvas: React.FC<AsciiCanvasProps> = ({
           onClick={handleZoomIn}
           aria-label="Zoom in viewport"
           title="Zoom In"
-          className="min-w-[36px] min-h-[36px] flex items-center justify-center hover:bg-[#222222] text-[#888888] hover:text-[#f3f4f6] rounded-[2px] transition-colors"
+          className="min-w-[44px] min-h-[44px] flex items-center justify-center hover:bg-[#222222] text-[#888888] hover:text-[#f3f4f6] rounded-[2px] transition-colors"
         >
           <ZoomIn className="w-4 h-4" aria-hidden="true" />
         </button>
@@ -90,7 +90,7 @@ export const AsciiCanvas: React.FC<AsciiCanvasProps> = ({
           onClick={handleResetZoom}
           aria-label="Reset zoom to 100 percent"
           title="Reset Zoom"
-          className="min-w-[36px] min-h-[36px] flex items-center justify-center hover:bg-[#222222] text-[#888888] hover:text-[#f3f4f6] rounded-[2px] transition-colors"
+          className="min-w-[44px] min-h-[44px] flex items-center justify-center hover:bg-[#222222] text-[#888888] hover:text-[#f3f4f6] rounded-[2px] transition-colors"
         >
           <RotateCcw className="w-4 h-4" aria-hidden="true" />
         </button>
@@ -101,7 +101,7 @@ export const AsciiCanvas: React.FC<AsciiCanvasProps> = ({
           onClick={() => setShowRawText(!showRawText)}
           aria-label={showRawText ? "Switch to GPU Canvas rendering" : "Switch to Raw Monospace Text rendering"}
           title={showRawText ? "Switch to GPU Canvas" : "Switch to Raw Monospace Text"}
-          className={`min-h-[36px] px-2.5 rounded-[2px] flex items-center justify-center gap-1.5 text-xs transition-colors ${
+          className={`min-h-[44px] min-w-[44px] px-2.5 rounded-[2px] flex items-center justify-center gap-1.5 text-xs transition-colors ${
             showRawText
               ? "bg-[#222222] text-[#3b82f6] font-medium"
               : "hover:bg-[#222222] text-[#888888] hover:text-[#f3f4f6]"

@@ -1,0 +1,257 @@
+- generic [ref=f3e3]:
+  - link "Skip to content" [ref=f3e4] [cursor=pointer]:
+    - /url: "#main-content"
+  - status "Application initialization hardware handshake in progress" [ref=f3e5]:
+    - generic [ref=f3e6]:
+      - generic [ref=f3e7]:
+        - generic [ref=f3e8]: ASCII WORKSTATION // BOOT
+        - generic [ref=f3e12]: v2.0.0
+      - generic [ref=f3e13]:
+        - generic [ref=f3e14]:
+          - generic [ref=f3e15]: INITIALIZING SYSTEM
+          - generic [ref=f3e16]: 9%
+        - progressbar [ref=f3e17]
+      - generic [ref=f3e18]:
+        - generic [ref=f3e22]:
+          - generic [ref=f3e23]:
+            - generic [ref=f3e24]: PROBING HARDWARE TIERS
+            - generic [ref=f3e25]: SYNC
+          - generic [ref=f3e26]: WebGPU Tier 1 (Apple Metal / Direct3D 12)
+        - generic [ref=f3e30]:
+          - generic [ref=f3e31]:
+            - generic [ref=f3e32]: COMPILING SHADER PIPELINES
+            - generic [ref=f3e33]: WAIT
+          - generic [ref=f3e34]: Monochrome luminance quantization ramps ready
+        - generic [ref=f3e38]:
+          - generic [ref=f3e39]:
+            - generic [ref=f3e40]: SEALING DESKTOP SANDBOX
+            - generic [ref=f3e41]: WAIT
+          - generic [ref=f3e42]: Tauri IPC bridge locked & isolated
+        - generic [ref=f3e46]:
+          - generic [ref=f3e47]:
+            - generic [ref=f3e48]: MATRIX WORKSTATION READY
+            - generic [ref=f3e49]: WAIT
+          - generic [ref=f3e50]: Zero-slop mechanical terminal online
+      - generic [ref=f3e51]:
+        - generic [ref=f3e52]: 60FPS VSYNC
+        - generic [ref=f3e57]: ACL SANDBOX
+        - generic [ref=f3e62]: MONOCHROME ENGINE
+  - generic [ref=f3e63]:
+    - banner [ref=f3e64]:
+      - generic [ref=f3e70]:
+        - heading "TITAN ASCII // WORKSTATION" [level=1] [ref=f3e71]
+        - generic [ref=f3e72]: web
+      - navigation "Main Navigation" [ref=f3e73]:
+        - button "3D Procedural" [ref=f3e74] [cursor=pointer]
+        - button "Media Studio" [ref=f3e79] [cursor=pointer]
+        - button "Sandbox" [ref=f3e83] [cursor=pointer]
+      - generic [ref=f3e88]:
+        - generic [ref=f3e89]:
+          - generic [ref=f3e90]: WEBGPU_TIER1
+          - generic [ref=f3e96]:
+            - generic [ref=f3e99]: 60 FPS
+            - generic [ref=f3e100]: (1.2ms)
+          - generic [ref=f3e102]: "SANDBOX: SEALED"
+        - button "Enter Zen mode" [ref=f3e107] [cursor=pointer]:
+          - generic [ref=f3e111]: ZEN
+        - button "Enter Fullscreen" [ref=f3e112] [cursor=pointer]
+    - tablist "Workspace Sessions" [ref=f3e118]:
+      - generic [ref=f3e119]:
+        - tab "3D Procedural ACTIVE" [selected] [ref=f3e120] [cursor=pointer]:
+          - generic [ref=f3e125]: 3D Procedural
+          - generic [ref=f3e126]: ACTIVE
+        - button "Create new workspace" [ref=f3e127] [cursor=pointer]:
+          - generic [ref=f3e129]: "[ ＋ New Workspace ]"
+      - generic [ref=f3e130]:
+        - generic [ref=f3e131]: "SESSIONS: 1 ACTIVE"
+        - generic [ref=f3e133]: "BUFFER: ISOLATED"
+    - generic "Workstation Technical Badges" [ref=f3e134]:
+      - 'status "ACCEL: WEBGPU-60" [ref=f3e135]':
+        - generic [ref=f3e136]: "ACCEL:"
+        - generic [ref=f3e137]: WEBGPU-60
+      - 'status "SYNC: 60 FPS" [ref=f3e138]':
+        - generic [ref=f3e140]: SYNC
+        - generic [ref=f3e141]: 60 FPS
+      - 'status "GRID: 100×45" [ref=f3e142]':
+        - generic [ref=f3e143]: GRID
+        - generic [ref=f3e144]: /
+        - generic [ref=f3e145]: 100×45
+      - 'status "ACL: SEALED" [ref=f3e146]':
+        - generic [ref=f3e147]: ACL
+        - generic [ref=f3e148]: SEALED
+      - 'status "HOST: WEB" [ref=f3e149]':
+        - generic [ref=f3e150]: HOST
+        - generic [ref=f3e151]: /
+        - generic [ref=f3e152]: WEB
+  - generic [ref=f3e153]:
+    - complementary "Workstation Parameter Controls" [ref=f3e155]:
+      - generic [ref=f3e156]:
+        - generic [ref=f3e157]:
+          - generic [ref=f3e158]: PROCEDURAL 3D SCENE
+          - combobox "Select Procedural 3D Scene" [ref=f3e163]:
+            - option "Torus (Donut)" [selected]
+            - option "Lambertian Sphere"
+            - option "Solid / Wire Cube"
+            - option "Planet & Rings"
+            - option "Lensing Black Hole"
+          - generic [ref=f3e164]:
+            - generic [ref=f3e165]:
+              - generic [ref=f3e166]:
+                - generic [ref=f3e167]: ROT X
+                - generic [ref=f3e168]: 1.0x
+              - slider "Rotation Speed X" [ref=f3e170] [cursor=pointer]: "1"
+            - generic [ref=f3e171]:
+              - generic [ref=f3e172]:
+                - generic [ref=f3e173]: ROT Y
+                - generic [ref=f3e174]: 1.0x
+              - slider "Rotation Speed Y" [ref=f3e176] [cursor=pointer]: "1"
+        - generic [ref=f3e177]:
+          - generic [ref=f3e178]: KERNEL CHARACTER RAMP
+          - combobox "Character Ramp Preset" [ref=f3e183]:
+            - option "Classic Standard ( .:-=+*#%@ )" [selected]
+            - option "Detailed 70-Glyph Ramp"
+            - option "Letter Glyphs ( .,:;irsXA253hMHGS#9B&@ )"
+            - option "Unicode Blocks ( ░▒▓█ )"
+            - option "Binary Digital ( 01 )"
+            - option "Custom Character Ramp"
+          - generic [ref=f3e184] [cursor=pointer]:
+            - generic [ref=f3e185]: INVERT LUMINANCE
+            - checkbox "Invert Luminance" [ref=f3e186]
+        - generic [ref=f3e187]:
+          - generic [ref=f3e188]: LUMINANCE PALETTE
+          - combobox "Select Color Matrix Output" [ref=f3e195]:
+            - option "ANSI True-Color (Full RGB Video & Image)"
+            - option "Monochrome Pure (#FFFFFF)" [selected]
+            - option "Phosphor Matrix (#00FF88)"
+            - option "CRT Amber (#FFB700)"
+            - option "Cyberpunk Neon (#FF3366)"
+          - generic [ref=f3e196] [cursor=pointer]:
+            - generic [ref=f3e197]: CRT SCANLINES
+            - checkbox "Enable CRT Scanlines Effect" [ref=f3e198]
+        - generic [ref=f3e199]:
+          - generic [ref=f3e200]: SIGNAL ADJUSTMENTS
+          - generic [ref=f3e202]:
+            - generic [ref=f3e203]:
+              - generic [ref=f3e204]:
+                - generic [ref=f3e205]: CONTRAST
+                - generic [ref=f3e206]: 0%
+              - slider "Contrast Adjust" [ref=f3e208] [cursor=pointer]: "0"
+            - generic [ref=f3e209]:
+              - generic [ref=f3e210]:
+                - generic [ref=f3e211]: BRIGHTNESS
+                - generic [ref=f3e212]: 0%
+              - slider "Brightness Adjust" [ref=f3e214] [cursor=pointer]: "0"
+            - generic [ref=f3e215]:
+              - generic [ref=f3e216]:
+                - generic [ref=f3e217]: GAMMA CURVE
+                - generic [ref=f3e218]: 1.00γ
+              - slider "Gamma Correction" [ref=f3e220] [cursor=pointer]: "1"
+            - generic [ref=f3e221]:
+              - generic [ref=f3e222]:
+                - generic [ref=f3e223]: COLUMNS (DENSITY)
+                - generic [ref=f3e224]: 100 cols
+              - slider "Grid Column Density" [ref=f3e226] [cursor=pointer]: "100"
+        - 'group "HARDWARE ACCELERATION TIER CASCADE: T1→T2→T3" [ref=f3e228]':
+          - generic [ref=f3e229]:
+            - generic [ref=f3e230]: HARDWARE ACCELERATION TIER
+            - generic [ref=f3e235]: "CASCADE: T1→T2→T3"
+          - generic [ref=f3e236]:
+            - generic [ref=f3e237] [cursor=pointer]:
+              - generic [ref=f3e238]:
+                - 'radio "Tier 1: WebGPU Compute Pipeline Active Device / Metal / D3D12 ACTIVE" [checked] [ref=f3e239]'
+                - generic [ref=f3e240]:
+                  - generic [ref=f3e241]: "Tier 1: WebGPU Compute Pipeline"
+                  - generic [ref=f3e242]: Active Device / Metal / D3D12
+              - generic [ref=f3e243]: ACTIVE
+            - generic [ref=f3e244] [cursor=pointer]:
+              - generic [ref=f3e245]:
+                - 'radio "Tier 2: WebGL2 Fragment Shader Active GL Core READY" [ref=f3e246]'
+                - generic [ref=f3e247]:
+                  - generic [ref=f3e248]: "Tier 2: WebGL2 Fragment Shader"
+                  - generic [ref=f3e249]: Active GL Core
+              - generic [ref=f3e250]: READY
+            - generic [ref=f3e251] [cursor=pointer]:
+              - generic [ref=f3e252]:
+                - 'radio "Tier 3: Canvas2D CPU Fallback Multi-threaded worker READY" [ref=f3e253]'
+                - generic [ref=f3e254]:
+                  - generic [ref=f3e255]: "Tier 3: Canvas2D CPU Fallback"
+                  - generic [ref=f3e256]: Multi-threaded worker
+              - generic [ref=f3e257]: READY
+        - generic [ref=f3e258]:
+          - text: ACTIONS & EXPORTS
+          - generic [ref=f3e259]:
+            - button "Copy ASCII text to clipboard" [ref=f3e260] [cursor=pointer]:
+              - generic [ref=f3e264]: COPY TEXT
+            - button "Export ASCII art as plain text file" [ref=f3e265] [cursor=pointer]:
+              - generic [ref=f3e269]: .TXT FILE
+          - generic [ref=f3e270]:
+            - button "Record and export ASCII video" [ref=f3e271] [cursor=pointer]:
+              - generic [ref=f3e275]: RECORD & EXPORT VIDEO
+            - button "Export rendered canvas image as PNG" [ref=f3e276] [cursor=pointer]:
+              - generic [ref=f3e280]: EXPORT CANVAS PNG
+    - main [ref=f3e281]:
+      - generic [ref=f3e282]:
+        - generic [ref=f3e283]:
+          - button "Zoom out viewport" [ref=f3e284] [cursor=pointer]
+          - 'generic "Current Zoom: 100 percent" [ref=f3e288]': 100%
+          - button "Zoom in viewport" [ref=f3e289] [cursor=pointer]
+          - button "Reset zoom to 100 percent" [ref=f3e293] [cursor=pointer]
+          - button "Switch to Raw Monospace Text rendering" [ref=f3e298] [cursor=pointer]:
+            - generic [ref=f3e302]: Raw ASCII
+        - img "ASCII Art Real-Time Visualizer Canvas" [ref=f3e304]
+      - region "ASCII Pipeline Constellation Graph" [ref=f3e306]:
+        - generic [ref=f3e307]:
+          - generic [ref=f3e308]:
+            - generic [ref=f3e313]: Constellation Pipeline Graph
+            - generic [ref=f3e314]: pipeline-procedural_3d-tier1_webgpu
+          - generic [ref=f3e316]:
+            - button "compact" [ref=f3e317] [cursor=pointer]
+            - button "regular" [ref=f3e318] [cursor=pointer]
+            - button "expanded" [ref=f3e319] [cursor=pointer]
+        - generic [ref=f3e331]:
+          - generic [ref=f3e332] [cursor=pointer]:
+            - generic [ref=f3e333]: source
+            - generic [ref=f3e336]: Procedural 3D Math Engine
+            - generic [ref=f3e337]: 60 FPS
+          - generic [ref=f3e339] [cursor=pointer]:
+            - generic [ref=f3e340]: preflight
+            - generic [ref=f3e343]: Luminance & Contrast Normalize
+            - generic [ref=f3e344]: 0.3ms
+          - generic [ref=f3e346] [cursor=pointer]:
+            - generic [ref=f3e347]: ascii_kernel
+            - generic [ref=f3e350]: WebGPU Compute Atlas
+            - generic [ref=f3e351]:
+              - generic [ref=f3e352]: 60 FPS
+              - generic [ref=f3e353]: 1.2ms
+          - generic [ref=f3e354] [cursor=pointer]:
+            - generic [ref=f3e355]: display_output
+            - generic [ref=f3e358]: ASCII Viewport Renderer
+            - generic [ref=f3e359]: 270k c/s
+          - generic [ref=f3e361] [cursor=pointer]:
+            - generic [ref=f3e362]: telemetry
+            - generic [ref=f3e365]: Hardware IPC Telemetry
+            - generic [ref=f3e366]: 0.1ms
+        - generic [ref=f3e368]:
+          - generic [ref=f3e369]: Click a node to inspect hardware telemetry
+          - generic [ref=f3e370]:
+            - generic [ref=f3e371]: "LATENCY: 1.2ms"
+            - generic [ref=f3e372]: 60 FPS
+  - contentinfo [ref=f3e374]:
+    - generic [ref=f3e375]:
+      - generic [ref=f3e376]:
+        - generic [ref=f3e379]: "FPS:"
+        - generic [ref=f3e380]: "60"
+        - generic [ref=f3e381]: (1.2ms)
+      - generic [ref=f3e382]:
+        - generic [ref=f3e388]: "Grid:"
+        - generic [ref=f3e389]: 100 × 45
+      - generic [ref=f3e390]:
+        - generic [ref=f3e393]: "Memory:"
+        - generic [ref=f3e394]: ~17.6MB
+      - generic [ref=f3e395]:
+        - generic [ref=f3e398]: "Dropped:"
+        - generic [ref=f3e399]: "0"
+      - generic [ref=f3e400]:
+        - generic [ref=f3e404]: "Adapter:"
+        - generic [ref=f3e405]: Hardware Rasterizer
+    - generic [ref=f3e406]: Sandbox ACL Verified

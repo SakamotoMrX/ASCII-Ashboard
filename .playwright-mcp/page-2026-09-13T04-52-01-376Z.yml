@@ -1,0 +1,1622 @@
+- generic [ref=e2]:
+  - generic [ref=e3]:
+    - banner [ref=e4]:
+      - generic [ref=e5]:
+        - img "Logo Nur Qur'an" [ref=e6]
+        - generic [ref=e7]:
+          - heading "Nur Qur'an" [level=1] [ref=e8]
+          - paragraph [ref=e9]: Mushaf Tajwid Digital
+      - 'button "Pilih Bahasa. Bahasa aktif: Indonesia" [ref=e11] [cursor=pointer]':
+        - generic [aria-hidden] [ref=e12]: 🇮🇩
+        - generic [ref=e13]: id
+    - main [ref=e16]:
+      - region "Pencarian dan Pengantar Al-Qur'an" [ref=e17]:
+        - generic [ref=e20]:
+          - generic "Bismillahir Rahmanir Rahim" [ref=e21]: بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
+          - heading "Mari Baca & Pelajari Al-Qur'an" [level=2] [ref=e22]
+          - paragraph [ref=e23]: Baca, Pelajari, dan Hafalkan Al-Qur'an dengan panduan Tajwid berwarna presisi dan audio interaktif.
+          - textbox "Cari surah berdasarkan nama, terjemahan, atau nomor" [ref=e25]:
+            - /placeholder: "Cari Surah (contoh: Al-Kahf)..."
+      - tablist "Filter Surah" [ref=e26]:
+        - tab "Semua Surah (114)" [selected] [ref=e27] [cursor=pointer]
+        - tab "Makkiyah" [ref=e28] [cursor=pointer]
+        - tab "Madaniyah" [ref=e31] [cursor=pointer]
+        - tab "Surah Favorit (0)" [ref=e34] [cursor=pointer]
+      - generic [ref=e45]:
+        - 'button "Surah 1: Al-Fatihah, سُورَةُ ٱلْفَاتِحَةِ, Makkiyah, 7 Ayat" [ref=e46] [cursor=pointer]':
+          - generic [ref=e47]:
+            - generic [ref=e48]:
+              - generic "Nomor surah 1" [ref=e49]: "1"
+              - generic [ref=e56]:
+                - heading "Al-Fatihah" [level=2] [ref=e57]
+                - paragraph [ref=e58]: Pembukaan
+                - generic [ref=e59]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e60]: Makkiyah
+                  - generic [aria-hidden] [ref=e63]: •
+                  - generic [ref=e64]: 7 Ayat
+            - generic [ref=e65]:
+              - button "Tambahkan surah Al-Fatihah ke favorit" [ref=e67]
+              - generic [ref=e70]: سُورَةُ ٱلْفَاتِحَةِ
+        - 'button "Surah 2: Al-Baqarah, سُورَةُ البَقَرَةِ, Madaniyah, 286 Ayat" [ref=e71] [cursor=pointer]':
+          - generic [ref=e72]:
+            - generic [ref=e73]:
+              - generic "Nomor surah 2" [ref=e74]: "2"
+              - generic [ref=e81]:
+                - heading "Al-Baqarah" [level=2] [ref=e82]
+                - paragraph [ref=e83]: Sapi Betina
+                - generic [ref=e84]:
+                  - generic "Diturunkan di Madinah (Madaniyyah)" [ref=e85]: Madaniyah
+                  - generic [aria-hidden] [ref=e88]: •
+                  - generic [ref=e89]: 286 Ayat
+            - generic [ref=e90]:
+              - button "Tambahkan surah Al-Baqarah ke favorit" [ref=e92]
+              - generic [ref=e95]: سُورَةُ البَقَرَةِ
+        - 'button "Surah 3: Ali ''Imran, سُورَةُ آلِ عِمۡرَانَ, Madaniyah, 200 Ayat" [ref=e96] [cursor=pointer]':
+          - generic [ref=e97]:
+            - generic [ref=e98]:
+              - generic "Nomor surah 3" [ref=e99]: "3"
+              - generic [ref=e106]:
+                - heading "Ali 'Imran" [level=2] [ref=e107]
+                - paragraph [ref=e108]: Keluarga 'Imran
+                - generic [ref=e109]:
+                  - generic "Diturunkan di Madinah (Madaniyyah)" [ref=e110]: Madaniyah
+                  - generic [aria-hidden] [ref=e113]: •
+                  - generic [ref=e114]: 200 Ayat
+            - generic [ref=e115]:
+              - button "Tambahkan surah Ali 'Imran ke favorit" [ref=e117]
+              - generic [ref=e120]: سُورَةُ آلِ عِمۡرَانَ
+        - 'button "Surah 4: An-Nisa'', سُورَةُ النِّسَاءِ, Madaniyah, 176 Ayat" [ref=e121] [cursor=pointer]':
+          - generic [ref=e122]:
+            - generic [ref=e123]:
+              - generic "Nomor surah 4" [ref=e124]: "4"
+              - generic [ref=e131]:
+                - heading "An-Nisa'" [level=2] [ref=e132]
+                - paragraph [ref=e133]: Wanita
+                - generic [ref=e134]:
+                  - generic "Diturunkan di Madinah (Madaniyyah)" [ref=e135]: Madaniyah
+                  - generic [aria-hidden] [ref=e138]: •
+                  - generic [ref=e139]: 176 Ayat
+            - generic [ref=e140]:
+              - button "Tambahkan surah An-Nisa' ke favorit" [ref=e142]
+              - generic [ref=e145]: سُورَةُ النِّسَاءِ
+        - 'button "Surah 5: Al-Ma''idah, سُورَةُ المَائـِدَةِ, Madaniyah, 120 Ayat" [ref=e146] [cursor=pointer]':
+          - generic [ref=e147]:
+            - generic [ref=e148]:
+              - generic "Nomor surah 5" [ref=e149]: "5"
+              - generic [ref=e156]:
+                - heading "Al-Ma'idah" [level=2] [ref=e157]
+                - paragraph [ref=e158]: Hidangan
+                - generic [ref=e159]:
+                  - generic "Diturunkan di Madinah (Madaniyyah)" [ref=e160]: Madaniyah
+                  - generic [aria-hidden] [ref=e163]: •
+                  - generic [ref=e164]: 120 Ayat
+            - generic [ref=e165]:
+              - button "Tambahkan surah Al-Ma'idah ke favorit" [ref=e167]
+              - generic [ref=e170]: سُورَةُ المَائـِدَةِ
+        - 'button "Surah 6: Al-An''am, سُورَةُ الأَنۡعَامِ, Makkiyah, 165 Ayat" [ref=e171] [cursor=pointer]':
+          - generic [ref=e172]:
+            - generic [ref=e173]:
+              - generic "Nomor surah 6" [ref=e174]: "6"
+              - generic [ref=e181]:
+                - heading "Al-An'am" [level=2] [ref=e182]
+                - paragraph [ref=e183]: Binatang Ternak
+                - generic [ref=e184]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e185]: Makkiyah
+                  - generic [aria-hidden] [ref=e188]: •
+                  - generic [ref=e189]: 165 Ayat
+            - generic [ref=e190]:
+              - button "Tambahkan surah Al-An'am ke favorit" [ref=e192]
+              - generic [ref=e195]: سُورَةُ الأَنۡعَامِ
+        - 'button "Surah 7: Al-A''raf, سُورَةُ الأَعۡرَافِ, Makkiyah, 206 Ayat" [ref=e196] [cursor=pointer]':
+          - generic [ref=e197]:
+            - generic [ref=e198]:
+              - generic "Nomor surah 7" [ref=e199]: "7"
+              - generic [ref=e206]:
+                - heading "Al-A'raf" [level=2] [ref=e207]
+                - paragraph [ref=e208]: Tempat Tertinggi
+                - generic [ref=e209]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e210]: Makkiyah
+                  - generic [aria-hidden] [ref=e213]: •
+                  - generic [ref=e214]: 206 Ayat
+            - generic [ref=e215]:
+              - button "Tambahkan surah Al-A'raf ke favorit" [ref=e217]
+              - generic [ref=e220]: سُورَةُ الأَعۡرَافِ
+        - 'button "Surah 8: Al-Anfal, سُورَةُ الأَنفَالِ, Madaniyah, 75 Ayat" [ref=e221] [cursor=pointer]':
+          - generic [ref=e222]:
+            - generic [ref=e223]:
+              - generic "Nomor surah 8" [ref=e224]: "8"
+              - generic [ref=e231]:
+                - heading "Al-Anfal" [level=2] [ref=e232]
+                - paragraph [ref=e233]: Rampasan Perang
+                - generic [ref=e234]:
+                  - generic "Diturunkan di Madinah (Madaniyyah)" [ref=e235]: Madaniyah
+                  - generic [aria-hidden] [ref=e238]: •
+                  - generic [ref=e239]: 75 Ayat
+            - generic [ref=e240]:
+              - button "Tambahkan surah Al-Anfal ke favorit" [ref=e242]
+              - generic [ref=e245]: سُورَةُ الأَنفَالِ
+        - 'button "Surah 9: At-Taubah, سُورَةُ التَّوۡبَةِ, Madaniyah, 129 Ayat" [ref=e246] [cursor=pointer]':
+          - generic [ref=e247]:
+            - generic [ref=e248]:
+              - generic "Nomor surah 9" [ref=e249]: "9"
+              - generic [ref=e256]:
+                - heading "At-Taubah" [level=2] [ref=e257]
+                - paragraph [ref=e258]: Pengampunan
+                - generic [ref=e259]:
+                  - generic "Diturunkan di Madinah (Madaniyyah)" [ref=e260]: Madaniyah
+                  - generic [aria-hidden] [ref=e263]: •
+                  - generic [ref=e264]: 129 Ayat
+            - generic [ref=e265]:
+              - button "Tambahkan surah At-Taubah ke favorit" [ref=e267]
+              - generic [ref=e270]: سُورَةُ التَّوۡبَةِ
+        - 'button "Surah 10: Yunus, سُورَةُ يُونُسَ, Makkiyah, 109 Ayat" [ref=e271] [cursor=pointer]':
+          - generic [ref=e272]:
+            - generic [ref=e273]:
+              - generic "Nomor surah 10" [ref=e274]: "10"
+              - generic [ref=e281]:
+                - heading "Yunus" [level=2] [ref=e282]
+                - paragraph [ref=e283]: Yunus
+                - generic [ref=e284]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e285]: Makkiyah
+                  - generic [aria-hidden] [ref=e288]: •
+                  - generic [ref=e289]: 109 Ayat
+            - generic [ref=e290]:
+              - button "Tambahkan surah Yunus ke favorit" [ref=e292]
+              - generic [ref=e295]: سُورَةُ يُونُسَ
+        - 'button "Surah 11: Hud, سُورَةُ هُودٍ, Makkiyah, 123 Ayat" [ref=e296] [cursor=pointer]':
+          - generic [ref=e297]:
+            - generic [ref=e298]:
+              - generic "Nomor surah 11" [ref=e299]: "11"
+              - generic [ref=e306]:
+                - heading "Hud" [level=2] [ref=e307]
+                - paragraph [ref=e308]: Hud
+                - generic [ref=e309]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e310]: Makkiyah
+                  - generic [aria-hidden] [ref=e313]: •
+                  - generic [ref=e314]: 123 Ayat
+            - generic [ref=e315]:
+              - button "Tambahkan surah Hud ke favorit" [ref=e317]
+              - generic [ref=e320]: سُورَةُ هُودٍ
+        - 'button "Surah 12: Yusuf, سُورَةُ يُوسُفَ, Makkiyah, 111 Ayat" [ref=e321] [cursor=pointer]':
+          - generic [ref=e322]:
+            - generic [ref=e323]:
+              - generic "Nomor surah 12" [ref=e324]: "12"
+              - generic [ref=e331]:
+                - heading "Yusuf" [level=2] [ref=e332]
+                - paragraph [ref=e333]: Yusuf
+                - generic [ref=e334]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e335]: Makkiyah
+                  - generic [aria-hidden] [ref=e338]: •
+                  - generic [ref=e339]: 111 Ayat
+            - generic [ref=e340]:
+              - button "Tambahkan surah Yusuf ke favorit" [ref=e342]
+              - generic [ref=e345]: سُورَةُ يُوسُفَ
+        - 'button "Surah 13: Ar-Ra''d, سُورَةُ الرَّعۡدِ, Madaniyah, 43 Ayat" [ref=e346] [cursor=pointer]':
+          - generic [ref=e347]:
+            - generic [ref=e348]:
+              - generic "Nomor surah 13" [ref=e349]: "13"
+              - generic [ref=e356]:
+                - heading "Ar-Ra'd" [level=2] [ref=e357]
+                - paragraph [ref=e358]: Guruh
+                - generic [ref=e359]:
+                  - generic "Diturunkan di Madinah (Madaniyyah)" [ref=e360]: Madaniyah
+                  - generic [aria-hidden] [ref=e363]: •
+                  - generic [ref=e364]: 43 Ayat
+            - generic [ref=e365]:
+              - button "Tambahkan surah Ar-Ra'd ke favorit" [ref=e367]
+              - generic [ref=e370]: سُورَةُ الرَّعۡدِ
+        - 'button "Surah 14: Ibrahim, سُورَةُ إِبۡرَاهِيمَ, Makkiyah, 52 Ayat" [ref=e371] [cursor=pointer]':
+          - generic [ref=e372]:
+            - generic [ref=e373]:
+              - generic "Nomor surah 14" [ref=e374]: "14"
+              - generic [ref=e381]:
+                - heading "Ibrahim" [level=2] [ref=e382]
+                - paragraph [ref=e383]: Ibrahim
+                - generic [ref=e384]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e385]: Makkiyah
+                  - generic [aria-hidden] [ref=e388]: •
+                  - generic [ref=e389]: 52 Ayat
+            - generic [ref=e390]:
+              - button "Tambahkan surah Ibrahim ke favorit" [ref=e392]
+              - generic [ref=e395]: سُورَةُ إِبۡرَاهِيمَ
+        - 'button "Surah 15: Al-Hijr, سُورَةُ الحِجۡرِ, Makkiyah, 99 Ayat" [ref=e396] [cursor=pointer]':
+          - generic [ref=e397]:
+            - generic [ref=e398]:
+              - generic "Nomor surah 15" [ref=e399]: "15"
+              - generic [ref=e406]:
+                - heading "Al-Hijr" [level=2] [ref=e407]
+                - paragraph [ref=e408]: Gunung Berbatu
+                - generic [ref=e409]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e410]: Makkiyah
+                  - generic [aria-hidden] [ref=e413]: •
+                  - generic [ref=e414]: 99 Ayat
+            - generic [ref=e415]:
+              - button "Tambahkan surah Al-Hijr ke favorit" [ref=e417]
+              - generic [ref=e420]: سُورَةُ الحِجۡرِ
+        - 'button "Surah 16: An-Nahl, سُورَةُ النَّحۡلِ, Makkiyah, 128 Ayat" [ref=e421] [cursor=pointer]':
+          - generic [ref=e422]:
+            - generic [ref=e423]:
+              - generic "Nomor surah 16" [ref=e424]: "16"
+              - generic [ref=e431]:
+                - heading "An-Nahl" [level=2] [ref=e432]
+                - paragraph [ref=e433]: Lebah
+                - generic [ref=e434]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e435]: Makkiyah
+                  - generic [aria-hidden] [ref=e438]: •
+                  - generic [ref=e439]: 128 Ayat
+            - generic [ref=e440]:
+              - button "Tambahkan surah An-Nahl ke favorit" [ref=e442]
+              - generic [ref=e445]: سُورَةُ النَّحۡلِ
+        - 'button "Surah 17: Al-Isra'', سُورَةُ الإِسۡرَاءِ, Makkiyah, 111 Ayat" [ref=e446] [cursor=pointer]':
+          - generic [ref=e447]:
+            - generic [ref=e448]:
+              - generic "Nomor surah 17" [ref=e449]: "17"
+              - generic [ref=e456]:
+                - heading "Al-Isra'" [level=2] [ref=e457]
+                - paragraph [ref=e458]: Memperjalankan di Malam Hari
+                - generic [ref=e459]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e460]: Makkiyah
+                  - generic [aria-hidden] [ref=e463]: •
+                  - generic [ref=e464]: 111 Ayat
+            - generic [ref=e465]:
+              - button "Tambahkan surah Al-Isra' ke favorit" [ref=e467]
+              - generic [ref=e470]: سُورَةُ الإِسۡرَاءِ
+        - 'button "Surah 18: Al-Kahfi, سُورَةُ الكَهۡفِ, Makkiyah, 110 Ayat" [ref=e471] [cursor=pointer]':
+          - generic [ref=e472]:
+            - generic [ref=e473]:
+              - generic "Nomor surah 18" [ref=e474]: "18"
+              - generic [ref=e481]:
+                - heading "Al-Kahfi" [level=2] [ref=e482]
+                - paragraph [ref=e483]: Gua
+                - generic [ref=e484]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e485]: Makkiyah
+                  - generic [aria-hidden] [ref=e488]: •
+                  - generic [ref=e489]: 110 Ayat
+            - generic [ref=e490]:
+              - button "Tambahkan surah Al-Kahfi ke favorit" [ref=e492]
+              - generic [ref=e495]: سُورَةُ الكَهۡفِ
+        - 'button "Surah 19: Maryam, سُورَةُ مَرۡيَمَ, Makkiyah, 98 Ayat" [ref=e496] [cursor=pointer]':
+          - generic [ref=e497]:
+            - generic [ref=e498]:
+              - generic "Nomor surah 19" [ref=e499]: "19"
+              - generic [ref=e506]:
+                - heading "Maryam" [level=2] [ref=e507]
+                - paragraph [ref=e508]: Maryam
+                - generic [ref=e509]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e510]: Makkiyah
+                  - generic [aria-hidden] [ref=e513]: •
+                  - generic [ref=e514]: 98 Ayat
+            - generic [ref=e515]:
+              - button "Tambahkan surah Maryam ke favorit" [ref=e517]
+              - generic [ref=e520]: سُورَةُ مَرۡيَمَ
+        - 'button "Surah 20: Taha, سُورَةُ طه, Makkiyah, 135 Ayat" [ref=e521] [cursor=pointer]':
+          - generic [ref=e522]:
+            - generic [ref=e523]:
+              - generic "Nomor surah 20" [ref=e524]: "20"
+              - generic [ref=e531]:
+                - heading "Taha" [level=2] [ref=e532]
+                - paragraph [ref=e533]: Thaha
+                - generic [ref=e534]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e535]: Makkiyah
+                  - generic [aria-hidden] [ref=e538]: •
+                  - generic [ref=e539]: 135 Ayat
+            - generic [ref=e540]:
+              - button "Tambahkan surah Taha ke favorit" [ref=e542]
+              - generic [ref=e545]: سُورَةُ طه
+        - 'button "Surah 21: Al-Anbiya'', سُورَةُ الأَنبِيَاءِ, Makkiyah, 112 Ayat" [ref=e546] [cursor=pointer]':
+          - generic [ref=e547]:
+            - generic [ref=e548]:
+              - generic "Nomor surah 21" [ref=e549]: "21"
+              - generic [ref=e556]:
+                - heading "Al-Anbiya'" [level=2] [ref=e557]
+                - paragraph [ref=e558]: Para Nabi
+                - generic [ref=e559]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e560]: Makkiyah
+                  - generic [aria-hidden] [ref=e563]: •
+                  - generic [ref=e564]: 112 Ayat
+            - generic [ref=e565]:
+              - button "Tambahkan surah Al-Anbiya' ke favorit" [ref=e567]
+              - generic [ref=e570]: سُورَةُ الأَنبِيَاءِ
+        - 'button "Surah 22: Al-Hajj, سُورَةُ الحَجِّ, Madaniyah, 78 Ayat" [ref=e571] [cursor=pointer]':
+          - generic [ref=e572]:
+            - generic [ref=e573]:
+              - generic "Nomor surah 22" [ref=e574]: "22"
+              - generic [ref=e581]:
+                - heading "Al-Hajj" [level=2] [ref=e582]
+                - paragraph [ref=e583]: Haji
+                - generic [ref=e584]:
+                  - generic "Diturunkan di Madinah (Madaniyyah)" [ref=e585]: Madaniyah
+                  - generic [aria-hidden] [ref=e588]: •
+                  - generic [ref=e589]: 78 Ayat
+            - generic [ref=e590]:
+              - button "Tambahkan surah Al-Hajj ke favorit" [ref=e592]
+              - generic [ref=e595]: سُورَةُ الحَجِّ
+        - 'button "Surah 23: Al-Mu''minun, سُورَةُ المُؤۡمِنُونَ, Makkiyah, 118 Ayat" [ref=e596] [cursor=pointer]':
+          - generic [ref=e597]:
+            - generic [ref=e598]:
+              - generic "Nomor surah 23" [ref=e599]: "23"
+              - generic [ref=e606]:
+                - heading "Al-Mu'minun" [level=2] [ref=e607]
+                - paragraph [ref=e608]: Orang-Orang Mukmin
+                - generic [ref=e609]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e610]: Makkiyah
+                  - generic [aria-hidden] [ref=e613]: •
+                  - generic [ref=e614]: 118 Ayat
+            - generic [ref=e615]:
+              - button "Tambahkan surah Al-Mu'minun ke favorit" [ref=e617]
+              - generic [ref=e620]: سُورَةُ المُؤۡمِنُونَ
+        - 'button "Surah 24: An-Nur, سُورَةُ النُّورِ, Madaniyah, 64 Ayat" [ref=e621] [cursor=pointer]':
+          - generic [ref=e622]:
+            - generic [ref=e623]:
+              - generic "Nomor surah 24" [ref=e624]: "24"
+              - generic [ref=e631]:
+                - heading "An-Nur" [level=2] [ref=e632]
+                - paragraph [ref=e633]: Cahaya
+                - generic [ref=e634]:
+                  - generic "Diturunkan di Madinah (Madaniyyah)" [ref=e635]: Madaniyah
+                  - generic [aria-hidden] [ref=e638]: •
+                  - generic [ref=e639]: 64 Ayat
+            - generic [ref=e640]:
+              - button "Tambahkan surah An-Nur ke favorit" [ref=e642]
+              - generic [ref=e645]: سُورَةُ النُّورِ
+        - 'button "Surah 25: Al-Furqan, سُورَةُ الفُرۡقَانِ, Makkiyah, 77 Ayat" [ref=e646] [cursor=pointer]':
+          - generic [ref=e647]:
+            - generic [ref=e648]:
+              - generic "Nomor surah 25" [ref=e649]: "25"
+              - generic [ref=e656]:
+                - heading "Al-Furqan" [level=2] [ref=e657]
+                - paragraph [ref=e658]: Pembeda
+                - generic [ref=e659]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e660]: Makkiyah
+                  - generic [aria-hidden] [ref=e663]: •
+                  - generic [ref=e664]: 77 Ayat
+            - generic [ref=e665]:
+              - button "Tambahkan surah Al-Furqan ke favorit" [ref=e667]
+              - generic [ref=e670]: سُورَةُ الفُرۡقَانِ
+        - 'button "Surah 26: Asy-Syu''ara'', سُورَةُ الشُّعَرَاءِ, Makkiyah, 227 Ayat" [ref=e671] [cursor=pointer]':
+          - generic [ref=e672]:
+            - generic [ref=e673]:
+              - generic "Nomor surah 26" [ref=e674]: "26"
+              - generic [ref=e681]:
+                - heading "Asy-Syu'ara'" [level=2] [ref=e682]
+                - paragraph [ref=e683]: Para Penyair
+                - generic [ref=e684]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e685]: Makkiyah
+                  - generic [aria-hidden] [ref=e688]: •
+                  - generic [ref=e689]: 227 Ayat
+            - generic [ref=e690]:
+              - button "Tambahkan surah Asy-Syu'ara' ke favorit" [ref=e692]
+              - generic [ref=e695]: سُورَةُ الشُّعَرَاءِ
+        - 'button "Surah 27: An-Naml, سُورَةُ النَّمۡلِ, Makkiyah, 93 Ayat" [ref=e696] [cursor=pointer]':
+          - generic [ref=e697]:
+            - generic [ref=e698]:
+              - generic "Nomor surah 27" [ref=e699]: "27"
+              - generic [ref=e706]:
+                - heading "An-Naml" [level=2] [ref=e707]
+                - paragraph [ref=e708]: Semut
+                - generic [ref=e709]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e710]: Makkiyah
+                  - generic [aria-hidden] [ref=e713]: •
+                  - generic [ref=e714]: 93 Ayat
+            - generic [ref=e715]:
+              - button "Tambahkan surah An-Naml ke favorit" [ref=e717]
+              - generic [ref=e720]: سُورَةُ النَّمۡلِ
+        - 'button "Surah 28: Al-Qasas, سُورَةُ القَصَصِ, Makkiyah, 88 Ayat" [ref=e721] [cursor=pointer]':
+          - generic [ref=e722]:
+            - generic [ref=e723]:
+              - generic "Nomor surah 28" [ref=e724]: "28"
+              - generic [ref=e731]:
+                - heading "Al-Qasas" [level=2] [ref=e732]
+                - paragraph [ref=e733]: Kisah-Kisah
+                - generic [ref=e734]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e735]: Makkiyah
+                  - generic [aria-hidden] [ref=e738]: •
+                  - generic [ref=e739]: 88 Ayat
+            - generic [ref=e740]:
+              - button "Tambahkan surah Al-Qasas ke favorit" [ref=e742]
+              - generic [ref=e745]: سُورَةُ القَصَصِ
+        - 'button "Surah 29: Al-''Ankabut, سُورَةُ العَنكَبُوتِ, Makkiyah, 69 Ayat" [ref=e746] [cursor=pointer]':
+          - generic [ref=e747]:
+            - generic [ref=e748]:
+              - generic "Nomor surah 29" [ref=e749]: "29"
+              - generic [ref=e756]:
+                - heading "Al-'Ankabut" [level=2] [ref=e757]
+                - paragraph [ref=e758]: Laba-Laba
+                - generic [ref=e759]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e760]: Makkiyah
+                  - generic [aria-hidden] [ref=e763]: •
+                  - generic [ref=e764]: 69 Ayat
+            - generic [ref=e765]:
+              - button "Tambahkan surah Al-'Ankabut ke favorit" [ref=e767]
+              - generic [ref=e770]: سُورَةُ العَنكَبُوتِ
+        - 'button "Surah 30: Ar-Rum, سُورَةُ الرُّومِ, Makkiyah, 60 Ayat" [ref=e771] [cursor=pointer]':
+          - generic [ref=e772]:
+            - generic [ref=e773]:
+              - generic "Nomor surah 30" [ref=e774]: "30"
+              - generic [ref=e781]:
+                - heading "Ar-Rum" [level=2] [ref=e782]
+                - paragraph [ref=e783]: Bangsa Romawi
+                - generic [ref=e784]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e785]: Makkiyah
+                  - generic [aria-hidden] [ref=e788]: •
+                  - generic [ref=e789]: 60 Ayat
+            - generic [ref=e790]:
+              - button "Tambahkan surah Ar-Rum ke favorit" [ref=e792]
+              - generic [ref=e795]: سُورَةُ الرُّومِ
+        - 'button "Surah 31: Luqman, سُورَةُ لُقۡمَانَ, Makkiyah, 34 Ayat" [ref=e796] [cursor=pointer]':
+          - generic [ref=e797]:
+            - generic [ref=e798]:
+              - generic "Nomor surah 31" [ref=e799]: "31"
+              - generic [ref=e806]:
+                - heading "Luqman" [level=2] [ref=e807]
+                - paragraph [ref=e808]: Luqman
+                - generic [ref=e809]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e810]: Makkiyah
+                  - generic [aria-hidden] [ref=e813]: •
+                  - generic [ref=e814]: 34 Ayat
+            - generic [ref=e815]:
+              - button "Tambahkan surah Luqman ke favorit" [ref=e817]
+              - generic [ref=e820]: سُورَةُ لُقۡمَانَ
+        - 'button "Surah 32: As-Sajdah, سُورَةُ السَّجۡدَةِ, Makkiyah, 30 Ayat" [ref=e821] [cursor=pointer]':
+          - generic [ref=e822]:
+            - generic [ref=e823]:
+              - generic "Nomor surah 32" [ref=e824]: "32"
+              - generic [ref=e831]:
+                - heading "As-Sajdah" [level=2] [ref=e832]
+                - paragraph [ref=e833]: Sujud
+                - generic [ref=e834]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e835]: Makkiyah
+                  - generic [aria-hidden] [ref=e838]: •
+                  - generic [ref=e839]: 30 Ayat
+            - generic [ref=e840]:
+              - button "Tambahkan surah As-Sajdah ke favorit" [ref=e842]
+              - generic [ref=e845]: سُورَةُ السَّجۡدَةِ
+        - 'button "Surah 33: Al-Ahzab, سُورَةُ الأَحۡزَابِ, Madaniyah, 73 Ayat" [ref=e846] [cursor=pointer]':
+          - generic [ref=e847]:
+            - generic [ref=e848]:
+              - generic "Nomor surah 33" [ref=e849]: "33"
+              - generic [ref=e856]:
+                - heading "Al-Ahzab" [level=2] [ref=e857]
+                - paragraph [ref=e858]: Golongan yang Bersekutu
+                - generic [ref=e859]:
+                  - generic "Diturunkan di Madinah (Madaniyyah)" [ref=e860]: Madaniyah
+                  - generic [aria-hidden] [ref=e863]: •
+                  - generic [ref=e864]: 73 Ayat
+            - generic [ref=e865]:
+              - button "Tambahkan surah Al-Ahzab ke favorit" [ref=e867]
+              - generic [ref=e870]: سُورَةُ الأَحۡزَابِ
+        - 'button "Surah 34: Saba'', سُورَةُ سَبَإٍ, Makkiyah, 54 Ayat" [ref=e871] [cursor=pointer]':
+          - generic [ref=e872]:
+            - generic [ref=e873]:
+              - generic "Nomor surah 34" [ref=e874]: "34"
+              - generic [ref=e881]:
+                - heading "Saba'" [level=2] [ref=e882]
+                - paragraph [ref=e883]: Kaum Saba'
+                - generic [ref=e884]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e885]: Makkiyah
+                  - generic [aria-hidden] [ref=e888]: •
+                  - generic [ref=e889]: 54 Ayat
+            - generic [ref=e890]:
+              - button "Tambahkan surah Saba' ke favorit" [ref=e892]
+              - generic [ref=e895]: سُورَةُ سَبَإٍ
+        - 'button "Surah 35: Fatir, سُورَةُ فَاطِرٍ, Makkiyah, 45 Ayat" [ref=e896] [cursor=pointer]':
+          - generic [ref=e897]:
+            - generic [ref=e898]:
+              - generic "Nomor surah 35" [ref=e899]: "35"
+              - generic [ref=e906]:
+                - heading "Fatir" [level=2] [ref=e907]
+                - paragraph [ref=e908]: Pencipta
+                - generic [ref=e909]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e910]: Makkiyah
+                  - generic [aria-hidden] [ref=e913]: •
+                  - generic [ref=e914]: 45 Ayat
+            - generic [ref=e915]:
+              - button "Tambahkan surah Fatir ke favorit" [ref=e917]
+              - generic [ref=e920]: سُورَةُ فَاطِرٍ
+        - 'button "Surah 36: Yasin, سُورَةُ يسٓ, Makkiyah, 83 Ayat" [ref=e921] [cursor=pointer]':
+          - generic [ref=e922]:
+            - generic [ref=e923]:
+              - generic "Nomor surah 36" [ref=e924]: "36"
+              - generic [ref=e931]:
+                - heading "Yasin" [level=2] [ref=e932]
+                - paragraph [ref=e933]: Yasin
+                - generic [ref=e934]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e935]: Makkiyah
+                  - generic [aria-hidden] [ref=e938]: •
+                  - generic [ref=e939]: 83 Ayat
+            - generic [ref=e940]:
+              - button "Tambahkan surah Yasin ke favorit" [ref=e942]
+              - generic [ref=e945]: سُورَةُ يسٓ
+        - 'button "Surah 37: As-Saffat, سُورَةُ الصَّافَّاتِ, Makkiyah, 182 Ayat" [ref=e946] [cursor=pointer]':
+          - generic [ref=e947]:
+            - generic [ref=e948]:
+              - generic "Nomor surah 37" [ref=e949]: "37"
+              - generic [ref=e956]:
+                - heading "As-Saffat" [level=2] [ref=e957]
+                - paragraph [ref=e958]: Barisan-Barisan
+                - generic [ref=e959]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e960]: Makkiyah
+                  - generic [aria-hidden] [ref=e963]: •
+                  - generic [ref=e964]: 182 Ayat
+            - generic [ref=e965]:
+              - button "Tambahkan surah As-Saffat ke favorit" [ref=e967]
+              - generic [ref=e970]: سُورَةُ الصَّافَّاتِ
+        - 'button "Surah 38: Sad, سُورَةُ صٓ, Makkiyah, 88 Ayat" [ref=e971] [cursor=pointer]':
+          - generic [ref=e972]:
+            - generic [ref=e973]:
+              - generic "Nomor surah 38" [ref=e974]: "38"
+              - generic [ref=e981]:
+                - heading "Sad" [level=2] [ref=e982]
+                - paragraph [ref=e983]: Sad
+                - generic [ref=e984]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e985]: Makkiyah
+                  - generic [aria-hidden] [ref=e988]: •
+                  - generic [ref=e989]: 88 Ayat
+            - generic [ref=e990]:
+              - button "Tambahkan surah Sad ke favorit" [ref=e992]
+              - generic [ref=e995]: سُورَةُ صٓ
+        - 'button "Surah 39: Az-Zumar, سُورَةُ الزُّمَرِ, Makkiyah, 75 Ayat" [ref=e996] [cursor=pointer]':
+          - generic [ref=e997]:
+            - generic [ref=e998]:
+              - generic "Nomor surah 39" [ref=e999]: "39"
+              - generic [ref=e1006]:
+                - heading "Az-Zumar" [level=2] [ref=e1007]
+                - paragraph [ref=e1008]: Rombongan-Rombongan
+                - generic [ref=e1009]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e1010]: Makkiyah
+                  - generic [aria-hidden] [ref=e1013]: •
+                  - generic [ref=e1014]: 75 Ayat
+            - generic [ref=e1015]:
+              - button "Tambahkan surah Az-Zumar ke favorit" [ref=e1017]
+              - generic [ref=e1020]: سُورَةُ الزُّمَرِ
+        - 'button "Surah 40: Ghafir, سُورَةُ غَافِرٍ, Makkiyah, 85 Ayat" [ref=e1021] [cursor=pointer]':
+          - generic [ref=e1022]:
+            - generic [ref=e1023]:
+              - generic "Nomor surah 40" [ref=e1024]: "40"
+              - generic [ref=e1031]:
+                - heading "Ghafir" [level=2] [ref=e1032]
+                - paragraph [ref=e1033]: Sang Pengampun
+                - generic [ref=e1034]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e1035]: Makkiyah
+                  - generic [aria-hidden] [ref=e1038]: •
+                  - generic [ref=e1039]: 85 Ayat
+            - generic [ref=e1040]:
+              - button "Tambahkan surah Ghafir ke favorit" [ref=e1042]
+              - generic [ref=e1045]: سُورَةُ غَافِرٍ
+        - 'button "Surah 41: Fussilat, سُورَةُ فُصِّلَتۡ, Makkiyah, 54 Ayat" [ref=e1046] [cursor=pointer]':
+          - generic [ref=e1047]:
+            - generic [ref=e1048]:
+              - generic "Nomor surah 41" [ref=e1049]: "41"
+              - generic [ref=e1056]:
+                - heading "Fussilat" [level=2] [ref=e1057]
+                - paragraph [ref=e1058]: Yang Dijelaskan
+                - generic [ref=e1059]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e1060]: Makkiyah
+                  - generic [aria-hidden] [ref=e1063]: •
+                  - generic [ref=e1064]: 54 Ayat
+            - generic [ref=e1065]:
+              - button "Tambahkan surah Fussilat ke favorit" [ref=e1067]
+              - generic [ref=e1070]: سُورَةُ فُصِّلَتۡ
+        - 'button "Surah 42: Asy-Syura, سُورَةُ الشُّورَىٰ, Makkiyah, 53 Ayat" [ref=e1071] [cursor=pointer]':
+          - generic [ref=e1072]:
+            - generic [ref=e1073]:
+              - generic "Nomor surah 42" [ref=e1074]: "42"
+              - generic [ref=e1081]:
+                - heading "Asy-Syura" [level=2] [ref=e1082]
+                - paragraph [ref=e1083]: Musyawarah
+                - generic [ref=e1084]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e1085]: Makkiyah
+                  - generic [aria-hidden] [ref=e1088]: •
+                  - generic [ref=e1089]: 53 Ayat
+            - generic [ref=e1090]:
+              - button "Tambahkan surah Asy-Syura ke favorit" [ref=e1092]
+              - generic [ref=e1095]: سُورَةُ الشُّورَىٰ
+        - 'button "Surah 43: Az-Zukhruf, سُورَةُ الزُّخۡرُفِ, Makkiyah, 89 Ayat" [ref=e1096] [cursor=pointer]':
+          - generic [ref=e1097]:
+            - generic [ref=e1098]:
+              - generic "Nomor surah 43" [ref=e1099]: "43"
+              - generic [ref=e1106]:
+                - heading "Az-Zukhruf" [level=2] [ref=e1107]
+                - paragraph [ref=e1108]: Perhiasan
+                - generic [ref=e1109]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e1110]: Makkiyah
+                  - generic [aria-hidden] [ref=e1113]: •
+                  - generic [ref=e1114]: 89 Ayat
+            - generic [ref=e1115]:
+              - button "Tambahkan surah Az-Zukhruf ke favorit" [ref=e1117]
+              - generic [ref=e1120]: سُورَةُ الزُّخۡرُفِ
+        - 'button "Surah 44: Ad-Dukhan, سُورَةُ الدُّخَانِ, Makkiyah, 59 Ayat" [ref=e1121] [cursor=pointer]':
+          - generic [ref=e1122]:
+            - generic [ref=e1123]:
+              - generic "Nomor surah 44" [ref=e1124]: "44"
+              - generic [ref=e1131]:
+                - heading "Ad-Dukhan" [level=2] [ref=e1132]
+                - paragraph [ref=e1133]: Kabut
+                - generic [ref=e1134]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e1135]: Makkiyah
+                  - generic [aria-hidden] [ref=e1138]: •
+                  - generic [ref=e1139]: 59 Ayat
+            - generic [ref=e1140]:
+              - button "Tambahkan surah Ad-Dukhan ke favorit" [ref=e1142]
+              - generic [ref=e1145]: سُورَةُ الدُّخَانِ
+        - 'button "Surah 45: Al-Jasiyah, سُورَةُ الجَاثِيَةِ, Makkiyah, 37 Ayat" [ref=e1146] [cursor=pointer]':
+          - generic [ref=e1147]:
+            - generic [ref=e1148]:
+              - generic "Nomor surah 45" [ref=e1149]: "45"
+              - generic [ref=e1156]:
+                - heading "Al-Jasiyah" [level=2] [ref=e1157]
+                - paragraph [ref=e1158]: Yang Berlutut
+                - generic [ref=e1159]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e1160]: Makkiyah
+                  - generic [aria-hidden] [ref=e1163]: •
+                  - generic [ref=e1164]: 37 Ayat
+            - generic [ref=e1165]:
+              - button "Tambahkan surah Al-Jasiyah ke favorit" [ref=e1167]
+              - generic [ref=e1170]: سُورَةُ الجَاثِيَةِ
+        - 'button "Surah 46: Al-Ahqaf, سُورَةُ الأَحۡقَافِ, Makkiyah, 35 Ayat" [ref=e1171] [cursor=pointer]':
+          - generic [ref=e1172]:
+            - generic [ref=e1173]:
+              - generic "Nomor surah 46" [ref=e1174]: "46"
+              - generic [ref=e1181]:
+                - heading "Al-Ahqaf" [level=2] [ref=e1182]
+                - paragraph [ref=e1183]: Bukit-Bukit Pasir
+                - generic [ref=e1184]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e1185]: Makkiyah
+                  - generic [aria-hidden] [ref=e1188]: •
+                  - generic [ref=e1189]: 35 Ayat
+            - generic [ref=e1190]:
+              - button "Tambahkan surah Al-Ahqaf ke favorit" [ref=e1192]
+              - generic [ref=e1195]: سُورَةُ الأَحۡقَافِ
+        - 'button "Surah 47: Muhammad, سُورَةُ مُحَمَّدٍ, Madaniyah, 38 Ayat" [ref=e1196] [cursor=pointer]':
+          - generic [ref=e1197]:
+            - generic [ref=e1198]:
+              - generic "Nomor surah 47" [ref=e1199]: "47"
+              - generic [ref=e1206]:
+                - heading "Muhammad" [level=2] [ref=e1207]
+                - paragraph [ref=e1208]: Muhammad
+                - generic [ref=e1209]:
+                  - generic "Diturunkan di Madinah (Madaniyyah)" [ref=e1210]: Madaniyah
+                  - generic [aria-hidden] [ref=e1213]: •
+                  - generic [ref=e1214]: 38 Ayat
+            - generic [ref=e1215]:
+              - button "Tambahkan surah Muhammad ke favorit" [ref=e1217]
+              - generic [ref=e1220]: سُورَةُ مُحَمَّدٍ
+        - 'button "Surah 48: Al-Fath, سُورَةُ الفَتۡحِ, Madaniyah, 29 Ayat" [ref=e1221] [cursor=pointer]':
+          - generic [ref=e1222]:
+            - generic [ref=e1223]:
+              - generic "Nomor surah 48" [ref=e1224]: "48"
+              - generic [ref=e1231]:
+                - heading "Al-Fath" [level=2] [ref=e1232]
+                - paragraph [ref=e1233]: Kemenangan
+                - generic [ref=e1234]:
+                  - generic "Diturunkan di Madinah (Madaniyyah)" [ref=e1235]: Madaniyah
+                  - generic [aria-hidden] [ref=e1238]: •
+                  - generic [ref=e1239]: 29 Ayat
+            - generic [ref=e1240]:
+              - button "Tambahkan surah Al-Fath ke favorit" [ref=e1242]
+              - generic [ref=e1245]: سُورَةُ الفَتۡحِ
+        - 'button "Surah 49: Al-Hujurat, سُورَةُ الحُجُرَاتِ, Madaniyah, 18 Ayat" [ref=e1246] [cursor=pointer]':
+          - generic [ref=e1247]:
+            - generic [ref=e1248]:
+              - generic "Nomor surah 49" [ref=e1249]: "49"
+              - generic [ref=e1256]:
+                - heading "Al-Hujurat" [level=2] [ref=e1257]
+                - paragraph [ref=e1258]: Kamar-Kamar
+                - generic [ref=e1259]:
+                  - generic "Diturunkan di Madinah (Madaniyyah)" [ref=e1260]: Madaniyah
+                  - generic [aria-hidden] [ref=e1263]: •
+                  - generic [ref=e1264]: 18 Ayat
+            - generic [ref=e1265]:
+              - button "Tambahkan surah Al-Hujurat ke favorit" [ref=e1267]
+              - generic [ref=e1270]: سُورَةُ الحُجُرَاتِ
+        - 'button "Surah 50: Qaf, سُورَةُ قٓ, Makkiyah, 45 Ayat" [ref=e1271] [cursor=pointer]':
+          - generic [ref=e1272]:
+            - generic [ref=e1273]:
+              - generic "Nomor surah 50" [ref=e1274]: "50"
+              - generic [ref=e1281]:
+                - heading "Qaf" [level=2] [ref=e1282]
+                - paragraph [ref=e1283]: Qaf
+                - generic [ref=e1284]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e1285]: Makkiyah
+                  - generic [aria-hidden] [ref=e1288]: •
+                  - generic [ref=e1289]: 45 Ayat
+            - generic [ref=e1290]:
+              - button "Tambahkan surah Qaf ke favorit" [ref=e1292]
+              - generic [ref=e1295]: سُورَةُ قٓ
+        - 'button "Surah 51: Az-Zariyat, سُورَةُ الذَّارِيَاتِ, Makkiyah, 60 Ayat" [ref=e1296] [cursor=pointer]':
+          - generic [ref=e1297]:
+            - generic [ref=e1298]:
+              - generic "Nomor surah 51" [ref=e1299]: "51"
+              - generic [ref=e1306]:
+                - heading "Az-Zariyat" [level=2] [ref=e1307]
+                - paragraph [ref=e1308]: Angin yang Menerbangkan
+                - generic [ref=e1309]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e1310]: Makkiyah
+                  - generic [aria-hidden] [ref=e1313]: •
+                  - generic [ref=e1314]: 60 Ayat
+            - generic [ref=e1315]:
+              - button "Tambahkan surah Az-Zariyat ke favorit" [ref=e1317]
+              - generic [ref=e1320]: سُورَةُ الذَّارِيَاتِ
+        - 'button "Surah 52: At-Tur, سُورَةُ الطُّورِ, Makkiyah, 49 Ayat" [ref=e1321] [cursor=pointer]':
+          - generic [ref=e1322]:
+            - generic [ref=e1323]:
+              - generic "Nomor surah 52" [ref=e1324]: "52"
+              - generic [ref=e1331]:
+                - heading "At-Tur" [level=2] [ref=e1332]
+                - paragraph [ref=e1333]: Bukit
+                - generic [ref=e1334]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e1335]: Makkiyah
+                  - generic [aria-hidden] [ref=e1338]: •
+                  - generic [ref=e1339]: 49 Ayat
+            - generic [ref=e1340]:
+              - button "Tambahkan surah At-Tur ke favorit" [ref=e1342]
+              - generic [ref=e1345]: سُورَةُ الطُّورِ
+        - 'button "Surah 53: An-Najm, سُورَةُ النَّجۡمِ, Makkiyah, 62 Ayat" [ref=e1346] [cursor=pointer]':
+          - generic [ref=e1347]:
+            - generic [ref=e1348]:
+              - generic "Nomor surah 53" [ref=e1349]: "53"
+              - generic [ref=e1356]:
+                - heading "An-Najm" [level=2] [ref=e1357]
+                - paragraph [ref=e1358]: Bintang
+                - generic [ref=e1359]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e1360]: Makkiyah
+                  - generic [aria-hidden] [ref=e1363]: •
+                  - generic [ref=e1364]: 62 Ayat
+            - generic [ref=e1365]:
+              - button "Tambahkan surah An-Najm ke favorit" [ref=e1367]
+              - generic [ref=e1370]: سُورَةُ النَّجۡمِ
+        - 'button "Surah 54: Al-Qamar, سُورَةُ القَمَرِ, Makkiyah, 55 Ayat" [ref=e1371] [cursor=pointer]':
+          - generic [ref=e1372]:
+            - generic [ref=e1373]:
+              - generic "Nomor surah 54" [ref=e1374]: "54"
+              - generic [ref=e1381]:
+                - heading "Al-Qamar" [level=2] [ref=e1382]
+                - paragraph [ref=e1383]: Bulan
+                - generic [ref=e1384]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e1385]: Makkiyah
+                  - generic [aria-hidden] [ref=e1388]: •
+                  - generic [ref=e1389]: 55 Ayat
+            - generic [ref=e1390]:
+              - button "Tambahkan surah Al-Qamar ke favorit" [ref=e1392]
+              - generic [ref=e1395]: سُورَةُ القَمَرِ
+        - 'button "Surah 55: Ar-Rahman, سُورَةُ الرَّحۡمَٰن, Madaniyah, 78 Ayat" [ref=e1396] [cursor=pointer]':
+          - generic [ref=e1397]:
+            - generic [ref=e1398]:
+              - generic "Nomor surah 55" [ref=e1399]: "55"
+              - generic [ref=e1406]:
+                - heading "Ar-Rahman" [level=2] [ref=e1407]
+                - paragraph [ref=e1408]: Yang Maha Pemurah
+                - generic [ref=e1409]:
+                  - generic "Diturunkan di Madinah (Madaniyyah)" [ref=e1410]: Madaniyah
+                  - generic [aria-hidden] [ref=e1413]: •
+                  - generic [ref=e1414]: 78 Ayat
+            - generic [ref=e1415]:
+              - button "Tambahkan surah Ar-Rahman ke favorit" [ref=e1417]
+              - generic [ref=e1420]: سُورَةُ الرَّحۡمَٰن
+        - 'button "Surah 56: Al-Waqi''ah, سُورَةُ الوَاقِعَةِ, Makkiyah, 96 Ayat" [ref=e1421] [cursor=pointer]':
+          - generic [ref=e1422]:
+            - generic [ref=e1423]:
+              - generic "Nomor surah 56" [ref=e1424]: "56"
+              - generic [ref=e1431]:
+                - heading "Al-Waqi'ah" [level=2] [ref=e1432]
+                - paragraph [ref=e1433]: Hari Kiamat
+                - generic [ref=e1434]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e1435]: Makkiyah
+                  - generic [aria-hidden] [ref=e1438]: •
+                  - generic [ref=e1439]: 96 Ayat
+            - generic [ref=e1440]:
+              - button "Tambahkan surah Al-Waqi'ah ke favorit" [ref=e1442]
+              - generic [ref=e1445]: سُورَةُ الوَاقِعَةِ
+        - 'button "Surah 57: Al-Hadid, سُورَةُ الحَدِيدِ, Madaniyah, 29 Ayat" [ref=e1446] [cursor=pointer]':
+          - generic [ref=e1447]:
+            - generic [ref=e1448]:
+              - generic "Nomor surah 57" [ref=e1449]: "57"
+              - generic [ref=e1456]:
+                - heading "Al-Hadid" [level=2] [ref=e1457]
+                - paragraph [ref=e1458]: Besi
+                - generic [ref=e1459]:
+                  - generic "Diturunkan di Madinah (Madaniyyah)" [ref=e1460]: Madaniyah
+                  - generic [aria-hidden] [ref=e1463]: •
+                  - generic [ref=e1464]: 29 Ayat
+            - generic [ref=e1465]:
+              - button "Tambahkan surah Al-Hadid ke favorit" [ref=e1467]
+              - generic [ref=e1470]: سُورَةُ الحَدِيدِ
+        - 'button "Surah 58: Al-Mujadilah, سُورَةُ المُجَادلَةِ, Madaniyah, 22 Ayat" [ref=e1471] [cursor=pointer]':
+          - generic [ref=e1472]:
+            - generic [ref=e1473]:
+              - generic "Nomor surah 58" [ref=e1474]: "58"
+              - generic [ref=e1481]:
+                - heading "Al-Mujadilah" [level=2] [ref=e1482]
+                - paragraph [ref=e1483]: Wanita yang Menggugat
+                - generic [ref=e1484]:
+                  - generic "Diturunkan di Madinah (Madaniyyah)" [ref=e1485]: Madaniyah
+                  - generic [aria-hidden] [ref=e1488]: •
+                  - generic [ref=e1489]: 22 Ayat
+            - generic [ref=e1490]:
+              - button "Tambahkan surah Al-Mujadilah ke favorit" [ref=e1492]
+              - generic [ref=e1495]: سُورَةُ المُجَادلَةِ
+        - 'button "Surah 59: Al-Hasyr, سُورَةُ الحَشۡرِ, Madaniyah, 24 Ayat" [ref=e1496] [cursor=pointer]':
+          - generic [ref=e1497]:
+            - generic [ref=e1498]:
+              - generic "Nomor surah 59" [ref=e1499]: "59"
+              - generic [ref=e1506]:
+                - heading "Al-Hasyr" [level=2] [ref=e1507]
+                - paragraph [ref=e1508]: Pengusiran
+                - generic [ref=e1509]:
+                  - generic "Diturunkan di Madinah (Madaniyyah)" [ref=e1510]: Madaniyah
+                  - generic [aria-hidden] [ref=e1513]: •
+                  - generic [ref=e1514]: 24 Ayat
+            - generic [ref=e1515]:
+              - button "Tambahkan surah Al-Hasyr ke favorit" [ref=e1517]
+              - generic [ref=e1520]: سُورَةُ الحَشۡرِ
+        - 'button "Surah 60: Al-Mumtahanah, سُورَةُ المُمۡتَحنَةِ, Madaniyah, 13 Ayat" [ref=e1521] [cursor=pointer]':
+          - generic [ref=e1522]:
+            - generic [ref=e1523]:
+              - generic "Nomor surah 60" [ref=e1524]: "60"
+              - generic [ref=e1531]:
+                - heading "Al-Mumtahanah" [level=2] [ref=e1532]
+                - paragraph [ref=e1533]: Wanita yang Diuji
+                - generic [ref=e1534]:
+                  - generic "Diturunkan di Madinah (Madaniyyah)" [ref=e1535]: Madaniyah
+                  - generic [aria-hidden] [ref=e1538]: •
+                  - generic [ref=e1539]: 13 Ayat
+            - generic [ref=e1540]:
+              - button "Tambahkan surah Al-Mumtahanah ke favorit" [ref=e1542]
+              - generic [ref=e1545]: سُورَةُ المُمۡتَحنَةِ
+        - 'button "Surah 61: As-Saff, سُورَةُ الصَّفِّ, Madaniyah, 14 Ayat" [ref=e1546] [cursor=pointer]':
+          - generic [ref=e1547]:
+            - generic [ref=e1548]:
+              - generic "Nomor surah 61" [ref=e1549]: "61"
+              - generic [ref=e1556]:
+                - heading "As-Saff" [level=2] [ref=e1557]
+                - paragraph [ref=e1558]: Barisan
+                - generic [ref=e1559]:
+                  - generic "Diturunkan di Madinah (Madaniyyah)" [ref=e1560]: Madaniyah
+                  - generic [aria-hidden] [ref=e1563]: •
+                  - generic [ref=e1564]: 14 Ayat
+            - generic [ref=e1565]:
+              - button "Tambahkan surah As-Saff ke favorit" [ref=e1567]
+              - generic [ref=e1570]: سُورَةُ الصَّفِّ
+        - 'button "Surah 62: Al-Jumu''ah, سُورَةُ الجُمُعَةِ, Madaniyah, 11 Ayat" [ref=e1571] [cursor=pointer]':
+          - generic [ref=e1572]:
+            - generic [ref=e1573]:
+              - generic "Nomor surah 62" [ref=e1574]: "62"
+              - generic [ref=e1581]:
+                - heading "Al-Jumu'ah" [level=2] [ref=e1582]
+                - paragraph [ref=e1583]: Hari Jum'at
+                - generic [ref=e1584]:
+                  - generic "Diturunkan di Madinah (Madaniyyah)" [ref=e1585]: Madaniyah
+                  - generic [aria-hidden] [ref=e1588]: •
+                  - generic [ref=e1589]: 11 Ayat
+            - generic [ref=e1590]:
+              - button "Tambahkan surah Al-Jumu'ah ke favorit" [ref=e1592]
+              - generic [ref=e1595]: سُورَةُ الجُمُعَةِ
+        - 'button "Surah 63: Al-Munafiqun, سُورَةُ المُنَافِقُونَ, Madaniyah, 11 Ayat" [ref=e1596] [cursor=pointer]':
+          - generic [ref=e1597]:
+            - generic [ref=e1598]:
+              - generic "Nomor surah 63" [ref=e1599]: "63"
+              - generic [ref=e1606]:
+                - heading "Al-Munafiqun" [level=2] [ref=e1607]
+                - paragraph [ref=e1608]: Orang-Orang Munafik
+                - generic [ref=e1609]:
+                  - generic "Diturunkan di Madinah (Madaniyyah)" [ref=e1610]: Madaniyah
+                  - generic [aria-hidden] [ref=e1613]: •
+                  - generic [ref=e1614]: 11 Ayat
+            - generic [ref=e1615]:
+              - button "Tambahkan surah Al-Munafiqun ke favorit" [ref=e1617]
+              - generic [ref=e1620]: سُورَةُ المُنَافِقُونَ
+        - 'button "Surah 64: At-Tagabun, سُورَةُ التَّغَابُنِ, Madaniyah, 18 Ayat" [ref=e1621] [cursor=pointer]':
+          - generic [ref=e1622]:
+            - generic [ref=e1623]:
+              - generic "Nomor surah 64" [ref=e1624]: "64"
+              - generic [ref=e1631]:
+                - heading "At-Tagabun" [level=2] [ref=e1632]
+                - paragraph [ref=e1633]: Hari Ditampakkan Kesalahan
+                - generic [ref=e1634]:
+                  - generic "Diturunkan di Madinah (Madaniyyah)" [ref=e1635]: Madaniyah
+                  - generic [aria-hidden] [ref=e1638]: •
+                  - generic [ref=e1639]: 18 Ayat
+            - generic [ref=e1640]:
+              - button "Tambahkan surah At-Tagabun ke favorit" [ref=e1642]
+              - generic [ref=e1645]: سُورَةُ التَّغَابُنِ
+        - 'button "Surah 65: At-Talaq, سُورَةُ الطَّلَاقِ, Madaniyah, 12 Ayat" [ref=e1646] [cursor=pointer]':
+          - generic [ref=e1647]:
+            - generic [ref=e1648]:
+              - generic "Nomor surah 65" [ref=e1649]: "65"
+              - generic [ref=e1656]:
+                - heading "At-Talaq" [level=2] [ref=e1657]
+                - paragraph [ref=e1658]: Talak
+                - generic [ref=e1659]:
+                  - generic "Diturunkan di Madinah (Madaniyyah)" [ref=e1660]: Madaniyah
+                  - generic [aria-hidden] [ref=e1663]: •
+                  - generic [ref=e1664]: 12 Ayat
+            - generic [ref=e1665]:
+              - button "Tambahkan surah At-Talaq ke favorit" [ref=e1667]
+              - generic [ref=e1670]: سُورَةُ الطَّلَاقِ
+        - 'button "Surah 66: At-Tahrim, سُورَةُ التَّحۡرِيمِ, Madaniyah, 12 Ayat" [ref=e1671] [cursor=pointer]':
+          - generic [ref=e1672]:
+            - generic [ref=e1673]:
+              - generic "Nomor surah 66" [ref=e1674]: "66"
+              - generic [ref=e1681]:
+                - heading "At-Tahrim" [level=2] [ref=e1682]
+                - paragraph [ref=e1683]: Mengharamkan
+                - generic [ref=e1684]:
+                  - generic "Diturunkan di Madinah (Madaniyyah)" [ref=e1685]: Madaniyah
+                  - generic [aria-hidden] [ref=e1688]: •
+                  - generic [ref=e1689]: 12 Ayat
+            - generic [ref=e1690]:
+              - button "Tambahkan surah At-Tahrim ke favorit" [ref=e1692]
+              - generic [ref=e1695]: سُورَةُ التَّحۡرِيمِ
+        - 'button "Surah 67: Al-Mulk, سُورَةُ المُلۡكِ, Makkiyah, 30 Ayat" [ref=e1696] [cursor=pointer]':
+          - generic [ref=e1697]:
+            - generic [ref=e1698]:
+              - generic "Nomor surah 67" [ref=e1699]: "67"
+              - generic [ref=e1706]:
+                - heading "Al-Mulk" [level=2] [ref=e1707]
+                - paragraph [ref=e1708]: Kerajaan
+                - generic [ref=e1709]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e1710]: Makkiyah
+                  - generic [aria-hidden] [ref=e1713]: •
+                  - generic [ref=e1714]: 30 Ayat
+            - generic [ref=e1715]:
+              - button "Tambahkan surah Al-Mulk ke favorit" [ref=e1717]
+              - generic [ref=e1720]: سُورَةُ المُلۡكِ
+        - 'button "Surah 68: Al-Qalam, سُورَةُ القَلَمِ, Makkiyah, 52 Ayat" [ref=e1721] [cursor=pointer]':
+          - generic [ref=e1722]:
+            - generic [ref=e1723]:
+              - generic "Nomor surah 68" [ref=e1724]: "68"
+              - generic [ref=e1731]:
+                - heading "Al-Qalam" [level=2] [ref=e1732]
+                - paragraph [ref=e1733]: Pena
+                - generic [ref=e1734]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e1735]: Makkiyah
+                  - generic [aria-hidden] [ref=e1738]: •
+                  - generic [ref=e1739]: 52 Ayat
+            - generic [ref=e1740]:
+              - button "Tambahkan surah Al-Qalam ke favorit" [ref=e1742]
+              - generic [ref=e1745]: سُورَةُ القَلَمِ
+        - 'button "Surah 69: Al-Haqqah, سُورَةُ الحَاقَّةِ, Makkiyah, 52 Ayat" [ref=e1746] [cursor=pointer]':
+          - generic [ref=e1747]:
+            - generic [ref=e1748]:
+              - generic "Nomor surah 69" [ref=e1749]: "69"
+              - generic [ref=e1756]:
+                - heading "Al-Haqqah" [level=2] [ref=e1757]
+                - paragraph [ref=e1758]: Hari Kiamat
+                - generic [ref=e1759]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e1760]: Makkiyah
+                  - generic [aria-hidden] [ref=e1763]: •
+                  - generic [ref=e1764]: 52 Ayat
+            - generic [ref=e1765]:
+              - button "Tambahkan surah Al-Haqqah ke favorit" [ref=e1767]
+              - generic [ref=e1770]: سُورَةُ الحَاقَّةِ
+        - 'button "Surah 70: Al-Ma''arij, سُورَةُ المَعَارِجِ, Makkiyah, 44 Ayat" [ref=e1771] [cursor=pointer]':
+          - generic [ref=e1772]:
+            - generic [ref=e1773]:
+              - generic "Nomor surah 70" [ref=e1774]: "70"
+              - generic [ref=e1781]:
+                - heading "Al-Ma'arij" [level=2] [ref=e1782]
+                - paragraph [ref=e1783]: Tempat-Tempat Naik
+                - generic [ref=e1784]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e1785]: Makkiyah
+                  - generic [aria-hidden] [ref=e1788]: •
+                  - generic [ref=e1789]: 44 Ayat
+            - generic [ref=e1790]:
+              - button "Tambahkan surah Al-Ma'arij ke favorit" [ref=e1792]
+              - generic [ref=e1795]: سُورَةُ المَعَارِجِ
+        - 'button "Surah 71: Nuh, سُورَةُ نُوحٍ, Makkiyah, 28 Ayat" [ref=e1796] [cursor=pointer]':
+          - generic [ref=e1797]:
+            - generic [ref=e1798]:
+              - generic "Nomor surah 71" [ref=e1799]: "71"
+              - generic [ref=e1806]:
+                - heading "Nuh" [level=2] [ref=e1807]
+                - paragraph [ref=e1808]: Nuh
+                - generic [ref=e1809]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e1810]: Makkiyah
+                  - generic [aria-hidden] [ref=e1813]: •
+                  - generic [ref=e1814]: 28 Ayat
+            - generic [ref=e1815]:
+              - button "Tambahkan surah Nuh ke favorit" [ref=e1817]
+              - generic [ref=e1820]: سُورَةُ نُوحٍ
+        - 'button "Surah 72: Al-Jinn, سُورَةُ الجِنِّ, Makkiyah, 28 Ayat" [ref=e1821] [cursor=pointer]':
+          - generic [ref=e1822]:
+            - generic [ref=e1823]:
+              - generic "Nomor surah 72" [ref=e1824]: "72"
+              - generic [ref=e1831]:
+                - heading "Al-Jinn" [level=2] [ref=e1832]
+                - paragraph [ref=e1833]: Jin
+                - generic [ref=e1834]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e1835]: Makkiyah
+                  - generic [aria-hidden] [ref=e1838]: •
+                  - generic [ref=e1839]: 28 Ayat
+            - generic [ref=e1840]:
+              - button "Tambahkan surah Al-Jinn ke favorit" [ref=e1842]
+              - generic [ref=e1845]: سُورَةُ الجِنِّ
+        - 'button "Surah 73: Al-Muzzammil, سُورَةُ المُزَّمِّلِ, Makkiyah, 20 Ayat" [ref=e1846] [cursor=pointer]':
+          - generic [ref=e1847]:
+            - generic [ref=e1848]:
+              - generic "Nomor surah 73" [ref=e1849]: "73"
+              - generic [ref=e1856]:
+                - heading "Al-Muzzammil" [level=2] [ref=e1857]
+                - paragraph [ref=e1858]: Orang yang Berselimut
+                - generic [ref=e1859]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e1860]: Makkiyah
+                  - generic [aria-hidden] [ref=e1863]: •
+                  - generic [ref=e1864]: 20 Ayat
+            - generic [ref=e1865]:
+              - button "Tambahkan surah Al-Muzzammil ke favorit" [ref=e1867]
+              - generic [ref=e1870]: سُورَةُ المُزَّمِّلِ
+        - 'button "Surah 74: Al-Muddassir, سُورَةُ المُدَّثِّرِ, Makkiyah, 56 Ayat" [ref=e1871] [cursor=pointer]':
+          - generic [ref=e1872]:
+            - generic [ref=e1873]:
+              - generic "Nomor surah 74" [ref=e1874]: "74"
+              - generic [ref=e1881]:
+                - heading "Al-Muddassir" [level=2] [ref=e1882]
+                - paragraph [ref=e1883]: Orang yang Berkemul
+                - generic [ref=e1884]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e1885]: Makkiyah
+                  - generic [aria-hidden] [ref=e1888]: •
+                  - generic [ref=e1889]: 56 Ayat
+            - generic [ref=e1890]:
+              - button "Tambahkan surah Al-Muddassir ke favorit" [ref=e1892]
+              - generic [ref=e1895]: سُورَةُ المُدَّثِّرِ
+        - 'button "Surah 75: Al-Qiyamah, سُورَةُ القِيَامَةِ, Makkiyah, 40 Ayat" [ref=e1896] [cursor=pointer]':
+          - generic [ref=e1897]:
+            - generic [ref=e1898]:
+              - generic "Nomor surah 75" [ref=e1899]: "75"
+              - generic [ref=e1906]:
+                - heading "Al-Qiyamah" [level=2] [ref=e1907]
+                - paragraph [ref=e1908]: Hari Kiamat
+                - generic [ref=e1909]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e1910]: Makkiyah
+                  - generic [aria-hidden] [ref=e1913]: •
+                  - generic [ref=e1914]: 40 Ayat
+            - generic [ref=e1915]:
+              - button "Tambahkan surah Al-Qiyamah ke favorit" [ref=e1917]
+              - generic [ref=e1920]: سُورَةُ القِيَامَةِ
+        - 'button "Surah 76: Al-Insan, سُورَةُ الإِنسَانِ, Madaniyah, 31 Ayat" [ref=e1921] [cursor=pointer]':
+          - generic [ref=e1922]:
+            - generic [ref=e1923]:
+              - generic "Nomor surah 76" [ref=e1924]: "76"
+              - generic [ref=e1931]:
+                - heading "Al-Insan" [level=2] [ref=e1932]
+                - paragraph [ref=e1933]: Manusia
+                - generic [ref=e1934]:
+                  - generic "Diturunkan di Madinah (Madaniyyah)" [ref=e1935]: Madaniyah
+                  - generic [aria-hidden] [ref=e1938]: •
+                  - generic [ref=e1939]: 31 Ayat
+            - generic [ref=e1940]:
+              - button "Tambahkan surah Al-Insan ke favorit" [ref=e1942]
+              - generic [ref=e1945]: سُورَةُ الإِنسَانِ
+        - 'button "Surah 77: Al-Mursalat, سُورَةُ المُرۡسَلَاتِ, Makkiyah, 50 Ayat" [ref=e1946] [cursor=pointer]':
+          - generic [ref=e1947]:
+            - generic [ref=e1948]:
+              - generic "Nomor surah 77" [ref=e1949]: "77"
+              - generic [ref=e1956]:
+                - heading "Al-Mursalat" [level=2] [ref=e1957]
+                - paragraph [ref=e1958]: Malaikat-Malaikat yang Diutus
+                - generic [ref=e1959]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e1960]: Makkiyah
+                  - generic [aria-hidden] [ref=e1963]: •
+                  - generic [ref=e1964]: 50 Ayat
+            - generic [ref=e1965]:
+              - button "Tambahkan surah Al-Mursalat ke favorit" [ref=e1967]
+              - generic [ref=e1970]: سُورَةُ المُرۡسَلَاتِ
+        - 'button "Surah 78: An-Naba'', سُورَةُ النَّبَإِ, Makkiyah, 40 Ayat" [ref=e1971] [cursor=pointer]':
+          - generic [ref=e1972]:
+            - generic [ref=e1973]:
+              - generic "Nomor surah 78" [ref=e1974]: "78"
+              - generic [ref=e1981]:
+                - heading "An-Naba'" [level=2] [ref=e1982]
+                - paragraph [ref=e1983]: Berita Besar
+                - generic [ref=e1984]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e1985]: Makkiyah
+                  - generic [aria-hidden] [ref=e1988]: •
+                  - generic [ref=e1989]: 40 Ayat
+            - generic [ref=e1990]:
+              - button "Tambahkan surah An-Naba' ke favorit" [ref=e1992]
+              - generic [ref=e1995]: سُورَةُ النَّبَإِ
+        - 'button "Surah 79: An-Nazi''at, سُورَةُ النَّازِعَاتِ, Makkiyah, 46 Ayat" [ref=e1996] [cursor=pointer]':
+          - generic [ref=e1997]:
+            - generic [ref=e1998]:
+              - generic "Nomor surah 79" [ref=e1999]: "79"
+              - generic [ref=e2006]:
+                - heading "An-Nazi'at" [level=2] [ref=e2007]
+                - paragraph [ref=e2008]: Malaikat-Malaikat yang Mencabut
+                - generic [ref=e2009]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e2010]: Makkiyah
+                  - generic [aria-hidden] [ref=e2013]: •
+                  - generic [ref=e2014]: 46 Ayat
+            - generic [ref=e2015]:
+              - button "Tambahkan surah An-Nazi'at ke favorit" [ref=e2017]
+              - generic [ref=e2020]: سُورَةُ النَّازِعَاتِ
+        - 'button "Surah 80: ''Abasa, سُورَةُ عَبَسَ, Makkiyah, 42 Ayat" [ref=e2021] [cursor=pointer]':
+          - generic [ref=e2022]:
+            - generic [ref=e2023]:
+              - generic "Nomor surah 80" [ref=e2024]: "80"
+              - generic [ref=e2031]:
+                - heading "'Abasa" [level=2] [ref=e2032]
+                - paragraph [ref=e2033]: Ia Bermuka Masam
+                - generic [ref=e2034]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e2035]: Makkiyah
+                  - generic [aria-hidden] [ref=e2038]: •
+                  - generic [ref=e2039]: 42 Ayat
+            - generic [ref=e2040]:
+              - button "Tambahkan surah 'Abasa ke favorit" [ref=e2042]
+              - generic [ref=e2045]: سُورَةُ عَبَسَ
+        - 'button "Surah 81: At-Takwir, سُورَةُ التَّكۡوِيرِ, Makkiyah, 29 Ayat" [ref=e2046] [cursor=pointer]':
+          - generic [ref=e2047]:
+            - generic [ref=e2048]:
+              - generic "Nomor surah 81" [ref=e2049]: "81"
+              - generic [ref=e2056]:
+                - heading "At-Takwir" [level=2] [ref=e2057]
+                - paragraph [ref=e2058]: Menggulung
+                - generic [ref=e2059]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e2060]: Makkiyah
+                  - generic [aria-hidden] [ref=e2063]: •
+                  - generic [ref=e2064]: 29 Ayat
+            - generic [ref=e2065]:
+              - button "Tambahkan surah At-Takwir ke favorit" [ref=e2067]
+              - generic [ref=e2070]: سُورَةُ التَّكۡوِيرِ
+        - 'button "Surah 82: Al-Infitar, سُورَةُ الانفِطَارِ, Makkiyah, 19 Ayat" [ref=e2071] [cursor=pointer]':
+          - generic [ref=e2072]:
+            - generic [ref=e2073]:
+              - generic "Nomor surah 82" [ref=e2074]: "82"
+              - generic [ref=e2081]:
+                - heading "Al-Infitar" [level=2] [ref=e2082]
+                - paragraph [ref=e2083]: Terbelah
+                - generic [ref=e2084]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e2085]: Makkiyah
+                  - generic [aria-hidden] [ref=e2088]: •
+                  - generic [ref=e2089]: 19 Ayat
+            - generic [ref=e2090]:
+              - button "Tambahkan surah Al-Infitar ke favorit" [ref=e2092]
+              - generic [ref=e2095]: سُورَةُ الانفِطَارِ
+        - 'button "Surah 83: Al-Mutaffifin, سُورَةُ المُطَفِّفِينَ, Makkiyah, 36 Ayat" [ref=e2096] [cursor=pointer]':
+          - generic [ref=e2097]:
+            - generic [ref=e2098]:
+              - generic "Nomor surah 83" [ref=e2099]: "83"
+              - generic [ref=e2106]:
+                - heading "Al-Mutaffifin" [level=2] [ref=e2107]
+                - paragraph [ref=e2108]: Orang-Orang yang Curang
+                - generic [ref=e2109]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e2110]: Makkiyah
+                  - generic [aria-hidden] [ref=e2113]: •
+                  - generic [ref=e2114]: 36 Ayat
+            - generic [ref=e2115]:
+              - button "Tambahkan surah Al-Mutaffifin ke favorit" [ref=e2117]
+              - generic [ref=e2120]: سُورَةُ المُطَفِّفِينَ
+        - 'button "Surah 84: Al-Insyiqaq, سُورَةُ الانشِقَاقِ, Makkiyah, 25 Ayat" [ref=e2121] [cursor=pointer]':
+          - generic [ref=e2122]:
+            - generic [ref=e2123]:
+              - generic "Nomor surah 84" [ref=e2124]: "84"
+              - generic [ref=e2131]:
+                - heading "Al-Insyiqaq" [level=2] [ref=e2132]
+                - paragraph [ref=e2133]: Terbelah
+                - generic [ref=e2134]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e2135]: Makkiyah
+                  - generic [aria-hidden] [ref=e2138]: •
+                  - generic [ref=e2139]: 25 Ayat
+            - generic [ref=e2140]:
+              - button "Tambahkan surah Al-Insyiqaq ke favorit" [ref=e2142]
+              - generic [ref=e2145]: سُورَةُ الانشِقَاقِ
+        - 'button "Surah 85: Al-Buruj, سُورَةُ البُرُوجِ, Makkiyah, 22 Ayat" [ref=e2146] [cursor=pointer]':
+          - generic [ref=e2147]:
+            - generic [ref=e2148]:
+              - generic "Nomor surah 85" [ref=e2149]: "85"
+              - generic [ref=e2156]:
+                - heading "Al-Buruj" [level=2] [ref=e2157]
+                - paragraph [ref=e2158]: Gugusan Bintang
+                - generic [ref=e2159]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e2160]: Makkiyah
+                  - generic [aria-hidden] [ref=e2163]: •
+                  - generic [ref=e2164]: 22 Ayat
+            - generic [ref=e2165]:
+              - button "Tambahkan surah Al-Buruj ke favorit" [ref=e2167]
+              - generic [ref=e2170]: سُورَةُ البُرُوجِ
+        - 'button "Surah 86: At-Tariq, سُورَةُ الطَّارِقِ, Makkiyah, 17 Ayat" [ref=e2171] [cursor=pointer]':
+          - generic [ref=e2172]:
+            - generic [ref=e2173]:
+              - generic "Nomor surah 86" [ref=e2174]: "86"
+              - generic [ref=e2181]:
+                - heading "At-Tariq" [level=2] [ref=e2182]
+                - paragraph [ref=e2183]: Yang Datang di Malam Hari
+                - generic [ref=e2184]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e2185]: Makkiyah
+                  - generic [aria-hidden] [ref=e2188]: •
+                  - generic [ref=e2189]: 17 Ayat
+            - generic [ref=e2190]:
+              - button "Tambahkan surah At-Tariq ke favorit" [ref=e2192]
+              - generic [ref=e2195]: سُورَةُ الطَّارِقِ
+        - 'button "Surah 87: Al-A''la, سُورَةُ الأَعۡلَىٰ, Makkiyah, 19 Ayat" [ref=e2196] [cursor=pointer]':
+          - generic [ref=e2197]:
+            - generic [ref=e2198]:
+              - generic "Nomor surah 87" [ref=e2199]: "87"
+              - generic [ref=e2206]:
+                - heading "Al-A'la" [level=2] [ref=e2207]
+                - paragraph [ref=e2208]: Yang Paling Tinggi
+                - generic [ref=e2209]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e2210]: Makkiyah
+                  - generic [aria-hidden] [ref=e2213]: •
+                  - generic [ref=e2214]: 19 Ayat
+            - generic [ref=e2215]:
+              - button "Tambahkan surah Al-A'la ke favorit" [ref=e2217]
+              - generic [ref=e2220]: سُورَةُ الأَعۡلَىٰ
+        - 'button "Surah 88: Al-Ghasyiyah, سُورَةُ الغَاشِيَةِ, Makkiyah, 26 Ayat" [ref=e2221] [cursor=pointer]':
+          - generic [ref=e2222]:
+            - generic [ref=e2223]:
+              - generic "Nomor surah 88" [ref=e2224]: "88"
+              - generic [ref=e2231]:
+                - heading "Al-Ghasyiyah" [level=2] [ref=e2232]
+                - paragraph [ref=e2233]: Hari Pembalasan
+                - generic [ref=e2234]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e2235]: Makkiyah
+                  - generic [aria-hidden] [ref=e2238]: •
+                  - generic [ref=e2239]: 26 Ayat
+            - generic [ref=e2240]:
+              - button "Tambahkan surah Al-Ghasyiyah ke favorit" [ref=e2242]
+              - generic [ref=e2245]: سُورَةُ الغَاشِيَةِ
+        - 'button "Surah 89: Al-Fajr, سُورَةُ الفَجۡرِ, Makkiyah, 30 Ayat" [ref=e2246] [cursor=pointer]':
+          - generic [ref=e2247]:
+            - generic [ref=e2248]:
+              - generic "Nomor surah 89" [ref=e2249]: "89"
+              - generic [ref=e2256]:
+                - heading "Al-Fajr" [level=2] [ref=e2257]
+                - paragraph [ref=e2258]: Fajar
+                - generic [ref=e2259]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e2260]: Makkiyah
+                  - generic [aria-hidden] [ref=e2263]: •
+                  - generic [ref=e2264]: 30 Ayat
+            - generic [ref=e2265]:
+              - button "Tambahkan surah Al-Fajr ke favorit" [ref=e2267]
+              - generic [ref=e2270]: سُورَةُ الفَجۡرِ
+        - 'button "Surah 90: Al-Balad, سُورَةُ البَلَدِ, Makkiyah, 20 Ayat" [ref=e2271] [cursor=pointer]':
+          - generic [ref=e2272]:
+            - generic [ref=e2273]:
+              - generic "Nomor surah 90" [ref=e2274]: "90"
+              - generic [ref=e2281]:
+                - heading "Al-Balad" [level=2] [ref=e2282]
+                - paragraph [ref=e2283]: Negeri
+                - generic [ref=e2284]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e2285]: Makkiyah
+                  - generic [aria-hidden] [ref=e2288]: •
+                  - generic [ref=e2289]: 20 Ayat
+            - generic [ref=e2290]:
+              - button "Tambahkan surah Al-Balad ke favorit" [ref=e2292]
+              - generic [ref=e2295]: سُورَةُ البَلَدِ
+        - 'button "Surah 91: Asy-Syams, سُورَةُ الشَّمۡسِ, Makkiyah, 15 Ayat" [ref=e2296] [cursor=pointer]':
+          - generic [ref=e2297]:
+            - generic [ref=e2298]:
+              - generic "Nomor surah 91" [ref=e2299]: "91"
+              - generic [ref=e2306]:
+                - heading "Asy-Syams" [level=2] [ref=e2307]
+                - paragraph [ref=e2308]: Matahari
+                - generic [ref=e2309]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e2310]: Makkiyah
+                  - generic [aria-hidden] [ref=e2313]: •
+                  - generic [ref=e2314]: 15 Ayat
+            - generic [ref=e2315]:
+              - button "Tambahkan surah Asy-Syams ke favorit" [ref=e2317]
+              - generic [ref=e2320]: سُورَةُ الشَّمۡسِ
+        - 'button "Surah 92: Al-Lail, سُورَةُ اللَّيۡلِ, Makkiyah, 21 Ayat" [ref=e2321] [cursor=pointer]':
+          - generic [ref=e2322]:
+            - generic [ref=e2323]:
+              - generic "Nomor surah 92" [ref=e2324]: "92"
+              - generic [ref=e2331]:
+                - heading "Al-Lail" [level=2] [ref=e2332]
+                - paragraph [ref=e2333]: Malam
+                - generic [ref=e2334]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e2335]: Makkiyah
+                  - generic [aria-hidden] [ref=e2338]: •
+                  - generic [ref=e2339]: 21 Ayat
+            - generic [ref=e2340]:
+              - button "Tambahkan surah Al-Lail ke favorit" [ref=e2342]
+              - generic [ref=e2345]: سُورَةُ اللَّيۡلِ
+        - 'button "Surah 93: Ad-Duha, سُورَةُ الضُّحَىٰ, Makkiyah, 11 Ayat" [ref=e2346] [cursor=pointer]':
+          - generic [ref=e2347]:
+            - generic [ref=e2348]:
+              - generic "Nomor surah 93" [ref=e2349]: "93"
+              - generic [ref=e2356]:
+                - heading "Ad-Duha" [level=2] [ref=e2357]
+                - paragraph [ref=e2358]: Waktu Duha
+                - generic [ref=e2359]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e2360]: Makkiyah
+                  - generic [aria-hidden] [ref=e2363]: •
+                  - generic [ref=e2364]: 11 Ayat
+            - generic [ref=e2365]:
+              - button "Tambahkan surah Ad-Duha ke favorit" [ref=e2367]
+              - generic [ref=e2370]: سُورَةُ الضُّحَىٰ
+        - 'button "Surah 94: Al-Insyirah, سُورَةُ الشَّرۡحِ, Makkiyah, 8 Ayat" [ref=e2371] [cursor=pointer]':
+          - generic [ref=e2372]:
+            - generic [ref=e2373]:
+              - generic "Nomor surah 94" [ref=e2374]: "94"
+              - generic [ref=e2381]:
+                - heading "Al-Insyirah" [level=2] [ref=e2382]
+                - paragraph [ref=e2383]: Kelapangan
+                - generic [ref=e2384]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e2385]: Makkiyah
+                  - generic [aria-hidden] [ref=e2388]: •
+                  - generic [ref=e2389]: 8 Ayat
+            - generic [ref=e2390]:
+              - button "Tambahkan surah Al-Insyirah ke favorit" [ref=e2392]
+              - generic [ref=e2395]: سُورَةُ الشَّرۡحِ
+        - 'button "Surah 95: At-Tin, سُورَةُ التِّينِ, Makkiyah, 8 Ayat" [ref=e2396] [cursor=pointer]':
+          - generic [ref=e2397]:
+            - generic [ref=e2398]:
+              - generic "Nomor surah 95" [ref=e2399]: "95"
+              - generic [ref=e2406]:
+                - heading "At-Tin" [level=2] [ref=e2407]
+                - paragraph [ref=e2408]: Buah Tin
+                - generic [ref=e2409]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e2410]: Makkiyah
+                  - generic [aria-hidden] [ref=e2413]: •
+                  - generic [ref=e2414]: 8 Ayat
+            - generic [ref=e2415]:
+              - button "Tambahkan surah At-Tin ke favorit" [ref=e2417]
+              - generic [ref=e2420]: سُورَةُ التِّينِ
+        - 'button "Surah 96: Al-''Alaq, سُورَةُ العَلَقِ, Makkiyah, 19 Ayat" [ref=e2421] [cursor=pointer]':
+          - generic [ref=e2422]:
+            - generic [ref=e2423]:
+              - generic "Nomor surah 96" [ref=e2424]: "96"
+              - generic [ref=e2431]:
+                - heading "Al-'Alaq" [level=2] [ref=e2432]
+                - paragraph [ref=e2433]: Segumpal Darah
+                - generic [ref=e2434]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e2435]: Makkiyah
+                  - generic [aria-hidden] [ref=e2438]: •
+                  - generic [ref=e2439]: 19 Ayat
+            - generic [ref=e2440]:
+              - button "Tambahkan surah Al-'Alaq ke favorit" [ref=e2442]
+              - generic [ref=e2445]: سُورَةُ العَلَقِ
+        - 'button "Surah 97: Al-Qadr, سُورَةُ القَدۡرِ, Makkiyah, 5 Ayat" [ref=e2446] [cursor=pointer]':
+          - generic [ref=e2447]:
+            - generic [ref=e2448]:
+              - generic "Nomor surah 97" [ref=e2449]: "97"
+              - generic [ref=e2456]:
+                - heading "Al-Qadr" [level=2] [ref=e2457]
+                - paragraph [ref=e2458]: Kemuliaan
+                - generic [ref=e2459]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e2460]: Makkiyah
+                  - generic [aria-hidden] [ref=e2463]: •
+                  - generic [ref=e2464]: 5 Ayat
+            - generic [ref=e2465]:
+              - button "Tambahkan surah Al-Qadr ke favorit" [ref=e2467]
+              - generic [ref=e2470]: سُورَةُ القَدۡرِ
+        - 'button "Surah 98: Al-Bayyinah, سُورَةُ البَيِّنَةِ, Madaniyah, 8 Ayat" [ref=e2471] [cursor=pointer]':
+          - generic [ref=e2472]:
+            - generic [ref=e2473]:
+              - generic "Nomor surah 98" [ref=e2474]: "98"
+              - generic [ref=e2481]:
+                - heading "Al-Bayyinah" [level=2] [ref=e2482]
+                - paragraph [ref=e2483]: Bukti
+                - generic [ref=e2484]:
+                  - generic "Diturunkan di Madinah (Madaniyyah)" [ref=e2485]: Madaniyah
+                  - generic [aria-hidden] [ref=e2488]: •
+                  - generic [ref=e2489]: 8 Ayat
+            - generic [ref=e2490]:
+              - button "Tambahkan surah Al-Bayyinah ke favorit" [ref=e2492]
+              - generic [ref=e2495]: سُورَةُ البَيِّنَةِ
+        - 'button "Surah 99: Az-Zalzalah, سُورَةُ الزَّلۡزَلَةِ, Madaniyah, 8 Ayat" [ref=e2496] [cursor=pointer]':
+          - generic [ref=e2497]:
+            - generic [ref=e2498]:
+              - generic "Nomor surah 99" [ref=e2499]: "99"
+              - generic [ref=e2506]:
+                - heading "Az-Zalzalah" [level=2] [ref=e2507]
+                - paragraph [ref=e2508]: Kegoncangan
+                - generic [ref=e2509]:
+                  - generic "Diturunkan di Madinah (Madaniyyah)" [ref=e2510]: Madaniyah
+                  - generic [aria-hidden] [ref=e2513]: •
+                  - generic [ref=e2514]: 8 Ayat
+            - generic [ref=e2515]:
+              - button "Tambahkan surah Az-Zalzalah ke favorit" [ref=e2517]
+              - generic [ref=e2520]: سُورَةُ الزَّلۡزَلَةِ
+        - 'button "Surah 100: Al-''Adiyat, سُورَةُ العَادِيَاتِ, Makkiyah, 11 Ayat" [ref=e2521] [cursor=pointer]':
+          - generic [ref=e2522]:
+            - generic [ref=e2523]:
+              - generic "Nomor surah 100" [ref=e2524]: "100"
+              - generic [ref=e2531]:
+                - heading "Al-'Adiyat" [level=2] [ref=e2532]
+                - paragraph [ref=e2533]: Kuda Perang yang Berlari Kencang
+                - generic [ref=e2534]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e2535]: Makkiyah
+                  - generic [aria-hidden] [ref=e2538]: •
+                  - generic [ref=e2539]: 11 Ayat
+            - generic [ref=e2540]:
+              - button "Tambahkan surah Al-'Adiyat ke favorit" [ref=e2542]
+              - generic [ref=e2545]: سُورَةُ العَادِيَاتِ
+        - 'button "Surah 101: Al-Qari''ah, سُورَةُ القَارِعَةِ, Makkiyah, 11 Ayat" [ref=e2546] [cursor=pointer]':
+          - generic [ref=e2547]:
+            - generic [ref=e2548]:
+              - generic "Nomor surah 101" [ref=e2549]: "101"
+              - generic [ref=e2556]:
+                - heading "Al-Qari'ah" [level=2] [ref=e2557]
+                - paragraph [ref=e2558]: Hari Kiamat
+                - generic [ref=e2559]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e2560]: Makkiyah
+                  - generic [aria-hidden] [ref=e2563]: •
+                  - generic [ref=e2564]: 11 Ayat
+            - generic [ref=e2565]:
+              - button "Tambahkan surah Al-Qari'ah ke favorit" [ref=e2567]
+              - generic [ref=e2570]: سُورَةُ القَارِعَةِ
+        - 'button "Surah 102: At-Takasur, سُورَةُ التَّكَاثُرِ, Makkiyah, 8 Ayat" [ref=e2571] [cursor=pointer]':
+          - generic [ref=e2572]:
+            - generic [ref=e2573]:
+              - generic "Nomor surah 102" [ref=e2574]: "102"
+              - generic [ref=e2581]:
+                - heading "At-Takasur" [level=2] [ref=e2582]
+                - paragraph [ref=e2583]: Bermegah-Megahan
+                - generic [ref=e2584]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e2585]: Makkiyah
+                  - generic [aria-hidden] [ref=e2588]: •
+                  - generic [ref=e2589]: 8 Ayat
+            - generic [ref=e2590]:
+              - button "Tambahkan surah At-Takasur ke favorit" [ref=e2592]
+              - generic [ref=e2595]: سُورَةُ التَّكَاثُرِ
+        - 'button "Surah 103: Al-''Asr, سُورَةُ العَصۡرِ, Makkiyah, 3 Ayat" [ref=e2596] [cursor=pointer]':
+          - generic [ref=e2597]:
+            - generic [ref=e2598]:
+              - generic "Nomor surah 103" [ref=e2599]: "103"
+              - generic [ref=e2606]:
+                - heading "Al-'Asr" [level=2] [ref=e2607]
+                - paragraph [ref=e2608]: Masa
+                - generic [ref=e2609]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e2610]: Makkiyah
+                  - generic [aria-hidden] [ref=e2613]: •
+                  - generic [ref=e2614]: 3 Ayat
+            - generic [ref=e2615]:
+              - button "Tambahkan surah Al-'Asr ke favorit" [ref=e2617]
+              - generic [ref=e2620]: سُورَةُ العَصۡرِ
+        - 'button "Surah 104: Al-Humazah, سُورَةُ الهُمَزَةِ, Makkiyah, 9 Ayat" [ref=e2621] [cursor=pointer]':
+          - generic [ref=e2622]:
+            - generic [ref=e2623]:
+              - generic "Nomor surah 104" [ref=e2624]: "104"
+              - generic [ref=e2631]:
+                - heading "Al-Humazah" [level=2] [ref=e2632]
+                - paragraph [ref=e2633]: Pengumpat
+                - generic [ref=e2634]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e2635]: Makkiyah
+                  - generic [aria-hidden] [ref=e2638]: •
+                  - generic [ref=e2639]: 9 Ayat
+            - generic [ref=e2640]:
+              - button "Tambahkan surah Al-Humazah ke favorit" [ref=e2642]
+              - generic [ref=e2645]: سُورَةُ الهُمَزَةِ
+        - 'button "Surah 105: Al-Fil, سُورَةُ الفِيلِ, Makkiyah, 5 Ayat" [ref=e2646] [cursor=pointer]':
+          - generic [ref=e2647]:
+            - generic [ref=e2648]:
+              - generic "Nomor surah 105" [ref=e2649]: "105"
+              - generic [ref=e2656]:
+                - heading "Al-Fil" [level=2] [ref=e2657]
+                - paragraph [ref=e2658]: Gajah
+                - generic [ref=e2659]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e2660]: Makkiyah
+                  - generic [aria-hidden] [ref=e2663]: •
+                  - generic [ref=e2664]: 5 Ayat
+            - generic [ref=e2665]:
+              - button "Tambahkan surah Al-Fil ke favorit" [ref=e2667]
+              - generic [ref=e2670]: سُورَةُ الفِيلِ
+        - 'button "Surah 106: Quraisy, سُورَةُ قُرَيۡشٍ, Makkiyah, 4 Ayat" [ref=e2671] [cursor=pointer]':
+          - generic [ref=e2672]:
+            - generic [ref=e2673]:
+              - generic "Nomor surah 106" [ref=e2674]: "106"
+              - generic [ref=e2681]:
+                - heading "Quraisy" [level=2] [ref=e2682]
+                - paragraph [ref=e2683]: Suku Quraisy
+                - generic [ref=e2684]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e2685]: Makkiyah
+                  - generic [aria-hidden] [ref=e2688]: •
+                  - generic [ref=e2689]: 4 Ayat
+            - generic [ref=e2690]:
+              - button "Tambahkan surah Quraisy ke favorit" [ref=e2692]
+              - generic [ref=e2695]: سُورَةُ قُرَيۡشٍ
+        - 'button "Surah 107: Al-Ma''un, سُورَةُ المَاعُونِ, Makkiyah, 7 Ayat" [ref=e2696] [cursor=pointer]':
+          - generic [ref=e2697]:
+            - generic [ref=e2698]:
+              - generic "Nomor surah 107" [ref=e2699]: "107"
+              - generic [ref=e2706]:
+                - heading "Al-Ma'un" [level=2] [ref=e2707]
+                - paragraph [ref=e2708]: Barang-Barang yang Berguna
+                - generic [ref=e2709]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e2710]: Makkiyah
+                  - generic [aria-hidden] [ref=e2713]: •
+                  - generic [ref=e2714]: 7 Ayat
+            - generic [ref=e2715]:
+              - button "Tambahkan surah Al-Ma'un ke favorit" [ref=e2717]
+              - generic [ref=e2720]: سُورَةُ المَاعُونِ
+        - 'button "Surah 108: Al-Kausar, سُورَةُ الكَوۡثَرِ, Makkiyah, 3 Ayat" [ref=e2721] [cursor=pointer]':
+          - generic [ref=e2722]:
+            - generic [ref=e2723]:
+              - generic "Nomor surah 108" [ref=e2724]: "108"
+              - generic [ref=e2731]:
+                - heading "Al-Kausar" [level=2] [ref=e2732]
+                - paragraph [ref=e2733]: Nikmat yang Banyak
+                - generic [ref=e2734]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e2735]: Makkiyah
+                  - generic [aria-hidden] [ref=e2738]: •
+                  - generic [ref=e2739]: 3 Ayat
+            - generic [ref=e2740]:
+              - button "Tambahkan surah Al-Kausar ke favorit" [ref=e2742]
+              - generic [ref=e2745]: سُورَةُ الكَوۡثَرِ
+        - 'button "Surah 109: Al-Kafirun, سُورَةُ الكَافِرُونَ, Makkiyah, 6 Ayat" [ref=e2746] [cursor=pointer]':
+          - generic [ref=e2747]:
+            - generic [ref=e2748]:
+              - generic "Nomor surah 109" [ref=e2749]: "109"
+              - generic [ref=e2756]:
+                - heading "Al-Kafirun" [level=2] [ref=e2757]
+                - paragraph [ref=e2758]: Orang-Orang Kafir
+                - generic [ref=e2759]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e2760]: Makkiyah
+                  - generic [aria-hidden] [ref=e2763]: •
+                  - generic [ref=e2764]: 6 Ayat
+            - generic [ref=e2765]:
+              - button "Tambahkan surah Al-Kafirun ke favorit" [ref=e2767]
+              - generic [ref=e2770]: سُورَةُ الكَافِرُونَ
+        - 'button "Surah 110: An-Nasr, سُورَةُ النَّصۡرِ, Madaniyah, 3 Ayat" [ref=e2771] [cursor=pointer]':
+          - generic [ref=e2772]:
+            - generic [ref=e2773]:
+              - generic "Nomor surah 110" [ref=e2774]: "110"
+              - generic [ref=e2781]:
+                - heading "An-Nasr" [level=2] [ref=e2782]
+                - paragraph [ref=e2783]: Pertolongan
+                - generic [ref=e2784]:
+                  - generic "Diturunkan di Madinah (Madaniyyah)" [ref=e2785]: Madaniyah
+                  - generic [aria-hidden] [ref=e2788]: •
+                  - generic [ref=e2789]: 3 Ayat
+            - generic [ref=e2790]:
+              - button "Tambahkan surah An-Nasr ke favorit" [ref=e2792]
+              - generic [ref=e2795]: سُورَةُ النَّصۡرِ
+        - 'button "Surah 111: Al-Lahab, سُورَةُ المَسَدِ, Makkiyah, 5 Ayat" [ref=e2796] [cursor=pointer]':
+          - generic [ref=e2797]:
+            - generic [ref=e2798]:
+              - generic "Nomor surah 111" [ref=e2799]: "111"
+              - generic [ref=e2806]:
+                - heading "Al-Lahab" [level=2] [ref=e2807]
+                - paragraph [ref=e2808]: Gejolak Api
+                - generic [ref=e2809]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e2810]: Makkiyah
+                  - generic [aria-hidden] [ref=e2813]: •
+                  - generic [ref=e2814]: 5 Ayat
+            - generic [ref=e2815]:
+              - button "Tambahkan surah Al-Lahab ke favorit" [ref=e2817]
+              - generic [ref=e2820]: سُورَةُ المَسَدِ
+        - 'button "Surah 112: Al-Ikhlas, سُورَةُ الإِخۡلَاصِ, Makkiyah, 4 Ayat" [ref=e2821] [cursor=pointer]':
+          - generic [ref=e2822]:
+            - generic [ref=e2823]:
+              - generic "Nomor surah 112" [ref=e2824]: "112"
+              - generic [ref=e2831]:
+                - heading "Al-Ikhlas" [level=2] [ref=e2832]
+                - paragraph [ref=e2833]: Memurnikan Keesaan Allah
+                - generic [ref=e2834]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e2835]: Makkiyah
+                  - generic [aria-hidden] [ref=e2838]: •
+                  - generic [ref=e2839]: 4 Ayat
+            - generic [ref=e2840]:
+              - button "Tambahkan surah Al-Ikhlas ke favorit" [ref=e2842]
+              - generic [ref=e2845]: سُورَةُ الإِخۡلَاصِ
+        - 'button "Surah 113: Al-Falaq, سُورَةُ الفَلَقِ, Makkiyah, 5 Ayat" [ref=e2846] [cursor=pointer]':
+          - generic [ref=e2847]:
+            - generic [ref=e2848]:
+              - generic "Nomor surah 113" [ref=e2849]: "113"
+              - generic [ref=e2856]:
+                - heading "Al-Falaq" [level=2] [ref=e2857]
+                - paragraph [ref=e2858]: Waktu Subuh
+                - generic [ref=e2859]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e2860]: Makkiyah
+                  - generic [aria-hidden] [ref=e2863]: •
+                  - generic [ref=e2864]: 5 Ayat
+            - generic [ref=e2865]:
+              - button "Tambahkan surah Al-Falaq ke favorit" [ref=e2867]
+              - generic [ref=e2870]: سُورَةُ الفَلَقِ
+        - 'button "Surah 114: An-Nas, سُورَةُ النَّاسِ, Makkiyah, 6 Ayat" [ref=e2871] [cursor=pointer]':
+          - generic [ref=e2872]:
+            - generic [ref=e2873]:
+              - generic "Nomor surah 114" [ref=e2874]: "114"
+              - generic [ref=e2881]:
+                - heading "An-Nas" [level=2] [ref=e2882]
+                - paragraph [ref=e2883]: Manusia
+                - generic [ref=e2884]:
+                  - generic "Diturunkan di Makkah (Makkiyyah)" [ref=e2885]: Makkiyah
+                  - generic [aria-hidden] [ref=e2888]: •
+                  - generic [ref=e2889]: 6 Ayat
+            - generic [ref=e2890]:
+              - button "Tambahkan surah An-Nas ke favorit" [ref=e2892]
+              - generic [ref=e2895]: سُورَةُ النَّاسِ
+  - button "Voice Command" [ref=e2896] [cursor=pointer]
