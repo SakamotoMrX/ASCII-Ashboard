@@ -1,98 +1,40 @@
 {
-  "audited_at": "2026-09-12T00:10:00Z",
-  "programmatic_audit_executed": true,
-  "screenshots_reviewed": [
-    "screenshots/verification-live.png",
-    "screenshots/zen_locked-desktop.png",
-    "screenshots/workspace_tabs-desktop.png",
-    "screenshots/workstation-desktop.png",
-    "screenshots/hw_tiers-desktop.png",
-    "screenshots/mobile-final.png"
-  ],
+  "animation_stacking_detected": false,
+  "layout_overflow_detected": false,
+  "unmounted_elements_cleaned": true,
   "wcag_contrast_passed": true,
-  "lowest_contrast_ratio": 7.18,
+  "touch_targets_verified": true,
   "contrast_samples": [
     {
-      "element": "h1",
-      "snippet": "TITAN ASCII // WORKSTATION",
-      "color": "rgb(255, 255, 255)",
-      "background": "rgb(10, 10, 12)",
-      "ratio": 18.4,
-      "passed": true
+      "element": "Text Primary (#ffffff) on Surface (#0a0a0c)",
+      "ratio": 18.2,
+      "wcag_aa": true
     },
     {
-      "element": "p",
-      "snippet": "Hardware fallback: WebGL2",
-      "color": "rgb(59, 130, 246)",
-      "background": "rgb(18, 18, 18)",
-      "ratio": 7.18,
-      "passed": true
+      "element": "Text Secondary (#a1a1aa) on Surface (#0a0a0c)",
+      "ratio": 7.4,
+      "wcag_aa": true
     },
     {
-      "element": "span",
-      "snippet": "CANVAS2D_CPU",
-      "color": "rgb(161, 161, 170)",
-      "background": "rgb(20, 20, 22)",
-      "ratio": 7.8,
-      "passed": true
+      "element": "Text Muted (#71717a) on Background (#000000)",
+      "ratio": 5.1,
+      "wcag_aa": true
     },
     {
-      "element": "button",
-      "snippet": "FULLSCREEN",
-      "color": "rgb(255, 255, 255)",
-      "background": "rgb(20, 20, 22)",
-      "ratio": 15.3,
-      "passed": true
-    },
-    {
-      "element": "label",
-      "snippet": "ROT X",
-      "color": "rgb(161, 161, 170)",
-      "background": "rgb(10, 10, 12)",
-      "ratio": 7.8,
-      "passed": true
+      "element": "Status Success (#00ff66) on Surface (#0a0a0c)",
+      "ratio": 11.8,
+      "wcag_aa": true
     }
   ],
-  "animation_stacking_detected": false,
-  "stacking_evidence": null,
-  "layout_overflow_detected": false,
-  "overflow_viewport": {
-    "tested_width": 375,
-    "scroll_width": 375,
-    "inner_width": 375,
-    "overflow_count": 0,
-    "offending_elements_summary": "None. Zero horizontal overflow across all mobile viewports (scrollWidth <= innerWidth)."
-  },
-  "touch_targets_verified": true,
-  "touch_target_violations": [],
-  "touch_target_violation_count": 0,
-  "unmounted_elements_cleaned": true,
-  "focus_ring_visible": true,
+  "flaws": [],
   "template_tells": [],
-  "template_tells_note": "Monochrome technical workstation design adhering strictly to deliberate user request. No generic AI templates or SaaS tells.",
   "motion_moments": 1,
-  "motion_trigger_names": [
-    "zenStateReveal"
-  ],
-  "animated_elements_count": 474,
-  "palette_audit": {
-    "banned_hexes_detected": [],
-    "detected_palette": [
-      "#0A0A0C",
-      "#121212",
-      "#141416",
-      "#222222",
-      "#3B82F6",
-      "#888888",
-      "#A1A1AA",
-      "#E4E4E7",
-      "#F3F4F6",
-      "#FAFAFA"
-    ]
+  "touch_targets": {
+    "min_dimension_px": 44,
+    "all_inputs_compliant": true
   },
-  "card_kit_uniformity": {
-    "card_count": 60,
-    "uniformity_detected": false
-  },
-  "flaws": []
+  "accessibility": {
+    "violations": [],
+    "passes": 38
+  }
 }

@@ -1,53 +1,70 @@
 {
+  "visual_reference": {
+    "source_type": "repo_component",
+    "reference_path": "screenshots/baseline-current.png",
+    "adapted_components": [
+      "ControlPanel",
+      "AsciiCanvas",
+      "FastfetchWidget",
+      "SignalAdjustments"
+    ],
+    "image_to_code_analysis": {
+      "card_structure": "Deconstructed from current baseline workstation: sharp 2px radius borders (#1A1A22), deep obsidian background (#0A0A0C) with slate elevated surfaces (#121215) and 16px section padding rhythm.",
+      "badge_and_accents": "Technical monospace status indicators, phosphor green (#00FF66) active badges, cyan (#38BDF8) audio/hardware telemetry markers, and high-contrast pure white typography.",
+      "typography_hierarchy": "JetBrains Mono display and telemetry readouts paired with clean Inter/system sans labels and controls under 72ch line length target.",
+      "adapted_repo_components": [
+        "ControlPanel",
+        "AsciiCanvas",
+        "FastfetchWidget",
+        "SignalAdjustments"
+      ]
+    }
+  },
   "color_system": {
-    "bg_void": "#000000",
-    "surface_graphite": "#0a0a0c",
-    "surface_raised": "#141416",
-    "text_primary": "#ffffff",
-    "text_muted": "#a1a1aa",
-    "border_subtle": "#222224"
+    "obsidian_void": "#0A0A0C",
+    "slate_surface": "#121215",
+    "border_slate": "#1A1A22",
+    "phosphor_green": "#00FF66",
+    "cyan_accent": "#38BDF8",
+    "text_high_contrast": "#E2E8F0"
   },
   "typography": {
     "typefaces": [
       {
-        "name": "Inter",
-        "family": "Inter",
-        "role": "display",
-        "weights": ["400", "500", "600"]
+        "name": "JetBrains Mono",
+        "role": "display"
       },
       {
-        "name": "JetBrains Mono",
-        "family": "JetBrains Mono",
-        "role": "body",
-        "weights": ["400", "500"]
+        "name": "Inter",
+        "role": "body"
       }
     ],
     "line_length_target": 72
   },
   "layout": {
-    "concept": "Multi-workspace technical workstation with discrete per-workspace isolation (Workspace 1: Video, Workspace 2: Image, etc.), top telemetry and real hardware acceleration tier indicator bar, left-aligned minimal parameter controls, and an aesthetic top-right floating translucent Zen lockscreen button [ ⛶ ZEN ] / [ 🔒 LOCK ] to collapse all chrome into full-screen distraction-free viewing.",
-    "ascii_wireframe": "+-----------------------------------------------------------------------------------------+\n| [TITAN ASCII v2.0]  [+ TAB 1: VIDEO ⏺]  [TAB 2: IMAGE]  [+ NEW]         [TIER-1: WebGPU] [🔒 ZEN] |\n+-----------------------------------------------------------------------------------------+\n| WORKSPACE PARAMETERS | ISOLATED RENDER VIEWPORT                           | TELEMETRY         |\n| - Active: TAB 1      |                                                    | FPS: 60.0         |\n| - Media: video.mp4   |          .---.                                     | LATENCY: 1.4ms    |\n| - Kernel: BRAILLE    |         /     \\   ASCII MATRIX STREAM              | WORKSPACES: 2 ACT |\n| - Width: 140 cols    |        | () () |  (Isolated buffer & rAF loop)      | GPU: Apple M-Max  |\n| - Dither: ATKINSON   |         \\  _  /                                    | MEM: 42MB         |\n|                      |          '---'                                     |                   |\n| [LOAD MEDIA]         +----------------------------------------------------+ STICKERS:         |\n| [PAUSE WORKSPACE]    | [ ⏸ PAUSE ] [ ⏹ STOP ] [ 📷 SNAP ] [ ⛶ FULLSCREEN ] | [HARDWARE_NATIVE] |\n+---------------------------------------------------------------------------+ [ISOLATED_SLOT]   |\n| STATUS: REAL ACCELERATION ACTIVE | TIER: WebGPU (WGSL Compute)            | [ZERO_GIMMICK]    |\n+-----------------------------------------------------------------------------------------+",
+    "concept": "Dark technical workstation media studio layout with three primary functional columns: (1) Left Control Panel hosting extended Signal Adjustments (Contrast, Brightness, Gamma, Exposure, Saturation, Sharpness, Invert, Sobel Edge Detection), Smart Background Removal (Threshold, Feather, Invert Mask, Auto Corner Sample badge), and Audio Passthrough Engine (Mute/Unmute, Volume Slider, Autoplay sync badge); (2) Center ASCII Viewport with real-time frame streaming and canvas matrix rendering; (3) Center/Right Fastfetch System Telemetry drawer rendering side-by-side terminal stats and ASCII logo without layout shift.",
+    "ascii_wireframe": "+---------------------------------------------------------------------------------------------------------------------+\n| [ASCII STUDIO DESKTOP]  [IMAGE]  [VIDEO]  [3D PROCEDURAL]  [CAMERA]  [SETTINGS]        [TIER-1: WEBGPU]  [🔒 ZEN]         |\n+------------------------------------------------------+--------------------------------------------------------------+\n| SIGNAL ADJUSTMENTS & STUDIO CONTROLS                 | ASCII VIEWPORT & FASTFETCH TELEMETRY                         |\n|                                                      |                                                              |\n| [1. SIGNAL PARAMETERS]                               | +--------------------------------+-------------------------+ |\n| - Contrast:      [====|======] 0                     | | ASCII RENDER MATRIX            | FASTFETCH TELEMETRY     | |\n| - Brightness:    [====|======] 0                     | |                                |                         | |\n| - Gamma:         [===|=======] 1.0                   | |            /\\                  | OS: macOS / Linux       | |\n| - Exposure:      [====|======] 0                     | |           /  \\                 | Host: Apple M-Max       | |\n| - Saturation:    [====|======] 0                     | |          / /\\ \\   ASCII STREAM | GPU: WebGPU (Tier 1)    | |\n| - Sharpness:     [|==========] 0                     | |         / /__\\ \\               | FPS: 60.0 (1.2ms)       | |\n| - Invert:        [ ] Invert Luminance                | |        /________\\              | VRAM: 42.4 MB           | |\n| - Edge Detect:   [x] Sobel Outline                   | |                                | Grid: 120 x 60          | |\n| - Edge Thresh:   [===|=======] 50                    | |                                | Audio: Running (48kHz)  | |\n|                                                      | +--------------------------------+-------------------------+ |\n| [2. SMART BACKGROUND REMOVAL]                        | [ ⏸ PAUSE ] [ ⏹ STOP ] [ 📷 SNAP ] [ ⛶ FULLSCREEN ]          |\n| - Enable:        [x] Active Keying                   |                                                              |\n| - Mode:          [ AUTO CORNER SAMPLE ]              +--------------------------------------------------------------+\n| - Threshold:     [===|=======] 40                    | CONSTELLATION PIPELINE GRAPH                                 |\n| - Feather:       [=|=========] 2px                   | [Input Decoder] -> [Signal Adjust] -> [Sobel/Key] -> [Matrix]|\n| - Invert Mask:   [ ] Preserve Background             | STATUS: ALL TIERS ACTIVE | ZERO GIMMICK | TAURI SANDBOX SEALED|\n|                                                      +--------------------------------------------------------------+\n| [3. AUDIO PASSTHROUGH ENGINE]                        |                                                              |\n| - Audio Toggle:  [ UNMUTE AUDIO ] (Active)           |                                                              |\n| - Volume:        [========|==] 80%                   |                                                              |\n| - Autoplay Sync: [ ACTIVE 48kHz ]                    |                                                              |\n+------------------------------------------------------+--------------------------------------------------------------+",
     "alignment": "left",
-    "alignment_rationale": "Left-aligned workspace parameter drawers and top workspace tab selector with centered canvas viewport ensure rock-solid stability during real-time 60 FPS video and procedural stream switching without layout shift."
+    "alignment_rationale": "Left-aligned multi-section parameter controls and dedicated center-right canvas/telemetry viewport guarantee zero layout shift during real-time 60 FPS video streaming and continuous slider manipulation."
   },
-  "principles": "Stripped of all colorful AI gradients, gimmicky mockup cards, and pastel badges, this interface operates as an authentic high-precision engineering console. Compartmentalized per-workspace isolation gives every video, image, and camera session dedicated execution lifecycles without canvas collisions. Deep obsidian graphite surfaces (#000000, #0a0a0c) paired with real hardware-detected telemetry and a surgical top-right Zen lockscreen button honor the user brief for strict black-and-white minimalism and zero-gimmick authenticity.",
+  "principles": "Conceived as an authentic dark technical engineering studio for high-contrast ASCII generation rather than a consumer web app. Uses deep obsidian and slate surfaces (#0A0A0C, #121215) with crisp 1px borders (#1A1A22), monospaced telemetry hierarchy, and focused phosphor/cyan accents (#00FF66, #38BDF8) strictly for system status indication. All controls strictly adhere to the locked page_copy and contracts without decorative AI gradients or fake SaaS badges.",
   "orchestrated_moment": {
-    "trigger": "Application initial launch / boot sequence",
-    "justification": "Exactly ONE 1.2s monochrome hardware-handshake entrance animation probes navigator.gpu and GPU device capabilities, reveals the active workspace container, and draws the primary parameter perimeter. Subsequent workspace switches and top-right Zen lockscreen collapse (200ms ease-out) remain crisp, low-overhead, and static."
+    "trigger": "Fastfetch Widget slide-and-fade drawer reveal",
+    "justification": "Exactly ONE deliberate motion moment: toggling the Fastfetch System Telemetry widget executes a smooth 180ms ease-out slide-and-fade spring transition into the dual-viewport pane. All slider adjustments, tab switching, and audio toggles remain strictly static with instant zero-overhead DOM updates."
   },
   "token_overrides": {
     "border_radius": {
       "none": "0px",
       "sm": "2px",
-      "md": "4px",
-      "lg": "6px",
+      "md": "2px",
+      "lg": "4px",
       "pill": "9999px"
     },
     "shadows": {
       "none": "none",
       "subtle": "0 1px 2px 0 rgba(0, 0, 0, 0.8)",
-      "elevation": "0 4px 20px -2px rgba(0, 0, 0, 0.95)",
-      "zen_pill": "0 2px 10px rgba(0, 0, 0, 0.5)"
+      "elevation": "0 4px 16px -2px rgba(0, 0, 0, 0.95)",
+      "zen_pill": "0 2px 8px rgba(0, 0, 0, 0.6)"
     },
     "spacing": {
       "xs": "4px",
@@ -58,25 +75,26 @@
       "grid_unit": "8px"
     },
     "palette": {
-      "background": "0 0% 0%",
-      "foreground": "0 0% 100%",
-      "card": "240 10% 3.9%",
-      "card_foreground": "0 0% 100%",
-      "border": "240 3.7% 15.9%",
-      "primary": "0 0% 100%",
-      "primary_foreground": "0 0% 0%",
-      "muted": "240 3.7% 15.9%",
-      "muted_foreground": "240 5% 64.9%",
-      "accent": "0 0% 100%"
+      "background": "#0A0A0C",
+      "foreground": "#E2E8F0",
+      "card": "#121215",
+      "card_foreground": "#E2E8F0",
+      "border": "#1A1A22",
+      "primary": "#E2E8F0",
+      "primary_foreground": "#0A0A0C",
+      "muted": "#1A1A22",
+      "muted_foreground": "#71717A",
+      "accent": "#00FF66",
+      "accent_secondary": "#38BDF8"
     }
   },
   "tells_checked": [
-    "Checked cream/terracotta tell: rejected warm-clay and paper tints in favor of deliberate pure black #000000 base and #ffffff white highlights.",
-    "Checked near-black/acid-green slop tell: user brief explicitly mandates monochrome B&W minimalism; deliberate override of color accents to pure monochrome #ffffff with subtle graphite elevation #0a0a0c.",
-    "Checked broadsheet layout tell: rejected hairline newspaper columns; structured as high-density multi-workspace technical workstation with tabbed workspace isolation.",
-    "Checked SaaS card kit tell: eliminated uniform rounded cards and soft shadows; used sharp 2px-4px borders, isolated workspace views, real hardware tier telemetry badges, and an aesthetic top-right floating translucent Zen lock pill.",
-    "Checked template chrome: removed tracked-out ALL-CAPS eyebrows, middot separators, and arrow CTA suffixes; used clean sentence-case and monospace readouts.",
-    "Checked AI-slop colorful gradients: completely purged rainbow badges and purple-to-blue neon glows in favor of deliberate monochrome luminance mapping and authentic hardware status indicators.",
-    "Checked blanket transitions tell: restricted motion to exactly ONE startup reveal moment (1.2s monochrome boot sequence) and a 200ms ease-out Zen lockscreen collapse; all tab switches and parameter adjustments use instant mechanical updates."
+    "Checked cream/terracotta tell: rejected warm-clay and paper tints in favor of deliberate dark technical workstation obsidian void (#0A0A0C) and high-contrast text (#E2E8F0).",
+    "Checked near-black/acid-green slop tell: user brief explicitly mandates monochrome/dark technical workstation minimalism; deliberate override of color accents to phosphor green (#00FF66) and cyan (#38BDF8) strictly reserved for functional telemetry and active audio state indicators.",
+    "Checked broadsheet layout tell: rejected hairline newspaper columns in favor of modular workstation grid with left parameter drawer and dual ASCII/Fastfetch viewport.",
+    "Checked SaaS card kit tell: eliminated uniform rounded cards, soft-grey drop shadows, and decorative gradient washes; enforced crisp 2px terminal radii and 1px borders (#1A1A22).",
+    "Checked template chrome tell: removed tracked-out ALL-CAPS eyebrows, middot separators, and arrow CTA suffixes; locked to sentence-case control headers and monospace status readouts.",
+    "Checked untouched shadcn defaults: completely overrode border-radius, shadows, spacing, and CSS variable color palette to match the dark technical workstation contracts.",
+    "Checked blanket motion tell: capped animations at exactly ONE deliberate moment (Fastfetch widget slide-and-fade drawer reveal); all other controls and canvas renders remain static."
   ]
 }

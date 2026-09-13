@@ -1,291 +1,43 @@
 {
-  "mission_id": "ascii-art-isolated-workspace-real-hardware-zen-mode",
-  "created_at": "2026-09-12T17:30:00.000Z",
-  "risk_level": "MEDIUM",
-  "risk_reasons": [
-    "Isolated workspace lifecycle requires independent canvas state machines and background loop throttling to prevent memory leaks and audio bleed",
-    "Real hardware acceleration tier switching requires fallback handling for WebGPU device loss and WebGL context restoration without stalling UI thread",
-    "Zen mode collapses multiple DOM drawers and sidebars requiring strict keyboard trap management and clean transition states"
-  ],
-  "architecture_verdict": "SOUND",
-  "proceed": true,
-  "agent_lanes": {
-    "designer": "Aesthetic top-right Zen mode lock/unlock translucent pill, workspace tab strip with active/paused badges, hardware tier real-time telemetry badge indicators, and smooth collapse transitions.",
-    "fixer": "WorkspaceSession state manager in App.tsx (1 workspace per video/image/stream), RenderEngineManager wiring into App rendering loop replacing canvas2d fillText facade with active WebGPU/WebGL2 shaders, real GPU probing via navigator.gpu & WebGL unmasked renderer, and keyboard shortcut handler (Escape, F11)."
-  },
   "architecture": {
-    "system_overview": "Tauri v2 native cross-platform application delivering high-performance, dark minimalist ASCII rendering. Architected around three core pillars: (1) Discrete Isolated Workspaces eliminating cross-media collisions, (2) Authentic hardware acceleration tier detection and active execution via WebGPU compute/WebGL2 fragment shaders (zero facade/fillText fallback), and (3) Distraction-free Zen lockscreen mode with translucent top-right unlock trigger.",
-    "isolated_workspaces": {
-      "model": "WorkspaceSession (id, title, type: video | image | camera | procedural_3d, state: idle | loading | playing | paused | rendered | error, mediaSource, renderResult, options, proceduralParams)",
-      "isolation_guarantees": [
-        "Zero shared canvas buffer collisions: Each active workspace session possesses distinct media source references, aspect ratio bounds, and render result caches.",
-        "Automatic background throttling: Inactive workspaces have their video/camera loops paused and requestAnimationFrame unhooked, preserving CPU/GPU cycles.",
-        "Deterministic teardown: Switching workspaces cleanly stops audio tracks, releases Blob URLs, and disposes GPU textures associated with the previous session."
-      ],
-      "storage_and_state": "Managed via App.tsx state with activeWorkspaceId pointer, supporting multiple concurrent tabs with instantaneous switching."
-    },
-    "hardware_acceleration_runtime": {
-      "detection_protocol": {
-        "webgpu_probe": "Requests navigator.gpu.requestAdapter({ powerPreference: 'high-performance' }). Queries adapter.info (vendor, architecture, device, description). Requests GPUDevice to verify compute shader capability.",
-        "webgl2_probe": "Creates offscreen canvas, requests webgl2 context. Queries WEBGL_debug_renderer_info extension for UNMASKED_RENDERER_WEBGL to identify physical GPU string.",
-        "cpu_probe": "Verifies CanvasRenderingContext2D support for CPU baseline."
-      },
-      "active_execution_paths": {
-        "tier1_webgpu": "Executes WGSL compute shader via src/lib/renderers/webgpu.ts. Writes directly to WebGPU texture atlas.",
-        "tier2_webgl": "Executes GLSL fragment shader via src/lib/renderers/webgl.ts. Writes directly to WebGL2 texture buffer.",
-        "tier3_canvas2d": "Executes CPU pixel luminance quantization via src/lib/renderers/canvas2d.ts.",
-        "rust_sidecar": "Executes Tauri native Rust batch image processing command via src-tauri/src/commands.rs."
-      },
-      "zero_gimmick_guarantee": "App.tsx instantiates and delegates all rendering through RenderEngineManager (src/lib/renderers/manager.ts). The activeTier state directly switches the active renderer pipeline. No hardcoded fillText facade."
-    },
-    "zen_lockscreen_mode": {
-      "ui_specification": "Top-right floating translucent pill button ('bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 text-white rounded-full p-2.5 transition-all duration-200 z-50'). Displays Lock icon in normal view, Unlock icon in Zen view.",
-      "collapse_targets": [
-        "Header / Navigation tabs",
-        "Left ControlPanel drawer",
-        "Right Telemetry drawer",
-        "Constellation NodeGraph panel",
-        "Technical Stickers bar"
-      ],
-      "keyboard_shortcuts": [
-        "Escape",
-        "F11",
-        "KeyZ"
-      ],
-      "viewport_behavior": "AsciiViewport expands to 100vw x 100vh full bleed container. Preserves monospace character aspect ratio and zoom pan capabilities."
-    },
-    "contract_path": ".antigravity/artifacts/phase-1-contracts.ts",
-    "motion_lifecycle": {
-      "entry": "BootLoadingScreen orchestrated sequence (1200ms duration, cubic-bezier(0.16, 1, 0.3, 1))",
-      "exit": "Zen mode panel collapse transition (200ms duration, ease-in-out)",
-      "unmount_cleanup": "Cancel all rAF/rVFC handles, pause HTMLVideoElement, revoke Blob URLs, stop MediaStream tracks, DOM nodes unmounted cleanly",
-      "orchestrated_moment": "Single orchestrated load screen boot pulse at application startup; all subsequent tab transitions are snappy and static.",
-      "static_transitions_default": true
-    }
+    "name": "ASCII Studio Desktop Signal, Background, Audio & Fastfetch Integration",
+    "components": [
+      "signal-controls",
+      "background-removal",
+      "audio-engine",
+      "fastfetch-widget"
+    ],
+    "overview": "Dark minimalist control surfaces with Radix/Tailwind styling, 44px touch targets, zero visual regressions."
   },
-  "page_copy": {
-    "brand": {
-      "name": "ASCII Studio Desktop",
-      "tagline": "Dark Minimalist Terminal & Real-Time ASCII Engine",
-      "status_sandbox": "Tauri Native Sandbox Sealed"
-    },
-    "navigation": {
-      "tab_image": "Image",
-      "tab_video": "Video",
-      "tab_procedural": "3D Procedural",
-      "tab_camera": "Live Camera",
-      "tab_settings": "Settings"
-    },
-    "hero": {
-      "headline": "Real-Time ASCII Art Engine",
-      "subheading": "Transform images, video streams, and live camera input into high-contrast ASCII grids."
-    },
-    "media_picker": {
-      "title": "Media Source Selection",
-      "description": "Drop video files, connect live camera, or capture stills directly into the ASCII pipeline.",
-      "dropzone_prompt": "Drop video file here or click to browse",
-      "dropzone_subtext": "Supports MP4, WebM, MOV up to 500MB",
-      "btn_browse": "Browse Video File",
-      "btn_start_camera": "Open Live Camera",
-      "btn_stop_camera": "Close Camera",
-      "btn_record_start": "Start Recording",
-      "btn_record_stop": "Stop Recording",
-      "btn_snap_photo": "Capture Snapshot",
-      "btn_retake": "Retake Media",
-      "btn_confirm_media": "Use in ASCII Engine",
-      "status_idle": "Awaiting media source selection",
-      "status_recording": "Recording live camera feed...",
-      "status_captured": "Media captured and ready for conversion",
-      "status_uploaded": "Video file loaded into engine"
-    },
-    "permission_dialog": {
-      "title": "Camera Permission Required",
-      "description": "ASCII Studio requires camera access to stream live video and snap still frames. Please allow camera permissions in system settings.",
-      "btn_open_settings": "Open System Settings",
-      "btn_retry": "Retry Access",
-      "btn_dismiss": "Cancel",
-      "error_denied": "Camera permission denied by operating system.",
-      "error_no_device": "No compatible camera device detected on this system.",
-      "error_in_use": "Camera is currently in use by another application."
-    },
-    "controls": {
-      "btn_import_image": "Select Source Image",
-      "btn_import_video": "Select Video File",
-      "btn_start_stream": "Start Camera Stream",
-      "btn_stop_stream": "Stop Camera Stream",
-      "btn_render_frame": "Render ASCII Frame",
-      "btn_export_txt": "Export Text (.txt)",
-      "btn_export_png": "Export Canvas PNG",
-      "btn_copy_clipboard": "Copy to Clipboard",
-      "btn_copied_feedback": "Copied to Clipboard",
-      "label_contrast": "Contrast",
-      "label_brightness": "Brightness",
-      "label_gamma": "Gamma",
-      "label_charset_select": "Character Ramp Preset",
-      "label_color_mode": "Color Matrix Output",
-      "label_tier_select": "Hardware Acceleration Tier",
-      "label_resolution": "Grid Dimensions"
-    },
-    "procedural_scenes": {
-      "donut_title": "Rotating Torus (Donut)",
-      "sphere_title": "Lambertian Sphere",
-      "cube_title": "Wireframe / Solid Cube",
-      "planet_title": "Orbiting Planet & Rings",
-      "blackhole_title": "Gravitational Lensing Black Hole"
-    },
-    "engine_tiers": {
-      "tier1_title": "WebGPU Compute Atlas (Primary - 60 FPS)",
-      "tier2_title": "WebGL2 Fragment Shader (Fallback 1)",
-      "tier3_title": "Canvas 2D CPU Rasterizer (Fallback 2)",
-      "sidecar_title": "Rust Native Sidecar (Heavy Batch I/O)"
-    },
-    "empty_state": {
-      "title": "No Source Media Loaded",
-      "description": "Upload a video, snap a camera photo, or select a procedural 3D scene to begin.",
-      "action": "Load Demo Scene"
-    },
-    "error_boundary": {
-      "title": "Renderer Fault Encountered",
-      "description": "The active GPU context was interrupted or the input buffer exceeded platform memory limits. The engine has automatically reset the render canvas.",
-      "btn_fallback_tier": "Switch to Canvas 2D Fallback",
-      "btn_retry": "Restart Renderer Engine"
-    },
-    "confirmation": {
-      "export_success": "ASCII Art successfully saved to target path.",
-      "sidecar_healthy": "Rust Engine Sidecar connected and operational.",
-      "acl_verified": "Tauri Sandbox capabilities verified. Filesystem isolation active.",
-      "media_loaded": "Media successfully initialized in ASCII pipeline."
-    },
-    "zen_mode": {
-      "btn_enter_zen": "Enter Zen Mode",
-      "btn_exit_zen": "Exit Zen Mode",
-      "tooltip_zen": "Toggle distraction-free Zen canvas lock",
-      "status_zen_active": "Zen Mode Active - Press Escape or click unlock pill to restore"
-    },
-    "workspaces": {
-      "tab_new_workspace": "New Workspace",
-      "btn_close_workspace": "Close Workspace",
-      "empty_workspace_title": "Workspace Empty",
-      "empty_workspace_desc": "Select media source or scene for this isolated workspace.",
-      "badge_active": "Active Session",
-      "badge_paused": "Paused Background"
-    },
-    "node_graph": {
-      "panel_title": "Processing Pipeline Graph",
-      "source_node": "Input Decoder",
-      "raster_node": "Frame Rasterizer",
-      "ascii_node": "Quantization Kernel",
-      "viewport_node": "Matrix Display",
-      "telemetry_node": "Performance Metrics"
-    },
-    "stickers": {
-      "tier_label": "HARDWARE TIER",
-      "resolution_label": "GRID RESOLUTION",
-      "fps_label": "RENDER FPS",
-      "engine_status_label": "ENGINE STATUS",
-      "sandbox_label": "TAURI SANDBOX"
-    },
-    "load_animation": {
-      "initial_title": "ASCII STUDIO ENGINE INITIALIZING",
-      "hardware_detect": "PROBING HARDWARE ACCELERATION TIERS",
-      "ready_prompt": "MATRIX CORE ONLINE"
-    }
+  "motion_lifecycle": {
+    "orchestrated_moments": 1,
+    "transition": "cubic-bezier(0.16, 1, 0.3, 1)",
+    "unmount": "clean on exit without ghost overlays"
   },
+  "contract_path": "src/contracts.ts",
   "breaking_scenarios": [
     {
-      "id": "STRESS-WS1",
-      "name": "Concurrent Media Stream Collision & Resource Bleed",
-      "vector": "User loads an active 60 FPS video into Workspace 1, switches to Workspace 2 to run a 3D procedural donut, then rapidly inserts an image into Workspace 3",
-      "stress_parameters": {
-        "concurrent_workspaces": 3,
-        "switch_interval_ms": 50,
-        "media_types": [
-          "video",
-          "procedural_3d",
-          "image"
-        ]
-      },
-      "vulnerability_surface": "Canvas context clobbering, audio track leaking in background, procedural render loop racing against video frame callbacks on shared canvas ref",
-      "expected_defense": "Each workspace operates its own dedicated WorkspaceSession state. The inactive workspace video element is paused and unhooked from rVFC; procedural animation loop unbinds upon switching out; active workspace canvas receives exclusive paint access with zero artifact bleed",
-      "failure_threshold_ms": 100,
-      "recovery_action": "Isolate render targets by workspace ID; pause inactive streaming handles synchronously during workspace transition"
-    },
-    {
-      "id": "STRESS-HW1",
-      "name": "WebGPU GPUDevice Lost or Context Interruption During Active Render",
-      "vector": "User forces hardware tier to WebGPU; GPU encounters device lost (e.g. system sleep, driver reset, or memory threshold violation)",
-      "stress_parameters": {
-        "simulated_event": "device.lost",
-        "requested_tier": "tier1_webgpu",
-        "buffer_size_bytes": 16777216
-      },
-      "vulnerability_surface": "Uncaught promise rejection in command encoder submission; blank canvas frozen in unrecoverable error state",
-      "expected_defense": "RenderEngineManager listens to GPUDevice.lost promise. Automatically steps down active tier from tier1_webgpu to tier2_webgl (or tier3_canvas2d); notifies user via HardwareTelemetry banner; re-renders active frame seamlessly without dropping session state",
-      "failure_threshold_ms": 200,
-      "recovery_action": "Execute automatic graceful cascade fallback in RenderEngineManager; update active tier sticker to reflect true operating backend"
-    },
-    {
-      "id": "STRESS-ZEN1",
-      "name": "Zen Mode Viewport Snap, Window Resize & Keyboard Trapping",
-      "vector": "User activates Zen lockscreen mode, then hammers Escape key, F11, and resizes OS desktop window rapidly between 640x480 and 4K resolution",
-      "stress_parameters": {
-        "resize_events_count": 50,
-        "rapid_key_presses": [
-          "Escape",
-          "F11",
-          "Escape",
-          "F11"
-        ],
-        "viewport_bounds": {
-          "min_w": 640,
-          "max_w": 3840
-        }
-      },
-      "vulnerability_surface": "UI lockup if Escape key handler is blocked; layout overflowing screen bounds or hiding unlock button offscreen; z-index fighting between modal drawers",
-      "expected_defense": "Zen mode toggle is bound to root-level global keydown listener with highest priority. Unlock pill maintains fixed top-right coordinate (z-index 50) with safe area insets. AsciiCanvas recalculates monospace character bounds with debounced resize handler",
-      "failure_threshold_ms": 50,
-      "recovery_action": "Guarantee unlock trigger is always visible and accessible; clean toggle back to normal view on any Escape or F11 event"
-    },
-    {
       "id": "STRESS-1",
-      "name": "Unsupported Video Codec or Corrupted Container",
-      "vector": "User drops an MKV with unsupported AV1/HEVC codec or 0-byte corrupt file into dropzone",
-      "stress_parameters": {
-        "file_size": 0,
-        "mime_type": "video/x-matroska",
-        "corrupt_header": true
-      },
-      "vulnerability_surface": "HTMLVideoElement triggers 'error' event; unhandled promise rejection in ensureVideoPlaying() or silent black output",
-      "expected_defense": "HTMLVideoElement error listener intercepts error code MEDIA_ERR_SRC_NOT_SUPPORTED; pipeline catches error, rejects cleanly, sets user-friendly error sticker 'CODEC_UNSUPPORTED', and preserves existing canvas without blank screen",
-      "failure_threshold_ms": 250,
-      "recovery_action": "Display inline error message explaining supported codecs (MP4, WebM), clean up Blob URL, and reset dropzone state to idle"
+      "vector": "Rapid audio mute toggle causing AudioContext race condition",
+      "expected_defense": "Debounced state transition and safe gain ramp"
     },
     {
       "id": "STRESS-2",
-      "name": "Rapid Mode Switching During Active 60 FPS Video Loop",
-      "vector": "User selects high-bitrate video, clicks play, and immediately rapid-clicks between 'video', 'camera_stream', and 'procedural_3d' tabs at 10Hz",
-      "stress_parameters": {
-        "switch_frequency_hz": 10,
-        "tab_sequence": [
-          "video",
-          "camera_stream",
-          "procedural_3d",
-          "image",
-          "video"
-        ],
-        "active_stream_count": 3
-      },
-      "vulnerability_surface": "Orphaned requestVideoFrameCallback handles writing to detached canvas context; memory leak of unmounted HTMLVideoElements; audio playback continuing in background",
-      "expected_defense": "Active stream controller cancelVideoFrameCallback() and video.pause() executed synchronously in useEffect cleanup; offscreen canvas context released; video.src revoked; only single active loop executes",
-      "failure_threshold_ms": 100,
-      "recovery_action": "Enforce strict cancellation token on all frame callbacks; destroy prior pipeline before mounting new active tab"
+      "vector": "Extreme background removal tolerance threshold causing full frame wipe",
+      "expected_defense": "Feather radius clamping and safe fallback mask"
+    },
+    {
+      "id": "STRESS-3",
+      "vector": "Fastfetch drawer open during video playback at 60fps",
+      "expected_defense": "Independent composite layer with hardware acceleration"
     }
   ],
-  "motion_lifecycle": {
-    "primary_moment": "1.2s hardware handshake boot sequence with clean unmount",
-    "secondary_transitions": "Instant 0ms-50ms mechanical snaps; smooth 200ms ease-out for top-right zen lockscreen collapse",
-    "motion_moments_cap": 1,
-    "unmount_cleanup_verified": true
+  "page_copy": {
+    "signal_title": "Signal Adjustments",
+    "bg_removal_title": "Smart Background Removal",
+    "audio_title": "Audio Engine Passthrough",
+    "fastfetch_title": "System Telemetry Terminal"
   },
-  "contract_path": ".opencode/artifacts/phase-1-contracts.ts"
+  "risk_level": "LOW",
+  "proceed": true
 }

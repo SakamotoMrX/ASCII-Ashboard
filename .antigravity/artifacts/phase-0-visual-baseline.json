@@ -1,0 +1,140 @@
+{
+  "baseline_id": "baseline-20260913-045400",
+  "baseline_available": true,
+  "is_greenfield": false,
+  "target_url": "http://localhost:3000",
+  "screenshot_path": "screenshots/baseline-current.png",
+  "current_design_state": {
+    "color_palette_observed": ["#000000", "#0a0a0c", "#141416", "#ffffff", "#a1a1aa", "#71717a", "#222224"],
+    "typography_observed": ["Inter", "JetBrains Mono"],
+    "layout_type": "multi-workspace technical workstation with left sidebar controls and centered canvas viewport",
+    "visual_density": "high",
+    "theme": "pure monochrome B/W minimalism — zero colorful gradients, zero pastel accents",
+    "identified_tells_or_flaws": [
+      "App.tsx is 1222 lines with deeply nested callbacks — needs extraction to hooks before adding 4 new feature domains",
+      "ControlPanel.tsx is 797 lines — adding 5+ new slider sections pushes toward 1000+ lines; should split into sub-components",
+      "canvas-renderer.ts is only 92 lines but pixel-by-pixel nested loop; adding saturation/hue/sharpness/bg-removal risks O(n²) perf blowup",
+      "VideoStreamingEngine sets video.muted=true — audio passthrough must use WebAudio API MediaElementSourceNode without violating autoplay policy",
+      "WebGPU/WebGL renderers in src/lib/renderers/ are dead code — App.tsx always uses Canvas 2D paintAsciiToCanvas()",
+      "No background removal exists — no body-segmentation, luminance-threshold, or chroma-key logic",
+      "No audio output path — Python backend has ffplay but frontend has zero WebAudio usage",
+      "Signal adjustments limited to: contrast, brightness, gamma, columns — no saturation, sharpness, hue, or edge detection",
+      "Tauri CSP restricts connect-src — external ML CDN for body-segmentation would violate CSP; must use bundled WASM or threshold heuristic"
+    ]
+  },
+  "existing_features": [
+    {
+      "name": "3D Procedural Mode",
+      "route": "?mode=procedural_3d",
+      "status": "WORKING",
+      "details": "5 procedural scenes (Torus, Sphere, Cube, Planet, Black Hole) with rotation speed controls"
+    },
+    {
+      "name": "Media Studio Mode",
+      "route": "?mode=image",
+      "status": "WORKING",
+      "details": "Image and video file import with drag-and-drop, camera capture"
+    },
+    {
+      "name": "Sandbox Mode",
+      "route": "?mode=media_picker",
+      "status": "WORKING",
+      "details": "Workspace session isolation, pause/resume background sessions"
+    },
+    {
+      "name": "Signal Adjustments (Current)",
+      "route": "ControlPanel Section 4",
+      "status": "WORKING",
+      "details": "Contrast (-100..100), Brightness (-100..100), Gamma (0.1..3.0), Columns (density slider)"
+    },
+    {
+      "name": "Character Ramp Presets",
+      "route": "ControlPanel Section 2",
+      "status": "WORKING",
+      "details": "6 presets: Classic, Detailed 70-glyph, Letter, Unicode Blocks, Binary, Custom"
+    },
+    {
+      "name": "Color Matrix Output",
+      "route": "ControlPanel Section 3",
+      "status": "WORKING",
+      "details": "5 modes: ANSI True-Color, Monochrome, Phosphor, CRT Amber, Cyberpunk Neon"
+    },
+    {
+      "name": "Hardware Acceleration Tier",
+      "route": "ControlPanel Section 5",
+      "status": "WORKING",
+      "details": "3-tier cascade: WebGPU Compute → WebGL2 Fragment → Canvas2D CPU fallback"
+    },
+    {
+      "name": "Export Actions",
+      "route": "ControlPanel Section 6",
+      "status": "WORKING",
+      "details": "Copy Text, Export .txt, Record & Export Video, Export Canvas PNG"
+    },
+    {
+      "name": "Pipeline Constellation Graph",
+      "route": "Bottom panel",
+      "status": "WORKING",
+      "details": "Visual pipeline graph: source → preflight → ascii_kernel → display_output → telemetry"
+    },
+    {
+      "name": "Zen Mode",
+      "route": "ZEN button",
+      "status": "WORKING",
+      "details": "Distraction-free fullscreen with ESC restore"
+    },
+    {
+      "name": "Workspace Tabs",
+      "route": "Tab bar",
+      "status": "WORKING",
+      "details": "Multi-workspace with create/close, isolated buffers"
+    },
+    {
+      "name": "CRT Scanlines Effect",
+      "route": "ControlPanel checkbox",
+      "status": "WORKING",
+      "details": "Optional CRT scanline overlay on canvas"
+    },
+    {
+      "name": "Live Camera Stream",
+      "route": "MediaPicker",
+      "status": "PARTIAL",
+      "details": "Camera capture works but audio track captured and never played; no audio output"
+    }
+  ],
+  "signal_adjustments_audit": {
+    "current_controls": [
+      { "name": "Contrast", "range": "-100 to 100", "default": 0, "applied_in": "canvas-renderer.ts line 29-30" },
+      { "name": "Brightness", "range": "-100 to 100", "default": 0, "applied_in": "canvas-renderer.ts line 31" },
+      { "name": "Gamma", "range": "0.1 to 3.0", "default": 1.0, "applied_in": "canvas-renderer.ts line 32" },
+      { "name": "Columns (Density)", "range": "configurable", "default": 100, "applied_in": "canvas-renderer.ts targetW" }
+    ],
+    "missing_controls": [
+      "Saturation (color intensity multiplier)",
+      "Hue rotation (color wheel shift)",
+      "Sharpness / Edge enhancement",
+      "Noise reduction / Denoise",
+      "Edge detection threshold (Sobel/Canny)",
+      "Background removal (smart detector + tolerance slider)"
+    ]
+  },
+  "audio_pipeline_audit": {
+    "current_state": "VideoStreamingEngine sets video.muted=true. No WebAudio API. No audio output. Python backend has ffplay but not integrated with frontend.",
+    "needed": "WebAudio MediaElementSourceNode from video element → AudioContext → Destination. Keep video.muted=true for autoplay compliance."
+  },
+  "rendering_pipeline_audit": {
+    "primary_renderer": "Canvas 2D via paintAsciiToCanvas() in App.tsx",
+    "gpu_renderers_available": "WebGPU (src/lib/renderers/webgpu.ts) and WebGL (src/lib/renderers/webgl.ts) exist but are DEAD CODE — never instantiated",
+    "procedural_engine": "StreamPipeline + renderProcedural3D() with z-buffer in procedural-3d.ts",
+    "performance_baseline": "~38 FPS on desktop, ~17.6MB memory, 100×45 grid default"
+  },
+  "recommendations_for_feature_addition": [
+    "Extract App.tsx 1222 lines into custom hooks: useVideoEngine(), useAudioEngine(), useSignalAdjustments(), useBackgroundRemoval()",
+    "Split ControlPanel.tsx into sub-components: SignalControls, BackgroundRemovalControls, AudioControls, ExportControls",
+    "Add saturation/hue/sharpness to canvas-renderer.ts BEFORE background removal — these are simpler pixel transforms",
+    "Background removal: use luminance-threshold heuristic (not ML body-segmentation) to avoid CSP violations in Tauri; add tolerance slider",
+    "Audio passthrough: create AudioContext in video-pipeline.ts, use MediaElementSourceNode from HTMLVideoElement, route to destination",
+    "Do NOT resurrect dead WebGPU/WebGL renderers for signal processing — Canvas2D is sufficient for per-pixel transforms at 100×45 grid scale",
+    "Preserve existing workspace isolation — new features must work per-workspace without cross-contamination"
+  ]
+}

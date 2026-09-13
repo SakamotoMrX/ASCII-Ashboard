@@ -1,49 +1,18 @@
 {
-  "research_metadata": {
-    "executed_at": "2026-09-12T08:00:00Z",
-    "task_context": "Workspace isolation for Tauri ASCII-art app + Hardware acceleration tiering + Zen mode UI",
-    "confidence": "HIGH"
+  "research_complete": true,
+  "archetype": "dark_minimalist",
+  "palette": {
+    "background": "#000000",
+    "surface": "#0a0a0c",
+    "surface_elevated": "#141416",
+    "border": "#222224",
+    "text_primary": "#ffffff",
+    "text_secondary": "#a1a1aa",
+    "text_muted": "#71717a",
+    "accent": "#ffffff"
   },
-  "design_signals": {
-    "recommended_color_system": {
-      "background": "#0D0D0D",
-      "surface": "#121212",
-      "primary": "#FFFFFF",
-      "accent": "#808080",
-      "text_primary": "#FFFFFF",
-      "text_secondary": "#A0A0A0",
-      "rationale": "Monochrome terminal-style aesthetic matching the 'real not gimmick' hardware-first requirement."
-    },
-    "recommended_typography": {
-      "heading_font": "JetBrains Mono",
-      "body_font": "IBM Plex Mono",
-      "mono_font": "Fira Code",
-      "rationale": "Monospaced fonts for a technical, hardware-detection-focused UI."
-    },
-    "recommended_animation_approach": "Framer Motion for the Zen mode sidebar transitions; Hardware-accelerated CSS transforms for workspace switching.",
-    "trending_components": ["Minimalist Toggle", "OffscreenCanvas Worker", "WebGPU Compute Shader"],
-    "anti_patterns_to_avoid": ["Synthetic Hardware Detection", "Global Canvas State", "Memory Leaking Workers"]
-  },
-  "library_decisions": {
-    "animation": { "library": "framer-motion", "version": "12.x", "key_apis": ["AnimatePresence", "motion.div"] },
-    "icons": { "library": "lucide-react", "version": "0.400+" },
-    "ui_primitives": { "library": "radix-ui", "version": "1.x" },
-    "state": { "library": "zustand", "version": "5.x" }
-  },
-  "proven_templates_and_kits": {
-    "brad_traversy_source": "https://github.com/bradtraversy/design-resources-for-developers",
-    "recommended_templates": [
-      { "name": "Excalidraw (Zen Mode Pattern)", "url": "https://github.com/excalidraw/excalidraw", "archetype": "full-screen-focus" }
-    ],
-    "recommended_component_kits": [
-      { "name": "shadcn/ui", "url": "https://ui.shadcn.com", "primitives": ["button", "card", "dialog"] }
-    ]
-  },
-  "lockscreen_specs": {
-    "position": "fixed top-right (z-50)",
-    "style": "backdrop-blur-md bg-black/5 dark:bg-white/10 border border-white/10",
-    "interaction": "Toggles 'is-zen' class on <body> or root container",
-    "side_effects": "Sidebars, status bars, and status graphs get 'opacity: 0' and 'pointer-events: none' in Zen mode."
-  },
-  "research_complete": true
+  "typography": {
+    "font_sans": "Inter, sans-serif",
+    "font_mono": "JetBrains Mono, monospace"
+  }
 }

@@ -82,7 +82,64 @@ export const SandboxCapabilitySchema = z.object({
 export type SandboxCapability = z.infer<typeof SandboxCapabilitySchema>;
 
 // ============================================================================
-// 3. ASCII RENDER OPTIONS & SCENE TRANSFORMS
+// 3. BACKGROUND REMOVAL & AUDIO & FASTFETCH WIDGET OPTIONS
+// ============================================================================
+
+export const BackgroundRemovalOptionsSchema = z.object({
+  enabled: z.boolean().default(false),
+  threshold: z.number().min(0).max(255).default(40), // Luminance or color distance tolerance
+  feather: z.number().min(0).max(20).default(2), // Edge feathering / smoothing radius
+  targetColor: z.enum(["black", "white", "custom", "auto_corner"]).default("auto_corner"),
+  customHex: z.string().regex(/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/).default("#000000"),
+  invertMask: z.boolean().default(false)
+});
+export type BackgroundRemovalOptions = z.infer<typeof BackgroundRemovalOptionsSchema>;
+
+export const AudioOptionsSchema = z.object({
+  enabled: z.boolean().default(true),
+  volume: z.number().min(0.0).max(1.0).default(1.0),
+  muted: z.boolean().default(false),
+  preservePitch: z.boolean().default(true),
+  visualizeOutput: z.boolean().default(false)
+});
+export type AudioOptions = z.infer<typeof AudioOptionsSchema>;
+
+export const AudioStateSchema = z.object({
+  contextState: z.enum(["uninitialized", "suspended", "running", "closed", "interrupted"]),
+  volume: z.number().min(0.0).max(1.0),
+  muted: z.boolean(),
+  isAutoplayBlocked: z.boolean(),
+  activeTrackName: z.string().nullable()
+});
+export type AudioState = z.infer<typeof AudioStateSchema>;
+
+export const FastfetchWidgetOptionsSchema = z.object({
+  enabled: z.boolean().default(true),
+  compactMode: z.boolean().default(false),
+  showGpuTelemetry: z.boolean().default(true),
+  showAudioMeter: z.boolean().default(true),
+  showSignalHistogram: z.boolean().default(false),
+  refreshIntervalMs: z.number().int().min(100).max(5000).default(500)
+});
+export type FastfetchWidgetOptions = z.infer<typeof FastfetchWidgetOptionsSchema>;
+
+export const SystemInfoSchema = z.object({
+  os: z.string(),
+  arch: z.string(),
+  gpuAdapter: z.string(),
+  gpuTier: RenderTierSchema,
+  memoryUsageMb: z.number().nonnegative(),
+  renderFps: z.number().nonnegative(),
+  gridDimensions: z.string(),
+  activePreset: CharsetPresetSchema,
+  activeColorMatrix: ColorModeSchema,
+  audioStatus: z.string(),
+  uptimeSec: z.number().nonnegative()
+});
+export type SystemInfo = z.infer<typeof SystemInfoSchema>;
+
+// ============================================================================
+// 4. EXTENDED ASCII RENDER OPTIONS & SCENE TRANSFORMS
 // ============================================================================
 
 export const CharsetConfigSchema = z.object({
@@ -101,6 +158,39 @@ export const AsciiRenderOptionsSchema = z.object({
   contrast: z.number().min(-100).max(100).default(0),
   brightness: z.number().min(-100).max(100).default(0),
   gamma: z.number().min(0.1).max(3.0).default(1.0),
+  // Extended signal adjustments
+  exposure: z.number().min(-100).max(100).default(0),
+  saturation: z.number().min(-100).max(100).default(0),
+  sharpness: z.number().min(0).max(100).default(0),
+  invert: z.boolean().default(false),
+  edgeDetection: z.boolean().default(false),
+  edgeThreshold: z.number().min(0).max(255).default(50),
+  // Background removal options
+  bgRemoval: BackgroundRemovalOptionsSchema.default({
+    enabled: false,
+    threshold: 40,
+    feather: 2,
+    targetColor: "auto_corner",
+    customHex: "#000000",
+    invertMask: false
+  }),
+  // Audio options
+  audio: AudioOptionsSchema.default({
+    enabled: true,
+    volume: 1.0,
+    muted: false,
+    preservePitch: true,
+    visualizeOutput: false
+  }),
+  // Fastfetch dashboard options
+  fastfetch: FastfetchWidgetOptionsSchema.default({
+    enabled: true,
+    compactMode: false,
+    showGpuTelemetry: true,
+    showAudioMeter: true,
+    showSignalHistogram: false,
+    refreshIntervalMs: 500
+  }),
   dither: DitherAlgorithmSchema.default("none"),
   cell_width_px: z.number().int().min(4).max(32).default(8),
   cell_height_px: z.number().int().min(6).max(48).default(14),
@@ -128,7 +218,7 @@ export const Procedural3DParamsSchema = z.object({
 export type Procedural3DParams = z.infer<typeof Procedural3DParamsSchema>;
 
 // ============================================================================
-// 4. TAURI IPC & FRAME STREAMING CONTRACTS
+// 5. TAURI IPC & FRAME STREAMING CONTRACTS
 // ============================================================================
 
 export const IpcRenderRequestSchema = z.object({
@@ -168,7 +258,7 @@ export const IpcStreamingFrameSchema = z.object({
 export type IpcStreamingFrame = z.infer<typeof IpcStreamingFrameSchema>;
 
 // ============================================================================
-// 5. UNIFIED MEDIA PICKER & DESKTOP CONTRACTS
+// 6. UNIFIED MEDIA PICKER & DESKTOP CONTRACTS
 // ============================================================================
 
 export const MediaPickerStateSchema = z.enum([
@@ -249,7 +339,7 @@ export const MediaPickerErrorSchema = z.object({
 export type MediaPickerError = z.infer<typeof MediaPickerErrorSchema>;
 
 // ============================================================================
-// 6. VIDEO PROCESSOR CONTRACTS & EXTRACTION PIPELINE
+// 7. VIDEO PROCESSOR CONTRACTS & EXTRACTION PIPELINE
 // ============================================================================
 
 export const VideoProcessorStateSchema = z.enum([
@@ -273,7 +363,7 @@ export const VideoSourceConfigSchema = z.object({
   targetRows: z.number().int().min(10).max(300).default(60),
   playbackRate: z.number().positive().max(4.0).default(1.0),
   loop: z.boolean().default(true),
-  muted: z.boolean().default(true),
+  muted: z.boolean().default(false), // Audio enabled by default via WebAudio
   autoPlay: z.boolean().default(true)
 });
 export type VideoSourceConfig = z.infer<typeof VideoSourceConfigSchema>;
@@ -298,6 +388,7 @@ export const VideoProcessorErrorSchema = z.object({
     "VIDEO_LOAD_FAILED",
     "DECODE_ERROR",
     "AUTOPLAY_POLICY_BLOCKED",
+    "AUDIO_CONTEXT_BLOCKED",
     "RVFC_NOT_SUPPORTED_FALLBACK_ACTIVE",
     "CANVAS_CONTEXT_LOST",
     "INVALID_DIMENSIONS",
@@ -313,12 +404,13 @@ export const VideoProcessorContractSchema = z.object({
   state: VideoProcessorStateSchema,
   config: VideoSourceConfigSchema.nullable(),
   frameMetadata: VideoFrameMetadataSchema.nullable(),
+  audioState: AudioStateSchema.nullable().default(null),
   error: VideoProcessorErrorSchema.nullable()
 });
 export type VideoProcessorContract = z.infer<typeof VideoProcessorContractSchema>;
 
 // ============================================================================
-// 7. IMAGE PROCESSOR CONTRACTS & PREFLIGHT PIPELINE
+// 8. IMAGE PROCESSOR CONTRACTS & PREFLIGHT PIPELINE
 // ============================================================================
 
 export const ImageProcessorStateSchema = z.enum([
@@ -338,7 +430,12 @@ export const ImagePreflightConfigSchema = z.object({
   invert: z.boolean().default(false),
   contrast: z.number().min(-100).max(100).default(0),
   brightness: z.number().min(-100).max(100).default(0),
-  gamma: z.number().min(0.1).max(3.0).default(1.0)
+  gamma: z.number().min(0.1).max(3.0).default(1.0),
+  exposure: z.number().min(-100).max(100).default(0),
+  saturation: z.number().min(-100).max(100).default(0),
+  sharpness: z.number().min(0).max(100).default(0),
+  edgeDetection: z.boolean().default(false),
+  bgRemoval: BackgroundRemovalOptionsSchema.optional()
 });
 export type ImagePreflightConfig = z.infer<typeof ImagePreflightConfigSchema>;
 
@@ -364,7 +461,7 @@ export const ImageProcessorContractSchema = z.object({
 export type ImageProcessorContract = z.infer<typeof ImageProcessorContractSchema>;
 
 // ============================================================================
-// 8. CAMERA PROCESSOR CONTRACTS & HARDWARE STREAMING
+// 9. CAMERA PROCESSOR CONTRACTS & HARDWARE STREAMING
 // ============================================================================
 
 export const CameraProcessorStateSchema = z.enum([
@@ -411,7 +508,7 @@ export const CameraProcessorContractSchema = z.object({
 export type CameraProcessorContract = z.infer<typeof CameraProcessorContractSchema>;
 
 // ============================================================================
-// 9. ASCII RENDER ENGINE UNIFIED CONTRACT
+// 10. ASCII RENDER ENGINE UNIFIED CONTRACT
 // ============================================================================
 
 export const AsciiRenderEngineStateSchema = z.enum([
@@ -445,7 +542,7 @@ export const AsciiRenderEngineContractSchema = z.object({
 export type AsciiRenderEngineContract = z.infer<typeof AsciiRenderEngineContractSchema>;
 
 // ============================================================================
-// 10. LUXURY MONOCHROME COLOR TOKENS (#000000 / #0a0a0c / #141416 / #ffffff)
+// 11. LUXURY MONOCHROME COLOR TOKENS (#000000 / #0a0a0c / #141416 / #ffffff)
 // ============================================================================
 
 export const ColorTokensSchema = z.object({
@@ -499,7 +596,6 @@ export const MONOCHROME_COLOR_TOKENS: ColorTokens = {
   status_recording: "#ef4444"
 };
 
-// Flexible design tokens schema backward and forward compatible
 export const DesignTokensContractSchema = z.object({
   palette: z.object({
     background: z.string(),
@@ -544,7 +640,7 @@ export const DarkMinimalistTokensSchema = DesignTokensContractSchema;
 export type DarkMinimalistTokens = DesignTokensContract;
 
 // ============================================================================
-// 11. ENTRANCE LOADING ANIMATION STATE CONTRACT
+// 12. ENTRANCE LOADING ANIMATION STATE CONTRACT
 // ============================================================================
 
 export const LoadingPhaseSchema = z.enum([
@@ -577,7 +673,7 @@ export const LoadingAnimationConfigSchema = z.object({
 export type LoadingAnimationConfig = z.infer<typeof LoadingAnimationConfigSchema>;
 
 // ============================================================================
-// 12. NODE GRAPH & TECHNICAL STICKERS LAYOUT MODELS
+// 13. NODE GRAPH & TECHNICAL STICKERS LAYOUT MODELS
 // ============================================================================
 
 export const GraphNodeTypeSchema = z.enum([
@@ -681,7 +777,7 @@ export const StickerCollectionSchema = z.object({
 export type StickerCollection = z.infer<typeof StickerCollectionSchema>;
 
 // ============================================================================
-// 13. MOTION LIFECYCLE CONTRACT
+// 14. MOTION LIFECYCLE CONTRACT
 // ============================================================================
 
 export const MotionLifecycleContractSchema = z.object({
@@ -694,7 +790,7 @@ export const MotionLifecycleContractSchema = z.object({
 export type MotionLifecycleContract = z.infer<typeof MotionLifecycleContractSchema>;
 
 // ============================================================================
-// 14. LOCKED REAL END-USER PAGE COPY (ZERO LOREM POLICY)
+// 15. LOCKED REAL END-USER PAGE COPY (ZERO LOREM POLICY)
 // ============================================================================
 
 export const PageCopySchema = z.object({
@@ -755,6 +851,20 @@ export const PageCopySchema = z.object({
     label_contrast: z.string(),
     label_brightness: z.string(),
     label_gamma: z.string(),
+    // Extended controls copy
+    label_exposure: z.string(),
+    label_saturation: z.string(),
+    label_sharpness: z.string(),
+    label_invert: z.string(),
+    label_edge_detection: z.string(),
+    label_edge_threshold: z.string(),
+    label_bg_removal: z.string(),
+    label_bg_threshold: z.string(),
+    label_bg_feather: z.string(),
+    label_bg_target_color: z.string(),
+    label_audio_toggle: z.string(),
+    label_audio_volume: z.string(),
+    label_fastfetch_widget: z.string(),
     label_charset_select: z.string(),
     label_color_mode: z.string(),
     label_tier_select: z.string(),
@@ -804,7 +914,18 @@ export const PageCopySchema = z.object({
     badge_active: z.string(),
     badge_paused: z.string()
   }).optional(),
-  // Optional extensions for node graph, stickers, and load animation
+  fastfetch: z.object({
+    card_title: z.string(),
+    badge_system: z.string(),
+    label_os: z.string(),
+    label_gpu: z.string(),
+    label_tier: z.string(),
+    label_grid: z.string(),
+    label_fps: z.string(),
+    label_vram: z.string(),
+    label_audio: z.string(),
+    btn_toggle_compact: z.string()
+  }).optional(),
   node_graph: z.object({
     panel_title: z.string(),
     source_node: z.string(),
@@ -829,7 +950,7 @@ export const PageCopySchema = z.object({
 export type PageCopy = z.infer<typeof PageCopySchema>;
 
 // ============================================================================
-// 14.5. ISOLATED WORKSPACE, REAL HARDWARE & ZEN LOCKSCREEN CONTRACTS
+// 16. ISOLATED WORKSPACE, REAL HARDWARE & ZEN LOCKSCREEN CONTRACTS
 // ============================================================================
 
 export const WorkspaceTypeSchema = z.enum(["video", "image", "camera", "procedural_3d"]);
@@ -953,7 +1074,7 @@ export const ZenModeConfigSchema = z.object({
 export type ZenModeConfig = z.infer<typeof ZenModeConfigSchema>;
 
 // ============================================================================
-// 15. SKEPTICAL BREAKING SCENARIO STRESS VECTORS
+// 17. SKEPTICAL BREAKING SCENARIO STRESS VECTORS
 // ============================================================================
 
 export const BreakingScenarioSchema = z.object({
@@ -969,7 +1090,7 @@ export const BreakingScenarioSchema = z.object({
 export type BreakingScenario = z.infer<typeof BreakingScenarioSchema>;
 
 // ============================================================================
-// 16. PHASE 1 MASTER CONTRACT
+// 18. PHASE 1 MASTER CONTRACT
 // ============================================================================
 
 export const Phase1ContractsSchema = z.object({
@@ -999,11 +1120,15 @@ export const Phase1ContractsSchema = z.object({
   design_tokens: DesignTokensContractSchema,
   page_copy: PageCopySchema,
   breaking_scenarios: z.array(BreakingScenarioSchema).min(3),
-  // New Architecture Extensions
   workspace_session: WorkspaceSessionSchema.optional(),
   hardware_tier_capabilities: HardwareTierCapabilitiesSchema.optional(),
   hardware_telemetry: HardwareTelemetrySchema.optional(),
   hardware_tier_selection: HardwareTierSelectionSchema.optional(),
-  zen_mode_config: ZenModeConfigSchema.optional()
+  zen_mode_config: ZenModeConfigSchema.optional(),
+  background_removal: BackgroundRemovalOptionsSchema.optional(),
+  audio_options: AudioOptionsSchema.optional(),
+  audio_state: AudioStateSchema.optional(),
+  fastfetch_widget: FastfetchWidgetOptionsSchema.optional(),
+  system_info: SystemInfoSchema.optional()
 });
 export type Phase1Contracts = z.infer<typeof Phase1ContractsSchema>;

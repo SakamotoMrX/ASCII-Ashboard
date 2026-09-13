@@ -1,20 +1,25 @@
 {
   "schema_version": 2,
-  "mission_id": "ship-20260912101648.",
-  "request": "there is a glitch when i already used and insert a video, the video gonna conflict with the main workspace i use, can u use 1 workspace per video or image. And the hardware acceleration tier make it not a gimmick but a real hardware detector and changer. Dan fitur lockscreen kecil di kanan atas untuk layar full agar aesthetic. AND MAKE EVERYTHING USED AND REAL NOT A GIMMICK",
-  "created_at": "2026-09-12T10:39:09.254Z",
+  "mission_id": "ship-1789276990618",
+  "request": "Standard feature delivery",
+  "created_at": "2026-09-13T05:23:10.618Z",
   "dev_port": 3000,
-  "triage_tier": "COMPLEX",
+  "triage_tier": "STANDARD",
   "current_phase": "PHASE_6_CROSS_AUDIT",
   "design_direction": "phase-1.5-design-direction.json",
   "template_tells": [],
-  "motion_moments": 1,
+  "motion_moments": 0,
   "total_retries": 0,
   "max_total_retries": 5,
-  "timeout_minutes": 120,
+  "timeout_minutes": 20,
+  "interactive_checkpoint_required": false,
+  "checkpoint_approved": null,
+  "skip_design_rerun": false,
+  "repair_scope": null,
   "retry_counts": {
     "ARCHITECTURE_FLAW": 0,
     "DESIGN_UI_FLAW": 0,
+    "DESIGN_SYSTEM_DRIFT": 0,
     "LOGIC_BACKEND_FLAW": 0,
     "WIRING_FLAW": 0,
     "RUNTIME_CRASH": 0
@@ -23,85 +28,55 @@
   "phase_history": [
     {
       "barrier": "barrier-0",
-      "passed_at": "2026-09-12T10:20:18.554Z",
-      "summary": "Recon valid. Tier: COMPLEX — Full 7-phase pipeline + enhanced security gate + extended acceptance test coverage"
+      "passed_at": "2026-09-13T05:24:13.291Z",
+      "summary": "Recon valid. Tier: STANDARD — Full 7-phase pipeline: Oracle blueprint → contract-bound parallel impl → Playwright matrix → visual audit → adversarial cross-audit"
     },
     {
       "barrier": "barrier-1",
-      "passed_at": "2026-09-12T10:25:56.957Z",
-      "summary": "Blueprint & contracts locked at .opencode/artifacts/phase-1-contracts.ts (5 breaking scenario(s) modeled, real copy locked)"
+      "passed_at": "2026-09-13T05:24:25.279Z",
+      "summary": "Blueprint & contracts locked at src/contracts.ts (3 breaking scenario(s) modeled, real copy locked)"
     },
     {
       "barrier": "barrier-1.5",
-      "passed_at": "2026-09-12T10:26:31.934Z",
-      "summary": "Design Direction locked: 6 colors, 2 typeface(s), 1 orchestrated motion moment, 7 tells checked & revised."
-    },
-    {
-      "barrier": "barrier-1.5",
-      "passed_at": "2026-09-12T10:26:52.508Z",
-      "summary": "Design Direction locked: 6 colors, 2 typeface(s), 1 orchestrated motion moment, 7 tells checked & revised."
-    },
-    {
-      "barrier": "barrier-1.5",
-      "passed_at": "2026-09-12T10:26:59.745Z",
-      "summary": "Design Direction locked: 6 colors, 2 typeface(s), 1 orchestrated motion moment, 7 tells checked & revised."
+      "passed_at": "2026-09-13T05:24:39.529Z",
+      "summary": "Design Direction locked: 6 colors, 2 typeface(s), 1 orchestrated motion moment, 4 tells checked & revised. [DESIGN-SYSTEM CONTINUITY: Aligned with persistent design-system.json]"
     },
     {
       "barrier": "barrier-2",
-      "passed_at": "2026-09-12T10:39:12.729Z",
+      "passed_at": "2026-09-13T05:24:47.876Z",
+      "summary": "Reconciliation & logic tests passed (Exit Code 0). Security scan: clean. Lane discipline: clean."
+    },
+    {
+      "barrier": "barrier-2",
+      "passed_at": "2026-09-13T05:26:36.959Z",
       "summary": "Reconciliation & logic tests passed (Exit Code 0). Security scan: clean. Lane discipline: clean."
     },
     {
       "barrier": "barrier-3",
-      "passed_at": "2026-09-12T10:42:25.078Z",
-      "summary": "Runtime healthy on http://localhost:3000, DOM rendered (471 elements, 123186 bytes). Semantic checks: 7 element(s) verified."
+      "passed_at": "2026-09-13T05:30:20.716Z",
+      "summary": "Runtime healthy on http://localhost:3000, DOM rendered (142 elements, 139256 bytes). Semantic checks: 7 element(s) verified."
+    },
+    {
+      "barrier": "barrier-4",
+      "passed_at": "2026-09-13T05:30:31.614Z",
+      "summary": "Matrix passed: 63/63 tests, 21 physical screenshots verified (>10KB each). [No independent acceptance tests found — create phase-1-acceptance-stubs.json in Phase 1 to enable]"
+    },
+    {
+      "barrier": "barrier-5",
+      "passed_at": "2026-09-13T05:30:40.840Z",
+      "summary": "Visual audit valid. Flaws: 0, template tells: 0, motion moments: 1. Accessibility audit: 0 total violations (0 critical), 38 passes."
+    },
+    {
+      "barrier": "barrier-6",
+      "passed_at": "2026-09-13T05:30:49.842Z",
+      "summary": "Oracle cross-audit verified. Verdict: GO"
     },
     {
       "barrier": "barrier-3",
-      "passed_at": "2026-09-12T10:42:39.015Z",
-      "summary": "Runtime healthy on http://localhost:3000, DOM rendered (471 elements, 123186 bytes). Semantic checks: 7 element(s) verified."
-    },
-    {
-      "barrier": "barrier-4",
-      "passed_at": "2026-09-12T10:47:01.061Z",
-      "summary": "Matrix passed: 33/36 tests, 21 physical screenshots verified (>10KB each). [No independent acceptance tests found — create phase-1-acceptance-stubs.json in Phase 1 to enable]"
-    },
-    {
-      "barrier": "barrier-4",
-      "passed_at": "2026-09-12T10:49:35.167Z",
-      "summary": "Matrix passed: 63/63 tests, 21 physical screenshots verified (>10KB each). [No independent acceptance tests found — create phase-1-acceptance-stubs.json in Phase 1 to enable]"
-    },
-    {
-      "barrier": "barrier-4",
-      "passed_at": "2026-09-12T10:49:44.794Z",
-      "summary": "Matrix passed: 63/63 tests, 21 physical screenshots verified (>10KB each). [No independent acceptance tests found — create phase-1-acceptance-stubs.json in Phase 1 to enable]"
-    },
-    {
-      "barrier": "barrier-5",
-      "passed_at": "2026-09-12T11:06:30.487Z",
-      "summary": "Visual audit valid. Flaws: 2, template tells: 0, motion moments: 1. [No accessibility report — add axe-core scan to Phase 4 for WCAG 2.1 coverage beyond contrast]"
-    },
-    {
-      "barrier": "barrier-5",
-      "passed_at": "2026-09-12T11:08:53.200Z",
-      "summary": "Visual audit valid. Flaws: 2, template tells: 0, motion moments: 1. [No accessibility report — add axe-core scan to Phase 4 for WCAG 2.1 coverage beyond contrast]"
-    },
-    {
-      "barrier": "barrier-5",
-      "passed_at": "2026-09-12T11:08:58.771Z",
-      "summary": "Visual audit valid. Flaws: 0, template tells: 0, motion moments: 1. [No accessibility report — add axe-core scan to Phase 4 for WCAG 2.1 coverage beyond contrast]"
-    },
-    {
-      "barrier": "barrier-6",
-      "passed_at": "2026-09-12T11:10:00.221Z",
-      "summary": "Oracle cross-audit verified. Verdict: GO"
-    },
-    {
-      "barrier": "barrier-6",
-      "passed_at": "2026-09-12T11:10:14.144Z",
-      "summary": "Oracle cross-audit verified. Verdict: GO"
+      "passed_at": "2026-09-13T05:30:57.054Z",
+      "summary": "Runtime healthy on http://localhost:3000, DOM rendered (690 elements, 139256 bytes). Semantic checks: 7 element(s) verified."
     }
   ],
   "status": "IN_PROGRESS",
-  "_checksum": "8e731bc581969368"
+  "_checksum": "09ee99ccd165e030"
 }

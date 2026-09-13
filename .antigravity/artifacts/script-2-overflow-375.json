@@ -1,0 +1,43 @@
+{
+  "viewport": 375,
+  "has_overflow": true,
+  "scrollWidth": 375,
+  "overflow_count": 12,
+  "offending_elements": [
+    {
+      "tag": "button",
+      "id": null,
+      "className": "flex items-center gap-1.5 px-3 py-1 text-xs font-m",
+      "rightEdge": 466,
+      "viewportWidth": 375
+    },
+    {
+      "tag": "span",
+      "id": null,
+      "className": null,
+      "rightEdge": 454,
+      "viewportWidth": 375
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "className": "flex items-center gap-1.5 px-3 py-1 text-xs font-m",
+      "rightEdge": 594,
+      "viewportWidth": 375
+    },
+    {
+      "tag": "svg",
+      "id": null,
+      "className": "[object SVGAnimatedString]",
+      "rightEdge": 496,
+      "viewportWidth": 375
+    },
+    {
+      "tag": "path",
+      "id": null,
+      "className": "[object SVGAnimatedString]",
+      "rightEdge": 495,
+      "viewportWidth": 375
+    }
+  ]
+}

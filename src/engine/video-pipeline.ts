@@ -3,7 +3,9 @@ import {
   VideoProcessorState,
   VideoFrameMetadata,
   VideoProcessorError,
+  AudioState,
 } from "../contracts";
+import { AudioPipelineManager } from "./audio-pipeline";
 import { CanvasRenderResult, renderImageDataToAscii } from "./canvas-renderer";
 import { getCharsetRamp } from "./charsets";
 
@@ -34,6 +36,7 @@ export class VideoStreamingEngine {
   private droppedFrames: number = 0;
   private isDisposed: boolean = false;
   private activeSourceFileName: string | null = null;
+  private audioManager: AudioPipelineManager | null = null;
 
   constructor(options: AsciiRenderOptions, callbacks: VideoEngineCallbacks = {}) {
     this.options = { ...options };
@@ -67,6 +70,11 @@ export class VideoStreamingEngine {
 
   public updateOptions(newOptions: Partial<AsciiRenderOptions>): void {
     this.options = { ...this.options, ...newOptions };
+    if (newOptions.audio && this.audioManager) {
+      if (newOptions.audio.volume !== undefined) this.audioManager.setVolume(newOptions.audio.volume);
+      if (newOptions.audio.muted !== undefined) this.audioManager.setMuted(newOptions.audio.muted);
+      if (newOptions.audio.enabled !== undefined) this.audioManager.setEnabled(newOptions.audio.enabled);
+    }
     if (this.state !== "playing" && this.videoElement) {
       this.processSingleFrame();
     }
@@ -143,6 +151,12 @@ export class VideoStreamingEngine {
     video.loop = this.isLoop;
 
     this.videoElement = video;
+
+    // Connect Audio Pipeline
+    if (!this.audioManager) {
+      this.audioManager = new AudioPipelineManager(this.options.audio);
+    }
+    this.audioManager.connectVideo(video);
 
     // Connect source to video element
     if (source instanceof MediaStream) {
@@ -449,8 +463,22 @@ export class VideoStreamingEngine {
    * Full synchronous disposal (STRESS-2 Defense).
    * Cancels rVFC / RAF, pauses video, revokes object URLs, and cleans canvas contexts.
    */
+  public getAudioState(): AudioState | null {
+    return this.audioManager ? this.audioManager.getState() : null;
+  }
+
+  public async resumeAudio(): Promise<void> {
+    if (this.audioManager) {
+      await this.audioManager.resume();
+    }
+  }
+
   public dispose(): void {
     this.isDisposed = true;
+    if (this.audioManager) {
+      this.audioManager.dispose();
+      this.audioManager = null;
+    }
     this.stopLoop();
 
     if (this.videoElement) {

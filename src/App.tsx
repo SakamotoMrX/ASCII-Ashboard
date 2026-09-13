@@ -16,6 +16,7 @@ import { ConstellationGraph } from "./components/ConstellationGraph";
 import { TechnicalStickers } from "./components/TechnicalStickers";
 import { ZenLockscreenToggle } from "./components/ZenLockscreenToggle";
 import { WorkspaceTabBar, WorkspaceSession } from "./components/WorkspaceTabBar";
+import { FastfetchWidget } from "./components/FastfetchWidget";
 import { RenderEngineManager } from "./lib/renderers/manager";
 import { globalWorkspaceManager } from "./engine/workspace-manager";
 import { renderProcedural3D } from "./engine/procedural-3d";
@@ -164,6 +165,7 @@ export default function App() {
   const [isZenMode, setIsZenMode] = useState<boolean>(false);
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
   const [mobileViewMode, setMobileViewMode] = useState<"controls" | "viewport">("viewport");
+  const [isFastfetchOpen, setIsFastfetchOpen] = useState<boolean>(false);
 
   // Workspace Sessions State bound to WorkspaceManager
   const [workspaces, setWorkspaces] = useState<WorkspaceSession[]>(() =>
@@ -299,6 +301,35 @@ export default function App() {
     contrast: 0,
     brightness: 0,
     gamma: 1.0,
+    exposure: 0,
+    saturation: 0,
+    sharpness: 0,
+    invert: false,
+    edgeDetection: false,
+    edgeThreshold: 50,
+    bgRemoval: {
+      enabled: false,
+      threshold: 40,
+      feather: 2,
+      targetColor: "auto_corner",
+      customHex: "#000000",
+      invertMask: false,
+    },
+    audio: {
+      enabled: true,
+      volume: 1.0,
+      muted: false,
+      preservePitch: true,
+      visualizeOutput: false,
+    },
+    fastfetch: {
+      enabled: true,
+      compactMode: false,
+      showGpuTelemetry: true,
+      showAudioMeter: true,
+      showSignalHistogram: false,
+      refreshIntervalMs: 500,
+    },
     dither: "none",
     cell_width_px: 8,
     cell_height_px: 14,
@@ -1155,6 +1186,8 @@ export default function App() {
             onSeekVideo={handleSeekVideo}
             onToggleLoopVideo={handleToggleLoopVideo}
             onStopVideo={handleStopVideo}
+            onToggleFastfetch={() => setIsFastfetchOpen((prev) => !prev)}
+            isFastfetchOpen={isFastfetchOpen}
           />
         </div>
 
@@ -1217,6 +1250,29 @@ export default function App() {
       >
         <TelemetryDrawer telemetry={telemetryData} />
       </div>
+
+      {/* Fastfetch System Telemetry Terminal Drawer */}
+      <FastfetchWidget
+        isOpen={isFastfetchOpen}
+        onClose={() => setIsFastfetchOpen(false)}
+        telemetry={{
+          os: "macOS Darwin 24.6.0 (Sealed Sandbox)",
+          arch: "arm64 (Apple Silicon Metal)",
+          gpuAdapter: "Apple M-Series Hardware Accelerator",
+          gpuTier: activeTier,
+          memoryUsageMb: 84.5,
+          renderFps: fps,
+          renderLatencyMs: renderTimeMs,
+          gridDimensions: `${options.max_output_columns}×${options.max_output_rows}`,
+          activePreset: options.charset.preset.toUpperCase(),
+          activeColorMatrix: options.color_mode.toUpperCase(),
+          audioStatus: options.audio.muted ? "MUTED" : "AUDIO SYNCED",
+          audioVolume: options.audio.volume,
+          uptimeSec: 128,
+        }}
+        options={options}
+        asciiSnippet={asciiOutput ? asciiOutput.slice(0, 300) : undefined}
+      />
     </div>
   );
 }

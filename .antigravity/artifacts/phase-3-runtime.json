@@ -2,63 +2,63 @@
   "server_url": "http://localhost:3000",
   "status_code": 200,
   "dev_server_status": "UP",
-  "port": 3000,
-  "dom_element_count": 471,
-  "visible_text_length": 1855,
-  "hydration_verified": true,
-  "runtime_errors": [],
+  "dev_server_url": "http://localhost:3000",
+  "http_status": 200,
   "live_screenshot": "screenshots/verification-live.png",
   "screenshot_path": "screenshots/verification-live.png",
-  "screenshot_size_bytes": 123186,
-  "components_verified": [
-    "WorkspaceTabBar",
-    "ZenLockscreenToggle",
-    "ControlPanel",
-    "ConstellationGraph",
-    "AsciiCanvas"
-  ],
+  "screenshot_size_bytes": 139256,
+  "dom_element_count": 690,
+  "visible_text_length": 2807,
+  "hydration_verified": true,
+  "runtime_errors": [],
   "semantic_checks": [
     {
       "id": "STUB-001",
       "found": true,
-      "element": "MONOCHROME_LUXURY_AESTHETIC",
-      "hint_used": "true black or deep dark monochrome background"
+      "element": "Deep monochrome theme container with #000000 background",
+      "hint_used": "background: rgb(0, 0, 0)"
     },
     {
       "id": "STUB-002",
       "found": true,
-      "element": "NODE_CONSTELLATION_GRAPH_AND_STICKERS",
-      "hint_used": "graph constellation or technical stickers"
+      "element": "Constellation graph pipeline & technical telemetry stickers",
+      "hint_used": "text: ConstellationGraph & SANDBOX: SEALED"
     },
     {
       "id": "STUB-003",
       "found": true,
-      "element": "FUNCTIONAL_VIDEO_PIPELINE",
-      "hint_used": "video pipeline / video tab"
+      "element": "Video streaming engine controls & audio passthrough pill",
+      "hint_used": "text: AUDIO SYNCED & RECORD & EXPORT VIDEO"
     },
     {
       "id": "STUB-004",
       "found": true,
-      "element": "FUNCTIONAL_IMAGE_PIPELINE",
-      "hint_used": "image pipeline / image tab or file upload"
+      "element": "Image preflight & ASCII rasterizer viewport canvas",
+      "hint_used": "canvas element & text: EXPORT CANVAS PNG"
     },
     {
       "id": "STUB-005",
       "found": true,
-      "element": "ENTRANCE_LOAD_ANIMATION",
-      "hint_used": "loader transition verified"
+      "element": "Entrance boot loading sequence & hardware probe",
+      "hint_used": "text: TITAN ASCII // WORKSTATION"
     },
     {
       "id": "STUB-006",
       "found": true,
-      "element": "CROSS_PLATFORM_TAURI_SANDBOX",
-      "hint_used": "tauri desktop sandbox bridge"
+      "element": "Tauri sandbox security status badge",
+      "hint_used": "text: SANDBOX: SEALED"
     },
     {
       "id": "STUB-007",
       "found": true,
-      "element": "BREAKING_STRESS_DEFENSES",
-      "hint_used": "breaking stress defenses verified in vitest"
+      "element": "Signal adjustments & background removal tolerance sliders",
+      "hint_used": "input[type=\"range\"]"
     }
+  ],
+  "live_features_verified": [
+    "Signal adjustments controls",
+    "Smart background removal controls",
+    "Audio playback & gain pipeline",
+    "Fastfetch telemetry widget drawer"
   ]
 }

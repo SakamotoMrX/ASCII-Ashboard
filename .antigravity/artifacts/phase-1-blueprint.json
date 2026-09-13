@@ -1,65 +1,49 @@
 {
-  "mission_id": "ascii-art-isolated-workspace-real-hardware-zen-mode",
-  "created_at": "2026-09-12T17:30:00.000Z",
-  "risk_level": "MEDIUM",
+  "mission_id": "ascii-art-signal-adjustments-background-remover-audio-passthrough",
+  "created_at": "2026-09-13T05:30:00.000Z",
+  "risk_level": "HIGH",
   "risk_reasons": [
-    "Isolated workspace lifecycle requires independent canvas state machines and background loop throttling to prevent memory leaks and audio bleed",
-    "Real hardware acceleration tier switching requires fallback handling for WebGPU device loss and WebGL context restoration without stalling UI thread",
-    "Zen mode collapses multiple DOM drawers and sidebars requiring strict keyboard trap management and clean transition states"
+    "Real-time chroma-key / background removal on high-res video frames can trigger high frame buffer allocation overhead and memory leaks if unmanaged.",
+    "WebAudio API autoplay policy will block audio passthrough without explicit user gesture tracking and resume() orchestration.",
+    "Background removal false positives on low-contrast subjects (dark monochrome logos on dark backgrounds) require corner sampling heuristics and tolerance thresholds."
   ],
   "architecture_verdict": "SOUND",
   "proceed": true,
   "agent_lanes": {
-    "designer": "Aesthetic top-right Zen mode lock/unlock translucent pill, workspace tab strip with active/paused badges, hardware tier real-time telemetry badge indicators, and smooth collapse transitions.",
-    "fixer": "WorkspaceSession state manager in App.tsx (1 workspace per video/image/stream), RenderEngineManager wiring into App rendering loop replacing canvas2d fillText facade with active WebGPU/WebGL2 shaders, real GPU probing via navigator.gpu & WebGL unmasked renderer, and keyboard shortcut handler (Escape, F11)."
+    "designer": "Design ControlPanel signal controls (exposure, saturation, sharpness, invert, edge detection, background removal section with tolerance/feather/targetColor controls), audio toggle and volume meter, fastfetch terminal widget layout with system stats and ASCII branding.",
+    "fixer": "Implement signal processing chain in canvas-renderer.ts / WebGL shaders, integrate WebAudio passthrough in VideoStreamingEngine with autoplay resume defense, wire background removal luminance/chroma heuristic with pre-allocated buffer clamping, update App.tsx and types.ts."
   },
   "architecture": {
-    "system_overview": "Tauri v2 native cross-platform application delivering high-performance, dark minimalist ASCII rendering. Architected around three core pillars: (1) Discrete Isolated Workspaces eliminating cross-media collisions, (2) Authentic hardware acceleration tier detection and active execution via WebGPU compute/WebGL2 fragment shaders (zero facade/fillText fallback), and (3) Distraction-free Zen lockscreen mode with translucent top-right unlock trigger.",
-    "isolated_workspaces": {
-      "model": "WorkspaceSession (id, title, type: video | image | camera | procedural_3d, state: idle | loading | playing | paused | rendered | error, mediaSource, renderResult, options, proceduralParams)",
-      "isolation_guarantees": [
-        "Zero shared canvas buffer collisions: Each active workspace session possesses distinct media source references, aspect ratio bounds, and render result caches.",
-        "Automatic background throttling: Inactive workspaces have their video/camera loops paused and requestAnimationFrame unhooked, preserving CPU/GPU cycles.",
-        "Deterministic teardown: Switching workspaces cleanly stops audio tracks, releases Blob URLs, and disposes GPU textures associated with the previous session."
-      ],
-      "storage_and_state": "Managed via App.tsx state with activeWorkspaceId pointer, supporting multiple concurrent tabs with instantaneous switching."
+    "system_overview": "Tauri v2 native cross-platform application delivering high-performance, dark minimalist ASCII rendering. Upgrades core pipeline with: (1) Extended Signal Adjustments (exposure, saturation, sharpness, invert, Sobel edge detection), (2) Real-Time Background Removal (corner-sampling color tolerance + luminance keying with zero CSP external ML dependencies), (3) Concurrent WebAudio Passthrough for video streaming with autoplay policy resilience, and (4) Widget-like Fastfetch system telemetry dashboard.",
+    "signal_adjustments_pipeline": {
+      "model": "AsciiRenderOptions (exposure, saturation, sharpness, invert, edgeDetection, edgeThreshold, bgRemoval)",
+      "processing_stages": [
+        "Stage 1 - Color Matrix & Pre-correction: Apply exposure (-100..100) and gamma (0.1..3.0) directly to linear RGB values.",
+        "Stage 2 - Saturation & Tone Curve: Compute luminance (Y = 0.299R + 0.587G + 0.114B), interpolate R/G/B towards luminance by saturation factor, apply contrast curve.",
+        "Stage 3 - Sharpness / Edge Enhancement: Unsharp masking convolution kernel (3x3 Laplacian) to boost high-frequency contrast.",
+        "Stage 4 - Sobel Edge Detection: Optional Sobel gradient magnitude thresholding replacing grayscale values with edge outlines.",
+        "Stage 5 - Background Removal & Masking: Corner-sampled Euclidean color distance or luminance keying with feather radius; zero-out alpha/luminance for masked pixels."
+      ]
     },
-    "hardware_acceleration_runtime": {
-      "detection_protocol": {
-        "webgpu_probe": "Requests navigator.gpu.requestAdapter({ powerPreference: 'high-performance' }). Queries adapter.info (vendor, architecture, device, description). Requests GPUDevice to verify compute shader capability.",
-        "webgl2_probe": "Creates offscreen canvas, requests webgl2 context. Queries WEBGL_debug_renderer_info extension for UNMASKED_RENDERER_WEBGL to identify physical GPU string.",
-        "cpu_probe": "Verifies CanvasRenderingContext2D support for CPU baseline."
-      },
-      "active_execution_paths": {
-        "tier1_webgpu": "Executes WGSL compute shader via src/lib/renderers/webgpu.ts. Writes directly to WebGPU texture atlas.",
-        "tier2_webgl": "Executes GLSL fragment shader via src/lib/renderers/webgl.ts. Writes directly to WebGL2 texture buffer.",
-        "tier3_canvas2d": "Executes CPU pixel luminance quantization via src/lib/renderers/canvas2d.ts.",
-        "rust_sidecar": "Executes Tauri native Rust batch image processing command via src-tauri/src/commands.rs."
-      },
-      "zero_gimmick_guarantee": "App.tsx instantiates and delegates all rendering through RenderEngineManager (src/lib/renderers/manager.ts). The activeTier state directly switches the active renderer pipeline. No hardcoded fillText facade."
+    "background_removal_subsystem": {
+      "detection_protocol": "Corner-sampling heuristic (averaging 4 canvas corners [0,0], [W-1,0], [0,H-1], [W-1,H-1]) to infer dominant background color or user-specified target hex. Computes Euclidean distance in RGB/Lab space.",
+      "feathering": "Box blur / clamping on the binary mask to prevent harsh jagged ASCII stepping along subject contours.",
+      "csp_compliance": "100% native CPU/Canvas2D/WebGL execution; zero external CDN dependencies, fully compliant with strict Tauri CSP."
     },
-    "zen_lockscreen_mode": {
-      "ui_specification": "Top-right floating translucent pill button ('bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 text-white rounded-full p-2.5 transition-all duration-200 z-50'). Displays Lock icon in normal view, Unlock icon in Zen view.",
-      "collapse_targets": [
-        "Header / Navigation tabs",
-        "Left ControlPanel drawer",
-        "Right Telemetry drawer",
-        "Constellation NodeGraph panel",
-        "Technical Stickers bar"
-      ],
-      "keyboard_shortcuts": [
-        "Escape",
-        "F11",
-        "KeyZ"
-      ],
-      "viewport_behavior": "AsciiViewport expands to 100vw x 100vh full bleed container. Preserves monospace character aspect ratio and zoom pan capabilities."
+    "audio_passthrough_pipeline": {
+      "architecture": "AudioContext instantiated on user interaction. MediaElementAudioSourceNode created from HTMLVideoElement (with video.muted=true for browser autoplay compliance). Routed through GainNode to AudioContext.destination.",
+      "resilience": "Monitors AudioContext.state ('suspended' -> 'running'). Explicit user gesture unlocks audio context with graceful fallback."
     },
-    "contract_path": ".antigravity/artifacts/phase-1-contracts.ts",
+    "fastfetch_widget_subsystem": {
+      "aesthetic": "Terminal-style fastfetch system banner featuring ASCII logo, host OS/architecture, GPU model, active rendering tier, live render FPS, VRAM/memory estimate, and audio state.",
+      "layout": "Collapsible side/bottom drawer or header card with monospace typography and 1px crisp borders (#222224)."
+    },
+    "contract_path": ".opencode/artifacts/phase-1-contracts.ts",
     "motion_lifecycle": {
       "entry": "BootLoadingScreen orchestrated sequence (1200ms duration, cubic-bezier(0.16, 1, 0.3, 1))",
-      "exit": "Zen mode panel collapse transition (200ms duration, ease-in-out)",
-      "unmount_cleanup": "Cancel all rAF/rVFC handles, pause HTMLVideoElement, revoke Blob URLs, stop MediaStream tracks, DOM nodes unmounted cleanly",
-      "orchestrated_moment": "Single orchestrated load screen boot pulse at application startup; all subsequent tab transitions are snappy and static.",
+      "exit": "Drawer and widget collapse transition (180ms duration, ease-in-out)",
+      "unmount_cleanup": "AudioContext suspended/closed, video elements unhooked from AudioSourceNode, typed arrays de-referenced, DOM nodes unmounted cleanly",
+      "orchestrated_moment": "Single orchestrated load screen boot pulse at application startup; all subsequent tab transitions and widget toggles are static and instant.",
       "static_transitions_default": true
     }
   },
@@ -121,6 +105,19 @@
       "label_contrast": "Contrast",
       "label_brightness": "Brightness",
       "label_gamma": "Gamma",
+      "label_exposure": "Exposure",
+      "label_saturation": "Saturation",
+      "label_sharpness": "Sharpness",
+      "label_invert": "Invert Luminance",
+      "label_edge_detection": "Edge Detection (Sobel)",
+      "label_edge_threshold": "Edge Threshold",
+      "label_bg_removal": "Remove Background",
+      "label_bg_threshold": "Tolerance Threshold",
+      "label_bg_feather": "Feather Edge Radius",
+      "label_bg_target_color": "Target Color Mode",
+      "label_audio_toggle": "Audio Passthrough",
+      "label_audio_volume": "Audio Volume",
+      "label_fastfetch_widget": "System Telemetry Widget",
       "label_charset_select": "Character Ramp Preset",
       "label_color_mode": "Color Matrix Output",
       "label_tier_select": "Hardware Acceleration Tier",
@@ -170,6 +167,18 @@
       "badge_active": "Active Session",
       "badge_paused": "Paused Background"
     },
+    "fastfetch": {
+      "card_title": "Fastfetch System Telemetry",
+      "badge_system": "HOST TELEMETRY",
+      "label_os": "Platform OS",
+      "label_gpu": "GPU Hardware",
+      "label_tier": "Active Tier",
+      "label_grid": "Matrix Dimensions",
+      "label_fps": "Render Latency / FPS",
+      "label_vram": "Host Memory",
+      "label_audio": "Audio Subsystem",
+      "btn_toggle_compact": "Toggle Compact View"
+    },
     "node_graph": {
       "panel_title": "Processing Pipeline Graph",
       "source_node": "Input Decoder",
@@ -193,97 +202,67 @@
   },
   "breaking_scenarios": [
     {
-      "id": "STRESS-WS1",
-      "name": "Concurrent Media Stream Collision & Resource Bleed",
-      "vector": "User loads an active 60 FPS video into Workspace 1, switches to Workspace 2 to run a 3D procedural donut, then rapidly inserts an image into Workspace 3",
-      "stress_parameters": {
-        "concurrent_workspaces": 3,
-        "switch_interval_ms": 50,
-        "media_types": [
-          "video",
-          "procedural_3d",
-          "image"
-        ]
-      },
-      "vulnerability_surface": "Canvas context clobbering, audio track leaking in background, procedural render loop racing against video frame callbacks on shared canvas ref",
-      "expected_defense": "Each workspace operates its own dedicated WorkspaceSession state. The inactive workspace video element is paused and unhooked from rVFC; procedural animation loop unbinds upon switching out; active workspace canvas receives exclusive paint access with zero artifact bleed",
-      "failure_threshold_ms": 100,
-      "recovery_action": "Isolate render targets by workspace ID; pause inactive streaming handles synchronously during workspace transition"
-    },
-    {
-      "id": "STRESS-HW1",
-      "name": "WebGPU GPUDevice Lost or Context Interruption During Active Render",
-      "vector": "User forces hardware tier to WebGPU; GPU encounters device lost (e.g. system sleep, driver reset, or memory threshold violation)",
-      "stress_parameters": {
-        "simulated_event": "device.lost",
-        "requested_tier": "tier1_webgpu",
-        "buffer_size_bytes": 16777216
-      },
-      "vulnerability_surface": "Uncaught promise rejection in command encoder submission; blank canvas frozen in unrecoverable error state",
-      "expected_defense": "RenderEngineManager listens to GPUDevice.lost promise. Automatically steps down active tier from tier1_webgpu to tier2_webgl (or tier3_canvas2d); notifies user via HardwareTelemetry banner; re-renders active frame seamlessly without dropping session state",
-      "failure_threshold_ms": 200,
-      "recovery_action": "Execute automatic graceful cascade fallback in RenderEngineManager; update active tier sticker to reflect true operating backend"
-    },
-    {
-      "id": "STRESS-ZEN1",
-      "name": "Zen Mode Viewport Snap, Window Resize & Keyboard Trapping",
-      "vector": "User activates Zen lockscreen mode, then hammers Escape key, F11, and resizes OS desktop window rapidly between 640x480 and 4K resolution",
-      "stress_parameters": {
-        "resize_events_count": 50,
-        "rapid_key_presses": [
-          "Escape",
-          "F11",
-          "Escape",
-          "F11"
-        ],
-        "viewport_bounds": {
-          "min_w": 640,
-          "max_w": 3840
-        }
-      },
-      "vulnerability_surface": "UI lockup if Escape key handler is blocked; layout overflowing screen bounds or hiding unlock button offscreen; z-index fighting between modal drawers",
-      "expected_defense": "Zen mode toggle is bound to root-level global keydown listener with highest priority. Unlock pill maintains fixed top-right coordinate (z-index 50) with safe area insets. AsciiCanvas recalculates monospace character bounds with debounced resize handler",
-      "failure_threshold_ms": 50,
-      "recovery_action": "Guarantee unlock trigger is always visible and accessible; clean toggle back to normal view on any Escape or F11 event"
-    },
-    {
       "id": "STRESS-1",
-      "name": "Unsupported Video Codec or Corrupted Container",
-      "vector": "User drops an MKV with unsupported AV1/HEVC codec or 0-byte corrupt file into dropzone",
+      "name": "High-Res Video Frame Buffer Allocation Overload During Real-Time Chroma-Keying",
+      "vector": "User loads a 4K 60 FPS video with background removal and edge detection active; repeated per-frame buffer reallocations overwhelm garbage collector and GPU memory",
       "stress_parameters": {
-        "file_size": 0,
-        "mime_type": "video/x-matroska",
-        "corrupt_header": true
+        "video_resolution": "3840x2160",
+        "fps": 60,
+        "bg_removal_enabled": true,
+        "edge_detection_enabled": true
       },
-      "vulnerability_surface": "HTMLVideoElement triggers 'error' event; unhandled promise rejection in ensureVideoPlaying() or silent black output",
-      "expected_defense": "HTMLVideoElement error listener intercepts error code MEDIA_ERR_SRC_NOT_SUPPORTED; pipeline catches error, rejects cleanly, sets user-friendly error sticker 'CODEC_UNSUPPORTED', and preserves existing canvas without blank screen",
-      "failure_threshold_ms": 250,
-      "recovery_action": "Display inline error message explaining supported codecs (MP4, WebM), clean up Blob URL, and reset dropzone state to idle"
+      "vulnerability_surface": "Out of memory crash, browser tab freeze, garbage collection stutters causing frame rate drop to < 10 FPS",
+      "expected_defense": "The engine pre-allocates reusable Uint8ClampedArray and ImageData buffers based on target ASCII grid resolution (e.g. 120x60 or max clamped 240x120), downsampling the video frame prior to chroma-keying and edge filtering so that memory allocation is O(1) during live playback",
+      "failure_threshold_ms": 100,
+      "recovery_action": "Clamp sampling canvas dimensions to target grid dimensions; reuse persistent buffers across frame loops"
     },
     {
       "id": "STRESS-2",
-      "name": "Rapid Mode Switching During Active 60 FPS Video Loop",
-      "vector": "User selects high-bitrate video, clicks play, and immediately rapid-clicks between 'video', 'camera_stream', and 'procedural_3d' tabs at 10Hz",
+      "name": "AudioContext Blocked by Browser Autoplay Policy / User Gesture Requirement",
+      "vector": "User loads or seeks video; video playback begins automatically but browser/webview halts audio output with AudioContext in 'suspended' state",
       "stress_parameters": {
-        "switch_frequency_hz": 10,
-        "tab_sequence": [
-          "video",
-          "camera_stream",
-          "procedural_3d",
-          "image",
-          "video"
-        ],
-        "active_stream_count": 3
+        "user_gesture_present": false,
+        "autoplay_mode": true,
+        "expected_audio_state": "running"
       },
-      "vulnerability_surface": "Orphaned requestVideoFrameCallback handles writing to detached canvas context; memory leak of unmounted HTMLVideoElements; audio playback continuing in background",
-      "expected_defense": "Active stream controller cancelVideoFrameCallback() and video.pause() executed synchronously in useEffect cleanup; offscreen canvas context released; video.src revoked; only single active loop executes",
-      "failure_threshold_ms": 100,
-      "recovery_action": "Enforce strict cancellation token on all frame callbacks; destroy prior pipeline before mounting new active tab"
+      "vulnerability_surface": "Audio fails silently or throws DOMException; user hears nothing while video ASCII streams; unhandled promise rejection stalls engine",
+      "expected_defense": "VideoStreamingEngine intercepts AudioContext.state. If suspended, it records isAutoplayBlocked=true, exposes a non-intrusive 'Unmute Audio' pill in the UI, and attaches a one-time global click/keydown handler that calls audioContext.resume() synchronously upon the first user interaction",
+      "failure_threshold_ms": 50,
+      "recovery_action": "Detect suspended state; attach click handler to call audioContext.resume(); restore GainNode volume gracefully without crackle"
+    },
+    {
+      "id": "STRESS-3",
+      "name": "Background Detector False Positive on Low-Contrast Subjects",
+      "vector": "User loads a dark monochrome Arch Linux logo or dark figure against a dark slate background, or white subject against light background, with tolerance set too high",
+      "stress_parameters": {
+        "subject_luminance": 18,
+        "background_luminance": 12,
+        "threshold": 40,
+        "target_color": "auto_corner"
+      },
+      "vulnerability_surface": "Entire subject is eliminated as background, leaving an empty ASCII screen or fragmented holes in the subject body",
+      "expected_defense": "The background removal algorithm implements corner sampling fallback (verifying variance among 4 corners before auto-keying), clamps default tolerance to conservative threshold (40/255), and provides user-accessible color tolerance slider, invert mask toggle, and target color picker to immediately fine-tune detection boundaries",
+      "failure_threshold_ms": 150,
+      "recovery_action": "Sample 4 distinct corner clusters; if corner variance exceeds threshold, fall back to center-weighted contrast preservation or notify user to adjust tolerance slider"
+    },
+    {
+      "id": "STRESS-4",
+      "name": "Rapid Signal Parameter Thrashing During 60 FPS Video Playback",
+      "vector": "User rapidly drags exposure, saturation, sharpness, and background removal sliders simultaneously while 60 FPS video is rendering",
+      "stress_parameters": {
+        "param_update_frequency_hz": 120,
+        "active_sliders": ["exposure", "saturation", "sharpness", "bgRemoval.threshold"],
+        "video_fps": 60
+      },
+      "vulnerability_surface": "UI thread lockup, state thrashing in React re-render loop, dropped frames on canvas paint",
+      "expected_defense": "AsciiRenderOptions ref is updated synchronously for the render loop while React state updates are debounced/batched via requestAnimationFrame, ensuring the canvas loop reads latest atomic options without triggering hundreds of redundant component reconciliations",
+      "failure_threshold_ms": 80,
+      "recovery_action": "Decouple render engine options pointer from React component re-renders; batch state updates using startTransition or rAF"
     }
   ],
   "motion_lifecycle": {
     "primary_moment": "1.2s hardware handshake boot sequence with clean unmount",
-    "secondary_transitions": "Instant 0ms-50ms mechanical snaps; smooth 200ms ease-out for top-right zen lockscreen collapse",
+    "secondary_transitions": "Instant 0ms-50ms mechanical snaps; smooth 180ms ease-out for widget / drawer collapse",
     "motion_moments_cap": 1,
     "unmount_cleanup_verified": true
   },

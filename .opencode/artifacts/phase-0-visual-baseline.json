@@ -1,0 +1,20 @@
+{
+  "baseline_available": true,
+  "is_greenfield": false,
+  "screenshot_path": "screenshots/baseline-current.png",
+  "current_design_state": {
+    "palette": [
+      "#000000",
+      "#0a0a0c",
+      "#141416",
+      "#222224"
+    ],
+    "typography": "JetBrains Mono / Inter",
+    "existing_features": [
+      "Signal Adjustments",
+      "Background Removal",
+      "Audio Engine",
+      "Fastfetch Drawer"
+    ]
+  }
+}

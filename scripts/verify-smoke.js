@@ -1,91 +1,70 @@
-import { chromium } from "playwright";
-import fs from "fs";
+const { chromium } = require('playwright');
+const fs = require('fs');
 
-async function main() {
-  console.log("Launching Chromium...");
+(async () => {
   const browser = await chromium.launch({ headless: true });
-  const context = await browser.newContext({
-    viewport: { width: 1440, height: 900 }
-  });
+  const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
   const page = await context.newPage();
 
   const consoleErrors = [];
-  page.on("console", (msg) => {
-    if (msg.type() === "error") {
-      consoleErrors.push(msg.text());
-    }
+  page.on('console', msg => {
+    if (msg.type() === 'error') consoleErrors.push(msg.text());
   });
-  page.on("pageerror", (err) => {
-    consoleErrors.push(err.message);
+  page.on('pageerror', err => {
+    consoleErrors.push(err.toString());
   });
 
-  console.log("Navigating to http://localhost:3000...");
-  const response = await page.goto("http://localhost:3000", { waitUntil: "networkidle" });
+  console.log('Navigating to http://localhost:5173...');
+  const response = await page.goto('http://localhost:5173', { waitUntil: 'networkidle' });
   const status = response ? response.status() : 0;
-  console.log(`HTTP Status: ${status}`);
+  console.log('HTTP Status:', status);
 
-  // Wait for initial animation & rendering
-  await page.waitForTimeout(1000);
+  // Allow boot animation / mount sequence to finish
+  await page.waitForTimeout(2500);
 
-  // Check key elements
-  const headerExists = (await page.locator("header").count()) > 0;
-  const canvasExists = (await page.locator("canvas").count()) > 0;
-  const mainExists = (await page.locator("main").count()) > 0;
-  const telemetryExists = (await page.locator("text=TELEMETRY").count()) > 0 || (await page.locator("text=FPS").count()) > 0;
+  // Verify interactive hydration by clicking the fastfetch widget button or a tab
+  const buttons = await page.$$eval('button', btns => btns.map(b => b.innerText.trim()));
+  console.log('Available buttons count:', buttons.length);
 
-  console.log({ headerExists, canvasExists, mainExists, telemetryExists });
-
-  // Active interaction: click scene buttons or tabs
-  console.log("Performing interactions to prove active hydration...");
-  const buttons = await page.locator("button").all();
-  console.log(`Found ${buttons.length} buttons on page.`);
-
-  // Click on a scene button if available (e.g. Cube, Sphere, Blackhole, etc.)
-  const cubeBtn = page.locator("button:has-text('cube')").or(page.locator("button:has-text('Cube')")).first();
-  if (await cubeBtn.count() > 0) {
-    await cubeBtn.click();
-    console.log("Clicked Cube button");
+  // Click Fastfetch trigger if exists
+  const fastfetchButton = await page.$('button[title*="Fastfetch"], button:has-text("FASTFETCH"), button:has-text("Telemetry")');
+  if (fastfetchButton) {
+    console.log('Clicking Fastfetch toggle button...');
+    await fastfetchButton.click();
+    await page.waitForTimeout(800);
+  } else {
+    console.log('Fastfetch button not found by selector, looking for sliders or tabs');
+    const firstTab = await page.$('button');
+    if (firstTab) {
+      await firstTab.click();
+      await page.waitForTimeout(500);
+    }
   }
 
-  // Click on another charset or color mode button if available
-  const matrixBtn = page.locator("button:has-text('amber')").or(page.locator("button:has-text('Amber')")).first();
-  if (await matrixBtn.count() > 0) {
-    await matrixBtn.click();
-    console.log("Clicked Amber color button");
+  // Adjust a slider if available
+  const slider = await page.$('input[type="range"]');
+  if (slider) {
+    console.log('Adjusting range slider for exposure/saturation...');
+    await slider.fill('20');
+    await page.dispatchEvent('input[type="range"]', 'input');
+    await page.waitForTimeout(300);
   }
 
-  await page.waitForTimeout(500);
+  await page.screenshot({ path: 'screenshots/verification-live.png' });
+  const stats = fs.statSync('screenshots/verification-live.png');
+  console.log('Screenshot size bytes:', stats.size);
 
-  // Capture screenshot
-  const screenshotPath = "screenshots/verification-live.png";
-  await page.screenshot({ path: screenshotPath, fullPage: false });
-  const stats = fs.statSync(screenshotPath);
-  console.log(`Screenshot saved: ${screenshotPath} (${stats.size} bytes)`);
-
-  const domStats = await page.evaluate(() => {
+  const evaluation = await page.evaluate(() => {
     return {
-      elementCount: document.querySelectorAll("*").length,
+      elementCount: document.querySelectorAll('*').length,
       visibleTextLength: document.body.innerText.trim().length,
-      title: document.title,
+      bodyTextSnippet: document.body.innerText.slice(0, 300),
+      hasSliders: document.querySelectorAll('input[type="range"]').length,
     };
   });
 
-  console.log("DOM Stats:", domStats);
-  console.log("Console Errors:", consoleErrors);
+  console.log('Evaluation:', evaluation);
+  console.log('Runtime console errors:', consoleErrors);
 
   await browser.close();
-
-  return {
-    status,
-    screenshotPath,
-    screenshotBytes: stats.size,
-    domStats,
-    consoleErrors,
-    elementsPresent: { headerExists, canvasExists, mainExists, telemetryExists }
-  };
-}
-
-main().catch((err) => {
-  console.error("Verification failed:", err);
-  process.exit(1);
-});
+})();

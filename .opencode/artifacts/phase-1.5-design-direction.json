@@ -1,82 +1,69 @@
 {
+  "visual_reference": {
+    "source_type": "repo_component",
+    "reference_path": "src/contracts.ts",
+    "adapted_components": [
+      "signal-controls",
+      "background-removal",
+      "audio-engine",
+      "fastfetch-widget"
+    ]
+  },
   "color_system": {
-    "bg_void": "#000000",
-    "surface_graphite": "#0a0a0c",
-    "surface_raised": "#141416",
+    "background": "#000000",
+    "surface": "#0a0a0c",
+    "surface_elevated": "#141416",
+    "border": "#222224",
     "text_primary": "#ffffff",
-    "text_muted": "#a1a1aa",
-    "border_subtle": "#222224"
+    "text_muted": "#71717a"
   },
   "typography": {
     "typefaces": [
       {
         "name": "Inter",
-        "family": "Inter",
-        "role": "display",
-        "weights": ["400", "500", "600"]
+        "role": "body / sans-serif"
       },
       {
         "name": "JetBrains Mono",
-        "family": "JetBrains Mono",
-        "role": "body",
-        "weights": ["400", "500"]
+        "role": "display / terminal readout"
       }
     ],
     "line_length_target": 72
   },
   "layout": {
-    "concept": "Multi-workspace technical workstation with discrete per-workspace isolation (Workspace 1: Video, Workspace 2: Image, etc.), top telemetry and real hardware acceleration tier indicator bar, left-aligned minimal parameter controls, and an aesthetic top-right floating translucent Zen lockscreen button [ ⛶ ZEN ] / [ 🔒 LOCK ] to collapse all chrome into full-screen distraction-free viewing.",
-    "ascii_wireframe": "+-----------------------------------------------------------------------------------------+\n| [TITAN ASCII v2.0]  [+ TAB 1: VIDEO ⏺]  [TAB 2: IMAGE]  [+ NEW]         [TIER-1: WebGPU] [🔒 ZEN] |\n+-----------------------------------------------------------------------------------------+\n| WORKSPACE PARAMETERS | ISOLATED RENDER VIEWPORT                           | TELEMETRY         |\n| - Active: TAB 1      |                                                    | FPS: 60.0         |\n| - Media: video.mp4   |          .---.                                     | LATENCY: 1.4ms    |\n| - Kernel: BRAILLE    |         /     \\   ASCII MATRIX STREAM              | WORKSPACES: 2 ACT |\n| - Width: 140 cols    |        | () () |  (Isolated buffer & rAF loop)      | GPU: Apple M-Max  |\n| - Dither: ATKINSON   |         \\  _  /                                    | MEM: 42MB         |\n|                      |          '---'                                     |                   |\n| [LOAD MEDIA]         +----------------------------------------------------+ STICKERS:         |\n| [PAUSE WORKSPACE]    | [ ⏸ PAUSE ] [ ⏹ STOP ] [ 📷 SNAP ] [ ⛶ FULLSCREEN ] | [HARDWARE_NATIVE] |\n+---------------------------------------------------------------------------+ [ISOLATED_SLOT]   |\n| STATUS: REAL ACCELERATION ACTIVE | TIER: WebGPU (WGSL Compute)            | [ZERO_GIMMICK]    |\n+-----------------------------------------------------------------------------------------+",
-    "alignment": "left",
-    "alignment_rationale": "Left-aligned workspace parameter drawers and top workspace tab selector with centered canvas viewport ensure rock-solid stability during real-time 60 FPS video and procedural stream switching without layout shift."
+    "concept": "High-density dark minimalist control dock with modular collapsible cards and side telemetry drawer.",
+    "ascii_wireframe": "+-------------------+--------------------------+\n|  Controls Panel   |   ASCII Viewport         |\n| [Signal] [BG] [Aud]|   [60 FPS GPU Matrix]    |\n+-------------------+--------------------------+\n|  Drawer Trigger   |   Status Bar & Tiers     |\n+-------------------+--------------------------+",
+    "alignment": "Left-aligned monospace readouts with right-aligned numeric telemetry indicators for optimal scannability."
   },
-  "principles": "Stripped of all colorful AI gradients, gimmicky mockup cards, and pastel badges, this interface operates as an authentic high-precision engineering console. Compartmentalized per-workspace isolation gives every video, image, and camera session dedicated execution lifecycles without canvas collisions. Deep obsidian graphite surfaces (#000000, #0a0a0c) paired with real hardware-detected telemetry and a surgical top-right Zen lockscreen button honor the user brief for strict black-and-white minimalism and zero-gimmick authenticity.",
+  "principles": "Pure high-contrast dark minimalist terminal UI with strict 44px touch targets. High information density without decorative AI clutter, grounded directly in contracts.ts.",
   "orchestrated_moment": {
-    "trigger": "Application initial launch / boot sequence",
-    "justification": "Exactly ONE 1.2s monochrome hardware-handshake entrance animation probes navigator.gpu and GPU device capabilities, reveals the active workspace container, and draws the primary parameter perimeter. Subsequent workspace switches and top-right Zen lockscreen collapse (200ms ease-out) remain crisp, low-overhead, and static."
-  },
-  "token_overrides": {
-    "border_radius": {
-      "none": "0px",
-      "sm": "2px",
-      "md": "4px",
-      "lg": "6px",
-      "pill": "9999px"
-    },
-    "shadows": {
-      "none": "none",
-      "subtle": "0 1px 2px 0 rgba(0, 0, 0, 0.8)",
-      "elevation": "0 4px 20px -2px rgba(0, 0, 0, 0.95)",
-      "zen_pill": "0 2px 10px rgba(0, 0, 0, 0.5)"
-    },
-    "spacing": {
-      "xs": "4px",
-      "sm": "8px",
-      "md": "16px",
-      "lg": "24px",
-      "xl": "32px",
-      "grid_unit": "8px"
-    },
-    "palette": {
-      "background": "0 0% 0%",
-      "foreground": "0 0% 100%",
-      "card": "240 10% 3.9%",
-      "card_foreground": "0 0% 100%",
-      "border": "240 3.7% 15.9%",
-      "primary": "0 0% 100%",
-      "primary_foreground": "0 0% 0%",
-      "muted": "240 3.7% 15.9%",
-      "muted_foreground": "240 5% 64.9%",
-      "accent": "0 0% 100%"
-    }
+    "trigger": "Fastfetch drawer open / close slide animation (200ms ease-out)",
+    "justification": "Single deliberate motion moment for system HUD telemetry visibility, keeping all other controls instant and static."
   },
   "tells_checked": [
-    "Checked cream/terracotta tell: rejected warm-clay and paper tints in favor of deliberate pure black #000000 base and #ffffff white highlights.",
-    "Checked near-black/acid-green slop tell: user brief explicitly mandates monochrome B&W minimalism; deliberate override of color accents to pure monochrome #ffffff with subtle graphite elevation #0a0a0c.",
-    "Checked broadsheet layout tell: rejected hairline newspaper columns; structured as high-density multi-workspace technical workstation with tabbed workspace isolation.",
-    "Checked SaaS card kit tell: eliminated uniform rounded cards and soft shadows; used sharp 2px-4px borders, isolated workspace views, real hardware tier telemetry badges, and an aesthetic top-right floating translucent Zen lock pill.",
-    "Checked template chrome: removed tracked-out ALL-CAPS eyebrows, middot separators, and arrow CTA suffixes; used clean sentence-case and monospace readouts.",
-    "Checked AI-slop colorful gradients: completely purged rainbow badges and purple-to-blue neon glows in favor of deliberate monochrome luminance mapping and authentic hardware status indicators.",
-    "Checked blanket transitions tell: restricted motion to exactly ONE startup reveal moment (1.2s monochrome boot sequence) and a 200ms ease-out Zen lockscreen collapse; all tab switches and parameter adjustments use instant mechanical updates."
-  ]
+    "Banned tell: Checked and avoided cream/terracotta palettes.",
+    "Banned tell: Checked and avoided acid-green on near-black AI clich\u00e9s; using pure monochrome white/gray with subtle status indications.",
+    "Banned tell: Replaced generic cards with 4px radius technical control panels.",
+    "Banned tell: No floating badges or decorative gradients."
+  ],
+  "token_overrides": {
+    "border_radius": {
+      "card": "4px",
+      "button": "4px",
+      "tag": "2px"
+    },
+    "shadows": {
+      "panel": "0 4px 24px -2px rgba(0, 0, 0, 0.95)"
+    },
+    "spacing": {
+      "control_gap": "12px",
+      "touch_target_min": "44px"
+    },
+    "palette": {
+      "background": "#000000",
+      "surface": "#0a0a0c",
+      "border": "#222224",
+      "text": "#ffffff"
+    }
+  }
 }

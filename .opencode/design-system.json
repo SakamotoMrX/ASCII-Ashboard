@@ -1,0 +1,62 @@
+{
+  "created_at": "2026-09-13T05:16:28.388Z",
+  "version": "1.0.0",
+  "color_system": {
+    "obsidian_void": "#0A0A0C",
+    "slate_surface": "#121215",
+    "border_slate": "#1A1A22",
+    "phosphor_green": "#00FF66",
+    "cyan_accent": "#38BDF8",
+    "text_high_contrast": "#E2E8F0"
+  },
+  "typography": {
+    "typefaces": [
+      {
+        "name": "JetBrains Mono",
+        "role": "display"
+      },
+      {
+        "name": "Inter",
+        "role": "body"
+      }
+    ],
+    "line_length_target": 72
+  },
+  "token_overrides": {
+    "border_radius": {
+      "none": "0px",
+      "sm": "2px",
+      "md": "2px",
+      "lg": "4px",
+      "pill": "9999px"
+    },
+    "shadows": {
+      "none": "none",
+      "subtle": "0 1px 2px 0 rgba(0, 0, 0, 0.8)",
+      "elevation": "0 4px 16px -2px rgba(0, 0, 0, 0.95)",
+      "zen_pill": "0 2px 8px rgba(0, 0, 0, 0.6)"
+    },
+    "spacing": {
+      "xs": "4px",
+      "sm": "8px",
+      "md": "16px",
+      "lg": "24px",
+      "xl": "32px",
+      "grid_unit": "8px"
+    },
+    "palette": {
+      "background": "#0A0A0C",
+      "foreground": "#E2E8F0",
+      "card": "#121215",
+      "card_foreground": "#E2E8F0",
+      "border": "#1A1A22",
+      "primary": "#E2E8F0",
+      "primary_foreground": "#0A0A0C",
+      "muted": "#1A1A22",
+      "muted_foreground": "#71717A",
+      "accent": "#00FF66",
+      "accent_secondary": "#38BDF8"
+    }
+  },
+  "principles": "Conceived as an authentic dark technical engineering studio for high-contrast ASCII generation rather than a consumer web app. Uses deep obsidian and slate surfaces (#0A0A0C, #121215) with crisp 1px borders (#1A1A22), monospaced telemetry hierarchy, and focused phosphor/cyan accents (#00FF66, #38BDF8) strictly for system status indication. All controls strictly adhere to the locked page_copy and contracts without decorative AI gradients or fake SaaS badges."
+}

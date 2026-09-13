@@ -1,0 +1,38 @@
+{
+  "viewport": 768,
+  "touch_targets_verified": false,
+  "total_interactive": 26,
+  "violation_count": 26,
+  "violations": [
+    {
+      "tag": "button",
+      "text": "3D Procedural",
+      "width": 140,
+      "height": 26
+    },
+    {
+      "tag": "button",
+      "text": "Image Converter",
+      "width": 152,
+      "height": 24
+    },
+    {
+      "tag": "button",
+      "text": "Video Streamer",
+      "width": 145,
+      "height": 24
+    },
+    {
+      "tag": "button",
+      "text": "Live Camera",
+      "width": 123,
+      "height": 24
+    },
+    {
+      "tag": "button",
+      "text": "Sandbox & Engines",
+      "width": 167,
+      "height": 24
+    }
+  ]
+}

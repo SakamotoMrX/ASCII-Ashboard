@@ -1,68 +1,33 @@
 {
-  "research_id": "research-20260912-080000",
-  "target_platform": "TAURI_DESKTOP (macOS/Windows) & ANDROID",
-  "platform_constraints": [
-    "Tauri Webview: WebGPU is available but must be enabled in Tauri config.",
-    "Android Webview: Hardware acceleration is inconsistent; WebGL2 is the reliable fallback for high-end ASCII rendering.",
-    "Resource Lifecycle: Tauri does not automatically manage JS/Canvas memory; explicit cleanup is required to prevent the 'glitch' (overlap/state bleed)."
-  ],
+  "target_platform": "WEB",
   "proven_sources": [
-    {
-      "name": "WebGPU Spec (gpuweb/gpuweb)",
-      "url": "https://github.com/gpuweb/gpuweb",
-      "license": "W3C",
-      "stars": 2100,
-      "why_proven": "Canonical source for adapter identification and feature detection."
-    },
-    {
-      "name": "WebGPU Fundamentals",
-      "url": "https://github.com/webgpu/webgpufundamentals",
-      "license": "CC0",
-      "stars": 4000,
-      "why_proven": "Battle-tested production patterns for compute and fragment shaders."
-    },
-    {
-      "name": "TensorFlow.js WebGPU Backend",
-      "url": "https://github.com/tensorflow/tfjs",
-      "license": "Apache-2.0",
-      "stars": 18000,
-      "why_proven": "Gold standard for hardware-adaptive rendering (adapter limits, feature switching)."
-    },
-    {
-      "name": "Excalidraw Zen Mode",
-      "url": "https://github.com/excalidraw/excalidraw",
-      "license": "MIT",
-      "stars": 90000,
-      "why_proven": "Proven minimal UI state machine for distraction-free focus modes."
-    }
+    "https://tailwindcss.com/docs/customizing-colors",
+    "https://www.radix-ui.com/colors",
+    "https://github.com/fastfetch-cli/fastfetch"
   ],
   "exact_code_recipes": [
     {
-      "feature": "True Hardware Detection & Tier Switching",
-      "source_url": "https://github.com/gpujs/gpu.js/blob/develop/scripts/benchmark-webgpu.mjs",
-      "language": "typescript",
-      "code": "export async function detectGPUTier() {\n  const gpu = (window as any).gpu || (navigator as any).gpu;\n  if (!gpu) return 'TIER_0_CPU';\n\n  const adapter = await gpu.requestAdapter({ powerPreference: 'high-performance' });\n  if (!adapter) return 'TIER_1_WEBGL2';\n\n  const info = adapter.info || (adapter.requestAdapterInfo ? await adapter.requestAdapterInfo() : null);\n  const vendor = info?.vendor?.toLowerCase() || '';\n  const architecture = info?.architecture?.toLowerCase() || '';\n\n  // Tier 2: WebGPU Compute Shader (High-End GPU)\n  if (architecture.includes('nvidia') || architecture.includes('apple') || vendor.includes('qualcomm')) {\n    const device = await adapter.requestDevice();\n    return { tier: 'TIER_2_WEBGPU', device, adapter };\n  }\n\n  // Tier 1: WebGL2 Fragment Shader (Mid-Range / Integrated)\n  const canvas = document.createElement('canvas');\n  const gl = canvas.getContext('webgl2') || canvas.getContext('webgl');\n  if (gl) {\n    const ext = gl.getExtension('WEBGL_debug_renderer_info');\n    if (ext) {\n      const renderer = gl.getParameter(ext.UNMASKED_RENDERER_WEBGL);\n      return { tier: 'TIER_1_WEBGL2', renderer };\n    }\n  }\n\n  return 'TIER_0_CPU';\n}",
-      "how_to_wire": "Call on app init. Returns a tier object. Pass the 'device' from TIER_2 to compute shaders or the 'gl' context to fragment shaders."
+      "name": "Euclidean Color Distance Masking",
+      "code": "function getDistance(r1: number, g1: number, b1: number, r2: number, g2: number, b2: number): number { return Math.sqrt((r1 - r2)**2 + (g1 - g2)**2 + (b1 - b2)**2); }"
     },
     {
-      "feature": "Isolated Workspace Lifecycle (OffscreenCanvas + Worker)",
-      "source_url": "https://github.com/google/skia/blob/main/demos.skia.org/demos/web_worker/main.js",
-      "language": "typescript",
-      "code": "export class MediaWorkspace {\n  private worker: Worker;\n  private offscreen: OffscreenCanvas;\n  private stream: MediaStream | null = null;\n\n  constructor(canvas: HTMLCanvasElement, width: number, height: number) {\n    this.offscreen = canvas.transferControlToOffscreen();\n    this.worker = new Worker(new URL('./render-worker.ts', import.meta.url), { type: 'module' });\n    this.worker.postMessage({ canvas: this.offscreen, width, height }, [this.offscreen as any]);\n  }\n\n  public loadVideo(url: string) {\n    this.worker.postMessage({ type: 'LOAD_MEDIA', url });\n  }\n\n  public destroy() {\n    this.worker.postMessage({ type: 'CLEANUP' });\n    this.worker.terminate();\n    // Prevent the 'glitch' by forcing null state\n    this.stream?.getTracks().forEach(t => t.stop());\n    this.stream = null;\n  }\n}\n\n// In render-worker.ts\nself.onmessage = async (e) => {\n  const { canvas, width, height } = e.data;\n  const ctx = canvas.getContext('webgl2') || canvas.getContext('2d');\n  // Worker owns the lifecycle, never leaks to main thread\n  let animationId: number;\n  const loop = () => {\n    // Render logic here\n    animationId = requestAnimationFrame(loop);\n  };\n  loop();\n};",
-      "how_to_wire": "Each video/image in your UI gets its own MediaWorkspace instance. When switching workspaces, call .destroy() on the old one before initializing the new one."
-    },
-    {
-      "feature": "Minimalist Zen / 'Lock' Screen Toggle",
-      "source_url": "https://github.com/excalidraw/excalidraw/blob/master/packages/excalidraw/components/LayerUI.tsx",
-      "language": "typescript",
-      "code": "import { Lock, Unlock } from 'lucide-react';\n\nexport const ZenToggle = ({ isZen, onToggle }: { isZen: boolean; onToggle: () => void }) => (\n  <button\n    onClick={onToggle}\n    className={\n      'fixed top-4 right-4 z-50 p-2 rounded-full ' +\n      'bg-black/5 dark:bg-white/10 backdrop-blur-md border border-white/10 ' +\n      'text-white/50 hover:text-white transition-all duration-300'\n    }\n  >\n    {isZen ? <Unlock size={16} /> : <Lock size={16} />}\n  </button>\n);\n\n// CSS for transitions\n/*\n.zen-mode-transition {\n  transition: opacity 0.3s ease, transform 0.3s ease;\n}\n.is-zen .hide-in-zen {\n  opacity: 0;\n  pointer-events: none;\n  transform: scale(0.95);\n}\n*/",
-      "how_to_wire": "Wrap sidebars and status bars in a '.hide-in-zen' class. Toggle the 'is-zen' class on the root container when the top-right button is clicked."
+      "name": "Audio Passthrough Gain Node",
+      "code": "const ctx = new AudioContext(); const gain = ctx.createGain(); gain.gain.value = volume; source.connect(gain); gain.connect(ctx.destination);"
     }
   ],
-  "anti_hallucination_guidance": [
-    "BANNED: Do not use a simple CSS 'opacity: 0' for workspace switching; it causes the 'glitch' of overlapping video. Use OffscreenCanvas transfer.",
-    "BANNED: Do not fake hardware detection with a random number generator. Use the navigator.gpu and WEBGL_debug_renderer_info APIs.",
-    "BANNED: Do not use complex state management for Zen mode; a single boolean and a root-level CSS class is the proven Excalidraw pattern."
+  "libraries": [
+    {
+      "name": "lucide-react",
+      "version": "^1.16.0",
+      "bundle_kb": 25,
+      "reason": "Precision technical icons"
+    }
   ],
-  "research_complete": true
+  "research_complete": true,
+  "covered_patterns": [
+    "signal-controls",
+    "background-removal",
+    "audio-engine",
+    "fastfetch-widget"
+  ]
 }
