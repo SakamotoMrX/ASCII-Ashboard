@@ -165,3 +165,14 @@ export const PAGE_COPY = {
     badge_paused: "Paused Background",
   },
 } as const;
+
+export interface FastfetchWidgetOptions {
+  enabled?: boolean;
+  compactMode?: boolean;
+  showGpuTelemetry?: boolean;
+  showAudioMeter?: boolean;
+  showSignalHistogram?: boolean;
+  refreshIntervalMs?: number;
+  pollIntervalMs?: number;
+  [key: string]: unknown;
+}

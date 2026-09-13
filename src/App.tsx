@@ -16,7 +16,6 @@ import { ConstellationGraph } from "./components/ConstellationGraph";
 import { TechnicalStickers } from "./components/TechnicalStickers";
 import { ZenLockscreenToggle } from "./components/ZenLockscreenToggle";
 import { WorkspaceTabBar, WorkspaceSession } from "./components/WorkspaceTabBar";
-import { FastfetchWidget } from "./components/FastfetchWidget";
 import { RenderEngineManager } from "./lib/renderers/manager";
 import { globalWorkspaceManager } from "./engine/workspace-manager";
 import { renderProcedural3D } from "./engine/procedural-3d";
@@ -165,7 +164,6 @@ export default function App() {
   const [isZenMode, setIsZenMode] = useState<boolean>(false);
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
   const [mobileViewMode, setMobileViewMode] = useState<"controls" | "viewport">("viewport");
-  const [isFastfetchOpen, setIsFastfetchOpen] = useState<boolean>(false);
 
   // Workspace Sessions State bound to WorkspaceManager
   const [workspaces, setWorkspaces] = useState<WorkspaceSession[]>(() =>
@@ -321,14 +319,6 @@ export default function App() {
       muted: false,
       preservePitch: true,
       visualizeOutput: false,
-    },
-    fastfetch: {
-      enabled: true,
-      compactMode: false,
-      showGpuTelemetry: true,
-      showAudioMeter: true,
-      showSignalHistogram: false,
-      refreshIntervalMs: 500,
     },
     dither: "none",
     cell_width_px: 8,
@@ -1026,7 +1016,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen h-screen bg-[#121212] text-[#f3f4f6] flex flex-col font-sans antialiased overflow-x-hidden select-none min-h-0 w-full max-w-full">
+    <div className="min-h-screen h-screen bg-[#000000] text-[#f3f4f6] flex flex-col font-sans antialiased overflow-x-hidden select-none min-h-0 w-full max-w-full">
       {/* Accessibility Skip Link */}
       <a
         href="#main-content"
@@ -1097,11 +1087,11 @@ export default function App() {
           resolution={{ columns: options.max_output_columns, rows: options.max_output_rows }}
           platform={hostTelemetry.platform}
           sandboxSealed={hostTelemetry.sandbox_sealed}
-          className="hidden md:flex px-6 py-2 bg-[#0a0a0c] border-b border-[#222224]"
+          className="hidden md:flex px-6 py-2 bg-[#09090b] border-b border-[#222224]"
         />
 
         {/* Mobile View Mode Switcher (md:hidden) */}
-        <div className="flex md:hidden items-center justify-center p-1.5 bg-[#0a0a0c] border-b border-[#222224]">
+        <div className="flex md:hidden items-center justify-center p-1.5 bg-[#09090b] border-b border-[#222224]">
           <div className="grid grid-cols-2 w-full max-w-sm gap-1 bg-[#141416] p-1 rounded-[4px] border border-[#222224] text-xs font-mono">
             <button
               type="button"
@@ -1186,8 +1176,6 @@ export default function App() {
             onSeekVideo={handleSeekVideo}
             onToggleLoopVideo={handleToggleLoopVideo}
             onStopVideo={handleStopVideo}
-            onToggleFastfetch={() => setIsFastfetchOpen((prev) => !prev)}
-            isFastfetchOpen={isFastfetchOpen}
           />
         </div>
 
@@ -1195,7 +1183,7 @@ export default function App() {
         <main
           id="main-content"
           tabIndex={-1}
-          className={`flex-1 flex flex-col bg-[#121212] overflow-x-hidden overflow-y-auto relative min-h-0 w-full max-w-full h-full ${
+          className={`flex-1 flex flex-col bg-[#000000] overflow-x-hidden overflow-y-auto relative min-h-0 w-full max-w-full h-full ${
             mobileViewMode === "controls" ? "hidden md:flex" : "flex"
           }`}
         >
@@ -1222,7 +1210,7 @@ export default function App() {
           {/* Constellation Pipeline Graph (embedded viewport visualization, md+ to avoid 375px overflow) */}
           {activeTab !== "media_picker" && (
             <div
-              className={`flex flex-shrink-0 border-t border-[#222224] bg-[#0a0a0c] transition-all duration-200 ease-out ${
+              className={`flex flex-shrink-0 border-t border-[#222224] bg-[#09090b] transition-all duration-200 ease-out ${
                 isZenMode
                   ? "h-0 max-h-0 opacity-0 pointer-events-none overflow-hidden"
                   : "h-[320px] opacity-100"
@@ -1251,28 +1239,6 @@ export default function App() {
         <TelemetryDrawer telemetry={telemetryData} />
       </div>
 
-      {/* Fastfetch System Telemetry Terminal Drawer */}
-      <FastfetchWidget
-        isOpen={isFastfetchOpen}
-        onClose={() => setIsFastfetchOpen(false)}
-        telemetry={{
-          os: "macOS Darwin 24.6.0 (Sealed Sandbox)",
-          arch: "arm64 (Apple Silicon Metal)",
-          gpuAdapter: "Apple M-Series Hardware Accelerator",
-          gpuTier: activeTier,
-          memoryUsageMb: 84.5,
-          renderFps: fps,
-          renderLatencyMs: renderTimeMs,
-          gridDimensions: `${options.max_output_columns}×${options.max_output_rows}`,
-          activePreset: options.charset.preset.toUpperCase(),
-          activeColorMatrix: options.color_mode.toUpperCase(),
-          audioStatus: options.audio.muted ? "MUTED" : "AUDIO SYNCED",
-          audioVolume: options.audio.volume,
-          uptimeSec: 128,
-        }}
-        options={options}
-        asciiSnippet={asciiOutput ? asciiOutput.slice(0, 300) : undefined}
-      />
     </div>
   );
 }

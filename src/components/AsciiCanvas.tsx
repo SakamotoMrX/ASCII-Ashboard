@@ -39,42 +39,27 @@ export const AsciiCanvas: React.FC<AsciiCanvasProps> = ({
     return () => container.removeEventListener("wheel", handleWheel);
   }, []);
 
-  const getColorClass = () => {
-    switch (options.color_mode) {
-      case "matrix_green":
-        return "text-[#00ff88]";
-      case "amber":
-        return "text-[#ffb700]";
-      case "cyberpunk_neon":
-        return "text-[#ff3366]";
-      case "truecolor":
-      case "rgb_ansi":
-        return "text-[#38bdf8]";
-      case "monochrome":
-      default:
-        return "text-[#f3f4f6]";
-    }
-  };
+  const getColorClass = () => "text-[#ffffff]";
 
   return (
     <div
       ref={containerRef}
-      className="relative flex-1 bg-[#121212] flex items-center justify-center overflow-hidden min-h-[350px] h-full w-full max-w-full font-sans"
+      className="relative flex-1 bg-[#000000] flex items-center justify-center overflow-hidden min-h-[350px] h-full w-full max-w-full font-sans"
     >
       {/* Viewport Overlay Controls */}
-      <div className="absolute top-4 right-4 z-20 flex items-center gap-1 bg-[#1a1a1a] border border-[#2a2a2a] rounded-[4px] p-1 text-xs max-w-[calc(100%-24px)] flex-wrap justify-end">
+      <div className="absolute top-4 right-4 z-20 flex items-center gap-1 bg-[#1a1a1a] border border-[#27272a] rounded-[4px] p-1 text-xs max-w-[calc(100%-24px)] flex-wrap justify-end">
         <button
           onClick={handleZoomOut}
           aria-label="Zoom out viewport"
           title="Zoom Out"
-          className="min-w-[44px] min-h-[44px] flex items-center justify-center hover:bg-[#222222] text-[#888888] hover:text-[#f3f4f6] rounded-[2px] transition-colors"
+          className="min-w-[44px] min-h-[44px] flex items-center justify-center hover:bg-[#222222] text-[#a1a1aa] hover:text-[#ffffff] rounded-[2px] transition-colors"
         >
           <ZoomOut className="w-4 h-4" aria-hidden="true" />
         </button>
         <span
           aria-live="polite"
           aria-label={`Current Zoom: ${Math.round(zoom * 100)} percent`}
-          className="px-2 text-xs text-[#888888] min-w-[48px] text-center font-mono select-none"
+          className="px-2 text-xs text-[#a1a1aa] min-w-[48px] text-center font-mono select-none"
         >
           {Math.round(zoom * 100)}%
         </span>
@@ -82,7 +67,7 @@ export const AsciiCanvas: React.FC<AsciiCanvasProps> = ({
           onClick={handleZoomIn}
           aria-label="Zoom in viewport"
           title="Zoom In"
-          className="min-w-[44px] min-h-[44px] flex items-center justify-center hover:bg-[#222222] text-[#888888] hover:text-[#f3f4f6] rounded-[2px] transition-colors"
+          className="min-w-[44px] min-h-[44px] flex items-center justify-center hover:bg-[#222222] text-[#a1a1aa] hover:text-[#ffffff] rounded-[2px] transition-colors"
         >
           <ZoomIn className="w-4 h-4" aria-hidden="true" />
         </button>
@@ -90,7 +75,7 @@ export const AsciiCanvas: React.FC<AsciiCanvasProps> = ({
           onClick={handleResetZoom}
           aria-label="Reset zoom to 100 percent"
           title="Reset Zoom"
-          className="min-w-[44px] min-h-[44px] flex items-center justify-center hover:bg-[#222222] text-[#888888] hover:text-[#f3f4f6] rounded-[2px] transition-colors"
+          className="min-w-[44px] min-h-[44px] flex items-center justify-center hover:bg-[#222222] text-[#a1a1aa] hover:text-[#ffffff] rounded-[2px] transition-colors"
         >
           <RotateCcw className="w-4 h-4" aria-hidden="true" />
         </button>
@@ -103,8 +88,8 @@ export const AsciiCanvas: React.FC<AsciiCanvasProps> = ({
           title={showRawText ? "Switch to GPU Canvas" : "Switch to Raw Monospace Text"}
           className={`min-h-[44px] min-w-[44px] px-2.5 rounded-[2px] flex items-center justify-center gap-1.5 text-xs transition-colors ${
             showRawText
-              ? "bg-[#222222] text-[#3b82f6] font-medium"
-              : "hover:bg-[#222222] text-[#888888] hover:text-[#f3f4f6]"
+              ? "bg-[#222222] text-[#ffffff] font-medium"
+              : "hover:bg-[#222222] text-[#a1a1aa] hover:text-[#ffffff]"
           }`}
         >
           {showRawText ? <Eye className="w-3.5 h-3.5" aria-hidden="true" /> : <Code className="w-3.5 h-3.5" aria-hidden="true" />}
@@ -125,14 +110,14 @@ export const AsciiCanvas: React.FC<AsciiCanvasProps> = ({
           ref={canvasRef as React.RefObject<HTMLCanvasElement>}
           aria-label="ASCII Art Real-Time Visualizer Canvas"
           role="img"
-          className={`bg-[#121212] max-w-full max-h-[75vh] object-contain rounded-[4px] ${
+          className={`bg-[#000000] max-w-full max-h-[75vh] object-contain rounded-[4px] ${
             showRawText ? "hidden" : "block"
           }`}
         />
 
         {/* Raw Monospace Text Overlay */}
         {showRawText && (
-          <div className="bg-[#1a1a1a] border border-[#2a2a2a] rounded-[4px] p-6 overflow-auto max-h-[75vh] max-w-[90vw] sm:max-w-[80vw]">
+          <div className="bg-[#1a1a1a] border border-[#27272a] rounded-[4px] p-6 overflow-auto max-h-[75vh] max-w-[90vw] sm:max-w-[80vw]">
             <pre
               tabIndex={0}
               aria-label="Raw ASCII text content"

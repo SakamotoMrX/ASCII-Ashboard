@@ -64,11 +64,11 @@ export const TelemetryBar: React.FC<TelemetryBarProps> = ({
         {/* Dropped Frames */}
         <div className="flex items-center gap-2 border-l border-[#222224] pl-4 min-h-[32px]">
           <AlertTriangle
-            className={`w-3.5 h-3.5 ${droppedFrames > 0 ? "text-[#ef4444]" : "text-[#71717a]"}`}
+            className={`w-3.5 h-3.5 ${droppedFrames > 0 ? "text-[#ffffff]" : "text-[#71717a]"}`}
             aria-hidden="true"
           />
           <span className="text-[#71717a]">DROPPED:</span>
-          <span className={droppedFrames > 0 ? "text-[#ef4444] font-semibold" : "text-[#ffffff]"}>
+          <span className={droppedFrames > 0 ? "text-[#ffffff] font-semibold" : "text-[#ffffff]"}>
             {droppedFrames}
           </span>
         </div>

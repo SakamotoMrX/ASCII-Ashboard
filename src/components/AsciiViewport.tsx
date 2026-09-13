@@ -76,19 +76,7 @@ export const AsciiViewport: React.FC<AsciiViewportProps> = ({
     return () => container.removeEventListener("wheel", handleWheel);
   }, []);
 
-  const getColorClass = () => {
-    switch (options.color_mode) {
-      case "matrix_green":
-        return "text-[#00ff88]";
-      case "amber":
-        return "text-[#ffb700]";
-      case "cyberpunk_neon":
-        return "text-[#ff3366]";
-      case "monochrome":
-      default:
-        return "text-[#ffffff]";
-    }
-  };
+  const getColorClass = () => "text-[#ffffff]";
 
   return (
     <div

@@ -8,7 +8,6 @@ import {
   sampleCornerColor,
 } from "../engine/signal-processing";
 import { AudioPipelineManager } from "../engine/audio-pipeline";
-import { getFastfetchSystemInfo, formatFastfetchAsciiBanner } from "../engine/fastfetch-telemetry";
 
 describe("Signal Processing Math & Background Removal", () => {
   it("calculates Euclidean color distance correctly", () => {
@@ -122,21 +121,5 @@ describe("Audio Pipeline & Fastfetch Telemetry", () => {
     audio.setMuted(true);
     expect(audio.getState().muted).toBe(true);
     audio.dispose();
-  });
-
-  it("formats Fastfetch system telemetry correctly", () => {
-    const info = getFastfetchSystemInfo({
-      gpuAdapter: "Apple M3 Max",
-      renderFps: 60,
-      gridDimensions: "120x60",
-    });
-    expect(info.gpuAdapter).toBe("Apple M3 Max");
-    expect(info.renderFps).toBe(60);
-    expect(info.gridDimensions).toBe("120x60");
-
-    const banner = formatFastfetchAsciiBanner(info);
-    expect(banner).toContain("OS:");
-    expect(banner).toContain("Apple M3 Max");
-    expect(banner).toContain("120x60");
   });
 });

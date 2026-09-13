@@ -183,14 +183,7 @@ export const AsciiRenderOptionsSchema = z.object({
     visualizeOutput: false
   }),
   // Fastfetch dashboard options
-  fastfetch: FastfetchWidgetOptionsSchema.default({
-    enabled: true,
-    compactMode: false,
-    showGpuTelemetry: true,
-    showAudioMeter: true,
-    showSignalHistogram: false,
-    refreshIntervalMs: 500
-  }),
+  fastfetch: FastfetchWidgetOptionsSchema.optional(),
   dither: DitherAlgorithmSchema.default("none"),
   cell_width_px: z.number().int().min(4).max(32).default(8),
   cell_height_px: z.number().int().min(6).max(48).default(14),
