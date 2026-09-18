@@ -9,7 +9,6 @@ import {
 import { Header } from "./components/Header";
 import { ControlPanel } from "./components/ControlPanel";
 import { AsciiCanvas } from "./components/AsciiCanvas";
-import { TelemetryDrawer, TelemetryData } from "./components/TelemetryDrawer";
 import { MediaPicker } from "./components/MediaPicker";
 import { BootLoadingScreen } from "./components/BootLoadingScreen";
 import { ConstellationGraph } from "./components/ConstellationGraph";
@@ -335,7 +334,7 @@ export default function App() {
   const [asciiOutput, setAsciiOutput] = useState<string>("");
   const [renderTimeMs, setRenderTimeMs] = useState<number>(1.2);
   const [fps, setFps] = useState<number>(60);
-  const [droppedFrames, setDroppedFrames] = useState<number>(0);
+  const [_droppedFrames, setDroppedFrames] = useState<number>(0);
   const [isCopied, setIsCopied] = useState<boolean>(false);
   const [isStreamingCamera, setIsStreamingCamera] = useState<boolean>(false);
   const [warningMessage, setWarningMessage] = useState<string | null>(null);
@@ -999,22 +998,6 @@ export default function App() {
     };
   }, []);
 
-  const telemetryData: TelemetryData = {
-    fps,
-    frame_time_ms: renderTimeMs,
-    active_tier: activeTier,
-    columns: options.max_output_columns,
-    rows: options.max_output_rows,
-    memory_estimate_mb: (options.max_output_columns * options.max_output_rows * 4) / 1024,
-    dropped_frames: droppedFrames,
-    ipc_payload_kb: Math.round((asciiOutput.length * 2) / 1024),
-    gpu_adapter_name:
-      renderEngineRef.current?.adapterName ||
-      hostTelemetry.gpu_adapter_name ||
-      globalTierManager.getHardwareGpuDescription(),
-    sandbox_sealed: hostTelemetry.sandbox_sealed,
-  };
-
   return (
     <div className="min-h-screen h-screen bg-[#000000] text-[#f3f4f6] flex flex-col font-sans antialiased overflow-x-hidden select-none min-h-0 w-full max-w-full">
       {/* Accessibility Skip Link */}
@@ -1073,6 +1056,7 @@ export default function App() {
 
         {/* Workspace Session Tabs / Bar */}
         <WorkspaceTabBar
+          className="hidden md:flex"
           workspaces={workspaces}
           activeWorkspaceId={activeWorkspaceId}
           onSelectWorkspace={handleSelectWorkspace}
@@ -1230,14 +1214,7 @@ export default function App() {
         </main>
       </div>
 
-      {/* Real-Time Telemetry Drawer */}
-      <div
-        className={`hidden md:block transition-all duration-200 ease-out ${
-          isZenMode ? "max-h-0 opacity-0 pointer-events-none overflow-hidden" : "opacity-100"
-        }`}
-      >
-        <TelemetryDrawer telemetry={telemetryData} />
-      </div>
+      
 
     </div>
   );

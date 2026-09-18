@@ -51,9 +51,9 @@ export const Header: React.FC<HeaderProps> = ({
   };
 
   const navTabs: { id: RenderMode | "settings" | "media_picker"; label: string; shortLabel: string; icon: React.ReactNode }[] = [
-    { id: "procedural_3d", label: "3D Procedural", shortLabel: "3D Scene", icon: <Box className="w-3.5 h-3.5" /> },
-    { id: "media_picker", label: "Media Studio", shortLabel: "Media", icon: <Terminal className="w-3.5 h-3.5" /> },
-    { id: "settings", label: "Sandbox", shortLabel: "Sandbox", icon: <Settings className="w-3.5 h-3.5" /> },
+    { id: "procedural_3d", label: "3D Procedural", shortLabel: "3D Scene", icon: <Box className="w-4 h-4" /> },
+    { id: "media_picker", label: "Media Studio", shortLabel: "Media", icon: <Terminal className="w-4 h-4" /> },
+    { id: "settings", label: "Sandbox", shortLabel: "Sandbox", icon: <Settings className="w-4 h-4" /> },
   ];
 
   const isMediaActive =
@@ -63,33 +63,33 @@ export const Header: React.FC<HeaderProps> = ({
     activeMode === "camera_stream";
 
   return (
-    <header className="w-full bg-[#000000] border-b border-[#222224] px-3 sm:px-6 py-2 flex flex-col md:flex-row md:items-center justify-between gap-2 max-w-full overflow-x-hidden font-sans">
+    <header className="w-full bg-[#000000] border-b border-[#222224] px-3 sm:px-6 pt-3 pb-2.5 flex flex-col md:flex-row md:items-center justify-between gap-2.5 max-w-full overflow-x-hidden font-sans select-none">
       {/* Top Bar on Mobile: Brand on Left, Quick Actions (Zen, Fullscreen) on Right */}
-      <div className="flex items-center justify-between gap-2 w-full md:w-auto min-w-0">
-        <div className="flex items-center gap-2 min-w-0">
-          <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-[4px] bg-[#0a0a0c] border border-[#222224] flex items-center justify-center text-[#ffffff] flex-shrink-0">
-            <Terminal className="w-3 h-3 sm:w-3.5 sm:h-3.5" aria-hidden="true" />
+      <div className="flex items-center justify-between gap-3 w-full md:w-auto min-w-0">
+        <div className="flex items-center gap-2.5 min-w-0">
+          <div className="w-8 h-8 rounded-[4px] bg-[#0a0a0c] border border-[#222224] flex items-center justify-center text-[#ffffff] flex-shrink-0">
+            <Terminal className="w-4 h-4" aria-hidden="true" />
           </div>
           <div className="flex items-center gap-1.5 min-w-0">
-            <h1 className="text-xs font-mono font-semibold tracking-tight text-[#ffffff] truncate">
+            <h1 className="text-xs sm:text-sm font-mono font-semibold tracking-tight text-[#ffffff] truncate">
               TITAN ASCII
             </h1>
-            <span className="text-[9px] font-mono px-1 py-0.5 rounded-[2px] bg-[#141416] text-[#a1a1aa] border border-[#222224] uppercase">
+            <span className="text-[9px] font-mono px-1.5 py-0.5 rounded-[2px] bg-[#141416] text-[#a1a1aa] border border-[#222224] uppercase">
               {platform}
             </span>
           </div>
         </div>
 
-        {/* Mobile Quick Action Buttons (Zen & Fullscreen) */}
-        <div className="flex md:hidden items-center gap-1 flex-shrink-0">
+        {/* Mobile Quick Action Buttons (Zen & Fullscreen with min 44px touch targets) */}
+        <div className="flex md:hidden items-center gap-1.5 flex-shrink-0">
           {onToggleZenMode && (
             <button
               type="button"
               onClick={onToggleZenMode}
               aria-label={isZenMode ? "Exit Zen mode" : "Enter Zen mode"}
-              className="flex items-center justify-center p-2 min-h-[40px] min-w-[40px] rounded-[4px] bg-[#0a0a0c] border border-[#222224] text-xs font-mono text-[#ffffff] hover:bg-[#141416] active:bg-[#222224] transition-colors"
+              className="flex items-center justify-center p-2.5 min-h-[44px] min-w-[44px] rounded-[4px] bg-[#0a0a0c] border border-[#222224] text-xs font-mono text-[#ffffff] hover:bg-[#141416] active:bg-[#222224] transition-colors cursor-pointer"
             >
-              <Lock className="w-3.5 h-3.5 text-[#a1a1aa]" aria-hidden="true" />
+              <Lock className="w-4 h-4 text-[#a1a1aa]" aria-hidden="true" />
             </button>
           )}
 
@@ -98,21 +98,21 @@ export const Header: React.FC<HeaderProps> = ({
               type="button"
               onClick={onToggleFullscreen}
               aria-label={isFullscreen ? "Exit Fullscreen" : "Enter Fullscreen"}
-              className="flex items-center justify-center p-2 min-h-[40px] min-w-[40px] rounded-[4px] bg-[#0a0a0c] border border-[#222224] text-[#a1a1aa] hover:text-[#ffffff] active:bg-[#222224] transition-colors"
+              className="flex items-center justify-center p-2.5 min-h-[44px] min-w-[44px] rounded-[4px] bg-[#0a0a0c] border border-[#222224] text-[#a1a1aa] hover:text-[#ffffff] active:bg-[#222224] transition-colors cursor-pointer"
             >
               {isFullscreen ? (
-                <Minimize2 className="w-3.5 h-3.5 text-[#ffffff]" aria-hidden="true" />
+                <Minimize2 className="w-4 h-4 text-[#ffffff]" aria-hidden="true" />
               ) : (
-                <Maximize2 className="w-3.5 h-3.5 text-[#a1a1aa]" aria-hidden="true" />
+                <Maximize2 className="w-4 h-4 text-[#a1a1aa]" aria-hidden="true" />
               )}
             </button>
           )}
         </div>
       </div>
 
-      {/* Navigation Tabs (3-column grid on mobile, inline on desktop) */}
+      {/* Navigation Tabs (3-column grid on mobile with 44px min-height, inline on desktop) */}
       <nav
-        className="grid grid-cols-3 md:flex items-center gap-1 w-full md:w-auto bg-[#0a0a0c] p-1 rounded-[4px] border border-[#222224]"
+        className="grid grid-cols-3 md:flex items-center gap-1.5 w-full md:w-auto bg-[#0a0a0c] p-1 rounded-[4px] border border-[#222224]"
         aria-label="Main Navigation"
       >
         {navTabs.map((tab) => {
@@ -124,7 +124,7 @@ export const Header: React.FC<HeaderProps> = ({
               onClick={() => onModeChange(tab.id)}
               aria-label={tab.label}
               aria-current={isActive ? "page" : undefined}
-              className={`min-h-[38px] px-2 sm:px-3 py-1.5 flex items-center justify-center gap-1.5 text-xs rounded-[2px] transition-colors whitespace-nowrap font-mono cursor-pointer ${
+              className={`min-h-[44px] px-2 sm:px-3.5 py-2 flex items-center justify-center gap-2 text-xs rounded-[2px] transition-colors whitespace-nowrap font-mono cursor-pointer ${
                 isActive
                   ? "bg-[#ffffff] text-[#000000] font-semibold shadow-[0_0_8px_rgba(255,255,255,0.2)]"
                   : "text-[#a1a1aa] hover:text-[#ffffff] hover:bg-[#141416] active:bg-[#222224]"
@@ -132,7 +132,7 @@ export const Header: React.FC<HeaderProps> = ({
             >
               {tab.icon}
               <span className="hidden sm:inline">{tab.label}</span>
-              <span className="sm:hidden text-[11px]">{tab.shortLabel}</span>
+              <span className="sm:hidden text-xs">{tab.shortLabel}</span>
             </button>
           );
         })}
