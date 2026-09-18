@@ -1055,7 +1055,7 @@ export default function App() {
         className={`transition-all duration-200 ease-out flex flex-col flex-shrink-0 z-20 ${
           isZenMode
             ? "max-h-0 opacity-0 pointer-events-none overflow-hidden"
-            : "max-h-[300px] opacity-100"
+            : "opacity-100"
         }`}
       >
         {/* Top Header Bar */}
@@ -1210,7 +1210,7 @@ export default function App() {
           {/* Constellation Pipeline Graph (embedded viewport visualization, md+ to avoid 375px overflow) */}
           {activeTab !== "media_picker" && (
             <div
-              className={`flex flex-shrink-0 border-t border-[#222224] bg-[#09090b] transition-all duration-200 ease-out ${
+              className={`hidden md:flex flex-shrink-0 border-t border-[#222224] bg-[#09090b] transition-all duration-200 ease-out ${
                 isZenMode
                   ? "h-0 max-h-0 opacity-0 pointer-events-none overflow-hidden"
                   : "h-[320px] opacity-100"
@@ -1232,7 +1232,7 @@ export default function App() {
 
       {/* Real-Time Telemetry Drawer */}
       <div
-        className={`transition-all duration-200 ease-out ${
+        className={`hidden md:block transition-all duration-200 ease-out ${
           isZenMode ? "max-h-0 opacity-0 pointer-events-none overflow-hidden" : "opacity-100"
         }`}
       >

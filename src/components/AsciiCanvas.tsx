@@ -44,10 +44,10 @@ export const AsciiCanvas: React.FC<AsciiCanvasProps> = ({
   return (
     <div
       ref={containerRef}
-      className="relative flex-1 bg-[#000000] flex items-center justify-center overflow-hidden min-h-[350px] h-full w-full max-w-full font-sans"
+      className="relative flex-1 bg-[#000000] flex items-center justify-center overflow-hidden min-h-0 md:min-h-[350px] h-full w-full max-w-full font-sans"
     >
       {/* Viewport Overlay Controls */}
-      <div className="absolute top-4 right-4 z-20 flex items-center gap-1 bg-[#1a1a1a] border border-[#27272a] rounded-[4px] p-1 text-xs max-w-[calc(100%-24px)] flex-wrap justify-end">
+      <div className="absolute top-2 right-2 sm:top-4 sm:right-4 z-20 flex items-center gap-1 bg-[#141416]/90 backdrop-blur border border-[#27272a] rounded-[4px] p-1 text-xs max-w-[calc(100%-16px)] flex-wrap justify-end shadow-md">
         <button
           onClick={handleZoomOut}
           aria-label="Zoom out viewport"

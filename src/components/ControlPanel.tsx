@@ -151,7 +151,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
   return (
     <aside
       aria-label="Workstation Parameter Controls"
-      className="w-full h-full min-h-0 overflow-y-auto overflow-x-hidden touch-pan-y overscroll-contain bg-[#000000] border-b md:border-b-0 md:border-r border-[#27272a] flex flex-col max-w-full font-mono text-xs select-none"
+      className="w-full h-full min-h-0 overflow-y-auto overflow-x-hidden touch-pan-y overscroll-contain bg-[#000000] border-b md:border-b-0 md:border-r border-[#27272a] flex flex-col max-w-full font-mono text-xs"
     >
       <div className="p-3 space-y-4 w-full max-w-full overflow-x-hidden">
         {/* Mode Specific Controls */}
