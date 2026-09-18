@@ -193,7 +193,7 @@ export const ConstellationGraph: React.FC<ConstellationGraphProps> = ({
             <button
               onClick={onClose}
               aria-label="Close Pipeline Graph"
-              className="min-w-[32px] min-h-[32px] flex items-center justify-center text-[#71717a] hover:text-[#ffffff] hover:bg-[#1c1c1e] rounded-[2px] transition-colors"
+              className="min-w-[32px] min-h-[32px] flex items-center justify-center text-[#a1a1aa] hover:text-[#ffffff] hover:bg-[#1c1c1e] rounded-[2px] transition-colors"
             >
               <X className="w-4 h-4" />
             </button>
@@ -223,7 +223,7 @@ export const ConstellationGraph: React.FC<ConstellationGraphProps> = ({
               refY="3"
               orient="auto"
             >
-              <polygon points="0 0, 6 3, 0 6" fill="#71717a" />
+              <polygon points="0 0, 6 3, 0 6" fill="#a1a1aa" />
             </marker>
           </defs>
 
@@ -282,7 +282,7 @@ export const ConstellationGraph: React.FC<ConstellationGraphProps> = ({
                 className={`absolute w-[120px] p-2 rounded-[2px] border cursor-pointer select-none transition-all ${
                   isSelected
                     ? "bg-[#141416] border-[#ffffff] ring-1 ring-[#ffffff]"
-                    : "bg-[#0a0a0c] border-[#27272a] hover:border-[#71717a]"
+                    : "bg-[#0a0a0c] border-[#27272a] hover:border-[#a1a1aa]"
                 }`}
               >
                 <div className="flex items-center justify-between gap-1 mb-1">

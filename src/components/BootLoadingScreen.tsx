@@ -142,7 +142,7 @@ export const BootLoadingScreen: React.FC<BootLoadingScreenProps> = ({
                     ? "bg-[#141416] border-[#ffffff]/30 text-[#ffffff]"
                     : isCompleted
                     ? "border-transparent text-[#a1a1aa]"
-                    : "border-transparent text-[#71717a] opacity-40"
+                    : "border-transparent text-[#a1a1aa] opacity-80"
                 }`}
               >
                 <div className="mt-0.5 flex-shrink-0">
@@ -151,13 +151,13 @@ export const BootLoadingScreen: React.FC<BootLoadingScreenProps> = ({
                   ) : isCurrent ? (
                     <div className="w-3.5 h-3.5 rounded-full border-2 border-[#ffffff] border-t-transparent animate-spin" />
                   ) : (
-                    <div className="w-3.5 h-3.5 rounded-full border border-[#71717a]" />
+                    <div className="w-3.5 h-3.5 rounded-full border border-[#a1a1aa]" />
                   )}
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between">
                     <span className="text-[11px] font-semibold">{step.label}</span>
-                    <span className="text-[10px] text-[#71717a]">
+                    <span className="text-[10px] text-[#a1a1aa]">
                       {isCompleted ? "DONE" : isCurrent ? "SYNC" : "WAIT"}
                     </span>
                   </div>
@@ -171,7 +171,7 @@ export const BootLoadingScreen: React.FC<BootLoadingScreenProps> = ({
         </div>
 
         {/* Bottom Hardware Pill Badges */}
-        <div className="flex items-center justify-between border-t border-[#222224] pt-3 text-[10px] font-mono text-[#71717a]">
+        <div className="flex items-center justify-between border-t border-[#222224] pt-3 text-[10px] font-mono text-[#a1a1aa]">
           <div className="flex items-center gap-1.5">
             <Cpu className="w-3 h-3 text-[#a1a1aa]" aria-hidden="true" />
             <span>60FPS VSYNC</span>

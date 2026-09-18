@@ -184,7 +184,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
 
             <div className="grid grid-cols-2 gap-2 pt-1">
               <div>
-                <div className="text-[10px] font-mono text-[#71717a] flex justify-between">
+                <div className="text-[10px] font-mono text-[#a1a1aa] flex justify-between">
                   <span>ROT X</span>
                   <span className="text-[#ffffff]">{proceduralParams.rotation_speed_x.toFixed(1)}x</span>
                 </div>
@@ -203,7 +203,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
                 />
               </div>
               <div>
-                <div className="text-[10px] font-mono text-[#71717a] flex justify-between">
+                <div className="text-[10px] font-mono text-[#a1a1aa] flex justify-between">
                   <span>ROT Y</span>
                   <span className="text-[#ffffff]">{proceduralParams.rotation_speed_y.toFixed(1)}x</span>
                 </div>
@@ -275,7 +275,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
 
             {videoState && (
               <div className="space-y-2 pt-2 border-t border-[#27272a]">
-                <div className="flex justify-between text-[11px] text-[#71717a] font-mono">
+                <div className="flex justify-between text-[11px] text-[#a1a1aa] font-mono">
                   <span className="truncate max-w-[150px] text-[#ffffff]">
                     {videoState.fileName || "Active Video"}
                   </span>
@@ -326,7 +326,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
                   </button>
                 </div>
 
-                <label className="flex items-center justify-between h-7 cursor-pointer text-[11px] font-mono text-[#71717a] hover:text-[#ffffff] px-1">
+                <label className="flex items-center justify-between h-7 cursor-pointer text-[11px] font-mono text-[#a1a1aa] hover:text-[#ffffff] px-1">
                   <span>LOOP PLAYBACK</span>
                   <input
                     type="checkbox"
@@ -391,7 +391,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
               <Shield className="w-3.5 h-3.5 text-[#ffffff]" aria-hidden="true" />
               SANDBOX SECURITY
             </label>
-            <div className="bg-[#09090b] p-3 rounded-[2px] border border-[#27272a] space-y-1.5 text-[11px] font-mono text-[#71717a]">
+            <div className="bg-[#09090b] p-3 rounded-[2px] border border-[#27272a] space-y-1.5 text-[11px] font-mono text-[#a1a1aa]">
               <div className="flex justify-between items-center">
                 <span>IPC Ceiling:</span>
                 <span className="text-[#ffffff] font-semibold">32 MB</span>
@@ -415,13 +415,13 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
               <Sliders className="w-3.5 h-3.5 text-[#ffffff]" aria-hidden="true" />
               SIGNAL ADJUSTMENTS
             </label>
-            <span className="text-[10px] text-[#71717a] font-mono">FILTERS</span>
+            <span className="text-[10px] text-[#a1a1aa] font-mono">FILTERS</span>
           </div>
 
           <div className="space-y-2">
             {/* Contrast */}
             <div>
-              <div className="flex justify-between text-[11px] font-mono text-[#71717a]">
+              <div className="flex justify-between text-[11px] font-mono text-[#a1a1aa]">
                 <span>CONTRAST</span>
                 <span className="text-[#ffffff]">
                   {options.contrast > 0 ? `+${options.contrast}` : options.contrast}%
@@ -440,7 +440,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
 
             {/* Brightness */}
             <div>
-              <div className="flex justify-between text-[11px] font-mono text-[#71717a]">
+              <div className="flex justify-between text-[11px] font-mono text-[#a1a1aa]">
                 <span>BRIGHTNESS</span>
                 <span className="text-[#ffffff]">
                   {options.brightness > 0 ? `+${options.brightness}` : options.brightness}%
@@ -459,7 +459,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
 
             {/* Gamma */}
             <div>
-              <div className="flex justify-between text-[11px] font-mono text-[#71717a]">
+              <div className="flex justify-between text-[11px] font-mono text-[#a1a1aa]">
                 <span>GAMMA</span>
                 <span className="text-[#ffffff]">{options.gamma.toFixed(2)}γ</span>
               </div>
@@ -477,7 +477,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
 
             {/* Exposure */}
             <div>
-              <div className="flex justify-between text-[11px] font-mono text-[#71717a]">
+              <div className="flex justify-between text-[11px] font-mono text-[#a1a1aa]">
                 <span>EXPOSURE</span>
                 <span className="text-[#ffffff]">
                   {options.exposure > 0 ? `+${options.exposure}` : options.exposure} EV
@@ -496,7 +496,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
 
             {/* Saturation */}
             <div>
-              <div className="flex justify-between text-[11px] font-mono text-[#71717a]">
+              <div className="flex justify-between text-[11px] font-mono text-[#a1a1aa]">
                 <span>SATURATION</span>
                 <span className="text-[#ffffff]">
                   {options.saturation > 0 ? `+${options.saturation}` : options.saturation}%
@@ -515,7 +515,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
 
             {/* Sharpness */}
             <div>
-              <div className="flex justify-between text-[11px] font-mono text-[#71717a]">
+              <div className="flex justify-between text-[11px] font-mono text-[#a1a1aa]">
                 <span>SHARPNESS</span>
                 <span className="text-[#ffffff]">{options.sharpness}%</span>
               </div>
@@ -531,7 +531,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
             </div>
 
             {/* Invert Luminance */}
-            <label className="flex items-center justify-between h-7 cursor-pointer text-[11px] font-mono text-[#71717a] hover:text-[#ffffff] px-1">
+            <label className="flex items-center justify-between h-7 cursor-pointer text-[11px] font-mono text-[#a1a1aa] hover:text-[#ffffff] px-1">
               <span className="flex items-center gap-1.5">
                 <Sun className="w-3.5 h-3.5 text-[#ffffff]" />
                 <span>INVERT LUMINANCE</span>
@@ -546,7 +546,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
             </label>
 
             {/* Edge Detection */}
-            <label className="flex items-center justify-between h-7 cursor-pointer text-[11px] font-mono text-[#71717a] hover:text-[#ffffff] px-1">
+            <label className="flex items-center justify-between h-7 cursor-pointer text-[11px] font-mono text-[#a1a1aa] hover:text-[#ffffff] px-1">
               <span className="flex items-center gap-1.5">
                 <Crosshair className="w-3.5 h-3.5 text-[#ffffff]" />
                 <span>SOBEL EDGE DETECTION</span>
@@ -562,7 +562,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
 
             {options.edgeDetection && (
               <div className="pl-3 border-l border-[#27272a] pt-1">
-                <div className="flex justify-between text-[10px] font-mono text-[#71717a]">
+                <div className="flex justify-between text-[10px] font-mono text-[#a1a1aa]">
                   <span>THRESHOLD</span>
                   <span className="text-[#ffffff]">{options.edgeThreshold} px</span>
                 </div>
@@ -601,7 +601,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
               className={`text-[10px] font-mono px-2 py-0.5 rounded-[2px] border transition-colors cursor-pointer ${
                 options.bgRemoval?.enabled
                   ? "bg-[#ffffff] text-[#000000] border-[#ffffff] font-bold"
-                  : "bg-[#09090b] text-[#71717a] border-[#27272a] hover:border-[#ffffff] hover:text-[#ffffff]"
+                  : "bg-[#09090b] text-[#a1a1aa] border-[#27272a] hover:border-[#ffffff] hover:text-[#ffffff]"
               }`}
             >
               {options.bgRemoval?.enabled ? "ON" : "OFF"}
@@ -611,7 +611,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
           {options.bgRemoval?.enabled && (
             <div className="space-y-2 bg-[#09090b] p-2.5 rounded-[2px] border border-[#27272a]">
               <div>
-                <div className="flex justify-between text-[10px] font-mono text-[#71717a]">
+                <div className="flex justify-between text-[10px] font-mono text-[#a1a1aa]">
                   <span>TOLERANCE</span>
                   <span className="text-[#ffffff]">
                     {Math.round(((options.bgRemoval.threshold || 40) / 255) * 100)}%
@@ -636,7 +636,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
               </div>
 
               <div>
-                <div className="flex justify-between text-[10px] font-mono text-[#71717a]">
+                <div className="flex justify-between text-[10px] font-mono text-[#a1a1aa]">
                   <span>FEATHER</span>
                   <span className="text-[#ffffff]">{options.bgRemoval.feather} px</span>
                 </div>
@@ -679,7 +679,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
                 </div>
               </div>
 
-              <label className="flex items-center justify-between h-6 cursor-pointer text-[10px] font-mono text-[#71717a] hover:text-[#ffffff] px-0.5">
+              <label className="flex items-center justify-between h-6 cursor-pointer text-[10px] font-mono text-[#a1a1aa] hover:text-[#ffffff] px-0.5">
                 <span>INVERT MASK</span>
                 <input
                   type="checkbox"
@@ -705,7 +705,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
           <div className="flex items-center justify-between">
             <label className="text-xs font-mono font-semibold text-[#ffffff] flex items-center gap-1.5">
               {options.audio?.muted ? (
-                <VolumeX className="w-3.5 h-3.5 text-[#71717a]" aria-hidden="true" />
+                <VolumeX className="w-3.5 h-3.5 text-[#a1a1aa]" aria-hidden="true" />
               ) : (
                 <Volume2 className="w-3.5 h-3.5 text-[#ffffff]" aria-hidden="true" />
               )}
@@ -724,7 +724,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
               aria-label={options.audio?.muted ? "Unmute Audio" : "Mute Audio"}
               className={`text-[10px] font-mono px-2 py-0.5 rounded-[2px] border transition-colors cursor-pointer ${
                 options.audio?.muted
-                  ? "bg-[#09090b] text-[#71717a] border-[#27272a] hover:border-[#ffffff] hover:text-[#ffffff]"
+                  ? "bg-[#09090b] text-[#a1a1aa] border-[#27272a] hover:border-[#ffffff] hover:text-[#ffffff]"
                   : "bg-[#ffffff] text-[#000000] border-[#ffffff] font-bold"
               }`}
             >
@@ -733,7 +733,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
           </div>
 
           <div className="bg-[#09090b] p-2.5 rounded-[2px] border border-[#27272a]">
-            <div className="flex justify-between text-[10px] font-mono text-[#71717a]">
+            <div className="flex justify-between text-[10px] font-mono text-[#a1a1aa]">
               <span>VOLUME GAIN</span>
               <span className="text-[#ffffff]">
                 {Math.round((options.audio?.volume ?? 1.0) * 100)}%
@@ -825,7 +825,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
             ))}
           </select>
 
-          <label className="flex items-center justify-between h-7 cursor-pointer text-[11px] font-mono text-[#71717a] hover:text-[#ffffff] px-1">
+          <label className="flex items-center justify-between h-7 cursor-pointer text-[11px] font-mono text-[#a1a1aa] hover:text-[#ffffff] px-1">
             <span>CRT SCANLINES</span>
             <input
               type="checkbox"
@@ -839,7 +839,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
 
         {/* Density Grid */}
         <div className="space-y-2 border-b border-[#27272a] pb-3">
-          <div className="flex justify-between text-[11px] font-mono text-[#71717a]">
+          <div className="flex justify-between text-[11px] font-mono text-[#a1a1aa]">
             <span>GRID MATRIX COLUMNS</span>
             <span className="text-[#ffffff] font-semibold">
               {options.max_output_columns} cols
@@ -869,7 +869,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
                 <Cpu className="w-3.5 h-3.5 text-[#ffffff]" aria-hidden="true" />
                 <span>RENDER TIER</span>
               </div>
-              <span className="text-[10px] font-mono text-[#71717a]">
+              <span className="text-[10px] font-mono text-[#a1a1aa]">
                 T1→T2→T3
               </span>
             </legend>
@@ -878,7 +878,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
                 className={`flex items-center justify-between p-2 rounded-[2px] cursor-pointer border transition-all ${
                   activeTier === "tier1_webgpu"
                     ? "bg-[#18181b] border-[#ffffff] text-[#ffffff]"
-                    : "bg-[#09090b] border-[#27272a] text-[#71717a] hover:text-[#ffffff] hover:border-[#3f3f46]"
+                    : "bg-[#09090b] border-[#27272a] text-[#a1a1aa] hover:text-[#ffffff] hover:border-[#3f3f46]"
                 }`}
               >
                 <div className="flex items-center gap-2">
@@ -901,7 +901,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
                 className={`flex items-center justify-between p-2 rounded-[2px] cursor-pointer border transition-all ${
                   activeTier === "tier2_webgl"
                     ? "bg-[#18181b] border-[#ffffff] text-[#ffffff]"
-                    : "bg-[#09090b] border-[#27272a] text-[#71717a] hover:text-[#ffffff] hover:border-[#3f3f46]"
+                    : "bg-[#09090b] border-[#27272a] text-[#a1a1aa] hover:text-[#ffffff] hover:border-[#3f3f46]"
                 }`}
               >
                 <div className="flex items-center gap-2">
@@ -924,7 +924,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
                 className={`flex items-center justify-between p-2 rounded-[2px] cursor-pointer border transition-all ${
                   activeTier === "tier3_canvas2d"
                     ? "bg-[#18181b] border-[#ffffff] text-[#ffffff]"
-                    : "bg-[#09090b] border-[#27272a] text-[#71717a] hover:text-[#ffffff] hover:border-[#3f3f46]"
+                    : "bg-[#09090b] border-[#27272a] text-[#a1a1aa] hover:text-[#ffffff] hover:border-[#3f3f46]"
                 }`}
               >
                 <div className="flex items-center gap-2">
@@ -964,7 +964,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
                 </>
               ) : (
                 <>
-                  <Copy className="w-3.5 h-3.5 text-[#71717a]" aria-hidden="true" />
+                  <Copy className="w-3.5 h-3.5 text-[#a1a1aa]" aria-hidden="true" />
                   <span>COPY TEXT</span>
                 </>
               )}
@@ -974,7 +974,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
               aria-label="Export ASCII art as plain text file"
               className="h-8 px-2 bg-[#09090b] hover:bg-[#18181b] text-[#ffffff] border border-[#27272a] hover:border-[#ffffff] rounded-[2px] text-xs font-mono flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
             >
-              <FileText className="w-3.5 h-3.5 text-[#71717a]" aria-hidden="true" />
+              <FileText className="w-3.5 h-3.5 text-[#a1a1aa]" aria-hidden="true" />
               <span>.TXT FILE</span>
             </button>
           </div>

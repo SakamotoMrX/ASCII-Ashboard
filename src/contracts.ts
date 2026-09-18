@@ -11,7 +11,7 @@ export const DARK_MINIMALIST_TOKENS = {
     accent: "#ffffff",
     text_primary: "#ffffff",
     text_secondary: "#a1a1aa",
-    text_muted: "#71717a",
+    text_muted: "#a1a1aa",
     border: "#222224",
     border_focus: "#ffffff",
     status_recording: "#ef4444",
